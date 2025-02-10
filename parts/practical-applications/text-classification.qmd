@@ -2,7 +2,7 @@
 
 ### What is Text Classification?
 
-Text classification is a fundamental task in natural language processing (NLP) that involves automatically assigning predefined categories or labels to text documents.  This process leverages machine learning algorithms to analyze the text content and determine the most appropriate class.  The goal is to build a classifier that accurately predicts the class of a new, unseen document based on its learned understanding from a training dataset.  This contrasts with tasks like text generation or translation, which focus on producing new text rather than categorizing existing text. The core of text classification often lies in representing the text data numerically, allowing machine learning models to process and learn from it.  Common representations include bag-of-words, TF-IDF, and word embeddings.
+Text classification is a fundamental task in natural language processing (NLP) that involves automatically assigning predefined categories or labels to text documents.  This process uses machine learning algorithms to analyze the text content and determine the most appropriate class.  The goal is to build a classifier that accurately predicts the class of a new, unseen document based on its learned understanding from a training dataset.  This contrasts with tasks like text generation or translation, which focus on producing new text rather than categorizing existing text. The core of text classification often lies in representing the text data numerically, allowing machine learning models to process and learn from it.  Common representations include bag-of-words, TF-IDF, and word embeddings.
 
 
 ### Types of Text Classification Tasks
@@ -30,7 +30,7 @@ Text classification finds applications across numerous domains:
 
 Let's illustrate a simple sentiment analysis example using Naive Bayes, a probabilistic classifier well-suited for text classification. We'll use a small, illustrative dataset.
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 from sklearn.naive_bayes import MultinomialNB
@@ -77,7 +77,7 @@ plt.show()
 
 ```
 
-The accuracy of this classifier depends heavily on the size and quality of the training data. The provided code is a simplified demonstration.  More sophisticated techniques, like handling stop words, stemming, and using more advanced feature extraction methods (like TF-IDF or word embeddings), improve classification accuracy significantly.  Furthermore, evaluating model performance rigorously using metrics like precision, recall, F1-score, and AUC is essential for building robust text classifiers.
+The accuracy of this classifier depends heavily on the size and quality of the training data. The provided code is a simplified demonstration.  More complex techniques, like handling stop words, stemming, and using more advanced feature extraction methods (like TF-IDF or word embeddings), improve classification accuracy significantly.  Furthermore, evaluating model performance rigorously using metrics like precision, recall, F1-score, and AUC is essential for building robust text classifiers.
 
 
 The probability of a document belonging to a class *c* given its features *x* is given by Bayes' theorem:
@@ -148,7 +148,7 @@ where:
 
 ### Implementing Naive Bayes with Python
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 from sklearn.naive_bayes import MultinomialNB
@@ -218,7 +218,7 @@ The `classification_report` function in scikit-learn provides these metrics.  Th
 
 The naive assumption of feature independence is rarely met in real-world text data.  However, despite this, Naive Bayes often performs well.  Several techniques can help mitigate the impact of this assumption:
 
-* **Using more sophisticated feature extraction:**  Methods like TF-IDF help capture relationships between words to some extent.
+* **Using more complex feature extraction:**  Methods like TF-IDF help capture relationships between words to some extent.
 * **Feature selection:**  Removing irrelevant or redundant features can reduce the impact of feature dependence.
 * **Considering alternative Naive Bayes variants:**  There are variations of Naive Bayes, such as Bernoulli Naive Bayes, that might be better suited to certain types of data.  Experimentation is key to determining which variant works best for your specific text classification problem.
 
@@ -229,13 +229,13 @@ The naive assumption of feature independence is rarely met in real-world text da
 
 ### Preprocessing Text Data (Cleaning, Stemming, Lemmatization)
 
-Before building a document classifier, preprocessing the text data is crucial for improving model accuracy and efficiency. This involves several steps:
+Before building a document classifier, preprocessing the text data is essential for improving model accuracy and efficiency. This involves many steps:
 
 * **Cleaning:** Removing irrelevant characters, such as punctuation, numbers, and special symbols.  Converting text to lowercase is also a standard practice.
 * **Stemming:** Reducing words to their root form (e.g., "running" to "run").  Stemming algorithms are often heuristic and may not always produce linguistically correct stems.
 * **Lemmatization:**  Reducing words to their dictionary form (lemma), considering the context of the word. Lemmatization usually produces more accurate results than stemming, but it is computationally more expensive.
 
-```\{python}
+```{python}
 #| echo: true
 import nltk
 import re
@@ -285,7 +285,7 @@ After preprocessing, we need to convert the text into numerical features that ma
 
 Let's build a simple document classifier using Multinomial Naive Bayes and TF-IDF:
 
-```\{python}
+```{python}
 #| echo: true
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -333,19 +333,19 @@ print(classification_report(y_test, y_pred))
 
 ### Case Study: News Article Categorization
 
-A common application of document classification is categorizing news articles into different sections (sports, politics, business, etc.).  This involves collecting a large dataset of news articles, labeled with their corresponding categories, preprocessing the text, building a suitable model (like Multinomial Naive Bayes, or potentially a more sophisticated model like a Support Vector Machine or a deep learning model), and then evaluating its performance on unseen data.  The dataset size significantly impacts the model’s effectiveness.
+A common application of document classification is categorizing news articles into different sections (sports, politics, business, etc.).  This involves collecting a large dataset of news articles, labeled with their corresponding categories, preprocessing the text, building a suitable model (like Multinomial Naive Bayes, or potentially a more complex model like a Support Vector Machine or a deep learning model), and then evaluating its performance on unseen data.  The dataset size significantly impacts the model’s effectiveness.
 
 
 ### Evaluating Model Performance on Document Classification
 
-The evaluation metrics used for document classification are similar to those used for other classification tasks: accuracy, precision, recall, F1-score, and the confusion matrix.  The choice of metric depends on the specific application and the relative costs of different types of errors.  For instance, in a spam detection system, high recall might be prioritized to minimize the number of spam emails that slip through (false negatives).  A comprehensive evaluation includes examining these metrics for each class to detect potential class imbalances and biases in the model's predictions.  Cross-validation techniques are essential for obtaining robust performance estimates.
+The evaluation metrics used for document classification are similar to those used for other classification tasks: accuracy, precision, recall, F1-score, and the confusion matrix.  The choice of metric depends on the specific application and the relative costs of different types of errors.  For instance, in a spam detection system, high recall might be prioritized to minimize the number of spam emails that slip through (false negatives).  A detailed evaluation includes examining these metrics for each class to detect potential class imbalances and biases in the model's predictions.  Cross-validation techniques are essential for obtaining robust performance estimates.
 
 
 ## Spam Detection using Naive Bayes
 
 ### The Challenges of Spam Detection
 
-Spam detection is a challenging text classification problem due to several factors:
+Spam detection is a challenging text classification problem due to many factors:
 
 * **Constant evolution of spam techniques:** Spammers constantly adapt their methods to circumvent filters.  New techniques emerge regularly, requiring the spam filter to be continuously updated.
 * **High volume of emails:**  Spam filters need to process a large number of emails efficiently.
@@ -389,17 +389,17 @@ These features can be incorporated by creating new columns in your feature matri
 
 ### Improving Spam Detection Accuracy
 
-Several techniques can be employed to enhance accuracy:
+Several techniques can be employed to improve accuracy:
 
 * **Regularly updating the training dataset:** Spam techniques evolve, so retraining the model with new data is crucial.
-* **Using more advanced feature extraction techniques:**  Word embeddings or more sophisticated NLP methods could provide better feature representations.
+* **Using more advanced feature extraction techniques:**  Word embeddings or more complex NLP methods could provide better feature representations.
 * **Ensemble methods:**  Combining multiple classifiers (e.g., using a voting classifier) can often lead to improved performance.
 * **Handling class imbalance:** If the dataset has significantly more ham emails than spam, techniques like oversampling the minority class or using cost-sensitive learning can be beneficial.
 
 
 ### Case Study: Building a Spam Classifier with Scikit-learn
 
-```\{python}
+```{python}
 #| echo: true
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -457,7 +457,7 @@ The bag-of-words model, while simple, ignores word order and contextual informat
 * **Word Embeddings:**  These represent words as dense, low-dimensional vectors that capture semantic meaning.  Words with similar meanings have vectors that are close together in the vector space.  Popular word embedding models include Word2Vec, GloVe, and FastText.  These embeddings can be used as features in text classification models, often leading to significant improvements in accuracy.  They capture semantic relationships that bag-of-words misses.
 
 
-```\{python}
+```{python}
 #| echo: true
 from gensim.models import Word2Vec
 from nltk import word_tokenize
@@ -491,10 +491,10 @@ The performance of a text classification model depends heavily on its hyperparam
 
 * **Grid search:**  Evaluating all combinations of hyperparameters within a predefined range.
 * **Random search:**  Randomly sampling hyperparameter combinations.
-* **Bayesian optimization:**  Using a Bayesian approach to efficiently explore the hyperparameter space.
+* **Bayesian optimization:**  Using a Bayesian approach to efficiently look at the hyperparameter space.
 
 
-Scikit-learn's `GridSearchCV` and `RandomizedSearchCV` functions facilitate hyperparameter tuning.
+Scikit-learn's `GridSearchCV` and `RandomizedSearchCV` functions support hyperparameter tuning.
 
 
 ### Other Classification Algorithms for Text
@@ -512,7 +512,7 @@ While Naive Bayes is a good starting point, other algorithms can be more effecti
 
 Future trends in text classification include:
 
-* **Improved handling of contextual information:**  More sophisticated NLP models that capture long-range dependencies and nuanced contextual information.
+* **Improved handling of contextual information:**  More complex NLP models that capture long-range dependencies and nuanced contextual information.
 * **Cross-lingual and multilingual classification:**  Building models that can classify text across multiple languages.
 * **Explainable AI (XAI) for text classification:**  Developing methods to understand why a model makes a particular prediction, enhancing trust and transparency.
 * **Addressing bias and fairness in text classification:**  Developing techniques to mitigate biases that may be present in training data.

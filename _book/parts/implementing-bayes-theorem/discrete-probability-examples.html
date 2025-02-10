@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>10&nbsp; Discrete Probability Examples – bayes-theorem-book</title>
+<title>10&nbsp; Introduction to Discrete Probability – bayes-theorem-book</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -69,6 +103,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -399,15 +462,59 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#what-is-discrete-probability" id="toc-what-is-discrete-probability" class="nav-link active" data-scroll-target="#what-is-discrete-probability"><span class="header-section-number">10.0.1</span> What is Discrete Probability?</a></li>
+  <li><a href="#probability-mass-functions-pmfs" id="toc-probability-mass-functions-pmfs" class="nav-link" data-scroll-target="#probability-mass-functions-pmfs"><span class="header-section-number">10.0.2</span> Probability Mass Functions (PMFs)</a></li>
+  <li><a href="#cumulative-distribution-functions-cdfs" id="toc-cumulative-distribution-functions-cdfs" class="nav-link" data-scroll-target="#cumulative-distribution-functions-cdfs"><span class="header-section-number">10.0.3</span> Cumulative Distribution Functions (CDFs)</a></li>
+  <li><a href="#expectation-and-variance" id="toc-expectation-and-variance" class="nav-link" data-scroll-target="#expectation-and-variance"><span class="header-section-number">10.0.4</span> Expectation and Variance</a></li>
+  <li><a href="#binomial-distribution" id="toc-binomial-distribution" class="nav-link" data-scroll-target="#binomial-distribution"><span class="header-section-number">10.1</span> Binomial Distribution</a>
+  <ul class="collapse">
+  <li><a href="#the-binomial-experiment" id="toc-the-binomial-experiment" class="nav-link" data-scroll-target="#the-binomial-experiment"><span class="header-section-number">10.1.1</span> The Binomial Experiment</a></li>
+  <li><a href="#binomial-pmf-and-cdf" id="toc-binomial-pmf-and-cdf" class="nav-link" data-scroll-target="#binomial-pmf-and-cdf"><span class="header-section-number">10.1.2</span> Binomial PMF and CDF</a></li>
+  <li><a href="#calculating-binomial-probabilities-with-python" id="toc-calculating-binomial-probabilities-with-python" class="nav-link" data-scroll-target="#calculating-binomial-probabilities-with-python"><span class="header-section-number">10.1.3</span> Calculating Binomial Probabilities with Python</a></li>
+  <li><a href="#expectation-and-variance-of-the-binomial-distribution" id="toc-expectation-and-variance-of-the-binomial-distribution" class="nav-link" data-scroll-target="#expectation-and-variance-of-the-binomial-distribution"><span class="header-section-number">10.1.4</span> Expectation and Variance of the Binomial Distribution</a></li>
+  <li><a href="#example-ab-testing-with-the-binomial-distribution" id="toc-example-ab-testing-with-the-binomial-distribution" class="nav-link" data-scroll-target="#example-ab-testing-with-the-binomial-distribution"><span class="header-section-number">10.1.5</span> Example: A/B Testing with the Binomial Distribution</a></li>
+  <li><a href="#bayesian-approach-to-binomial-distribution" id="toc-bayesian-approach-to-binomial-distribution" class="nav-link" data-scroll-target="#bayesian-approach-to-binomial-distribution"><span class="header-section-number">10.1.6</span> Bayesian Approach to Binomial Distribution</a></li>
+  </ul></li>
+  <li><a href="#poisson-distribution" id="toc-poisson-distribution" class="nav-link" data-scroll-target="#poisson-distribution"><span class="header-section-number">10.2</span> Poisson Distribution</a>
+  <ul class="collapse">
+  <li><a href="#understanding-poisson-processes" id="toc-understanding-poisson-processes" class="nav-link" data-scroll-target="#understanding-poisson-processes"><span class="header-section-number">10.2.1</span> Understanding Poisson Processes</a></li>
+  <li><a href="#poisson-pmf-and-cdf" id="toc-poisson-pmf-and-cdf" class="nav-link" data-scroll-target="#poisson-pmf-and-cdf"><span class="header-section-number">10.2.2</span> Poisson PMF and CDF</a></li>
+  <li><a href="#calculating-poisson-probabilities-with-python" id="toc-calculating-poisson-probabilities-with-python" class="nav-link" data-scroll-target="#calculating-poisson-probabilities-with-python"><span class="header-section-number">10.2.3</span> Calculating Poisson Probabilities with Python</a></li>
+  <li><a href="#expectation-and-variance-of-the-poisson-distribution" id="toc-expectation-and-variance-of-the-poisson-distribution" class="nav-link" data-scroll-target="#expectation-and-variance-of-the-poisson-distribution"><span class="header-section-number">10.2.4</span> Expectation and Variance of the Poisson Distribution</a></li>
+  <li><a href="#example-modeling-website-traffic-with-the-poisson-distribution" id="toc-example-modeling-website-traffic-with-the-poisson-distribution" class="nav-link" data-scroll-target="#example-modeling-website-traffic-with-the-poisson-distribution"><span class="header-section-number">10.2.5</span> Example: Modeling Website Traffic with the Poisson Distribution</a></li>
+  <li><a href="#bayesian-approach-to-poisson-distribution" id="toc-bayesian-approach-to-poisson-distribution" class="nav-link" data-scroll-target="#bayesian-approach-to-poisson-distribution"><span class="header-section-number">10.2.6</span> Bayesian Approach to Poisson Distribution</a></li>
+  </ul></li>
+  <li><a href="#categorical-data-and-probability" id="toc-categorical-data-and-probability" class="nav-link" data-scroll-target="#categorical-data-and-probability"><span class="header-section-number">10.3</span> Categorical Data and Probability</a>
+  <ul class="collapse">
+  <li><a href="#representing-categorical-data" id="toc-representing-categorical-data" class="nav-link" data-scroll-target="#representing-categorical-data"><span class="header-section-number">10.3.1</span> Representing Categorical Data</a></li>
+  <li><a href="#probability-mass-functions-for-categorical-data" id="toc-probability-mass-functions-for-categorical-data" class="nav-link" data-scroll-target="#probability-mass-functions-for-categorical-data"><span class="header-section-number">10.3.2</span> Probability Mass Functions for Categorical Data</a></li>
+  <li><a href="#multinomial-distribution" id="toc-multinomial-distribution" class="nav-link" data-scroll-target="#multinomial-distribution"><span class="header-section-number">10.3.3</span> Multinomial Distribution</a></li>
+  <li><a href="#calculating-probabilities-with-categorical-data-in-python" id="toc-calculating-probabilities-with-categorical-data-in-python" class="nav-link" data-scroll-target="#calculating-probabilities-with-categorical-data-in-python"><span class="header-section-number">10.3.4</span> Calculating Probabilities with Categorical Data in Python</a></li>
+  <li><a href="#example-analyzing-survey-results" id="toc-example-analyzing-survey-results" class="nav-link" data-scroll-target="#example-analyzing-survey-results"><span class="header-section-number">10.3.5</span> Example: Analyzing Survey Results</a></li>
+  <li><a href="#bayesian-approach-to-categorical-data" id="toc-bayesian-approach-to-categorical-data" class="nav-link" data-scroll-target="#bayesian-approach-to-categorical-data"><span class="header-section-number">10.3.6</span> Bayesian Approach to Categorical Data</a></li>
+  </ul></li>
+  <li><a href="#applying-bayes-theorem-to-discrete-distributions" id="toc-applying-bayes-theorem-to-discrete-distributions" class="nav-link" data-scroll-target="#applying-bayes-theorem-to-discrete-distributions"><span class="header-section-number">10.4</span> Applying Bayes’ Theorem to Discrete Distributions</a>
+  <ul class="collapse">
+  <li><a href="#bayes-theorem-with-binomial-data" id="toc-bayes-theorem-with-binomial-data" class="nav-link" data-scroll-target="#bayes-theorem-with-binomial-data"><span class="header-section-number">10.4.1</span> Bayes’ Theorem with Binomial Data</a></li>
+  <li><a href="#bayes-theorem-with-poisson-data" id="toc-bayes-theorem-with-poisson-data" class="nav-link" data-scroll-target="#bayes-theorem-with-poisson-data"><span class="header-section-number">10.4.2</span> Bayes’ Theorem with Poisson Data</a></li>
+  <li><a href="#bayes-theorem-with-categorical-data" id="toc-bayes-theorem-with-categorical-data" class="nav-link" data-scroll-target="#bayes-theorem-with-categorical-data"><span class="header-section-number">10.4.3</span> Bayes’ Theorem with Categorical Data</a></li>
+  <li><a href="#prior-and-posterior-distributions" id="toc-prior-and-posterior-distributions" class="nav-link" data-scroll-target="#prior-and-posterior-distributions"><span class="header-section-number">10.4.4</span> Prior and Posterior Distributions</a></li>
+  <li><a href="#illustrative-examples-with-python-code" id="toc-illustrative-examples-with-python-code" class="nav-link" data-scroll-target="#illustrative-examples-with-python-code"><span class="header-section-number">10.4.5</span> Illustrative Examples with Python Code</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../parts/implementing-bayes-theorem/intro.html">Implementing Bayes’ Theorem</a></li><li class="breadcrumb-item"><a href="../../parts/implementing-bayes-theorem/discrete-probability-examples.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduction to Discrete Probability</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Discrete Probability Examples</span></h1>
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduction to Discrete Probability</span></h1>
 </div>
 
 
@@ -424,8 +531,640 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="what-is-discrete-probability" class="level3" data-number="10.0.1">
+<h3 data-number="10.0.1" class="anchored" data-anchor-id="what-is-discrete-probability"><span class="header-section-number">10.0.1</span> What is Discrete Probability?</h3>
+<p>Discrete probability deals with events that have a finite or countably infinite number of possible outcomes. Unlike continuous probability, where outcomes can take on any value within a range (e.g., height, weight), discrete probability focuses on distinct, separate outcomes. For example, the number of heads when flipping a coin three times (0, 1, 2, or 3) is a discrete random variable. Other examples include the number of cars passing a certain point on a highway in an hour, or the number of defects in a batch of manufactured items. The key characteristic is that we can count the possible outcomes.</p>
+</section>
+<section id="probability-mass-functions-pmfs" class="level3" data-number="10.0.2">
+<h3 data-number="10.0.2" class="anchored" data-anchor-id="probability-mass-functions-pmfs"><span class="header-section-number">10.0.2</span> Probability Mass Functions (PMFs)</h3>
+<p>A Probability Mass Function (PMF) is a function that gives the probability that a discrete random variable is exactly equal to some value. We denote the PMF of a discrete random variable <span class="math inline">\(X\)</span> as <span class="math inline">\(P(X=x)\)</span>, where <span class="math inline">\(x\)</span> represents a specific value the random variable can take. The PMF must satisfy two conditions:</p>
+<ol type="1">
+<li><span class="math inline">\(P(X=x) \ge 0\)</span> for all <span class="math inline">\(x\)</span>. (Probabilities are non-negative)</li>
+<li><span class="math inline">\(\sum_{x} P(X=x) = 1\)</span> (The sum of probabilities over all possible outcomes is 1)</li>
+</ol>
+<p>Let’s consider an example: rolling a fair six-sided die. The random variable <span class="math inline">\(X\)</span> represents the outcome of the roll. The PMF is:</p>
+<p><span class="math inline">\(P(X=x) = \begin{cases} \frac{1}{6} &amp; x \in \{1, 2, 3, 4, 5, 6\} \\ 0 &amp; \text{otherwise} \end{cases}\)</span></p>
+<div id="a4e5b148" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="dv">7</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.full(<span class="dv">6</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">6</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>plt.stem(x, y)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Outcome (x)"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Probability P(X=x)"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"PMF of a Fair Six-Sided Die"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>plt.xticks(x)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="discrete-probability-examples_files/figure-html/cell-2-output-1.png" width="606" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="cumulative-distribution-functions-cdfs" class="level3" data-number="10.0.3">
+<h3 data-number="10.0.3" class="anchored" data-anchor-id="cumulative-distribution-functions-cdfs"><span class="header-section-number">10.0.3</span> Cumulative Distribution Functions (CDFs)</h3>
+<p>The Cumulative Distribution Function (CDF) of a discrete random variable <span class="math inline">\(X\)</span>, denoted as <span class="math inline">\(F(x)\)</span>, gives the probability that <span class="math inline">\(X\)</span> is less than or equal to a specific value <span class="math inline">\(x\)</span>. Formally:</p>
+<p><span class="math inline">\(F(x) = P(X \le x) = \sum_{i \le x} P(X=i)\)</span></p>
+<p>For our six-sided die example, the CDF is:</p>
+<p><span class="math inline">\(F(x) = \begin{cases} 0 &amp; x &lt; 1 \\ \frac{1}{6} &amp; 1 \le x &lt; 2 \\ \frac{2}{6} &amp; 2 \le x &lt; 3 \\ \frac{3}{6} &amp; 3 \le x &lt; 4 \\ \frac{4}{6} &amp; 4 \le x &lt; 5 \\ \frac{5}{6} &amp; 5 \le x &lt; 6 \\ 1 &amp; x \ge 6 \end{cases}\)</span></p>
+<div id="c799b2e1" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="dv">7</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.cumsum(np.full(<span class="dv">6</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">6</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>plt.step(x, y)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Outcome (x)"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Cumulative Probability F(x)"</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"CDF of a Fair Six-Sided Die"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>plt.xticks(x)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="discrete-probability-examples_files/figure-html/cell-3-output-1.png" width="589" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="expectation-and-variance" class="level3" data-number="10.0.4">
+<h3 data-number="10.0.4" class="anchored" data-anchor-id="expectation-and-variance"><span class="header-section-number">10.0.4</span> Expectation and Variance</h3>
+<p>The <em>expectation</em> (or expected value) of a discrete random variable <span class="math inline">\(X\)</span>, denoted as <span class="math inline">\(E[X]\)</span> or <span class="math inline">\(\mu\)</span>, is the average value of <span class="math inline">\(X\)</span> weighted by its probabilities:</p>
+<p><span class="math inline">\(E[X] = \mu = \sum_{x} x \cdot P(X=x)\)</span></p>
+<p>For the six-sided die:</p>
+<p><span class="math inline">\(E[X] = 1(\frac{1}{6}) + 2(\frac{1}{6}) + 3(\frac{1}{6}) + 4(\frac{1}{6}) + 5(\frac{1}{6}) + 6(\frac{1}{6}) = 3.5\)</span></p>
+<p>The <em>variance</em>, denoted as <span class="math inline">\(Var(X)\)</span> or <span class="math inline">\(\sigma^2\)</span>, measures the spread or dispersion of the random variable around its mean:</p>
+<p><span class="math inline">\(Var(X) = E[(X - \mu)^2] = \sum_{x} (x - \mu)^2 \cdot P(X=x)\)</span></p>
+<p>Alternatively, it can be calculated as:</p>
+<p><span class="math inline">\(Var(X) = E[X^2] - (E[X])^2\)</span></p>
+<p>where <span class="math inline">\(E[X^2] = \sum_{x} x^2 \cdot P(X=x)\)</span></p>
+<p>For the six-sided die:</p>
+<p><span class="math inline">\(E[X^2] = 1^2(\frac{1}{6}) + 2^2(\frac{1}{6}) + 3^2(\frac{1}{6}) + 4^2(\frac{1}{6}) + 5^2(\frac{1}{6}) + 6^2(\frac{1}{6}) = \frac{91}{6}\)</span></p>
+<p><span class="math inline">\(Var(X) = \frac{91}{6} - (3.5)^2 = \frac{35}{12} \approx 2.92\)</span></p>
+<div id="e3bd3abb" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> np.mean(x)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>variance <span class="op">=</span> np.var(x)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Expectation (mu): </span><span class="sc">{</span>mu<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Variance: </span><span class="sc">{</span>variance<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Expectation (mu): 3.5
+Variance: 2.9166666666666665</code></pre>
+</div>
+</div>
+</section>
+<section id="binomial-distribution" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="binomial-distribution"><span class="header-section-number">10.1</span> Binomial Distribution</h2>
+<section id="the-binomial-experiment" class="level3" data-number="10.1.1">
+<h3 data-number="10.1.1" class="anchored" data-anchor-id="the-binomial-experiment"><span class="header-section-number">10.1.1</span> The Binomial Experiment</h3>
+<p>A binomial experiment is a statistical experiment that satisfies the following conditions:</p>
+<ol type="1">
+<li><strong>Fixed number of trials:</strong> The experiment consists of a fixed number, <span class="math inline">\(n\)</span>, of identical trials.</li>
+<li><strong>Independent trials:</strong> The outcome of each trial is independent of the outcomes of other trials.</li>
+<li><strong>Two outcomes:</strong> Each trial has only two possible outcomes, often called “success” and “failure”.</li>
+<li><strong>Constant probability of success:</strong> The probability of success, denoted by <span class="math inline">\(p\)</span>, is constant for each trial. The probability of failure is then <span class="math inline">\(1-p\)</span>, often denoted as <span class="math inline">\(q\)</span>.</li>
+</ol>
+<p>Examples include flipping a coin n times, testing n light bulbs for defects, or surveying n people about their preference for a product.</p>
+</section>
+<section id="binomial-pmf-and-cdf" class="level3" data-number="10.1.2">
+<h3 data-number="10.1.2" class="anchored" data-anchor-id="binomial-pmf-and-cdf"><span class="header-section-number">10.1.2</span> Binomial PMF and CDF</h3>
+<p>The probability mass function (PMF) of a binomial random variable <span class="math inline">\(X\)</span>, representing the number of successes in <span class="math inline">\(n\)</span> trials, is given by:</p>
+<p><span class="math inline">\(P(X=k) = \binom{n}{k} p^k (1-p)^{n-k}\)</span> for <span class="math inline">\(k = 0, 1, 2, ..., n\)</span></p>
+<p>where <span class="math inline">\(\binom{n}{k} = \frac{n!}{k!(n-k)!}\)</span> is the binomial coefficient, representing the number of ways to choose <span class="math inline">\(k\)</span> successes from <span class="math inline">\(n\)</span> trials.</p>
+<p>The cumulative distribution function (CDF) is:</p>
+<p><span class="math inline">\(F(k) = P(X \le k) = \sum_{i=0}^{k} \binom{n}{i} p^i (1-p)^{n-i}\)</span></p>
+</section>
+<section id="calculating-binomial-probabilities-with-python" class="level3" data-number="10.1.3">
+<h3 data-number="10.1.3" class="anchored" data-anchor-id="calculating-binomial-probabilities-with-python"><span class="header-section-number">10.1.3</span> Calculating Binomial Probabilities with Python</h3>
+<p>Python’s <code>scipy.stats</code> module provides functions for working with the binomial distribution.</p>
+<div id="8055dd13" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> binom</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10</span>  <span class="co"># Number of trials</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="fl">0.3</span> <span class="co"># Probability of success</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># PMF</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> np.arange(<span class="dv">0</span>, n <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>pmf <span class="op">=</span> binom.pmf(k, n, p)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#CDF</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>cdf <span class="op">=</span> binom.cdf(k,n,p)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>plt.stem(k, pmf)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Binomial PMF (n=10, p=0.3)'</span>)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of Successes (k)'</span>)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Probability P(X=k)'</span>)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>plt.step(k, cdf)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Binomial CDF (n=10, p=0.3)'</span>)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of Successes (k)'</span>)</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Cumulative Probability P(X≤k)'</span>)</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="co">#Example calculation: Probability of exactly 3 successes</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>probability_3_successes <span class="op">=</span> binom.pmf(<span class="dv">3</span>, n, p)</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability of exactly 3 successes: </span><span class="sc">{</span>probability_3_successes<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="co">#Example calculation: Probability of at most 3 successes</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>probability_at_most_3_successes <span class="op">=</span> binom.cdf(<span class="dv">3</span>, n, p)</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability of at most 3 successes: </span><span class="sc">{</span>probability_at_most_3_successes<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="discrete-probability-examples_files/figure-html/cell-5-output-1.png" width="1142" height="470" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Probability of exactly 3 successes: 0.26682793199999977
+Probability of at most 3 successes: 0.6496107184000002</code></pre>
+</div>
+</div>
+</section>
+<section id="expectation-and-variance-of-the-binomial-distribution" class="level3" data-number="10.1.4">
+<h3 data-number="10.1.4" class="anchored" data-anchor-id="expectation-and-variance-of-the-binomial-distribution"><span class="header-section-number">10.1.4</span> Expectation and Variance of the Binomial Distribution</h3>
+<p>The expectation (mean) and variance of a binomial distribution are:</p>
+<p><span class="math inline">\(E[X] = np\)</span> <span class="math inline">\(Var(X) = np(1-p)\)</span></p>
+<p>For our example (n=10, p=0.3):</p>
+<p><span class="math inline">\(E[X] = 10 \times 0.3 = 3\)</span> <span class="math inline">\(Var(X) = 10 \times 0.3 \times (1 - 0.3) = 2.1\)</span></p>
+<div id="197b40b9" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mean <span class="op">=</span> n <span class="op">*</span> p</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>variance <span class="op">=</span> n <span class="op">*</span> p <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> p)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Expectation: </span><span class="sc">{</span>mean<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Variance: </span><span class="sc">{</span>variance<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Expectation: 3.0
+Variance: 2.0999999999999996</code></pre>
+</div>
+</div>
+</section>
+<section id="example-ab-testing-with-the-binomial-distribution" class="level3" data-number="10.1.5">
+<h3 data-number="10.1.5" class="anchored" data-anchor-id="example-ab-testing-with-the-binomial-distribution"><span class="header-section-number">10.1.5</span> Example: A/B Testing with the Binomial Distribution</h3>
+<p>A/B testing is a common application of the binomial distribution. Suppose we have two versions of a website (A and B) and we want to see which one has a higher conversion rate (e.g., users clicking a “buy” button). We randomly assign users to either version A or version B and track the number of conversions in each group. We can use the binomial distribution to model the number of conversions in each group and perform hypothesis testing to determine if there’s a statistically significant difference between the conversion rates.</p>
+</section>
+<section id="bayesian-approach-to-binomial-distribution" class="level3" data-number="10.1.6">
+<h3 data-number="10.1.6" class="anchored" data-anchor-id="bayesian-approach-to-binomial-distribution"><span class="header-section-number">10.1.6</span> Bayesian Approach to Binomial Distribution</h3>
+<p>In a Bayesian approach to the binomial distribution, we treat the probability of success, <span class="math inline">\(p\)</span>, as a random variable itself, rather than a fixed constant. We start with a prior distribution for <span class="math inline">\(p\)</span> (reflecting our initial beliefs about the likely value of <span class="math inline">\(p\)</span>) and update this prior based on observed data using Bayes’ theorem. A common prior for <span class="math inline">\(p\)</span> is the Beta distribution, which is conjugate to the binomial distribution (meaning the posterior distribution is also a Beta distribution).</p>
+<p>Let’s say we observe <span class="math inline">\(k\)</span> successes in <span class="math inline">\(n\)</span> trials. If the prior for <span class="math inline">\(p\)</span> is a Beta distribution with parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>, denoted as <span class="math inline">\(Beta(\alpha, \beta)\)</span>, then the posterior distribution for <span class="math inline">\(p\)</span> is:</p>
+<p><span class="math inline">\(P(p | k, n) \sim Beta(\alpha + k, \beta + n - k)\)</span></p>
+<div id="a55fd5c7" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> beta</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Prior distribution parameters</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>alpha_prior <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>beta_prior <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Observed data</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">6</span> <span class="co">#Number of successes</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10</span> <span class="co">#Number of trials</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior distribution parameters</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>alpha_posterior <span class="op">=</span> alpha_prior <span class="op">+</span> k</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>beta_posterior <span class="op">=</span> beta_prior <span class="op">+</span> n <span class="op">-</span> k</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot prior and posterior distributions</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>prior <span class="op">=</span> beta.pdf(x, alpha_prior, beta_prior)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>posterior <span class="op">=</span> beta.pdf(x, alpha_posterior, beta_posterior)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>plt.plot(x, prior, label<span class="op">=</span><span class="st">'Prior Distribution'</span>)</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>plt.plot(x, posterior, label<span class="op">=</span><span class="st">'Posterior Distribution'</span>)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Probability of Success (p)'</span>)</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Density'</span>)</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Prior and Posterior Distributions for p'</span>)</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="discrete-probability-examples_files/figure-html/cell-7-output-1.png" width="589" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This posterior distribution summarizes our updated belief about the true probability of success after observing the data. We can calculate credible intervals from this posterior distribution to quantify the uncertainty about p.</p>
+</section>
+</section>
+<section id="poisson-distribution" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="poisson-distribution"><span class="header-section-number">10.2</span> Poisson Distribution</h2>
+<section id="understanding-poisson-processes" class="level3" data-number="10.2.1">
+<h3 data-number="10.2.1" class="anchored" data-anchor-id="understanding-poisson-processes"><span class="header-section-number">10.2.1</span> Understanding Poisson Processes</h3>
+<p>A Poisson process models the probability of a given number of events occurring in a fixed interval of time or space if these events occur with a known average rate and independently of the time since the last event. The key characteristics of a Poisson process are:</p>
+<ol type="1">
+<li><strong>Events are independent:</strong> The occurrence of one event doesn’t affect the probability of another event occurring.</li>
+<li><strong>Constant average rate:</strong> Events occur at a constant average rate, denoted by λ (lambda).</li>
+<li><strong>Events are random:</strong> The probability of an event occurring in a small time interval is proportional to the length of the interval.</li>
+</ol>
+<p>Examples include:</p>
+<ul>
+<li>The number of cars passing a certain point on a highway in an hour.</li>
+<li>The number of customers arriving at a store in a day.</li>
+<li>The number of typos on a page of a book.</li>
+</ul>
+</section>
+<section id="poisson-pmf-and-cdf" class="level3" data-number="10.2.2">
+<h3 data-number="10.2.2" class="anchored" data-anchor-id="poisson-pmf-and-cdf"><span class="header-section-number">10.2.2</span> Poisson PMF and CDF</h3>
+<p>The probability mass function (PMF) of a Poisson random variable X, representing the number of events in a given interval, is:</p>
+<p><span class="math inline">\(P(X=k) = \frac{e^{-\lambda}\lambda^k}{k!}\)</span> for <span class="math inline">\(k = 0, 1, 2, ...\)</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(k\)</span> is the number of events</li>
+<li>λ is the average rate of events</li>
+<li><span class="math inline">\(e\)</span> is the base of the natural logarithm (approximately 2.71828)</li>
+</ul>
+<p>The cumulative distribution function (CDF) is:</p>
+<p><span class="math inline">\(F(k) = P(X \le k) = \sum_{i=0}^{k} \frac{e^{-\lambda}\lambda^i}{i!}\)</span></p>
+</section>
+<section id="calculating-poisson-probabilities-with-python" class="level3" data-number="10.2.3">
+<h3 data-number="10.2.3" class="anchored" data-anchor-id="calculating-poisson-probabilities-with-python"><span class="header-section-number">10.2.3</span> Calculating Poisson Probabilities with Python</h3>
+<div id="a84e5dec" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> poisson</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameter</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>lam <span class="op">=</span> <span class="dv">5</span>  <span class="co"># Average rate of events</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># PMF</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="dv">15</span>)  <span class="co"># Range of events</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>pmf <span class="op">=</span> poisson.pmf(k, lam)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># CDF</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>cdf <span class="op">=</span> poisson.cdf(k, lam)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>plt.stem(k, pmf)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Poisson PMF (λ=5)'</span>)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of Events (k)'</span>)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Probability P(X=k)'</span>)</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>plt.step(k, cdf)</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Poisson CDF (λ=5)'</span>)</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of Events (k)'</span>)</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Cumulative Probability P(X≤k)'</span>)</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Example calculation: Probability of exactly 3 events</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>probability_3_events <span class="op">=</span> poisson.pmf(<span class="dv">3</span>, lam)</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability of exactly 3 events: </span><span class="sc">{</span>probability_3_events<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Example calculation: Probability of at most 3 events</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>probability_at_most_3_events <span class="op">=</span> poisson.cdf(<span class="dv">3</span>, lam)</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability of at most 3 events: </span><span class="sc">{</span>probability_at_most_3_events<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="discrete-probability-examples_files/figure-html/cell-8-output-1.png" width="1142" height="470" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Probability of exactly 3 events: 0.1403738958142805
+Probability of at most 3 events: 0.2650259152973616</code></pre>
+</div>
+</div>
+</section>
+<section id="expectation-and-variance-of-the-poisson-distribution" class="level3" data-number="10.2.4">
+<h3 data-number="10.2.4" class="anchored" data-anchor-id="expectation-and-variance-of-the-poisson-distribution"><span class="header-section-number">10.2.4</span> Expectation and Variance of the Poisson Distribution</h3>
+<p>The expectation (mean) and variance of a Poisson distribution are both equal to λ:</p>
+<p><span class="math inline">\(E[X] = λ\)</span> <span class="math inline">\(Var(X) = λ\)</span></p>
+<div id="48133ef3" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>mean <span class="op">=</span> lam</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>variance <span class="op">=</span> lam</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Expectation: </span><span class="sc">{</span>mean<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Variance: </span><span class="sc">{</span>variance<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Expectation: 5
+Variance: 5</code></pre>
+</div>
+</div>
+</section>
+<section id="example-modeling-website-traffic-with-the-poisson-distribution" class="level3" data-number="10.2.5">
+<h3 data-number="10.2.5" class="anchored" data-anchor-id="example-modeling-website-traffic-with-the-poisson-distribution"><span class="header-section-number">10.2.5</span> Example: Modeling Website Traffic with the Poisson Distribution</h3>
+<p>The number of visitors to a website in a given hour can often be modeled using a Poisson distribution. If the average hourly rate of visitors is known, we can use the Poisson distribution to calculate the probability of a certain number of visitors in that hour. This can be useful for planning server capacity or predicting website load.</p>
+</section>
+<section id="bayesian-approach-to-poisson-distribution" class="level3" data-number="10.2.6">
+<h3 data-number="10.2.6" class="anchored" data-anchor-id="bayesian-approach-to-poisson-distribution"><span class="header-section-number">10.2.6</span> Bayesian Approach to Poisson Distribution</h3>
+<p>In a Bayesian approach to the Poisson distribution, we treat the rate parameter λ as a random variable. A common prior for λ is the Gamma distribution, which is conjugate to the Poisson distribution.</p>
+<p>If the prior for λ is a Gamma distribution with shape parameter α and rate parameter β, denoted as <span class="math inline">\(Gamma(α, β)\)</span>, and we observe k events, then the posterior distribution for λ is:</p>
+<p><span class="math inline">\(P(λ | k) \sim Gamma(α + k, β + 1)\)</span></p>
+<div id="a0b65d24" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> gamma</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior parameters</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>alpha_prior <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>beta_prior <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Observed data</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">8</span> <span class="co">#Number of events</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior parameters</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>alpha_posterior <span class="op">=</span> alpha_prior <span class="op">+</span> k</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>beta_posterior <span class="op">=</span> beta_prior <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot prior and posterior distributions</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">100</span>) <span class="co"># Adjust range as needed</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>prior <span class="op">=</span> gamma.pdf(x, alpha_prior, scale<span class="op">=</span><span class="dv">1</span><span class="op">/</span>beta_prior)</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>posterior <span class="op">=</span> gamma.pdf(x, alpha_posterior, scale<span class="op">=</span><span class="dv">1</span><span class="op">/</span>beta_posterior)</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>plt.plot(x, prior, label<span class="op">=</span><span class="st">'Prior Distribution'</span>)</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>plt.plot(x, posterior, label<span class="op">=</span><span class="st">'Posterior Distribution'</span>)</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Rate Parameter (λ)'</span>)</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Density'</span>)</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Prior and Posterior Distributions for λ'</span>)</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="discrete-probability-examples_files/figure-html/cell-10-output-1.png" width="597" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The posterior distribution represents our updated belief about the true rate parameter λ after observing the data. We can use this posterior to make inferences about future events or to quantify uncertainty about λ.</p>
+</section>
+</section>
+<section id="categorical-data-and-probability" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="categorical-data-and-probability"><span class="header-section-number">10.3</span> Categorical Data and Probability</h2>
+<section id="representing-categorical-data" class="level3" data-number="10.3.1">
+<h3 data-number="10.3.1" class="anchored" data-anchor-id="representing-categorical-data"><span class="header-section-number">10.3.1</span> Representing Categorical Data</h3>
+<p>Categorical data represents observations that can be assigned to categories or groups. These categories are often qualitative (e.g., colors, types of fruit) rather than quantitative (numerical). Categorical data can be nominal (unordered, like colors) or ordinal (ordered, like education levels: high school, bachelor’s, master’s). We often represent categorical data using frequency counts or proportions for each category.</p>
+</section>
+<section id="probability-mass-functions-for-categorical-data" class="level3" data-number="10.3.2">
+<h3 data-number="10.3.2" class="anchored" data-anchor-id="probability-mass-functions-for-categorical-data"><span class="header-section-number">10.3.2</span> Probability Mass Functions for Categorical Data</h3>
+<p>The probability mass function (PMF) for categorical data assigns a probability to each category. Let <span class="math inline">\(C_1, C_2, ..., C_k\)</span> be the categories, and let <span class="math inline">\(P(C_i)\)</span> be the probability of observing category <span class="math inline">\(C_i\)</span>. The PMF satisfies:</p>
+<ul>
+<li><span class="math inline">\(P(C_i) \ge 0\)</span> for all <span class="math inline">\(i\)</span></li>
+<li><span class="math inline">\(\sum_{i=1}^{k} P(C_i) = 1\)</span></li>
+</ul>
+<p>For example, if we have categories “Red,” “Green,” and “Blue,” the PMF might be:</p>
+<p><span class="math inline">\(P(\text{Red}) = 0.4\)</span> <span class="math inline">\(P(\text{Green}) = 0.3\)</span> <span class="math inline">\(P(\text{Blue}) = 0.3\)</span></p>
+</section>
+<section id="multinomial-distribution" class="level3" data-number="10.3.3">
+<h3 data-number="10.3.3" class="anchored" data-anchor-id="multinomial-distribution"><span class="header-section-number">10.3.3</span> Multinomial Distribution</h3>
+<p>The multinomial distribution is a generalization of the binomial distribution to more than two categories. It models the probabilities of observing counts for each category in a fixed number of independent trials, where each trial has the same set of possible outcomes (categories) with constant probabilities.</p>
+<p>Let <span class="math inline">\(X_i\)</span> be the count of observations in category <span class="math inline">\(C_i\)</span>, and let <span class="math inline">\(n\)</span> be the total number of trials. The probability mass function of the multinomial distribution is:</p>
+<p><span class="math inline">\(P(X_1 = x_1, X_2 = x_2, ..., X_k = x_k) = \frac{n!}{x_1!x_2!...x_k!} \prod_{i=1}^{k} p_i^{x_i}\)</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(x_i\)</span> is the observed count in category <span class="math inline">\(C_i\)</span></li>
+<li><span class="math inline">\(p_i\)</span> is the probability of observing category <span class="math inline">\(C_i\)</span></li>
+<li><span class="math inline">\(\sum_{i=1}^{k} x_i = n\)</span></li>
+<li><span class="math inline">\(\sum_{i=1}^{k} p_i = 1\)</span></li>
+</ul>
+</section>
+<section id="calculating-probabilities-with-categorical-data-in-python" class="level3" data-number="10.3.4">
+<h3 data-number="10.3.4" class="anchored" data-anchor-id="calculating-probabilities-with-categorical-data-in-python"><span class="header-section-number">10.3.4</span> Calculating Probabilities with Categorical Data in Python</h3>
+<div id="19bb51d7" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> multinomial</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Probabilities for each category</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> np.array([<span class="fl">0.4</span>, <span class="fl">0.3</span>, <span class="fl">0.3</span>]) <span class="co">#Red, Green, Blue</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of trials</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: probability of observing 4 Red, 3 Green, 3 Blue</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">3</span>])</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>probability <span class="op">=</span> multinomial.pmf(x, n, p)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability: </span><span class="sc">{</span>probability<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualizing the distribution (challenging for &gt;2 categories) -  A bar chart showing the probabilities.</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>categories <span class="op">=</span> [<span class="st">'Red'</span>, <span class="st">'Green'</span>, <span class="st">'Blue'</span>]</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>plt.bar(categories, p)</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Probability'</span>)</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Probability Mass Function for Colors'</span>)</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Probability: 0.07838208000000017</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="discrete-probability-examples_files/figure-html/cell-11-output-2.png" width="597" height="431" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="example-analyzing-survey-results" class="level3" data-number="10.3.5">
+<h3 data-number="10.3.5" class="anchored" data-anchor-id="example-analyzing-survey-results"><span class="header-section-number">10.3.5</span> Example: Analyzing Survey Results</h3>
+<p>Imagine a survey asking respondents to choose their favorite ice cream flavor from chocolate, vanilla, and strawberry. The survey results can be analyzed using the multinomial distribution to determine the probability of observing specific combinations of flavor choices.</p>
+</section>
+<section id="bayesian-approach-to-categorical-data" class="level3" data-number="10.3.6">
+<h3 data-number="10.3.6" class="anchored" data-anchor-id="bayesian-approach-to-categorical-data"><span class="header-section-number">10.3.6</span> Bayesian Approach to Categorical Data</h3>
+<p>The Bayesian approach to categorical data involves placing prior distributions on the category probabilities (<span class="math inline">\(p_i\)</span>). A common choice is the Dirichlet distribution, which is the conjugate prior to the multinomial distribution. The Dirichlet distribution is parameterized by a vector of concentration parameters, <span class="math inline">\(\alpha = (\alpha_1, \alpha_2, ..., \alpha_k)\)</span>, where <span class="math inline">\(\alpha_i &gt; 0\)</span> for all i.</p>
+<p>If the prior is <span class="math inline">\(Dir(\alpha)\)</span>, and we observe counts <span class="math inline">\(x = (x_1, x_2, ..., x_k)\)</span>, then the posterior distribution is:</p>
+<p><span class="math inline">\(P(p | x) \sim Dir(\alpha + x)\)</span></p>
+<div id="799d0197" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> dirichlet</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior parameters (symmetric Dirichlet, implies prior belief of equal probabilities)</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>alpha_prior <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>])  <span class="co"># For Red, Green, Blue</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Observed data</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">3</span>]) <span class="co">#Counts of Red, Green, Blue</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior parameters</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>alpha_posterior <span class="op">=</span> alpha_prior <span class="op">+</span> x</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co">#Plotting the posterior - this requires more complex visualization for &gt;2 categories</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="co">#This example demonstrates 2D projection for simplicity.  More complex visualization methods are needed for higher dimensions.</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="co">#We can only effectively visualize the first two categories.</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>samples <span class="op">=</span> dirichlet.rvs(alpha_posterior, size<span class="op">=</span><span class="dv">10000</span>) <span class="co">#Generating samples to visualize the 2D distribution</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>plt.scatter(samples[:, <span class="dv">0</span>], samples[:,<span class="dv">1</span>], alpha<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Probability of Red'</span>)</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Probability of Green'</span>)</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Posterior Distribution of Probabilities'</span>)</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="discrete-probability-examples_files/figure-html/cell-12-output-1.png" width="593" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This posterior Dirichlet distribution represents our updated beliefs about the category probabilities after considering the observed data. We can draw samples from this posterior to estimate credible intervals for each category probability. More advanced visualization techniques would be needed to represent the full higher-dimensional posterior if there were more categories.</p>
+</section>
+</section>
+<section id="applying-bayes-theorem-to-discrete-distributions" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="applying-bayes-theorem-to-discrete-distributions"><span class="header-section-number">10.4</span> Applying Bayes’ Theorem to Discrete Distributions</h2>
+<p>This section demonstrates how to apply Bayes’ Theorem to update our beliefs about the parameters of various discrete probability distributions after observing data. We’ll use Python to perform the calculations and visualize the results.</p>
+<section id="bayes-theorem-with-binomial-data" class="level3" data-number="10.4.1">
+<h3 data-number="10.4.1" class="anchored" data-anchor-id="bayes-theorem-with-binomial-data"><span class="header-section-number">10.4.1</span> Bayes’ Theorem with Binomial Data</h3>
+<p>Let’s say we have a binomial distribution with parameters <span class="math inline">\(n\)</span> (number of trials) and <span class="math inline">\(p\)</span> (probability of success). We want to infer the value of <span class="math inline">\(p\)</span> given some observed data. We’ll use a Beta distribution as the prior for <span class="math inline">\(p\)</span> because it’s conjugate to the binomial likelihood, simplifying calculations.</p>
+<p>Bayes’ Theorem states:</p>
+<p><span class="math inline">\(P(p|data) = \frac{P(data|p)P(p)}{P(data)}\)</span></p>
+<ul>
+<li><strong>Prior:</strong> <span class="math inline">\(P(p) \sim Beta(\alpha, \beta)\)</span></li>
+<li><strong>Likelihood:</strong> <span class="math inline">\(P(data|p) \sim Binomial(n, p)\)</span></li>
+<li><strong>Posterior:</strong> <span class="math inline">\(P(p|data) \sim Beta(\alpha + k, \beta + n - k)\)</span> where k is the number of successes observed.</li>
+<li><strong>Evidence:</strong> <span class="math inline">\(P(data)\)</span> is a normalizing constant that ensures the posterior integrates to 1.</li>
+</ul>
+<div id="d5a3468d" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> beta, binom</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior parameters</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>alpha_prior <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>beta_prior <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Observed data</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">7</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior parameters</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>alpha_posterior <span class="op">=</span> alpha_prior <span class="op">+</span> k</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>beta_posterior <span class="op">=</span> beta_prior <span class="op">+</span> n <span class="op">-</span> k</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot prior and posterior</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>prior <span class="op">=</span> beta.pdf(x, alpha_prior, beta_prior)</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>posterior <span class="op">=</span> beta.pdf(x, alpha_posterior, beta_posterior)</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>plt.plot(x, prior, label<span class="op">=</span><span class="st">'Prior Distribution'</span>)</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>plt.plot(x, posterior, label<span class="op">=</span><span class="st">'Posterior Distribution'</span>)</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Probability of Success (p)'</span>)</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Density'</span>)</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Prior and Posterior Distributions for p'</span>)</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="discrete-probability-examples_files/figure-html/cell-13-output-1.png" width="589" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="bayes-theorem-with-poisson-data" class="level3" data-number="10.4.2">
+<h3 data-number="10.4.2" class="anchored" data-anchor-id="bayes-theorem-with-poisson-data"><span class="header-section-number">10.4.2</span> Bayes’ Theorem with Poisson Data</h3>
+<p>For a Poisson distribution with rate parameter λ, we can use a Gamma distribution as the conjugate prior.</p>
+<ul>
+<li><strong>Prior:</strong> <span class="math inline">\(P(λ) \sim Gamma(α, β)\)</span></li>
+<li><strong>Likelihood:</strong> <span class="math inline">\(P(data|λ) \sim Poisson(λ)\)</span></li>
+<li><strong>Posterior:</strong> <span class="math inline">\(P(λ|data) \sim Gamma(α + k, β + n)\)</span> where k is the total number of events observed over n intervals.</li>
+</ul>
+<div id="c958963b" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> gamma, poisson</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior parameters</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>alpha_prior <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>beta_prior <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Observed data (assuming we observed 8 events over 2 intervals)</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">8</span>  </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior parameters</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>alpha_posterior <span class="op">=</span> alpha_prior <span class="op">+</span> k</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>beta_posterior <span class="op">=</span> beta_prior <span class="op">+</span> n</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot prior and posterior</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">15</span>, <span class="dv">100</span>) <span class="co"># adjust the range as necessary</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>prior <span class="op">=</span> gamma.pdf(x, alpha_prior, scale<span class="op">=</span><span class="dv">1</span><span class="op">/</span>beta_prior)</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>posterior <span class="op">=</span> gamma.pdf(x, alpha_posterior, scale<span class="op">=</span><span class="dv">1</span><span class="op">/</span>beta_posterior)</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>plt.plot(x, prior, label<span class="op">=</span><span class="st">'Prior Distribution'</span>)</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>plt.plot(x, posterior, label<span class="op">=</span><span class="st">'Posterior Distribution'</span>)</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Rate Parameter (λ)'</span>)</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Density'</span>)</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Prior and Posterior Distributions for λ'</span>)</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="discrete-probability-examples_files/figure-html/cell-14-output-1.png" width="597" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="bayes-theorem-with-categorical-data" class="level3" data-number="10.4.3">
+<h3 data-number="10.4.3" class="anchored" data-anchor-id="bayes-theorem-with-categorical-data"><span class="header-section-number">10.4.3</span> Bayes’ Theorem with Categorical Data</h3>
+<p>For categorical data, we use the multinomial distribution for the likelihood and the Dirichlet distribution for the prior on the category probabilities.</p>
+<ul>
+<li><strong>Prior:</strong> <span class="math inline">\(P(p) \sim Dirichlet(\alpha)\)</span> where α is a vector of concentration parameters.</li>
+<li><strong>Likelihood:</strong> <span class="math inline">\(P(data|p) \sim Multinomial(n, p)\)</span></li>
+<li><strong>Posterior:</strong> <span class="math inline">\(P(p|data) \sim Dirichlet(\alpha + x)\)</span> where x is a vector of observed counts for each category.</li>
+</ul>
+<div id="93773777" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> dirichlet</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior parameters (symmetric Dirichlet)</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>alpha_prior <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>])  <span class="co"># For 3 categories</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Observed data</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">3</span>])</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior parameters</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>alpha_posterior <span class="op">=</span> alpha_prior <span class="op">+</span> x</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="co">#Plotting the posterior distribution (2D projection for visualization).</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>samples <span class="op">=</span> dirichlet.rvs(alpha_posterior, size<span class="op">=</span><span class="dv">10000</span>)</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>plt.scatter(samples[:, <span class="dv">0</span>], samples[:,<span class="dv">1</span>], alpha<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Probability of Category 1'</span>)</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Probability of Category 2'</span>)</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Posterior Distribution of Probabilities'</span>)</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="discrete-probability-examples_files/figure-html/cell-15-output-1.png" width="589" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="prior-and-posterior-distributions" class="level3" data-number="10.4.4">
+<h3 data-number="10.4.4" class="anchored" data-anchor-id="prior-and-posterior-distributions"><span class="header-section-number">10.4.4</span> Prior and Posterior Distributions</h3>
+<p>In all the above examples, the prior distribution reflects our initial beliefs about the parameter(s) before observing any data. The posterior distribution, calculated using Bayes’ theorem, represents our updated beliefs after incorporating the observed data. The shift from prior to posterior shows how the data has influenced our understanding of the parameter.</p>
+</section>
+<section id="illustrative-examples-with-python-code" class="level3" data-number="10.4.5">
+<h3 data-number="10.4.5" class="anchored" data-anchor-id="illustrative-examples-with-python-code"><span class="header-section-number">10.4.5</span> Illustrative Examples with Python Code</h3>
+<p>The code snippets above provide illustrative examples of applying Bayes’ theorem to update beliefs about parameters of binomial, Poisson, and multinomial distributions. They highlight the use of conjugate priors to simplify calculations and the power of Bayesian methods in updating our understanding of probability distributions in light of new evidence. Remember to adjust prior parameters to reflect your initial beliefs and data accordingly.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

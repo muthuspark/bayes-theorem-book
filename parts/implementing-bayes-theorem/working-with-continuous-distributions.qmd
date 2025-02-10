@@ -30,7 +30,7 @@ The CDF is a non-decreasing function, meaning $F(x_1) \le F(x_2)$ if $x_1 \le x_
 
 Python libraries like SciPy provide tools for working with continuous distributions. Let's illustrate using the normal distribution as an example:
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import scipy.stats as stats
@@ -144,7 +144,7 @@ $P(a \le X \le b) = F(b) - F(a) = \Phi(\frac{b - \mu}{\sigma}) - \Phi(\frac{a - 
 
 SciPy's `scipy.stats` module provides convenient functions for working with the normal distribution:
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import scipy.stats as stats
@@ -196,7 +196,7 @@ The code above includes plotting the PDF and CDF. This visualization helps under
 
 ### Applications of the Normal Distribution in Bayesian Analysis
 
-The normal distribution plays a crucial role in Bayesian analysis, particularly as a prior distribution (representing our initial beliefs about a parameter) or as a likelihood function (representing the probability of observing data given a parameter value).  For example, in Bayesian linear regression, the prior for the regression coefficients is often assumed to be normally distributed.  Conjugate priors (priors that lead to posterior distributions of the same family) are frequently used for computational convenience and the normal distribution paired with a normal likelihood results in a normal posterior.  This simplifies calculations and interpretation.  The Central Limit Theorem further reinforces the importance of the normal distribution; the sum of many independent random variables, irrespective of their individual distributions, tends towards a normal distribution. This means many real-world phenomena can be well-approximated by a normal distribution.
+The normal distribution plays a essential role in Bayesian analysis, particularly as a prior distribution (representing our initial beliefs about a parameter) or as a likelihood function (representing the probability of observing data given a parameter value).  For example, in Bayesian linear regression, the prior for the regression coefficients is often assumed to be normally distributed.  Conjugate priors (priors that lead to posterior distributions of the same family) are frequently used for computational convenience and the normal distribution paired with a normal likelihood results in a normal posterior.  This simplifies calculations and interpretation.  The Central Limit Theorem further reinforces the importance of the normal distribution; the sum of many independent random variables, irrespective of their individual distributions, tends towards a normal distribution. This means many real-world phenomena can be well-approximated by a normal distribution.
 
 
 ```{mermaid}
@@ -250,7 +250,7 @@ $P(X \le x) = F(x; \alpha, \beta) = \int_0^x f(t; \alpha, \beta) \, dt$
 
 ### Python Implementation using SciPy
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import scipy.stats as stats
@@ -305,7 +305,7 @@ The code above generates plots of the PDF and CDF, visually representing the dis
 
 Suppose we flip a coin 10 times and observe 3 heads. We can use a beta prior to represent our prior belief about the probability of heads (let's use a Beta(1,1) - a uniform prior).  After observing the data, the posterior distribution will be Beta(1+3, 1+10-3) = Beta(4,8).
 
-```\{python}
+```{python}
 #| echo: true
 import scipy.stats as stats
 import matplotlib.pyplot as plt
@@ -370,7 +370,7 @@ The gamma distribution has strong relationships with other important distributio
 
 *   **Exponential Distribution:**  The exponential distribution is a special case of the gamma distribution where $k = 1$.  The exponential distribution is commonly used to model the time until an event occurs in a Poisson process (e.g., time until a machine fails).
 
-*   **Chi-squared Distribution:** A chi-squared distribution with $ν$ degrees of freedom is equivalent to a gamma distribution with shape parameter $k = ν/2$ and scale parameter $θ = 2$.  Chi-squared distributions are crucial in hypothesis testing and statistical inference.
+*   **Chi-squared Distribution:** A chi-squared distribution with $ν$ degrees of freedom is equivalent to a gamma distribution with shape parameter $k = ν/2$ and scale parameter $θ = 2$.  Chi-squared distributions are essential in hypothesis testing and statistical inference.
 
 
 
@@ -381,7 +381,7 @@ Probabilities are calculated using the CDF,  $P(X ≤ x) = F(x; k, θ) = \int_0^
 
 ### Python Implementation using SciPy
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import scipy.stats as stats
@@ -434,14 +434,14 @@ The code above generates plots of the PDF and CDF, providing a visual representa
 
 ### Bayesian Inference with Gamma Distribution: Examples
 
-The gamma distribution serves as a conjugate prior for several likelihood functions involving positive parameters, such as the Poisson distribution (for modeling counts) and the exponential distribution (for modeling waiting times).  For instance, if our likelihood function is a Poisson distribution and we use a Gamma prior for the rate parameter (λ), the posterior distribution will also be a gamma distribution. This simplifies Bayesian calculations significantly.
+The gamma distribution serves as a conjugate prior for many likelihood functions involving positive parameters, such as the Poisson distribution (for modeling counts) and the exponential distribution (for modeling waiting times).  For instance, if our likelihood function is a Poisson distribution and we use a Gamma prior for the rate parameter (λ), the posterior distribution will also be a gamma distribution. This simplifies Bayesian calculations significantly.
 
 **Example:  Estimating the rate parameter of a Poisson process.**
 
 Let's say we are modeling the number of customers arriving at a store per hour, following a Poisson distribution.  We can use a Gamma prior for the rate parameter (λ).  Suppose we observe 15 customers in 5 hours (an average of 3 customers per hour).  Assume our prior is Gamma(2,1). The posterior is then Gamma(2+15, 1/(1/1 + 5)).
 
 
-```\{python}
+```{python}
 #| echo: true
 import scipy.stats as stats
 import matplotlib.pyplot as plt
@@ -497,16 +497,16 @@ For many complex models, calculating the posterior distribution analytically is 
 
 *   **Gibbs Sampling:**  A special case of Metropolis-Hastings that is particularly efficient when the full conditional distributions (the distribution of one parameter given the others) are easy to sample from.
 
-*   **Hamiltonian Monte Carlo (HMC):** A more advanced algorithm that uses Hamiltonian dynamics to explore the parameter space more efficiently.
+*   **Hamiltonian Monte Carlo (HMC):** A more advanced algorithm that uses Hamiltonian dynamics to look at the parameter space more efficiently.
 
 
-### Illustrative Examples using PyMC3 or similar libraries
+### Illustrative Examples using PyMC or similar libraries
 
-PyMC3 is a powerful Python library for probabilistic programming, making it easy to implement Bayesian inference using MCMC methods.  Let's consider a simple example of Bayesian linear regression:
+PyMC is a powerful Python library for probabilistic programming, making it easy to implement Bayesian inference using MCMC methods.  Let's consider a simple example of Bayesian linear regression:
 
-```\{python}
+```{python}
 #| echo: true
-import pymc3 as pm
+import pymc as pm
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -539,7 +539,7 @@ pm.plot_posterior(trace)
 plt.show()
 ```
 
-This code defines a Bayesian linear regression model with normal priors for the slope and intercept, and a half-normal prior for the error standard deviation.  PyMC3 then automatically samples from the posterior distribution using an MCMC algorithm (by default, it uses the No-U-Turn Sampler, NUTS, a variant of HMC).
+This code defines a Bayesian linear regression model with normal priors for the slope and intercept, and a half-normal prior for the error standard deviation.  PyMC then automatically samples from the posterior distribution using an MCMC algorithm (by default, it uses the No-U-Turn Sampler, NUTS, a variant of HMC).
 
 
 ```{mermaid}
@@ -549,7 +549,7 @@ graph LR
     C --> D[Inference & Predictions];
 ```
 
-This diagram summarizes the Bayesian workflow in PyMC3. The MCMC algorithms handle the challenging task of sampling from the posterior distribution.  Remember to install PyMC3 using `pip install pymc3`.  This example demonstrates how to set up a Bayesian model, define priors and likelihoods, and then use PyMC3 to obtain posterior samples, allowing for parameter estimation and uncertainty quantification. The summary and plot_posterior functions help you interpret the results.  The quality of the MCMC sampling (convergence, etc.) is crucial, and diagnostics should be used to evaluate the quality of the chain.
+This diagram summarizes the Bayesian workflow in PyMC. The MCMC algorithms handle the challenging task of sampling from the posterior distribution.  Remember to install PyMC using `pip install pymc3`.  This example demonstrates how to set up a Bayesian model, define priors and likelihoods, and then use PyMC to obtain posterior samples, allowing for parameter estimation and uncertainty quantification. The summary and plot_posterior functions help you interpret the results.  The quality of the MCMC sampling (convergence, etc.) is crucial, and diagnostics should be used to evaluate the quality of the chain.
 
 
 ## Advanced Topics and Applications
@@ -582,12 +582,12 @@ Bayesian inference for hierarchical models involves placing prior distributions 
 
 ### Dealing with Improper Priors
 
-An improper prior is a prior distribution that doesn't integrate to 1 (i.e., it doesn't have a proper probability density function).  While improper priors are sometimes used to express a lack of prior knowledge, they can lead to improper posterior distributions if not used carefully.  It's crucial to ensure that the posterior distribution is proper (integrable) when using improper priors.  This often requires careful consideration of the likelihood function and the choice of improper prior.  Often, using a weakly informative prior instead can sidestep these issues.
+An improper prior is a prior distribution that doesn't integrate to 1 (i.e., it doesn't have a proper probability density function).  While improper priors are sometimes used to express a lack of prior knowledge, they can lead to improper posterior distributions if not used carefully.  It's essential to ensure that the posterior distribution is proper (integrable) when using improper priors.  This often requires careful consideration of the likelihood function and the choice of improper prior.  Often, using a weakly informative prior instead can sidestep these issues.
 
 
 ### Model Selection and Comparison
 
-Choosing the best model for a given dataset is a crucial aspect of Bayesian inference.  Several methods are used for model comparison:
+Choosing the best model for a given dataset is a essential aspect of Bayesian inference.  Several methods are used for model comparison:
 
 *   **Bayes Factor:** The ratio of the marginal likelihoods of two competing models.  A Bayes factor greater than 1 favors the first model.
 
@@ -595,15 +595,15 @@ Choosing the best model for a given dataset is a crucial aspect of Bayesian infe
 
 *   **Leave-One-Out Cross-Validation (LOO-CV):** A robust model comparison technique that estimates the out-of-sample predictive performance.  Models with higher LOO-CV scores perform better on unseen data.
 
-PyMC3 provides tools for calculating some of these metrics.  Model selection often involves careful consideration of the tradeoff between model fit and complexity (Occam's Razor).
+PyMC provides tools for calculating some of these metrics.  Model selection often involves careful consideration of the tradeoff between model fit and complexity (Occam's Razor).
 
 
-```\{python}
+```{python}
 #| echo: true
 #Illustrative example (Conceptual - actual implementation requires more complex code)
 
 #Imagine we have two models, ModelA and ModelB, for the same dataset
-# ... (Code to define and fit ModelA and ModelB using PyMC3) ...
+# ... (Code to define and fit ModelA and ModelB using PyMC) ...
 
 #Model Comparison using Bayes Factor (conceptually)
 # marginal_likelihood_A = pm.marginal_likelihood(trace_A) #Placeholder
@@ -612,10 +612,10 @@ PyMC3 provides tools for calculating some of these metrics.  Model selection oft
 #print(f"Bayes Factor (ModelA vs ModelB): {bayes_factor}")
 
 
-# ... (Code to calculate DIC or LOO-CV using PyMC3 or other suitable libraries) ...
+# ... (Code to calculate DIC or LOO-CV using PyMC or other suitable libraries) ...
 ```
 
-This is a conceptual outline.  Implementing model selection rigorously requires careful consideration of the specific models and the use of appropriate functions from PyMC3 or other Bayesian modeling packages.  Note that calculating marginal likelihoods is often computationally demanding.  The code snippets are placeholders to illustrate the general approach.  A complete implementation would be significantly more extensive, especially for more complex models.
+This is a conceptual outline.  Implementing model selection rigorously requires careful consideration of the specific models and the use of appropriate functions from PyMC or other Bayesian modeling packages.  Note that calculating marginal likelihoods is often computationally demanding.  The code snippets are placeholders to illustrate the general approach.  A complete implementation would be significantly more extensive, especially for more complex models.
 
 ```{mermaid}
 graph LR

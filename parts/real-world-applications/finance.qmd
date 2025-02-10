@@ -48,7 +48,7 @@ Calculating the posterior distribution and the optimal allocation directly can b
 
 ### Illustrative Example: Portfolio Optimization using Python
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import pymc as pm
@@ -82,9 +82,9 @@ This Python code provides a basic framework.  The specific prior distributions, 
 
 ### Evaluating Portfolio Performance using Bayesian Metrics
 
-Traditional performance metrics like Sharpe ratio often fail to capture the uncertainty inherent in portfolio returns.  Bayesian metrics offer a more comprehensive evaluation:
+Traditional performance metrics like Sharpe ratio often fail to capture the uncertainty inherent in portfolio returns.  Bayesian metrics offer a more detailed evaluation:
 
-* **Posterior Predictive Distribution:** This distribution provides a probabilistic forecast of future portfolio returns, allowing for a more nuanced assessment of risk.
+* **Posterior Predictive Distribution:** This distribution provides a probabilistic forecast of future portfolio returns, allowing for a better assessment of risk.
 
 * **Credible Intervals:** Instead of confidence intervals, credible intervals express the range within which the true parameter lies with a specified probability, accounting for uncertainty in the posterior distribution.
 
@@ -97,7 +97,7 @@ Visualizations, such as plots of posterior predictive distributions and credible
 
 ### Quantifying Financial Risk using Bayesian Inference
 
-Traditional approaches to financial risk assessment often rely on frequentist methods, which provide point estimates of risk measures without explicitly acknowledging the uncertainty inherent in these estimations.  Bayesian inference offers a powerful alternative by incorporating prior knowledge and updating beliefs based on observed data, leading to more robust and informative risk assessments.  The Bayesian framework allows for a full probabilistic representation of risk, encompassing uncertainty in model parameters and in the predictions themselves. This is particularly valuable in finance, where uncertainty is a defining characteristic.
+Traditional approaches to financial risk assessment often rely on frequentist methods, which provide point estimates of risk measures without explicitly acknowledging the uncertainty inherent in these estimations.  Bayesian inference offers a powerful alternative by incorporating prior knowledge and updating beliefs based on observed data, leading to more robust and informative risk assessments.  The Bayesian framework allows for a full probabilistic representation of risk, covering uncertainty in model parameters and in the predictions themselves. This is particularly valuable in finance, where uncertainty is a defining characteristic.
 
 
 ### Bayesian Methods for Value at Risk (VaR)
@@ -117,7 +117,7 @@ This integral is typically calculated using samples from the posterior predictiv
 
 ### Bayesian Methods for Expected Shortfall (ES)
 
-Expected Shortfall (ES), also known as Conditional Value at Risk (CVaR), measures the expected loss given that the loss exceeds the VaR.  It provides a more comprehensive risk measure than VaR, as it considers the magnitude of losses in the tail of the distribution.  Similar to VaR, the Bayesian approach allows us to obtain a full posterior distribution for ES, rather than a point estimate.  This is achieved by integrating over the posterior predictive distribution, focusing on the losses beyond the VaR.
+Expected Shortfall (ES), also known as Conditional Value at Risk (CVaR), measures the expected loss given that the loss exceeds the VaR.  It provides a more detailed risk measure than VaR, as it considers the magnitude of losses in the tail of the distribution.  Similar to VaR, the Bayesian approach allows us to obtain a full posterior distribution for ES, rather than a point estimate.  This is achieved by integrating over the posterior predictive distribution, focusing on the losses beyond the VaR.
 
 Let $L$ represent the loss.  The Bayesian ES is:
 
@@ -138,7 +138,7 @@ Ignoring model uncertainty can lead to biased and overly optimistic risk assessm
 
 ### Case Study: Risk Assessment of a Financial Portfolio
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import pymc as pm
@@ -179,14 +179,14 @@ plt.legend()
 plt.show()
 ```
 
-This code demonstrates a basic Bayesian risk assessment.  More sophisticated models, such as those incorporating time-varying volatility or correlations, could be implemented for a more realistic analysis.  Remember to replace the sample data with your actual portfolio returns.  The choice of prior distributions should also be carefully considered based on prior knowledge and the characteristics of the data.
+This code demonstrates a basic Bayesian risk assessment.  More complex models, such as those incorporating time-varying volatility or correlations, could be implemented for a more realistic analysis.  Remember to replace the sample data with your actual portfolio returns.  The choice of prior distributions should also be carefully considered based on prior knowledge and the characteristics of the data.
 
 
 ## Finance
 
 ### Bayesian Time Series Models for Financial Data
 
-Traditional time series models often rely on frequentist methods, which provide point estimates of model parameters and forecasts without quantifying uncertainty. Bayesian methods offer a more comprehensive approach by incorporating prior knowledge and providing full posterior distributions for model parameters and forecasts. This allows for a more nuanced understanding of the uncertainty surrounding the predictions, crucial for making informed financial decisions.  Bayesian methods naturally handle missing data and irregular time series. The inherent uncertainty quantification also facilitates better risk management strategies.
+Traditional time series models often rely on frequentist methods, which provide point estimates of model parameters and forecasts without quantifying uncertainty. Bayesian methods offer a more detailed approach by incorporating prior knowledge and providing full posterior distributions for model parameters and forecasts. This allows for a better understanding of the uncertainty surrounding the predictions, essential for making informed financial decisions.  Bayesian methods naturally handle missing data and irregular time series. The inherent uncertainty quantification also facilitates better risk management strategies.
 
 Financial data often exhibits characteristics like volatility clustering, non-normality, and structural breaks, making Bayesian methods particularly suitable.  Bayesian time series models incorporate these features more effectively than their frequentist counterparts.
 
@@ -241,7 +241,7 @@ Choosing the appropriate Bayesian time series model for a specific application o
 
 ### Practical Application: Forecasting Stock Prices using Python
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import pymc as pm
@@ -281,7 +281,7 @@ plt.legend()
 plt.show()
 ```
 
-This is a simplified example. A more realistic application would require more sophisticated models, incorporating additional predictors and accounting for volatility clustering and other stylized facts of financial time series. Remember to replace the example data with actual stock price data and consider more complex model structures for improved accuracy.  Proper handling of stationarity is crucial for time series models.  Consider incorporating diagnostic checks and more advanced models if needed.
+This is a simplified example. A more realistic application would require more complex models, incorporating additional predictors and accounting for volatility clustering and other stylized facts of financial time series. Remember to replace the example data with actual stock price data and consider more complex model structures for improved accuracy.  Proper handling of stationarity is essential for time series models.  Consider incorporating diagnostic checks and more advanced models if needed.
 
 
 ## Finance
@@ -323,7 +323,7 @@ where $X_i$ is the target variable, and $x_j, x_k, ...$ are observed values for 
 
 ### Applications in Credit Risk Assessment
 
-BNs are particularly useful for credit risk assessment. They can model complex relationships between borrower characteristics (e.g., income, debt-to-income ratio, credit history), macroeconomic factors, and default probability.  The BN allows for a comprehensive assessment of credit risk, taking into account both individual borrower characteristics and the broader economic environment.  By incorporating uncertainty, Bayesian networks provide more nuanced and reliable risk assessment than traditional credit scoring models.
+BNs are particularly useful for credit risk assessment. They can model complex relationships between borrower characteristics (e.g., income, debt-to-income ratio, credit history), macroeconomic factors, and default probability.  The BN allows for a detailed assessment of credit risk, taking into account both individual borrower characteristics and the broader economic environment.  By incorporating uncertainty, Bayesian networks provide better and reliable risk assessment than traditional credit scoring models.
 
 
 ### Applications in Fraud Detection
@@ -331,7 +331,7 @@ BNs are particularly useful for credit risk assessment. They can model complex r
 BNs can be used to detect fraudulent transactions by modeling the relationships between transaction characteristics (e.g., amount, location, time, merchant type) and the likelihood of fraud.  The BN can incorporate expert knowledge about fraudulent patterns and learn from historical data to improve its accuracy.  BNs are effective for fraud detection in domains where many variables may exhibit dependencies.
 
 
-```\{python}
+```{python}
 #| echo: true
 #Illustrative example (requires a Bayesian network library like pgmpy)
 #Install pgmpy: pip install pgmpy
@@ -358,4 +358,4 @@ posterior = infer.query(["Fraud"], evidence={"TransactionAmount": 1, "Location":
 print(posterior)
 ```
 
-This python code demonstrates a basic Bayesian network for fraud detection.  The probabilities in the CPDs would be estimated using real data, and a more complex network with many more features would be necessary for a real-world application. Note that installing `pgmpy` is required to run this code.  This example highlights the power of BNs to model complex scenarios and handle uncertainty.  Real-world applications would likely involve much larger and more intricate BNs.
+This python code demonstrates a basic Bayesian network for fraud detection.  The probabilities in the CPDs would be estimated using real data, and a more complex network with many more features would be necessary for a real-world application. Note that installing `pgmpy` is required to run this code.  This example highlights the power of BNs to model complex scenarios and handle uncertainty.  Real-world applications would likely involve much larger and more BNs.

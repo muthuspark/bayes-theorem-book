@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -68,7 +102,39 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -399,8 +465,34 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#a-coin-toss-example" id="toc-a-coin-toss-example" class="nav-link active" data-scroll-target="#a-coin-toss-example"><span class="header-section-number">8.0.1</span> A Coin Toss Example</a></li>
+  <li><a href="#the-monty-hall-problem" id="toc-the-monty-hall-problem" class="nav-link" data-scroll-target="#the-monty-hall-problem"><span class="header-section-number">8.0.2</span> The Monty Hall Problem</a></li>
+  <li><a href="#bayes-theorem-with-dice" id="toc-bayes-theorem-with-dice" class="nav-link" data-scroll-target="#bayes-theorem-with-dice"><span class="header-section-number">8.0.3</span> Bayes’ Theorem with Dice</a></li>
+  <li><a href="#leveraging-numpy-for-efficient-calculations" id="toc-leveraging-numpy-for-efficient-calculations" class="nav-link" data-scroll-target="#leveraging-numpy-for-efficient-calculations"><span class="header-section-number">8.1</span> Leveraging NumPy for Efficient Calculations</a>
+  <ul class="collapse">
+  <li><a href="#numpy-arrays-and-bayes-theorem" id="toc-numpy-arrays-and-bayes-theorem" class="nav-link" data-scroll-target="#numpy-arrays-and-bayes-theorem"><span class="header-section-number">8.1.1</span> NumPy Arrays and Bayes’ Theorem</a></li>
+  <li><a href="#calculating-probabilities-with-numpy" id="toc-calculating-probabilities-with-numpy" class="nav-link" data-scroll-target="#calculating-probabilities-with-numpy"><span class="header-section-number">8.1.2</span> Calculating Probabilities with NumPy</a></li>
+  <li><a href="#handling-large-datasets-with-numpy" id="toc-handling-large-datasets-with-numpy" class="nav-link" data-scroll-target="#handling-large-datasets-with-numpy"><span class="header-section-number">8.1.3</span> Handling Large Datasets with NumPy</a></li>
+  </ul></li>
+  <li><a href="#visualizing-results-with-matplotlib" id="toc-visualizing-results-with-matplotlib" class="nav-link" data-scroll-target="#visualizing-results-with-matplotlib"><span class="header-section-number">8.2</span> Visualizing Results with Matplotlib</a>
+  <ul class="collapse">
+  <li><a href="#creating-histograms-and-probability-distributions" id="toc-creating-histograms-and-probability-distributions" class="nav-link" data-scroll-target="#creating-histograms-and-probability-distributions"><span class="header-section-number">8.2.1</span> Creating Histograms and Probability Distributions</a></li>
+  <li><a href="#visualizing-prior-and-posterior-distributions" id="toc-visualizing-prior-and-posterior-distributions" class="nav-link" data-scroll-target="#visualizing-prior-and-posterior-distributions"><span class="header-section-number">8.2.2</span> Visualizing Prior and Posterior Distributions</a></li>
+  <li><a href="#illustrating-the-impact-of-evidence" id="toc-illustrating-the-impact-of-evidence" class="nav-link" data-scroll-target="#illustrating-the-impact-of-evidence"><span class="header-section-number">8.2.3</span> Illustrating the Impact of Evidence</a></li>
+  </ul></li>
+  <li><a href="#putting-it-all-together-a-detailed-example" id="toc-putting-it-all-together-a-detailed-example" class="nav-link" data-scroll-target="#putting-it-all-together-a-detailed-example"><span class="header-section-number">8.3</span> Putting it all Together: A Detailed Example</a>
+  <ul class="collapse">
+  <li><a href="#problem-definition-and-data-representation" id="toc-problem-definition-and-data-representation" class="nav-link" data-scroll-target="#problem-definition-and-data-representation"><span class="header-section-number">8.3.1</span> Problem Definition and Data Representation</a></li>
+  <li><a href="#applying-bayes-theorem-using-numpy" id="toc-applying-bayes-theorem-using-numpy" class="nav-link" data-scroll-target="#applying-bayes-theorem-using-numpy"><span class="header-section-number">8.3.2</span> Applying Bayes’ Theorem using NumPy</a></li>
+  <li><a href="#visualizing-results-and-interpretation" id="toc-visualizing-results-and-interpretation" class="nav-link" data-scroll-target="#visualizing-results-and-interpretation"><span class="header-section-number">8.3.3</span> Visualizing Results and Interpretation</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -424,8 +516,517 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="a-coin-toss-example" class="level3" data-number="8.0.1">
+<h3 data-number="8.0.1" class="anchored" data-anchor-id="a-coin-toss-example"><span class="header-section-number">8.0.1</span> A Coin Toss Example</h3>
+<p>Let’s start with a simple example: tossing a fair coin. We want to calculate the probability of getting heads (<span class="math inline">\(H\)</span>) given that we’ve already observed one head in two tosses. Intuitively, we might think the probability remains 0.5, but Bayes’ Theorem allows us to formally express and calculate this.</p>
+<p>We can define the following:</p>
+<ul>
+<li><span class="math inline">\(P(H)\)</span>: Prior probability of getting heads (0.5 for a fair coin).</li>
+<li><span class="math inline">\(P(T)\)</span>: Prior probability of getting tails (0.5 for a fair coin).</li>
+<li><span class="math inline">\(A\)</span>: Event of observing one head in two tosses.</li>
+</ul>
+<p>We want to find <span class="math inline">\(P(H|A)\)</span>, the probability of getting heads given event A. Using Bayes’ Theorem:</p>
+<p><span class="math inline">\(P(H|A) = \frac{P(A|H)P(H)}{P(A)}\)</span></p>
+<p>Calculating the components:</p>
+<ul>
+<li><span class="math inline">\(P(H) = 0.5\)</span></li>
+<li><span class="math inline">\(P(A|H)\)</span>: Probability of observing one head in two tosses given the first toss was heads. This is the probability of getting one head and one tail in the remaining toss, which is <span class="math inline">\(\binom{1}{1}(0.5)^1(0.5)^1 = 0.5\)</span>.</li>
+<li><span class="math inline">\(P(A)\)</span>: Probability of observing one head in two tosses. This can happen in two ways: HT or TH. Therefore, <span class="math inline">\(P(A) = P(HT) + P(TH) = (0.5)^2 + (0.5)^2 = 0.5\)</span>.</li>
+</ul>
+<p>Plugging these values into Bayes’ Theorem:</p>
+<p><span class="math inline">\(P(H|A) = \frac{0.5 \times 0.5}{0.5} = 0.5\)</span></p>
+<p>As expected, the posterior probability remains 0.5. The prior information didn’t change the probability of getting heads on the next toss.</p>
+<div id="f689dae7" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior probabilities</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>prior_H <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>prior_T <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Likelihood (probability of observing one head in two tosses given heads on the first toss)</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>likelihood_H <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Probability of observing one head in two tosses</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>prob_A <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior probability</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>posterior_H <span class="op">=</span> (likelihood_H <span class="op">*</span> prior_H) <span class="op">/</span> prob_A</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Posterior probability of getting heads: </span><span class="sc">{</span>posterior_H<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualization (simple bar chart)</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>plt.bar([<span class="st">'Prior'</span>, <span class="st">'Posterior'</span>], [prior_H, posterior_H], color<span class="op">=</span>[<span class="st">'skyblue'</span>, <span class="st">'coral'</span>])</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Probability"</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Prior vs. Posterior Probability of Heads"</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Posterior probability of getting heads: 0.5</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="basic-implementation_files/figure-html/cell-2-output-2.png" width="589" height="431" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="the-monty-hall-problem" class="level3" data-number="8.0.2">
+<h3 data-number="8.0.2" class="anchored" data-anchor-id="the-monty-hall-problem"><span class="header-section-number">8.0.2</span> The Monty Hall Problem</h3>
+<p>The Monty Hall problem is a classic example illustrating the impact of new information on prior beliefs. A contestant chooses one of three doors. Behind one door is a car, and behind the others are goats. After the contestant chooses a door, Monty Hall (the host), who knows where the car is, opens one of the <em>unchosen</em> doors to reveal a goat. The contestant is then given the option to switch doors. Should they?</p>
+<p>Bayes’ Theorem helps clarify the situation. Let’s define:</p>
+<ul>
+<li><span class="math inline">\(C_i\)</span>: The car is behind door <span class="math inline">\(i\)</span> (i = 1, 2, 3). <span class="math inline">\(P(C_i) = \frac{1}{3}\)</span> for each <span class="math inline">\(i\)</span>.</li>
+<li><span class="math inline">\(M_j\)</span>: Monty opens door <span class="math inline">\(j\)</span>.</li>
+<li><span class="math inline">\(D_k\)</span>: The contestant initially chooses door <span class="math inline">\(k\)</span>.</li>
+</ul>
+<p>Let’s assume the contestant chooses door 1 (<span class="math inline">\(D_1\)</span>). Monty opens door 3 revealing a goat (<span class="math inline">\(M_3\)</span>). We want to calculate the probability that the car is behind door 2 (<span class="math inline">\(P(C_2|D_1, M_3)\)</span>) given the information. Applying Bayes’ theorem:</p>
+<p><span class="math inline">\(P(C_2|D_1, M_3) = \frac{P(M_3|C_2, D_1)P(C_2)}{P(M_3|D_1)}\)</span></p>
+<ul>
+<li><span class="math inline">\(P(C_2) = \frac{1}{3}\)</span> (prior probability)</li>
+<li><span class="math inline">\(P(M_3|C_2, D_1) = 1\)</span> (Monty <em>must</em> open door 3 if the car is behind door 2 and the contestant chose door 1)</li>
+<li><span class="math inline">\(P(M_3|D_1) = P(M_3|C_2, D_1)P(C_2) + P(M_3|C_3, D_1)P(C_3) = 1 \times \frac{1}{3} + \frac{1}{2} \times \frac{1}{3} = \frac{1}{2}\)</span> (This is the probability Monty opens door 3 given the contestant chose door 1. It considers both possibilities of the car being behind door 2 or 3).</li>
+</ul>
+<p>Therefore:</p>
+<p><span class="math inline">\(P(C_2|D_1, M_3) = \frac{1 \times \frac{1}{3}}{\frac{1}{2}} = \frac{2}{3}\)</span></p>
+<p>This shows that switching doors doubles the probability of winning the car.</p>
+</section>
+<section id="bayes-theorem-with-dice" class="level3" data-number="8.0.3">
+<h3 data-number="8.0.3" class="anchored" data-anchor-id="bayes-theorem-with-dice"><span class="header-section-number">8.0.3</span> Bayes’ Theorem with Dice</h3>
+<p>Let’s consider two six-sided dice, one fair (die A) and one loaded (die B). Die B has a probability of <span class="math inline">\(\frac{1}{2}\)</span> of rolling a 6 and <span class="math inline">\(\frac{1}{10}\)</span> for each of the other numbers (1-5). We roll one of the dice (we don’t know which one) and observe a 6. What’s the probability it was die B?</p>
+<p>Let:</p>
+<ul>
+<li><span class="math inline">\(A\)</span>: Event that we choose die A. <span class="math inline">\(P(A) = 0.5\)</span></li>
+<li><span class="math inline">\(B\)</span>: Event that we choose die B. <span class="math inline">\(P(B) = 0.5\)</span></li>
+<li><span class="math inline">\(S_6\)</span>: Event of rolling a 6.</li>
+</ul>
+<p>We want to find <span class="math inline">\(P(B|S_6)\)</span>. Using Bayes’ Theorem:</p>
+<p><span class="math inline">\(P(B|S_6) = \frac{P(S_6|B)P(B)}{P(S_6)}\)</span></p>
+<ul>
+<li><span class="math inline">\(P(B) = 0.5\)</span></li>
+<li><span class="math inline">\(P(S_6|B) = 0.5\)</span> (Probability of rolling a 6 given die B)</li>
+<li><span class="math inline">\(P(S_6) = P(S_6|A)P(A) + P(S_6|B)P(B) = \frac{1}{6} \times 0.5 + 0.5 \times 0.5 = \frac{1}{12} + \frac{1}{4} = \frac{1}{3}\)</span> (Law of Total Probability)</li>
+</ul>
+<p>Therefore:</p>
+<p><span class="math inline">\(P(B|S_6) = \frac{0.5 \times 0.5}{\frac{1}{3}} = \frac{3}{4} = 0.75\)</span></p>
+<p>The probability that it was die B given we rolled a 6 is 0.75.</p>
+<div id="6fe7d661" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior probabilities</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>prior_A <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>prior_B <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Likelihoods</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>likelihood_6_A <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">6</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>likelihood_6_B <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Probability of rolling a 6</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>prob_6 <span class="op">=</span> (likelihood_6_A <span class="op">*</span> prior_A) <span class="op">+</span> (likelihood_6_B <span class="op">*</span> prior_B)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior probability</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>posterior_B <span class="op">=</span> (likelihood_6_B <span class="op">*</span> prior_B) <span class="op">/</span> prob_6</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Posterior probability that it was die B: </span><span class="sc">{</span>posterior_B<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualization</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> <span class="st">'Die A'</span>, <span class="st">'Die B'</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>prior <span class="op">=</span> [prior_A, prior_B]</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>posterior <span class="op">=</span> [<span class="dv">1</span> <span class="op">-</span> posterior_B, posterior_B]</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>width <span class="op">=</span> <span class="fl">0.35</span>       </span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>rects1 <span class="op">=</span> ax.bar(np.arange(<span class="bu">len</span>(labels)) <span class="op">-</span> width<span class="op">/</span><span class="dv">2</span>, prior, width, label<span class="op">=</span><span class="st">'Prior'</span>)</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>rects2 <span class="op">=</span> ax.bar(np.arange(<span class="bu">len</span>(labels)) <span class="op">+</span> width<span class="op">/</span><span class="dv">2</span>, posterior, width, label<span class="op">=</span><span class="st">'Posterior'</span>)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Probabilities'</span>)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Prior vs Posterior Probabilities'</span>)</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>ax.set_xticks(np.arange(<span class="bu">len</span>(labels)))</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>ax.set_xticklabels(labels)</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Posterior probability that it was die B: 0.75</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="basic-implementation_files/figure-html/cell-3-output-2.png" width="662" height="470" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+A[Prior: Choose Die A (0.5)] --&gt; |Roll a 6| C{P(6|A) = 1/6};
+B[Prior: Choose Die B (0.5)] --&gt; |Roll a 6| C{P(6|B) = 0.5};
+C --&gt; D[P(6) = 1/3];
+D --&gt; E[Posterior: Die B (0.75)];
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="leveraging-numpy-for-efficient-calculations" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="leveraging-numpy-for-efficient-calculations"><span class="header-section-number">8.1</span> Leveraging NumPy for Efficient Calculations</h2>
+<section id="numpy-arrays-and-bayes-theorem" class="level3" data-number="8.1.1">
+<h3 data-number="8.1.1" class="anchored" data-anchor-id="numpy-arrays-and-bayes-theorem"><span class="header-section-number">8.1.1</span> NumPy Arrays and Bayes’ Theorem</h3>
+<p>NumPy, Python’s numerical computing library, provides significant advantages when working with Bayes’ Theorem, especially when dealing with larger datasets or more complex scenarios. Its core data structure, the NumPy array, allows for vectorized operations, making calculations significantly faster than using standard Python lists and loops. This efficiency becomes essential when dealing with high-dimensional probability distributions or numerous data points.</p>
+<p>Instead of calculating probabilities element-by-element, NumPy enables us to perform operations across entire arrays simultaneously. This vectorization dramatically improves performance, particularly for large datasets where the computational cost of iterative loops can be prohibitive.</p>
+</section>
+<section id="calculating-probabilities-with-numpy" class="level3" data-number="8.1.2">
+<h3 data-number="8.1.2" class="anchored" data-anchor-id="calculating-probabilities-with-numpy"><span class="header-section-number">8.1.2</span> Calculating Probabilities with NumPy</h3>
+<p>Let’s revisit the coin toss example from the previous section, but now using NumPy. Suppose we have 1000 coin tosses, and we want to calculate the probability of getting heads given that we’ve already observed a certain number of heads in the first 500 tosses.</p>
+<div id="e84077a6" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate 1000 coin tosses (0 for tails, 1 for heads)</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>tosses <span class="op">=</span> np.random.randint(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">1000</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># First 500 tosses</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>first_500 <span class="op">=</span> tosses[:<span class="dv">500</span>]</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of heads in the first 500 tosses</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>num_heads <span class="op">=</span> np.<span class="bu">sum</span>(first_500)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior probability (assuming a fair coin)</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>prior_heads <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Likelihood (probability of observing the remaining tosses given the first 500)</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co">#  We'll simplify this for demonstration; a more rigorous approach would involve a binomial distribution.</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co">#  This simplified approach assumes independence between tosses.</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>likelihood_heads <span class="op">=</span> num_heads <span class="op">/</span> <span class="dv">500</span>  <span class="co">#Simplified likelihood</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior probability using NumPy</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>posterior_heads <span class="op">=</span> (likelihood_heads <span class="op">*</span> prior_heads) <span class="op">/</span> ((likelihood_heads <span class="op">*</span> prior_heads) <span class="op">+</span> ((<span class="dv">1</span><span class="op">-</span>likelihood_heads) <span class="op">*</span> (<span class="dv">1</span><span class="op">-</span>prior_heads)))</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of heads in first 500 tosses: </span><span class="sc">{</span>num_heads<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Posterior probability of heads (NumPy): </span><span class="sc">{</span>posterior_heads<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualization</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>plt.bar([<span class="st">'Prior'</span>, <span class="st">'Posterior'</span>], [prior_heads, posterior_heads], color<span class="op">=</span>[<span class="st">'skyblue'</span>, <span class="st">'coral'</span>])</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Probability"</span>)</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Prior vs. Posterior Probability of Heads (NumPy)"</span>)</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of heads in first 500 tosses: 258
+Posterior probability of heads (NumPy): 0.516</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="basic-implementation_files/figure-html/cell-4-output-2.png" width="589" height="431" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This code demonstrates the efficiency of NumPy: calculations that would involve explicit looping in standard Python are now handled efficiently by NumPy’s vectorized operations.</p>
+</section>
+<section id="handling-large-datasets-with-numpy" class="level3" data-number="8.1.3">
+<h3 data-number="8.1.3" class="anchored" data-anchor-id="handling-large-datasets-with-numpy"><span class="header-section-number">8.1.3</span> Handling Large Datasets with NumPy</h3>
+<p>When dealing with very large datasets, NumPy’s memory efficiency and optimized functions become even more critical. Consider a scenario with millions of data points and multiple features. Using standard Python lists and loops would be extremely slow and could easily exhaust available memory. NumPy’s arrays, however, are designed for efficient storage and manipulation of large numerical data.</p>
+<p>Let’s illustrate with a simplified example of Bayesian classification:</p>
+<div id="15bb9467" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate a large dataset (1 million data points, 2 features)</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.rand(<span class="dv">1000000</span>, <span class="dv">2</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> np.random.randint(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">1000000</span>)  <span class="co"># 0 or 1 labels</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Let's assume a simple Gaussian Naive Bayes for demonstration. We will avoid explicit calculation of probabilities for brevity.  In a real-world scenario, you would use a library like scikit-learn for this.</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#In a real application you'd use a library like scikit-learn for efficient calculation of probabilities and posterior predictions.</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#Example of calculating means for each class using NumPy</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>class0_indices <span class="op">=</span> labels <span class="op">==</span> <span class="dv">0</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>class1_indices <span class="op">=</span> labels <span class="op">==</span><span class="dv">1</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>mean_class0 <span class="op">=</span> np.mean(data[class0_indices,:], axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>mean_class1 <span class="op">=</span> np.mean(data[class1_indices,:], axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean of features for class 0: </span><span class="sc">{</span>mean_class0<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean of features for class 1: </span><span class="sc">{</span>mean_class1<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mean of features for class 0: [0.49973681 0.50035293]
+Mean of features for class 1: [0.50056683 0.49957733]</code></pre>
+</div>
+</div>
+<p>This example showcases how NumPy handles the large dataset efficiently. In a real-world application, you would incorporate more complex Bayesian methods (like those found in libraries such as scikit-learn), but the foundation of efficient data handling remains NumPy arrays. Note that for true Bayesian classification on large datasets, libraries like scikit-learn are highly recommended due to their optimized implementations.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+A[Large Dataset (Millions of points)] --&gt; B(NumPy Array);
+B --&gt; C[Efficient Storage];
+B --&gt; D[Vectorized Operations];
+D --&gt; E[Fast Probability Calculations];
+E --&gt; F[Bayesian Classification];
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="visualizing-results-with-matplotlib" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="visualizing-results-with-matplotlib"><span class="header-section-number">8.2</span> Visualizing Results with Matplotlib</h2>
+<p>Matplotlib is a powerful Python library for creating static, interactive, and animated visualizations. It’s invaluable for understanding and communicating the results of Bayesian calculations. Visualizing probability distributions, particularly the evolution from prior to posterior, is essential for intuitive grasping of Bayes’ Theorem’s impact.</p>
+<section id="creating-histograms-and-probability-distributions" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="creating-histograms-and-probability-distributions"><span class="header-section-number">8.2.1</span> Creating Histograms and Probability Distributions</h3>
+<p>Before diving into Bayesian visualizations, let’s review how to create histograms and probability distributions with Matplotlib. Histograms are excellent for displaying the frequency distribution of data, while various plotting functions allow for visualizing probability density functions (PDFs).</p>
+<div id="dd4f3ada" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate some sample data</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.normal(loc<span class="op">=</span><span class="dv">0</span>, scale<span class="op">=</span><span class="dv">1</span>, size<span class="op">=</span><span class="dv">1000</span>)  <span class="co"># Normal distribution</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a histogram</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>plt.hist(data, bins<span class="op">=</span><span class="dv">30</span>, density<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, color<span class="op">=</span><span class="st">'skyblue'</span>, label<span class="op">=</span><span class="st">'Histogram'</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Overlay a probability density function (PDF)</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">100</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> (<span class="dv">1</span> <span class="op">/</span> np.sqrt(<span class="dv">2</span> <span class="op">*</span> np.pi)) <span class="op">*</span> np.exp(<span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span>) <span class="co">#PDF of standard normal distribution</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y, <span class="st">'r-'</span>, label<span class="op">=</span><span class="st">'PDF'</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Value'</span>)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Frequency/Density'</span>)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Histogram and Probability Density Function'</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="basic-implementation_files/figure-html/cell-6-output-1.png" width="589" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This code generates a histogram of the sample data and overlays the theoretical probability density function of the standard normal distribution for comparison.</p>
+</section>
+<section id="visualizing-prior-and-posterior-distributions" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="visualizing-prior-and-posterior-distributions"><span class="header-section-number">8.2.2</span> Visualizing Prior and Posterior Distributions</h3>
+<p>Visualizing the prior and posterior distributions is key to understanding how evidence updates our beliefs. We can use Matplotlib to plot both distributions on the same graph, clearly showcasing the shift in probability mass after incorporating new evidence.</p>
+<p>Let’s consider a simple example where we have a prior belief about the mean of a normal distribution, and we then observe some data points.</p>
+<div id="8f00037e" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior distribution parameters</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>prior_mean <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>prior_std <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Observed data (example)</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.array([<span class="fl">0.5</span>, <span class="fl">1.2</span>, <span class="fl">0.8</span>, <span class="fl">1.0</span>])</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior distribution (simplified calculation - in practice, use conjugate priors for easier calculations)</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>posterior_mean <span class="op">=</span> np.mean(data)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>posterior_std <span class="op">=</span> <span class="dv">1</span> <span class="co"># Simplified for demonstration. A proper calculation would incorporate the prior variance and data variance.</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot prior and posterior</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">100</span>)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>plt.plot(x, norm.pdf(x, prior_mean, prior_std), label<span class="op">=</span><span class="st">'Prior Distribution'</span>)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>plt.plot(x, norm.pdf(x, posterior_mean, posterior_std), label<span class="op">=</span><span class="st">'Posterior Distribution'</span>)</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Mean'</span>)</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Probability Density'</span>)</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Prior and Posterior Distributions'</span>)</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="basic-implementation_files/figure-html/cell-7-output-1.png" width="597" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This code plots both the prior and posterior distributions, showing how the posterior is centered closer to the observed data, reflecting the updated belief. Remember that a proper posterior calculation would involve more complex formulas incorporating prior and data variances. This example simplifies the calculation for illustrative purposes.</p>
+</section>
+<section id="illustrating-the-impact-of-evidence" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="illustrating-the-impact-of-evidence"><span class="header-section-number">8.2.3</span> Illustrating the Impact of Evidence</h3>
+<p>Multiple plots can demonstrate how increasing evidence gradually refines our belief. By plotting posterior distributions for progressively more data, we can visualize the convergence towards a more precise estimate.</p>
+<div id="c63f037d" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior distribution</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>prior_mean <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>prior_std <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate data in batches</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>data_batches <span class="op">=</span> [np.random.normal(loc<span class="op">=</span><span class="fl">0.5</span>, scale<span class="op">=</span><span class="dv">1</span>, size<span class="op">=</span>i) <span class="cf">for</span> i <span class="kw">in</span> [<span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">500</span>]]</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co">#plotting multiple posteriors (simplified calculations - use conjugate priors for proper Bayesian inference in real-world problems)</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">100</span>)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>plt.plot(x, norm.pdf(x, prior_mean, prior_std), label<span class="op">=</span><span class="st">'Prior'</span>)</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, data <span class="kw">in</span> <span class="bu">enumerate</span>(data_batches):</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    posterior_mean <span class="op">=</span> np.mean(data)</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    posterior_std <span class="op">=</span> <span class="dv">1</span> <span class="co">#Simplified for demonstration.  A true calculation would incorporate prior and data variance</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    plt.plot(x, norm.pdf(x, posterior_mean, posterior_std), label<span class="op">=</span><span class="ss">f'Posterior (n=</span><span class="sc">{</span><span class="bu">len</span>(data)<span class="sc">}</span><span class="ss">)'</span>)</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Mean'</span>)</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Probability Density'</span>)</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Impact of Increasing Evidence'</span>)</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="basic-implementation_files/figure-html/cell-8-output-1.png" width="597" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This illustrates how the posterior distribution becomes increasingly narrow and centered around the true mean (0.5 in this case) as more data is observed, showcasing the effect of accumulating evidence in Bayesian inference. Again, simplified posterior calculations are used here; more complex techniques are necessary for precise results in real-world applications.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+A[Prior Distribution] --&gt; B(Evidence);
+B --&gt; C[Posterior Distribution 1];
+C --&gt; D(More Evidence);
+D --&gt; E[Posterior Distribution 2];
+E --&gt; F(More Evidence);
+F --&gt; G[Posterior Distribution 3];
+G --&gt; H[Convergence];
+
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="putting-it-all-together-a-detailed-example" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="putting-it-all-together-a-detailed-example"><span class="header-section-number">8.3</span> Putting it all Together: A Detailed Example</h2>
+<p>This section combines the techniques discussed earlier to solve a more realistic problem using Bayes’ Theorem with Python, NumPy, and Matplotlib.</p>
+<section id="problem-definition-and-data-representation" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="problem-definition-and-data-representation"><span class="header-section-number">8.3.1</span> Problem Definition and Data Representation</h3>
+<p>Let’s consider a medical diagnostic scenario. We have a test for a rare disease. The prior probability of having the disease (<span class="math inline">\(P(D)\)</span>) is 0.01 (1% prevalence). The test has the following characteristics:</p>
+<ul>
+<li><strong>Sensitivity:</strong> <span class="math inline">\(P(T+|D) = 0.95\)</span> (Probability of a positive test given the disease is present)</li>
+<li><strong>Specificity:</strong> <span class="math inline">\(P(T-|¬D) = 0.90\)</span> (Probability of a negative test given the disease is absent)</li>
+</ul>
+<p>We want to determine the probability of having the disease (<span class="math inline">\(P(D|T+)\)</span>) given a positive test result. We’ll simulate data to represent a larger population.</p>
+<div id="dc0bdaf0" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> bernoulli</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>prior_prob_disease <span class="op">=</span> <span class="fl">0.01</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>sensitivity <span class="op">=</span> <span class="fl">0.95</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>specificity <span class="op">=</span> <span class="fl">0.90</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate a population</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>population_size <span class="op">=</span> <span class="dv">100000</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>disease_status <span class="op">=</span> bernoulli.rvs(prior_prob_disease, size<span class="op">=</span>population_size)  <span class="co"># 1 for disease, 0 for no disease</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate test results</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>test_results <span class="op">=</span> np.zeros(population_size)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>test_results[disease_status <span class="op">==</span> <span class="dv">1</span>] <span class="op">=</span> bernoulli.rvs(sensitivity, size<span class="op">=</span>np.<span class="bu">sum</span>(disease_status))</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>test_results[disease_status <span class="op">==</span> <span class="dv">0</span>] <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> bernoulli.rvs(<span class="dv">1</span><span class="op">-</span>specificity, size<span class="op">=</span>np.<span class="bu">sum</span>(<span class="dv">1</span><span class="op">-</span>disease_status)) <span class="co"># 1 for positive, 0 for negative</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="co">#Count positive tests</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>positive_tests <span class="op">=</span> np.<span class="bu">sum</span>(test_results<span class="op">==</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="applying-bayes-theorem-using-numpy" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="applying-bayes-theorem-using-numpy"><span class="header-section-number">8.3.2</span> Applying Bayes’ Theorem using NumPy</h3>
+<p>We’ll now use Bayes’ Theorem to calculate the posterior probability of having the disease given a positive test result:</p>
+<p><span class="math inline">\(P(D|T+) = \frac{P(T+|D)P(D)}{P(T+)}\)</span></p>
+<p>We need to calculate <span class="math inline">\(P(T+)\)</span>, the probability of a positive test result, using the law of total probability:</p>
+<p><span class="math inline">\(P(T+) = P(T+|D)P(D) + P(T+|¬D)P(¬D)\)</span></p>
+<p>Where <span class="math inline">\(P(T+|¬D) = 1 - P(T-|¬D) = 1 - specificity\)</span>. And <span class="math inline">\(P(¬D) = 1 - P(D)\)</span>.</p>
+<div id="46f2242d" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate P(T+) using NumPy</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>prob_positive_test <span class="op">=</span> (sensitivity <span class="op">*</span> prior_prob_disease) <span class="op">+</span> ((<span class="dv">1</span> <span class="op">-</span> specificity) <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> prior_prob_disease))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate P(D|T+) using NumPy</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>posterior_prob_disease <span class="op">=</span> (sensitivity <span class="op">*</span> prior_prob_disease) <span class="op">/</span> prob_positive_test</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability of positive test: </span><span class="sc">{</span>prob_positive_test<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Posterior probability of disease given positive test: </span><span class="sc">{</span>posterior_prob_disease<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Alternatively using simulation counts:</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>posterior_prob_disease_sim <span class="op">=</span> np.<span class="bu">sum</span>((disease_status<span class="op">==</span><span class="dv">1</span>) <span class="op">&amp;</span> (test_results<span class="op">==</span><span class="dv">1</span>)) <span class="op">/</span> positive_tests</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Posterior probability of disease given positive test (simulation): </span><span class="sc">{</span>posterior_prob_disease_sim<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Probability of positive test: 0.10849999999999997
+Posterior probability of disease given positive test: 0.08755760368663597
+Posterior probability of disease given positive test (simulation): 0.010721626576301317</code></pre>
+</div>
+</div>
+</section>
+<section id="visualizing-results-and-interpretation" class="level3" data-number="8.3.3">
+<h3 data-number="8.3.3" class="anchored" data-anchor-id="visualizing-results-and-interpretation"><span class="header-section-number">8.3.3</span> Visualizing Results and Interpretation</h3>
+<p>Let’s visualize the prior and posterior distributions using Matplotlib. Since we’re dealing with probabilities, we can represent them as simple bar charts.</p>
+<div id="70cb2817" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>plt.bar([<span class="st">'Prior'</span>, <span class="st">'Posterior'</span>], [prior_prob_disease, posterior_prob_disease], color<span class="op">=</span>[<span class="st">'skyblue'</span>, <span class="st">'coral'</span>])</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Probability'</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Prior vs. Posterior Probability of Disease'</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="basic-implementation_files/figure-html/cell-11-output-1.png" width="597" height="431" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The chart clearly shows that although the test is quite accurate (high sensitivity and specificity), the posterior probability of having the disease given a positive test result is still relatively low due to the low prior probability. This highlights the importance of considering prior probabilities when interpreting test results, especially for rare diseases. Even with a positive test, further investigations might be necessary.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+A[Prior P(D) = 0.01] --&gt; B(Positive Test Result);
+B --&gt; C[Posterior P(D|T+) ≈ 0.09];
+subgraph ""
+A -- P(T+|D) = 0.95 --&gt; B;
+A -- P(¬D) = 0.99 --&gt; D;
+D -- P(T+|¬D) = 0.1 --&gt; B;
+end
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

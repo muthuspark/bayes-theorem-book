@@ -40,7 +40,7 @@ Formally, let $p(\theta)$ be the prior distribution and $p(X|\theta)$ be the lik
 * **Potential for misspecification:**  Improperly choosing the parameters of the conjugate prior can significantly bias the posterior, leading to erroneous conclusions.  Careful consideration is needed when selecting prior parameters.
 
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
@@ -118,9 +118,9 @@ $p(\theta|k, n, \alpha, \beta) = Beta(\alpha + k, \beta + n - k)$
 The Beta-Binomial model allows for straightforward Bayesian inference.  We start with a Beta prior reflecting our prior beliefs about $\theta$. After observing data (number of successes $k$ in $n$ trials), we update our beliefs by calculating the posterior Beta distribution using the updated parameters $\alpha' = \alpha + k$ and $\beta' = \beta + n - k$.  We can then use the posterior distribution to make inferences about $\theta$, such as calculating credible intervals or point estimates (e.g., mean or median).
 
 
-### Python Implementation with PyMC3
+### Python Implementation with PyMC
 
-```\{python}
+```{python}
 #| echo: true
 import pymc as pm
 import numpy as np
@@ -139,28 +139,30 @@ with pm.Model() as model:
     theta = pm.Beta("theta", alpha=alpha_prior, beta=beta_prior)
 
     # Likelihood
-    y = pm.Binomial("y", p=theta, n=n, observed=k)
+    y_obs = pm.Binomial("y_obs", p=theta, n=n, observed=k)
 
     # Posterior sampling
     trace = pm.sample(10000, tune=1000)
-
 
 # Posterior analysis
 pm.summary(trace)
 pm.plot_posterior(trace, hdi_prob=0.95)
 plt.show()
+```
 
-# Example of calculating the posterior predictive distribution
-
-ppc = pm.sample_posterior_predictive(trace, model=model)
-plt.hist(ppc['y'], bins=range(n + 2))
+```{python}
+# Posterior predictive distribution
+ppc = pm.sample_posterior_predictive(trace, var_names=["y_obs"], model=model)
+print(ppc.keys())
+plt.hist(ppc.posterior_predictive['y_obs'], bins=range(n + 2))
 plt.xlabel("Number of successes")
 plt.ylabel("Frequency")
 plt.title("Posterior Predictive Distribution")
 plt.show()
 ```
 
-This PyMC3 code defines a Beta-Binomial model, samples from the posterior distribution using Hamiltonian Monte Carlo (HMC), and visualizes the results. The posterior plot shows the updated belief about  $\theta$ after observing the data, and the posterior predictive distribution shows the probability of observing different numbers of successes in future experiments. Remember to install PyMC:  `pip install pymc`
+
+This PyMC code defines a Beta-Binomial model, samples from the posterior distribution using Hamiltonian Monte Carlo (HMC), and visualizes the results. The posterior plot shows the updated belief about  $\theta$ after observing the data, and the posterior predictive distribution shows the probability of observing different numbers of successes in future experiments. Remember to install PyMC:  `pip install pymc`
 
 
 
@@ -209,9 +211,9 @@ Here, $\bar{x} = \frac{1}{n}\sum_{i=1}^{n}x_i$ is the sample mean.  The posterio
 The Normal-Normal model provides a straightforward way to update our beliefs about the mean of a normal distribution. The posterior distribution summarizes our updated beliefs after incorporating the data. We can obtain point estimates (e.g., posterior mean $\mu_n$) and credible intervals to quantify uncertainty.
 
 
-### Python Implementation with PyMC3
+### Python Implementation with PyMC
 
-```\{python}
+```{python}
 #| echo: true
 import pymc as pm
 import numpy as np
@@ -241,14 +243,14 @@ pm.plot_posterior(trace, hdi_prob=0.95)
 plt.show()
 ```
 
-This code implements the Normal-Normal model in PyMC3. The posterior distribution of $\mu$ is visualized.
+This code implements the Normal-Normal model in PyMC. The posterior distribution of $\mu$ is visualized.
 
 
 ### Handling Unknown Variance
 
-When the variance $\sigma^2$ is unknown, we need to introduce a prior for it.  A common choice is the Inverse-Gamma distribution, which is conjugate to the normal likelihood for the variance.  This makes the model more realistic but also more complex analytically.  The complete model with unknown variance would require using techniques like MCMC sampling, which PyMC3 handles efficiently:
+When the variance $\sigma^2$ is unknown, we need to introduce a prior for it.  A common choice is the Inverse-Gamma distribution, which is conjugate to the normal likelihood for the variance.  This makes the model more realistic but also more complex analytically.  The complete model with unknown variance would require using techniques like MCMC sampling, which PyMC handles efficiently:
 
-```\{python}
+```{python}
 #| echo: true
 import pymc as pm
 import numpy as np
@@ -309,9 +311,9 @@ $p(\theta_1, ..., \theta_k | x_1, ..., x_k, \alpha_1, ..., \alpha_k) = Dirichlet
 The Dirichlet-Multinomial model allows us to perform Bayesian inference on the parameters of a multinomial distribution.  Starting with a Dirichlet prior reflecting our prior beliefs about the category probabilities, we update our beliefs using the observed counts to obtain a posterior Dirichlet distribution. We can use this posterior to make inferences, such as calculating credible intervals for each $\theta_i$ or predicting the counts for future trials.
 
 
-### Python Implementation with PyMC3
+### Python Implementation with PyMC
 
-```\{python}
+```{python}
 #| echo: true
 import pymc as pm
 import numpy as np
@@ -338,7 +340,7 @@ pm.plot_posterior(trace, hdi_prob=0.95)
 plt.show()
 ```
 
-This code implements the Dirichlet-Multinomial model in PyMC3.  Remember to install PyMC (`pip install pymc`). The posterior distributions for each $\theta_i$ are shown.
+This code implements the Dirichlet-Multinomial model in PyMC.  Remember to install PyMC (`pip install pymc`). The posterior distributions for each $\theta_i$ are shown.
 
 
 
@@ -373,12 +375,12 @@ While the Beta-Binomial, Normal-Normal, and Dirichlet-Multinomial models are fre
 * **Normal-Inverse Gamma:** This is a bivariate conjugate prior for the mean and variance of a normal distribution.  The prior is a combination of a normal distribution for the mean (conditional on the variance) and an inverse gamma distribution for the variance.
 
 
-These examples highlight the versatility of conjugate priors. The availability of a conjugate prior greatly simplifies Bayesian inference, but it's crucial to select the appropriate pair that matches the likelihood function and reflects your prior knowledge accurately.
+These examples highlight the versatility of conjugate priors. The availability of a conjugate prior greatly simplifies Bayesian inference, but it's essential to select the appropriate pair that matches the likelihood function and reflects your prior knowledge accurately.
 
 
 ### Choosing Appropriate Conjugate Priors
 
-Selecting the right conjugate prior involves several considerations:
+Selecting the right conjugate prior involves many considerations:
 
 1. **Likelihood Function:** The choice of prior is fundamentally determined by the likelihood function of your data.  Only certain prior distributions form conjugate pairs with specific likelihoods.
 
@@ -389,26 +391,26 @@ Selecting the right conjugate prior involves several considerations:
 4. **Interpretability:** The parameters of the chosen prior should be easily interpretable in the context of your problem.  This allows for easier communication and understanding of the Bayesian analysis.
 
 
-Choosing an inappropriate conjugate prior can lead to inaccurate or misleading results.  It is crucial to carefully consider the implications of the prior choice and to justify its selection.
+Choosing an inappropriate conjugate prior can lead to inaccurate or misleading results.  It is essential to carefully consider the implications of the prior choice and to justify its selection.
 
 
 ### Approximations when Conjugate Priors are Unavailable
 
-In many practical situations, no conjugate prior exists for the given likelihood. In such cases, several approximation techniques can be employed:
+In many practical situations, no conjugate prior exists for the given likelihood. In such cases, many approximation techniques can be employed:
 
 1. **Laplace Approximation:**  This method approximates the posterior distribution with a normal distribution centered at the mode of the posterior density.  It's relatively simple but might not be accurate if the posterior is highly skewed or multimodal.
 
 2. **Variational Inference:** This technique approximates the true posterior with a simpler, tractable distribution from a specified family (e.g., a mean-field approximation). It offers flexibility but can be computationally intensive.
 
-3. **Markov Chain Monte Carlo (MCMC):**  MCMC methods, such as Hamiltonian Monte Carlo (HMC) or Metropolis-Hastings, are powerful tools for sampling from complex, high-dimensional posterior distributions.  They are computationally intensive but generally provide accurate approximations.  Libraries like PyMC3 automate these methods.
+3. **Markov Chain Monte Carlo (MCMC):**  MCMC methods, such as Hamiltonian Monte Carlo (HMC) or Metropolis-Hastings, are powerful tools for sampling from complex, high-dimensional posterior distributions.  They are computationally intensive but generally provide accurate approximations.  Libraries like PyMC automate these methods.
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
 import pymc as pm
 
-# Example using PyMC3 for a non-conjugate scenario (illustrative)
+# Example using PyMC for a non-conjugate scenario (illustrative)
 # Assume a likelihood that does not have a simple conjugate prior
 
 # Simulate some data (Example: a mixture of Gaussians)
@@ -433,7 +435,7 @@ pm.plot_posterior(trace, hdi_prob=0.95)
 plt.show()
 ```
 
-This PyMC3 code demonstrates how to handle a non-conjugate scenario by using MCMC sampling.  The example employs a simple normal likelihood, but the principle extends to more complex non-conjugate situations.  Note that the choice of priors is crucial even in non-conjugate settings.  The selection process should still consider prior knowledge and avoid overly strong or overly weak priors.
+This PyMC code demonstrates how to handle a non-conjugate scenario by using MCMC sampling.  The example employs a simple normal likelihood, but the principle extends to more complex non-conjugate situations.  Note that the choice of priors is essential even in non-conjugate settings.  The selection process should still consider prior knowledge and avoid overly strong or overly weak priors.
 
 
 
@@ -452,7 +454,7 @@ Let's say we have two versions (A and B) of a webpage, and we want to determine 
 
 We can then compare the posterior distributions of $\theta_A$ and $\theta_B$ to determine which version has a higher conversion rate. We might compute the probability that $\theta_A > \theta_B$ using posterior samples.
 
-```\{python}
+```{python}
 #| echo: true
 import pymc as pm
 import numpy as np
@@ -498,7 +500,7 @@ Suppose we want to estimate the average height of adult women in a certain city.
 We use a normal prior for $\mu$, $p(\mu|\mu_0, \sigma_0^2) = N(\mu_0, \sigma_0^2)$,  reflecting our prior belief about the average height.  The posterior distribution is also normal, with parameters derived as described in the "Normal-Normal Model" section.
 
 
-```\{python}
+```{python}
 #| echo: true
 import pymc as pm
 import numpy as np
@@ -543,10 +545,10 @@ In LDA:
 * The distribution of topics in a document follows a Dirichlet distribution.
 * The distribution of words given a topic follows a multinomial distribution.
 
-The Dirichlet-Multinomial model forms the core of this generative process.  Inference in LDA typically involves MCMC methods, which are computationally intensive. Libraries like `gensim` provide efficient implementations.  Here's a conceptual outline using PyMC3, but it won't be a fully functional LDA implementation due to the high dimensionality and computational challenges of this model:
+The Dirichlet-Multinomial model forms the core of this generative process.  Inference in LDA typically involves MCMC methods, which are computationally intensive. Libraries like `gensim` provide efficient implementations.  Here's a conceptual outline using PyMC, but it won't be a fully functional LDA implementation due to the high dimensionality and computational challenges of this model:
 
 
-```\{python}
+```{python}
 #| echo: true
 # Note: This is a simplified conceptual illustration and NOT a full LDA implementation
 # Full LDA implementation requires specialized libraries like gensim

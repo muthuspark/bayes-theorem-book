@@ -102,7 +102,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -295,7 +327,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../parts/markov-chain-monte-carlo-mcmc/implementation-with-pymc3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Implementation with PyMC3</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Implementation with PyMC</span></span></a>
   </div>
 </li>
       </ul>
@@ -440,43 +472,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#bayes-life-and-work" id="toc-bayes-life-and-work" class="nav-link active" data-scroll-target="#bayes-life-and-work"><span class="header-section-number">3.0.1</span> Bayes’ Life and Work</a></li>
   <li><a href="#early-applications-of-bayes-theorem" id="toc-early-applications-of-bayes-theorem" class="nav-link" data-scroll-target="#early-applications-of-bayes-theorem"><span class="header-section-number">3.0.2</span> Early Applications of Bayes’ Theorem</a></li>
-  <li><a href="#the-rise-of-bayesian-statistics" id="toc-the-rise-of-bayesian-statistics" class="nav-link" data-scroll-target="#the-rise-of-bayesian-statistics"><span class="header-section-number">3.0.3</span> The Rise of Bayesian Statistics</a></li>
-  <li><a href="#bayes-theorem-in-the-modern-era" id="toc-bayes-theorem-in-the-modern-era" class="nav-link" data-scroll-target="#bayes-theorem-in-the-modern-era"><span class="header-section-number">3.0.4</span> Bayes’ Theorem in the Modern Era</a></li>
-  <li><a href="#the-formula-and-its-components" id="toc-the-formula-and-its-components" class="nav-link" data-scroll-target="#the-formula-and-its-components"><span class="header-section-number">3.1</span> The Formula and its Components</a>
+  <li><a href="#the-development-of-bayesian-statistics" id="toc-the-development-of-bayesian-statistics" class="nav-link" data-scroll-target="#the-development-of-bayesian-statistics"><span class="header-section-number">3.0.3</span> The Development of Bayesian Statistics</a></li>
+  <li><a href="#the-theorem-and-its-components" id="toc-the-theorem-and-its-components" class="nav-link" data-scroll-target="#the-theorem-and-its-components"><span class="header-section-number">3.1</span> The Theorem and its Components</a>
   <ul class="collapse">
   <li><a href="#introducing-bayes-theorem" id="toc-introducing-bayes-theorem" class="nav-link" data-scroll-target="#introducing-bayes-theorem"><span class="header-section-number">3.1.1</span> Introducing Bayes’ Theorem</a></li>
   <li><a href="#understanding-conditional-probability" id="toc-understanding-conditional-probability" class="nav-link" data-scroll-target="#understanding-conditional-probability"><span class="header-section-number">3.1.2</span> Understanding Conditional Probability</a></li>
-  <li><a href="#breakdown-of-the-formula-pab-pba-pa-pb" id="toc-breakdown-of-the-formula-pab-pba-pa-pb" class="nav-link" data-scroll-target="#breakdown-of-the-formula-pab-pba-pa-pb"><span class="header-section-number">3.1.3</span> Breakdown of the Formula: P(A|B), P(B|A), P(A), P(B)</a></li>
-  <li><a href="#visualizing-bayes-theorem-with-venn-diagrams" id="toc-visualizing-bayes-theorem-with-venn-diagrams" class="nav-link" data-scroll-target="#visualizing-bayes-theorem-with-venn-diagrams"><span class="header-section-number">3.1.4</span> Visualizing Bayes’ Theorem with Venn Diagrams</a></li>
-  <li><a href="#illustrative-examples-with-simple-probabilities" id="toc-illustrative-examples-with-simple-probabilities" class="nav-link" data-scroll-target="#illustrative-examples-with-simple-probabilities"><span class="header-section-number">3.1.5</span> Illustrative Examples with Simple Probabilities</a></li>
+  <li><a href="#the-formula-a-detailed-breakdown" id="toc-the-formula-a-detailed-breakdown" class="nav-link" data-scroll-target="#the-formula-a-detailed-breakdown"><span class="header-section-number">3.1.3</span> The Formula: A Detailed Breakdown</a></li>
+  <li><a href="#visualizing-bayes-theorem" id="toc-visualizing-bayes-theorem" class="nav-link" data-scroll-target="#visualizing-bayes-theorem"><span class="header-section-number">3.1.4</span> Visualizing Bayes’ Theorem</a></li>
   </ul></li>
   <li><a href="#prior-probability" id="toc-prior-probability" class="nav-link" data-scroll-target="#prior-probability"><span class="header-section-number">3.2</span> Prior Probability</a>
   <ul class="collapse">
   <li><a href="#defining-prior-probability" id="toc-defining-prior-probability" class="nav-link" data-scroll-target="#defining-prior-probability"><span class="header-section-number">3.2.1</span> Defining Prior Probability</a></li>
-  <li><a href="#choosing-appropriate-priors" id="toc-choosing-appropriate-priors" class="nav-link" data-scroll-target="#choosing-appropriate-priors"><span class="header-section-number">3.2.2</span> Choosing Appropriate Priors</a></li>
-  <li><a href="#types-of-priors-uniform-informative-non-informative" id="toc-types-of-priors-uniform-informative-non-informative" class="nav-link" data-scroll-target="#types-of-priors-uniform-informative-non-informative"><span class="header-section-number">3.2.3</span> Types of Priors: Uniform, Informative, Non-informative</a></li>
-  <li><a href="#impact-of-prior-selection-on-posterior" id="toc-impact-of-prior-selection-on-posterior" class="nav-link" data-scroll-target="#impact-of-prior-selection-on-posterior"><span class="header-section-number">3.2.4</span> Impact of Prior Selection on Posterior</a></li>
+  <li><a href="#types-of-priors-informative-non-informative" id="toc-types-of-priors-informative-non-informative" class="nav-link" data-scroll-target="#types-of-priors-informative-non-informative"><span class="header-section-number">3.2.2</span> Types of Priors (Informative, Non-Informative)</a></li>
+  <li><a href="#choosing-an-appropriate-prior" id="toc-choosing-an-appropriate-prior" class="nav-link" data-scroll-target="#choosing-an-appropriate-prior"><span class="header-section-number">3.2.3</span> Choosing an Appropriate Prior</a></li>
+  <li><a href="#impact-of-prior-on-posterior" id="toc-impact-of-prior-on-posterior" class="nav-link" data-scroll-target="#impact-of-prior-on-posterior"><span class="header-section-number">3.2.4</span> Impact of Prior on Posterior</a></li>
   </ul></li>
   <li><a href="#likelihood" id="toc-likelihood" class="nav-link" data-scroll-target="#likelihood"><span class="header-section-number">3.3</span> Likelihood</a>
   <ul class="collapse">
   <li><a href="#defining-likelihood" id="toc-defining-likelihood" class="nav-link" data-scroll-target="#defining-likelihood"><span class="header-section-number">3.3.1</span> Defining Likelihood</a></li>
-  <li><a href="#likelihood-functions" id="toc-likelihood-functions" class="nav-link" data-scroll-target="#likelihood-functions"><span class="header-section-number">3.3.2</span> Likelihood Functions</a></li>
+  <li><a href="#likelihood-function" id="toc-likelihood-function" class="nav-link" data-scroll-target="#likelihood-function"><span class="header-section-number">3.3.2</span> Likelihood Function</a></li>
   <li><a href="#interpreting-likelihood-values" id="toc-interpreting-likelihood-values" class="nav-link" data-scroll-target="#interpreting-likelihood-values"><span class="header-section-number">3.3.3</span> Interpreting Likelihood Values</a></li>
-  <li><a href="#relationship-between-likelihood-and-data" id="toc-relationship-between-likelihood-and-data" class="nav-link" data-scroll-target="#relationship-between-likelihood-and-data"><span class="header-section-number">3.3.4</span> Relationship between Likelihood and Data</a></li>
+  <li><a href="#relationship-between-likelihood-and-prior" id="toc-relationship-between-likelihood-and-prior" class="nav-link" data-scroll-target="#relationship-between-likelihood-and-prior"><span class="header-section-number">3.3.4</span> Relationship between Likelihood and Prior</a></li>
   </ul></li>
   <li><a href="#posterior-probability" id="toc-posterior-probability" class="nav-link" data-scroll-target="#posterior-probability"><span class="header-section-number">3.4</span> Posterior Probability</a>
   <ul class="collapse">
   <li><a href="#defining-posterior-probability" id="toc-defining-posterior-probability" class="nav-link" data-scroll-target="#defining-posterior-probability"><span class="header-section-number">3.4.1</span> Defining Posterior Probability</a></li>
-  <li><a href="#interpreting-posterior-probabilities" id="toc-interpreting-posterior-probabilities" class="nav-link" data-scroll-target="#interpreting-posterior-probabilities"><span class="header-section-number">3.4.2</span> Interpreting Posterior Probabilities</a></li>
-  <li><a href="#updating-beliefs-with-bayes-theorem" id="toc-updating-beliefs-with-bayes-theorem" class="nav-link" data-scroll-target="#updating-beliefs-with-bayes-theorem"><span class="header-section-number">3.4.3</span> Updating Beliefs with Bayes’ Theorem</a></li>
-  <li><a href="#posterior-distribution-visualization" id="toc-posterior-distribution-visualization" class="nav-link" data-scroll-target="#posterior-distribution-visualization"><span class="header-section-number">3.4.4</span> Posterior Distribution Visualization</a></li>
+  <li><a href="#interpreting-posterior-distributions" id="toc-interpreting-posterior-distributions" class="nav-link" data-scroll-target="#interpreting-posterior-distributions"><span class="header-section-number">3.4.2</span> Interpreting Posterior Distributions</a></li>
+  <li><a href="#updating-beliefs-with-data" id="toc-updating-beliefs-with-data" class="nav-link" data-scroll-target="#updating-beliefs-with-data"><span class="header-section-number">3.4.3</span> Updating Beliefs with Data</a></li>
+  <li><a href="#posterior-predictive-distribution" id="toc-posterior-predictive-distribution" class="nav-link" data-scroll-target="#posterior-predictive-distribution"><span class="header-section-number">3.4.4</span> Posterior Predictive Distribution</a></li>
   </ul></li>
-  <li><a href="#practical-applications-and-examples" id="toc-practical-applications-and-examples" class="nav-link" data-scroll-target="#practical-applications-and-examples"><span class="header-section-number">3.5</span> Practical Applications and Examples</a>
+  <li><a href="#practical-examples-and-applications" id="toc-practical-examples-and-applications" class="nav-link" data-scroll-target="#practical-examples-and-applications"><span class="header-section-number">3.5</span> Practical Examples and Applications</a>
   <ul class="collapse">
-  <li><a href="#example-1-medical-diagnosis" id="toc-example-1-medical-diagnosis" class="nav-link" data-scroll-target="#example-1-medical-diagnosis"><span class="header-section-number">3.5.1</span> Example 1: Medical Diagnosis</a></li>
-  <li><a href="#example-2-spam-filtering" id="toc-example-2-spam-filtering" class="nav-link" data-scroll-target="#example-2-spam-filtering"><span class="header-section-number">3.5.2</span> Example 2: Spam Filtering</a></li>
-  <li><a href="#example-3-weather-forecasting" id="toc-example-3-weather-forecasting" class="nav-link" data-scroll-target="#example-3-weather-forecasting"><span class="header-section-number">3.5.3</span> Example 3: Weather Forecasting</a></li>
-  <li><a href="#further-examples-across-diverse-fields" id="toc-further-examples-across-diverse-fields" class="nav-link" data-scroll-target="#further-examples-across-diverse-fields"><span class="header-section-number">3.5.4</span> Further Examples Across Diverse Fields</a></li>
+  <li><a href="#simple-example-medical-diagnosis" id="toc-simple-example-medical-diagnosis" class="nav-link" data-scroll-target="#simple-example-medical-diagnosis"><span class="header-section-number">3.5.1</span> Simple Example: Medical Diagnosis</a></li>
+  <li><a href="#illustrative-example-spam-filtering" id="toc-illustrative-example-spam-filtering" class="nav-link" data-scroll-target="#illustrative-example-spam-filtering"><span class="header-section-number">3.5.2</span> Illustrative Example: Spam Filtering</a></li>
+  <li><a href="#example-credit-risk-assessment" id="toc-example-credit-risk-assessment" class="nav-link" data-scroll-target="#example-credit-risk-assessment"><span class="header-section-number">3.5.3</span> Example: Credit Risk Assessment</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -505,344 +534,467 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="bayes-life-and-work" class="level3" data-number="3.0.1">
 <h3 data-number="3.0.1" class="anchored" data-anchor-id="bayes-life-and-work"><span class="header-section-number">3.0.1</span> Bayes’ Life and Work</h3>
-<p>Reverend Thomas Bayes (c.&nbsp;1701 – 1761) was an English statistician, philosopher, and Presbyterian minister. While his life remains relatively obscure compared to the impact of his work, we know he was a significant figure in the development of probability theory. His most famous contribution, which was published posthumously in 1763 by Richard Price, is an essay titled “An Essay towards solving a Problem in the Doctrine of Chances.” This essay contains the theorem that bears his name, a result that would fundamentally reshape statistical thinking centuries later. Bayes’s work was initially not widely recognized, partly due to the limited computational tools available at the time and a prevailing preference for frequentist approaches to statistics. He was a member of a group of esteemed mathematicians and scientists, and his contributions extended beyond the now-celebrated theorem, encompassing broader aspects of probability and mathematical reasoning.</p>
+<p>Thomas Bayes (c.&nbsp;1701 – 1761) was an English statistician, philosopher, and Presbyterian minister. His life, while documented to a degree, remains relatively obscure compared to many other influential figures in mathematics. He was born in London and educated privately, displaying a clear aptitude for mathematics. While his most famous work, “An Essay towards solving a Problem in the Doctrine of Chances,” wasn’t published until after his death (1763, by Richard Price), his contributions to probability theory proved to be foundational for later developments in statistics. Bayes’ essay tackled the problem of inverse probability—essentially, how to update our beliefs about an event based on new evidence. His theorem, which arose from his attempt to solve this problem, provides a rigorous framework for such updates. His work predates many of the mathematical tools we use today, making his achievement all the more remarkable. He also made contributions to other areas of mathematics, although these remain lesser-known.</p>
 </section>
 <section id="early-applications-of-bayes-theorem" class="level3" data-number="3.0.2">
 <h3 data-number="3.0.2" class="anchored" data-anchor-id="early-applications-of-bayes-theorem"><span class="header-section-number">3.0.2</span> Early Applications of Bayes’ Theorem</h3>
-<p>Despite its late recognition, Bayes’ theorem found early, albeit limited, applications. Initially, its practical use was hampered by the computational challenges of calculating probabilities, particularly with complex problems. Early applications often involved relatively simple scenarios. For instance, the theorem might have been used to refine estimates of astronomical parameters based on observational data, or in evaluating the credibility of witness testimonies. However, widespread adoption didn’t occur until the advent of more powerful computational tools. The lack of readily available computational power meant applications were confined to problems where probabilities could be reasonably estimated and calculations managed manually. The theoretical significance of the theorem was appreciated by some, but its practical utility remained somewhat unexplored until the latter half of the 20th century.</p>
+<p>Despite being published posthumously, Bayes’ theorem didn’t immediately gain widespread recognition. Its initial applications were limited and largely confined to specific problems within probability theory itself. However, it gradually found use in a variety of contexts throughout the 19th and early 20th centuries. Some key early applications include:</p>
+<ul>
+<li><p><strong>Astronomy:</strong> Early astronomers used Bayesian methods (though perhaps not explicitly labeled as such) to refine estimates of celestial positions and distances based on observational data. The inherent uncertainty in measurements lent itself naturally to the Bayesian framework.</p></li>
+<li><p><strong>Medical Diagnosis:</strong> Even in the absence of powerful computational tools, rudimentary Bayesian reasoning was employed to assess the probability of a disease given certain symptoms. This involved subjective estimations of prior probabilities and likelihoods, which became more refined as more data became available.</p></li>
+</ul>
 </section>
-<section id="the-rise-of-bayesian-statistics" class="level3" data-number="3.0.3">
-<h3 data-number="3.0.3" class="anchored" data-anchor-id="the-rise-of-bayesian-statistics"><span class="header-section-number">3.0.3</span> The Rise of Bayesian Statistics</h3>
-<p>The rise of Bayesian statistics is largely attributed to two significant factors: the development of powerful computers and the introduction of advanced computational techniques such as Markov Chain Monte Carlo (MCMC) methods. MCMC algorithms provided the computational muscle to address the previously intractable challenges associated with Bayesian calculations, even for complex models with numerous parameters. This allowed for the application of Bayes’ theorem to a far wider range of problems.</p>
-<p>Furthermore, the philosophical appeal of the Bayesian approach, its ability to incorporate prior knowledge into analysis, and its intuitive interpretation of probabilities, contributed significantly to its growth. Bayesian statistics provided a natural framework for addressing many problems involving uncertainty, allowing the integration of both data and prior beliefs into a coherent framework. The development of specialized software packages designed to implement Bayesian methods further accelerated its adoption.</p>
-</section>
-<section id="bayes-theorem-in-the-modern-era" class="level3" data-number="3.0.4">
-<h3 data-number="3.0.4" class="anchored" data-anchor-id="bayes-theorem-in-the-modern-era"><span class="header-section-number">3.0.4</span> Bayes’ Theorem in the Modern Era</h3>
-<p>Today, Bayes’ theorem is a cornerstone of numerous fields, including machine learning, medical diagnosis, finance, and natural language processing. Its flexibility and ability to handle uncertainty make it an invaluable tool in various applications. Here’s a simple Python example demonstrating its application:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<section id="the-development-of-bayesian-statistics" class="level3" data-number="3.0.3">
+<h3 data-number="3.0.3" class="anchored" data-anchor-id="the-development-of-bayesian-statistics"><span class="header-section-number">3.0.3</span> The Development of Bayesian Statistics</h3>
+<p>The development of Bayesian statistics wasn’t a linear progression. For a considerable period, the frequentist approach to statistics dominated, largely due to the computational difficulties associated with applying Bayes’ theorem. Calculating posterior probabilities often involved complex integrals, which were computationally intractable for many problems. However, many key developments propelled Bayesian statistics forward:</p>
+<ul>
+<li><p><strong>Laplace’s Contributions:</strong> Pierre-Simon Laplace independently derived Bayes’ theorem and applied it extensively to various problems, including celestial mechanics. His work significantly broadened the theorem’s reach and helped solidify its place in probability theory.</p></li>
+<li><p><strong>The Advent of Computers:</strong> The advent of digital computers revolutionized Bayesian statistics. Previously intractable calculations became feasible, allowing for the application of Bayesian methods to increasingly complex problems. Computational techniques such as Markov Chain Monte Carlo (MCMC) methods became instrumental in sampling from posterior distributions.</p></li>
+<li><p><strong>Subjective Probability and Prior Elicitation:</strong> The incorporation of subjective prior probabilities became a central aspect of Bayesian statistics. Methods for eliciting and representing these priors, and dealing with situations where there is limited data available, were developed and refined. This allowed Bayesian methods to be applied in scenarios where classical frequentist methods struggled.</p></li>
+</ul>
+<p>Let’s illustrate a simple Bayesian update using Python:</p>
+<div id="06d62ece" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior probability of having a disease</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>prior_prob <span class="op">=</span> <span class="fl">0.01</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior probability of event A</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>prior_prob_A <span class="op">=</span> <span class="fl">0.2</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Test sensitivity (probability of positive test given disease)</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>sensitivity <span class="op">=</span> <span class="fl">0.9</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Likelihood of observing evidence B given A is true</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>likelihood_B_given_A <span class="op">=</span> <span class="fl">0.8</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Test specificity (probability of negative test given no disease)</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>specificity <span class="op">=</span> <span class="fl">0.95</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Likelihood of observing evidence B given A is false</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>likelihood_B_given_not_A <span class="op">=</span> <span class="fl">0.3</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the probability of having the disease given a positive test</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bayes_theorem(prior, sensitivity, specificity):</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    p_disease_given_positive <span class="op">=</span> (prior <span class="op">*</span> sensitivity) <span class="op">/</span> ((prior <span class="op">*</span> sensitivity) <span class="op">+</span> ((<span class="dv">1</span> <span class="op">-</span> prior) <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> specificity)))</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> p_disease_given_positive</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>posterior_prob <span class="op">=</span> bayes_theorem(prior_prob, sensitivity, specificity)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculate the probability of B</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>prob_B <span class="op">=</span> (prior_prob_A <span class="op">*</span> likelihood_B_given_A) <span class="op">+</span> ((<span class="dv">1</span><span class="op">-</span>prior_prob_A) <span class="op">*</span> likelihood_B_given_not_A)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior probability of A given B using Bayes' theorem</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>posterior_prob_A_given_B <span class="op">=</span> (prior_prob_A <span class="op">*</span> likelihood_B_given_A) <span class="op">/</span> prob_B</span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Prior probability of having the disease: </span><span class="sc">{</span>prior_prob<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Posterior probability of having the disease given a positive test: </span><span class="sc">{</span>posterior_prob<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizing with Matplotlib</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [<span class="st">'Prior'</span>, <span class="st">'Posterior'</span>]</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>probs <span class="op">=</span> [prior_prob, posterior_prob]</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>plt.bar(labels, probs, color<span class="op">=</span>[<span class="st">'skyblue'</span>, <span class="st">'coral'</span>])</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Probability'</span>)</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Prior vs. Posterior Probability of Disease'</span>)</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This code demonstrates how a prior probability of having a disease is updated given a positive test result, using Bayes’ theorem. The resulting posterior probability reflects the impact of the test evidence on our belief about the disease. The chart displays the shift from prior to posterior probability.</p>
-<pre class="mermaid"><code>graph LR
-    A[Prior Probability] --&gt; B(Positive Test Result);
-    B --&gt; C[Posterior Probability];
-    style C fill:#f9f,stroke:#333,stroke-width:2px
-    A --&gt; D[Bayes' Theorem];
-    D --&gt; C;</code></pre>
-<p>This diagram visually represents the flow of information in the Bayesian update process. The use of Bayes’ Theorem takes the prior and the evidence to update the belief to the posterior probability. Modern applications go far beyond this simple example, using sophisticated Bayesian models for complex problems, but the fundamental principle remains the same: updating beliefs based on new evidence.</p>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Prior probability of A: </span><span class="sc">{</span>prior_prob_A<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Likelihood of B given A: </span><span class="sc">{</span>likelihood_B_given_A<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Likelihood of B given not A: </span><span class="sc">{</span>likelihood_B_given_not_A<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Posterior probability of A given B: </span><span class="sc">{</span>posterior_prob_A_given_B<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualizing the update</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> <span class="st">'Prior A'</span>, <span class="st">'Posterior A'</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>sizes <span class="op">=</span> [prior_prob_A, posterior_prob_A_given_B]</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>explode <span class="op">=</span> (<span class="dv">0</span>, <span class="fl">0.1</span>)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>fig1, ax1 <span class="op">=</span> plt.subplots()</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>ax1.pie(sizes, explode<span class="op">=</span>explode, labels<span class="op">=</span>labels, autopct<span class="op">=</span><span class="st">'</span><span class="sc">%1.1f%%</span><span class="st">'</span>,</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>        shadow<span class="op">=</span><span class="va">True</span>, startangle<span class="op">=</span><span class="dv">90</span>)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>ax1.axis(<span class="st">'equal'</span>)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Prior vs Posterior Probability of A'</span>)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Prior probability of A: 0.2
+Likelihood of B given A: 0.8
+Likelihood of B given not A: 0.3
+Posterior probability of A given B: 0.4000000000000001</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="bayes-theorem-fundamentals_files/figure-html/cell-2-output-2.png" width="540" height="409" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This code demonstrates a basic Bayesian update. The mathematical formulation is:</p>
+<p><span class="math inline">\(P(A|B) = \frac{P(B|A)P(A)}{P(B)}\)</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(P(A|B)\)</span> is the posterior probability of A given B.</li>
+<li><span class="math inline">\(P(B|A)\)</span> is the likelihood of B given A.</li>
+<li><span class="math inline">\(P(A)\)</span> is the prior probability of A.</li>
+<li><span class="math inline">\(P(B)\)</span> is the marginal likelihood of B (calculated using the law of total probability).</li>
+</ul>
+<p>The chart visually represents the shift from prior to posterior probability. Modern Bayesian statistics relies heavily on complex computational methods and continues to evolve, finding applications in fields ranging from machine learning and medical diagnosis to finance and climate modeling.</p>
 </section>
-<section id="the-formula-and-its-components" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="the-formula-and-its-components"><span class="header-section-number">3.1</span> The Formula and its Components</h2>
+<section id="the-theorem-and-its-components" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="the-theorem-and-its-components"><span class="header-section-number">3.1</span> The Theorem and its Components</h2>
 <section id="introducing-bayes-theorem" class="level3" data-number="3.1.1">
 <h3 data-number="3.1.1" class="anchored" data-anchor-id="introducing-bayes-theorem"><span class="header-section-number">3.1.1</span> Introducing Bayes’ Theorem</h3>
-<p>Bayes’ Theorem is a fundamental concept in probability theory that describes how to update the probability of a hypothesis based on new evidence. It’s a mathematical formula that allows us to revise our beliefs in light of observed data. Instead of simply focusing on the probability of an event occurring, Bayes’ Theorem lets us calculate the probability of an event <em>given</em> that another event has already occurred. This is crucial in many real-world scenarios where we need to make decisions under uncertainty, incorporating prior knowledge and new observations. The theorem is incredibly versatile and forms the basis of many machine learning algorithms and statistical methods.</p>
+<p>Bayes’ theorem is a fundamental concept in probability theory that describes how to update the probability of a hypothesis based on new evidence. It provides a mathematical framework for revising our beliefs in light of new information. Instead of simply accepting new data at face value, Bayes’ theorem allows us to combine this data with our pre-existing beliefs (prior knowledge) to arrive at a more refined understanding (posterior knowledge). This iterative process of updating beliefs is essential in many real-world applications. The core idea is that our confidence in a hypothesis should change as we gather more relevant data.</p>
 </section>
 <section id="understanding-conditional-probability" class="level3" data-number="3.1.2">
 <h3 data-number="3.1.2" class="anchored" data-anchor-id="understanding-conditional-probability"><span class="header-section-number">3.1.2</span> Understanding Conditional Probability</h3>
-<p>Before diving into Bayes’ Theorem itself, understanding conditional probability is vital. Conditional probability is the probability of an event occurring given that another event has already occurred. It’s denoted as P(A|B), which reads as “the probability of A given B.” This means we’re interested in the probability of event A happening, <em>only considering the cases where event B has already happened</em>. For example, the probability of it raining today (A) given that it rained yesterday (B), P(A|B), might be higher than the overall probability of rain today P(A) because yesterday’s rain might indicate a higher chance of rain today.</p>
+<p>Before diving into Bayes’ theorem itself, it’s essential to grasp the concept of conditional probability. Conditional probability refers to the probability of an event occurring given that another event has already occurred. We denote the conditional probability of event <em>A</em> occurring given that event <em>B</em> has occurred as <span class="math inline">\(P(A|B)\)</span>. This is read as “the probability of A given B”.</p>
+<p>For example, consider the probability of rain (<span class="math inline">\(A\)</span>) given that it’s cloudy (<span class="math inline">\(B\)</span>). This is different from the overall probability of rain, as knowing it’s cloudy increases the likelihood of rain. Conditional probability is formally defined as:</p>
+<p><span class="math inline">\(P(A|B) = \frac{P(A \cap B)}{P(B)}\)</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(P(A|B)\)</span> is the conditional probability of A given B.</li>
+<li><span class="math inline">\(P(A \cap B)\)</span> is the probability of both A and B occurring (joint probability).</li>
+<li><span class="math inline">\(P(B)\)</span> is the probability of B occurring.</li>
+</ul>
+<p>Note that <span class="math inline">\(P(B)\)</span> must be greater than 0; we cannot condition on an event that has a zero probability of occurring.</p>
 </section>
-<section id="breakdown-of-the-formula-pab-pba-pa-pb" class="level3" data-number="3.1.3">
-<h3 data-number="3.1.3" class="anchored" data-anchor-id="breakdown-of-the-formula-pab-pba-pa-pb"><span class="header-section-number">3.1.3</span> Breakdown of the Formula: P(A|B), P(B|A), P(A), P(B)</h3>
-<p>Bayes’ Theorem is expressed mathematically as:</p>
-<p>P(A|B) = [P(B|A) * P(A)] / P(B)</p>
+<section id="the-formula-a-detailed-breakdown" class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="the-formula-a-detailed-breakdown"><span class="header-section-number">3.1.3</span> The Formula: A Detailed Breakdown</h3>
+<p>Bayes’ theorem provides a way to calculate the conditional probability <span class="math inline">\(P(A|B)\)</span> when we know the conditional probability <span class="math inline">\(P(B|A)\)</span>, along with the prior probabilities <span class="math inline">\(P(A)\)</span> and <span class="math inline">\(P(B)\)</span>. The theorem states:</p>
+<p><span class="math inline">\(P(A|B) = \frac{P(B|A)P(A)}{P(B)}\)</span></p>
 <p>Let’s break down each component:</p>
 <ul>
-<li><p><strong>P(A|B):</strong> The posterior probability. This is what we want to calculate – the probability of event A happening <em>after</em> observing event B. It’s our updated belief about A after considering the evidence B.</p></li>
-<li><p><strong>P(B|A):</strong> The likelihood. This is the probability of event B happening <em>given</em> that event A has already happened.</p></li>
-<li><p><strong>P(A):</strong> The prior probability. This is our initial belief about the probability of event A happening <em>before</em> considering any new evidence (event B).</p></li>
-<li><p><strong>P(B):</strong> The marginal likelihood (or evidence). This is the overall probability of event B happening, regardless of whether A happened or not. It acts as a normalizing constant, ensuring the posterior probability is a valid probability (between 0 and 1). It can often be calculated using the law of total probability: P(B) = P(B|A)P(A) + P(B|¬A)P(¬A), where ¬A represents the complement of A (A not happening).</p></li>
+<li><p><strong><span class="math inline">\(P(A|B)\)</span> (Posterior Probability):</strong> This is the probability of event A occurring <em>given that</em> event B has occurred. This is what we want to calculate using Bayes’ theorem. It represents our updated belief about A after considering the evidence B.</p></li>
+<li><p><strong><span class="math inline">\(P(B|A)\)</span> (Likelihood):</strong> This is the probability of event B occurring <em>given that</em> event A has occurred. This represents how likely the evidence B is if the hypothesis A is true.</p></li>
+<li><p><strong><span class="math inline">\(P(A)\)</span> (Prior Probability):</strong> This is the initial probability of event A occurring <em>before</em> considering any new evidence. This reflects our pre-existing beliefs or knowledge about A.</p></li>
+<li><p><strong><span class="math inline">\(P(B)\)</span> (Evidence Probability or Marginal Likelihood):</strong> This is the probability of event B occurring, regardless of whether A is true or false. It can be calculated using the law of total probability:</p>
+<p><span class="math inline">\(P(B) = P(B|A)P(A) + P(B|\neg A)P(\neg A)\)</span></p>
+<p>where <span class="math inline">\(\neg A\)</span> denotes the complement of A (A not occurring).</p></li>
 </ul>
 </section>
-<section id="visualizing-bayes-theorem-with-venn-diagrams" class="level3" data-number="3.1.4">
-<h3 data-number="3.1.4" class="anchored" data-anchor-id="visualizing-bayes-theorem-with-venn-diagrams"><span class="header-section-number">3.1.4</span> Visualizing Bayes’ Theorem with Venn Diagrams</h3>
-<p>A Venn diagram can help visualize conditional probability and Bayes’ Theorem. Consider two overlapping circles representing events A and B. The area of overlap represents the cases where both A and B occur.</p>
-<pre class="mermaid"><code>graph LR
-    A[Event A]
-    B[Event B]
-    subgraph ""
-        A --- B
-    end
-    AB((A and B))</code></pre>
-<p>P(A|B) is the ratio of the area of the overlap (A and B) to the area of circle B. Bayes’ Theorem helps us calculate this ratio using the probabilities of A, B, and the probability of B given A.</p>
-</section>
-<section id="illustrative-examples-with-simple-probabilities" class="level3" data-number="3.1.5">
-<h3 data-number="3.1.5" class="anchored" data-anchor-id="illustrative-examples-with-simple-probabilities"><span class="header-section-number">3.1.5</span> Illustrative Examples with Simple Probabilities</h3>
-<p>Let’s say we have a test for a disease.</p>
-<ul>
-<li>P(Disease) = 0.01 (Prior probability: 1% of the population has the disease)</li>
-<li>P(+ve Test | Disease) = 0.9 (Sensitivity: 90% chance of a positive test if you have the disease)</li>
-<li>P(+ve Test | No Disease) = 0.05 (False positive rate: 5% chance of a positive test if you don’t have the disease)</li>
-</ul>
-<p>We want to find P(Disease | +ve Test): the probability of having the disease given a positive test result.</p>
-<p>First, we calculate P(+ve Test): P(+ve Test) = P(+ve Test | Disease)P(Disease) + P(+ve Test | No Disease)P(No Disease) = (0.9 * 0.01) + (0.05 * 0.99) = 0.0585</p>
-<p>Now, we apply Bayes’ Theorem:</p>
-<p>P(Disease | +ve Test) = [P(+ve Test | Disease) * P(Disease)] / P(+ve Test) = (0.9 * 0.01) / 0.0585 ≈ 0.1538</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>prior <span class="op">=</span> <span class="fl">0.01</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>sensitivity <span class="op">=</span> <span class="fl">0.9</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>false_positive_rate <span class="op">=</span> <span class="fl">0.05</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>p_positive_test <span class="op">=</span> (sensitivity <span class="op">*</span> prior) <span class="op">+</span> (false_positive_rate <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> prior))</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>posterior <span class="op">=</span> (sensitivity <span class="op">*</span> prior) <span class="op">/</span> p_positive_test</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Prior probability of disease: </span><span class="sc">{</span>prior<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Posterior probability of disease given positive test: </span><span class="sc">{</span>posterior<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [<span class="st">'Prior'</span>, <span class="st">'Posterior'</span>]</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>probs <span class="op">=</span> [prior, posterior]</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>plt.bar(labels, probs, color<span class="op">=</span>[<span class="st">'skyblue'</span>, <span class="st">'coral'</span>])</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Probability'</span>)</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Prior vs. Posterior Probability of Disease'</span>)</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This Python code calculates and visualizes the prior and posterior probabilities, showing how Bayes’ Theorem updates our belief about the probability of having the disease after a positive test. The chart clearly shows the increase in probability from prior to posterior.</p>
+<section id="visualizing-bayes-theorem" class="level3" data-number="3.1.4">
+<h3 data-number="3.1.4" class="anchored" data-anchor-id="visualizing-bayes-theorem"><span class="header-section-number">3.1.4</span> Visualizing Bayes’ Theorem</h3>
+<p>A simple example helps illustrate Bayes’ theorem visually. Let’s say we’re testing for a rare disease.</p>
+<div id="dd7bd425" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior probabilities</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>prior_disease <span class="op">=</span> <span class="fl">0.01</span>  <span class="co"># 1% prevalence of the disease</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>prior_no_disease <span class="op">=</span> <span class="fl">0.99</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Likelihoods (test accuracy)</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>likelihood_positive_given_disease <span class="op">=</span> <span class="fl">0.95</span>  <span class="co"># Test is 95% accurate when disease is present</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>likelihood_positive_given_no_disease <span class="op">=</span> <span class="fl">0.05</span> <span class="co"># Test has a 5% false positive rate</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the probability of a positive test result</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>prob_positive <span class="op">=</span> (likelihood_positive_given_disease <span class="op">*</span> prior_disease) <span class="op">+</span> (likelihood_positive_given_no_disease <span class="op">*</span> prior_no_disease)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Bayes' Theorem to calculate the posterior probability of having the disease given a positive test</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>posterior_disease_given_positive <span class="op">=</span> (likelihood_positive_given_disease <span class="op">*</span> prior_disease) <span class="op">/</span> prob_positive</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability of having the disease given a positive test: </span><span class="sc">{</span>posterior_disease_given_positive<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> <span class="st">'Prior Disease'</span>, <span class="st">'Posterior Disease given Positive Test'</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>sizes <span class="op">=</span> [prior_disease, posterior_disease_given_positive]</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>fig1, ax1 <span class="op">=</span> plt.subplots()</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>ax1.pie(sizes, labels<span class="op">=</span>labels, autopct<span class="op">=</span><span class="st">'</span><span class="sc">%1.1f%%</span><span class="st">'</span>, shadow<span class="op">=</span><span class="va">True</span>, startangle<span class="op">=</span><span class="dv">90</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>ax1.axis(<span class="st">'equal'</span>)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Prior vs Posterior Probability of Disease'</span>)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Probability of having the disease given a positive test: 0.1610</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="bayes-theorem-fundamentals_files/figure-html/cell-3-output-2.png" width="556" height="412" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This Python code calculates and visualizes the Bayesian update for the disease example. The pie chart clearly shows the shift in probability from the prior to the posterior. Even with a seemingly accurate test, the rarity of the disease means the posterior probability of having the disease, given a positive test, is still relatively low.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A[Prior Probability P(A)] --&gt; B{Evidence B};
+    C[Likelihood P(B|A)] --&gt; B;
+    B --&gt; D[Posterior Probability P(A|B)];
+    E[Prior Probability P(¬A)] --&gt; B;
+    F[Likelihood P(B|¬A)] --&gt; B;
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>This Mermaid diagram shows the flow of information in Bayes’ theorem, highlighting the relationship between the prior, likelihood, and posterior probabilities. This visual representation aids in understanding how the evidence updates our prior belief.</p>
 </section>
 </section>
 <section id="prior-probability" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="prior-probability"><span class="header-section-number">3.2</span> Prior Probability</h2>
 <section id="defining-prior-probability" class="level3" data-number="3.2.1">
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="defining-prior-probability"><span class="header-section-number">3.2.1</span> Defining Prior Probability</h3>
-<p>In the context of Bayes’ Theorem, the prior probability, often denoted as P(A), represents our initial belief or knowledge about the probability of an event A occurring <em>before</em> we consider any new evidence. This prior belief might be based on previous experience, expert opinion, theoretical considerations, or simply a best guess in the absence of strong evidence. It’s a crucial ingredient in the Bayesian framework, providing a starting point for updating our beliefs. The key is that the prior probability reflects our understanding <em>before</em> observing new data.</p>
+<p>In Bayesian statistics, the prior probability, denoted as <span class="math inline">\(P(A)\)</span>, represents the initial belief or knowledge about the probability of an event A occurring <em>before</em> observing any new data or evidence. It’s a subjective assessment reflecting our understanding of the event based on existing information, previous experience, or expert opinion. The choice of prior is a essential step in Bayesian analysis, as it significantly influences the resulting posterior probability. A well-chosen prior incorporates relevant information effectively, while a poorly chosen one can lead to inaccurate or misleading conclusions.</p>
 </section>
-<section id="choosing-appropriate-priors" class="level3" data-number="3.2.2">
-<h3 data-number="3.2.2" class="anchored" data-anchor-id="choosing-appropriate-priors"><span class="header-section-number">3.2.2</span> Choosing Appropriate Priors</h3>
-<p>Selecting an appropriate prior is a critical step in Bayesian analysis. The choice of prior can significantly influence the posterior probability, the updated belief after considering the data. A poorly chosen prior can lead to inaccurate or misleading conclusions. Therefore, careful consideration is crucial. The selection process often involves balancing available prior information with the desire to avoid unduly biasing the results. A good prior should reflect available knowledge while remaining flexible enough to be updated by the data.</p>
-</section>
-<section id="types-of-priors-uniform-informative-non-informative" class="level3" data-number="3.2.3">
-<h3 data-number="3.2.3" class="anchored" data-anchor-id="types-of-priors-uniform-informative-non-informative"><span class="header-section-number">3.2.3</span> Types of Priors: Uniform, Informative, Non-informative</h3>
-<p>Priors can be broadly categorized into three types:</p>
+<section id="types-of-priors-informative-non-informative" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="types-of-priors-informative-non-informative"><span class="header-section-number">3.2.2</span> Types of Priors (Informative, Non-Informative)</h3>
+<p>Priors can be broadly categorized into two types:</p>
 <ul>
-<li><p><strong>Uniform Prior:</strong> A uniform prior assigns equal probability to all possible values of a parameter. This reflects a complete lack of prior knowledge or a belief that all values are equally likely. For example, if we’re estimating the probability of a coin landing heads, a uniform prior would assign a probability of 0.5 to heads and 0.5 to tails before any coin flips are observed.</p></li>
-<li><p><strong>Informative Prior:</strong> An informative prior incorporates prior knowledge about the parameter. This prior reflects a strong belief about the likely range or distribution of the parameter. For instance, if we’re estimating the average height of adult women, we might use an informative prior centered around the known average height for women.</p></li>
-<li><p><strong>Non-informative Prior:</strong> A non-informative prior aims to minimally influence the posterior distribution. It is designed to let the data speak for itself as much as possible, though truly non-informative priors are often difficult to define. These priors are often used when there is very limited prior information. However, even these can implicitly include assumptions that might subtly influence results.</p></li>
+<li><p><strong>Informative Priors:</strong> These priors reflect substantial prior knowledge about the event. They are often based on previous studies, expert judgment, or theoretical considerations. An informative prior “informs” the analysis by incorporating existing knowledge into the Bayesian update. For example, if we’re estimating the success rate of a new drug, an informative prior might be based on the success rates of similar drugs in clinical trials.</p></li>
+<li><p><strong>Non-informative (or Weakly Informative) Priors:</strong> These priors represent minimal or vague prior knowledge. They aim to let the data speak for itself, minimizing the influence of prior beliefs. A non-informative prior is often used when there is limited or no prior information available. However, it is important to note that truly “non-informative” priors are difficult to define and often have some implicit assumptions. Examples include uniform priors (assigning equal probability to all possible values) or Jeffreys priors (which are invariant under reparameterization).</p></li>
 </ul>
 </section>
-<section id="impact-of-prior-selection-on-posterior" class="level3" data-number="3.2.4">
-<h3 data-number="3.2.4" class="anchored" data-anchor-id="impact-of-prior-selection-on-posterior"><span class="header-section-number">3.2.4</span> Impact of Prior Selection on Posterior</h3>
-<p>The choice of prior significantly impacts the posterior distribution. A strong informative prior will exert considerable influence on the posterior, even with substantial data. Conversely, a weak or non-informative prior will allow the data to dominate the posterior distribution.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<section id="choosing-an-appropriate-prior" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="choosing-an-appropriate-prior"><span class="header-section-number">3.2.3</span> Choosing an Appropriate Prior</h3>
+<p>Choosing an appropriate prior is a essential step and often involves a degree of subjectivity. Several factors influence the choice:</p>
+<ul>
+<li><p><strong>Available Prior Knowledge:</strong> The most significant factor is the amount and quality of prior knowledge. If substantial relevant information exists, an informative prior is appropriate. With little prior knowledge, a non-informative prior is often preferred.</p></li>
+<li><p><strong>Computational Considerations:</strong> Some priors might lead to computationally challenging calculations. The choice of prior should be balanced against the computational resources available.</p></li>
+<li><p><strong>Sensitivity Analysis:</strong> It’s good practice to perform sensitivity analysis to check how sensitive the posterior probability is to different choices of priors. If the posterior is relatively insensitive to changes in the prior, it suggests that the data strongly outweighs the prior belief.</p></li>
+</ul>
+</section>
+<section id="impact-of-prior-on-posterior" class="level3" data-number="3.2.4">
+<h3 data-number="3.2.4" class="anchored" data-anchor-id="impact-of-prior-on-posterior"><span class="header-section-number">3.2.4</span> Impact of Prior on Posterior</h3>
+<p>The prior significantly impacts the posterior probability. Let’s illustrate this with a Python example:</p>
+<div id="e7022f96" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pymc <span class="im">as</span> pm</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate some data</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>true_theta <span class="op">=</span> <span class="fl">0.7</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.binomial(<span class="dv">1</span>, true_theta, size<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bayes_update(prior, likelihood, evidence):</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Performs a Bayesian update."""</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    posterior <span class="op">=</span> (likelihood <span class="op">*</span> prior) <span class="op">/</span> evidence</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> posterior</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Different priors</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>priors <span class="op">=</span> [pm.Beta(<span class="st">"theta"</span>, alpha<span class="op">=</span><span class="dv">1</span>, beta<span class="op">=</span><span class="dv">1</span>),  <span class="co"># Uniform</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>          pm.Beta(<span class="st">"theta"</span>, alpha<span class="op">=</span><span class="dv">10</span>, beta<span class="op">=</span><span class="dv">2</span>), <span class="co"># Informative</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>          pm.Beta(<span class="st">"theta"</span>, alpha<span class="op">=</span><span class="dv">1</span>, beta<span class="op">=</span><span class="dv">10</span>)] <span class="co"># Informative</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the model for different priors</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>posterior_samples <span class="op">=</span> []</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> prior <span class="kw">in</span> priors:</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> pm.Model() <span class="im">as</span> model:</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        theta <span class="op">=</span> prior</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        obs <span class="op">=</span> pm.Bernoulli(<span class="st">"obs"</span>, p<span class="op">=</span>theta, observed<span class="op">=</span>data)</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        trace <span class="op">=</span> pm.sample(<span class="dv">1000</span>, tune<span class="op">=</span><span class="dv">1000</span>, return_inferencedata<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        posterior_samples.append(trace.posterior[<span class="st">"theta"</span>])</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Likelihood of observing data given hypothesis</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>likelihood <span class="op">=</span> <span class="fl">0.7</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Different priors</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>prior1 <span class="op">=</span> <span class="fl">0.2</span>  <span class="co">#Weak prior</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>prior2 <span class="op">=</span> <span class="fl">0.8</span> <span class="co">#Strong prior</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co">#Evidence Probability (Marginal Likelihood)  - Needs to be calculated based on the priors and likelihoods.  Simplified here for illustration purposes.</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>evidence <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co">#Bayesian Updates</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>posterior1 <span class="op">=</span> bayes_update(prior1, likelihood, evidence)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>posterior2 <span class="op">=</span> bayes_update(prior2, likelihood, evidence)</span>
 <span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the posteriors</span></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, prior_type <span class="kw">in</span> <span class="bu">enumerate</span>([<span class="st">"Uniform"</span>, <span class="st">"Informative (towards 0.8)"</span>, <span class="st">"Informative (towards 0.2)"</span>]):</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    plt.hist(posterior_samples[i].values.flatten(), alpha<span class="op">=</span><span class="fl">0.7</span>, label<span class="op">=</span>prior_type)</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Theta"</span>)</span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Frequency"</span>)</span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Posterior Distributions for Different Priors"</span>)</span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This Python code uses PyMC to demonstrate how different prior distributions (uniform and two informative Beta priors) affect the posterior distribution of a Bernoulli parameter when estimating from binomial data. The resulting plot visually illustrates how the prior shapes the posterior, highlighting the sensitivity of Bayesian inference to the choice of prior. In cases with limited data, the prior plays a more significant role in the final result.</p>
-<pre class="mermaid"><code>graph LR
-    A[Prior] --&gt; B(Data);
-    B --&gt; C[Bayes' Theorem];
-    C --&gt; D[Posterior];
-    style A fill:#ccf,stroke:#333,stroke-width:2px
-    style D fill:#fcf,stroke:#333,stroke-width:2px</code></pre>
-<p>This diagram shows the core steps of Bayesian inference: the prior belief is combined with observed data using Bayes’ Theorem to arrive at the updated posterior belief. The strength of the prior significantly influences how much the posterior differs from the prior.</p>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Prior 1: </span><span class="sc">{</span>prior1<span class="sc">:.2f}</span><span class="ss">, Posterior 1: </span><span class="sc">{</span>posterior1<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Prior 2: </span><span class="sc">{</span>prior2<span class="sc">:.2f}</span><span class="ss">, Posterior 2: </span><span class="sc">{</span>posterior2<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualization</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [<span class="st">'Prior 1'</span>, <span class="st">'Posterior 1'</span>, <span class="st">'Prior 2'</span>, <span class="st">'Posterior 2'</span>]</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>sizes <span class="op">=</span> [prior1, posterior1, prior2, posterior2]</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>ax.pie(sizes, labels<span class="op">=</span>labels, autopct<span class="op">=</span><span class="st">'</span><span class="sc">%1.1f%%</span><span class="st">'</span>, startangle<span class="op">=</span><span class="dv">140</span>)</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>ax.axis(<span class="st">'equal'</span>)</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Impact of Prior on Posterior'</span>)</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Prior 1: 0.20, Posterior 1: 0.28
+Prior 2: 0.80, Posterior 2: 1.12</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="bayes-theorem-fundamentals_files/figure-html/cell-4-output-2.png" width="540" height="415" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This Python code demonstrates how different priors, even when combined with the same likelihood and evidence, result in different posterior probabilities. The chart visualizes this difference, showing that the prior strongly influences the final conclusion. The mathematical relationship is again:</p>
+<p><span class="math inline">\(P(A|B) = \frac{P(B|A)P(A)}{P(B)}\)</span></p>
+<p>A strong prior can significantly pull the posterior towards its value, especially when the data provides weak or ambiguous evidence. This highlights the importance of carefully considering and justifying the choice of prior.</p>
 </section>
 </section>
 <section id="likelihood" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="likelihood"><span class="header-section-number">3.3</span> Likelihood</h2>
 <section id="defining-likelihood" class="level3" data-number="3.3.1">
 <h3 data-number="3.3.1" class="anchored" data-anchor-id="defining-likelihood"><span class="header-section-number">3.3.1</span> Defining Likelihood</h3>
-<p>In the context of Bayes’ Theorem, the likelihood, often denoted as P(B|A), represents the probability of observing the data (evidence) B, given a specific hypothesis A. Unlike probability, which considers the probability of an event, likelihood considers the plausibility of a hypothesis given observed data. It quantifies how well the observed data supports a particular hypothesis. The likelihood is a function of the hypothesis, with the data treated as fixed. It’s crucial to remember that the likelihood is <em>not</em> a probability distribution over the hypotheses; it’s a function that tells us how likely the observed data is for different values of the hypothesis.</p>
+<p>In Bayesian statistics, the likelihood function quantifies the probability of observing the available data given a specific hypothesis or parameter value. Unlike a probability, the likelihood is <em>not</em> a probability distribution over the parameters. Instead, it’s a function of the parameters, showing how likely the observed data is for different parameter values. It essentially measures how well a given parameter value explains the observed data. The higher the likelihood, the better the parameter value fits the data.</p>
 </section>
-<section id="likelihood-functions" class="level3" data-number="3.3.2">
-<h3 data-number="3.3.2" class="anchored" data-anchor-id="likelihood-functions"><span class="header-section-number">3.3.2</span> Likelihood Functions</h3>
-<p>A likelihood function is a function that maps different values of a hypothesis to the probability of observing the data under that hypothesis. It’s expressed as L(A|B) = P(B|A), where:</p>
+<section id="likelihood-function" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="likelihood-function"><span class="header-section-number">3.3.2</span> Likelihood Function</h3>
+<p>The likelihood function is usually denoted as <span class="math inline">\(L(\theta|x)\)</span>, where:</p>
 <ul>
-<li>L(A|B) is the likelihood function of hypothesis A given the data B.</li>
-<li>A is the hypothesis (e.g., the value of a parameter in a statistical model).</li>
-<li>B is the observed data.</li>
+<li><p><span class="math inline">\(\theta\)</span> represents the parameter(s) of interest (e.g., the mean of a normal distribution, the probability of success in a binomial distribution). This is what we want to estimate.</p></li>
+<li><p><span class="math inline">\(x\)</span> represents the observed data.</p></li>
 </ul>
-<p>The likelihood function is central to Bayesian inference because it provides the information from the data to update the prior probability into a posterior probability. Different statistical models have different likelihood functions, depending on the type of data and the assumptions of the model. For example, for Bernoulli trials (like coin flips), the likelihood function is the binomial distribution. For continuous data, it might be the normal distribution.</p>
+<p>The likelihood function is directly related to the probability density function (PDF) or probability mass function (PMF) of the data, but its interpretation is different. For example, if the data <span class="math inline">\(x\)</span> follows a normal distribution with mean <span class="math inline">\(\theta\)</span> and known variance <span class="math inline">\(\sigma^2\)</span>, the likelihood function is given by:</p>
+<p><span class="math inline">\(L(\theta|x) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x-\theta)^2}{2\sigma^2}\right)\)</span></p>
+<p>Note that this is the same formula as the PDF of a normal distribution, but here we treat it as a function of <span class="math inline">\(\theta\)</span> (the parameter we are trying to estimate), with the data <em>x</em> being fixed.</p>
 </section>
 <section id="interpreting-likelihood-values" class="level3" data-number="3.3.3">
 <h3 data-number="3.3.3" class="anchored" data-anchor-id="interpreting-likelihood-values"><span class="header-section-number">3.3.3</span> Interpreting Likelihood Values</h3>
-<p>Likelihood values are interpreted relatively, not absolutely. A higher likelihood value for one hypothesis compared to another indicates that the data is more likely under the first hypothesis. The absolute value of the likelihood itself doesn’t have a direct probabilistic interpretation; instead, it’s the <em>ratio</em> of likelihoods for different hypotheses that matters in Bayesian inference. For example, if the likelihood of hypothesis A is twice that of hypothesis B, given the observed data, it suggests that the data is twice as likely under hypothesis A as under hypothesis B. This ratio is used in Bayes’ Theorem to update our belief about the hypotheses.</p>
+<p>Likelihood values themselves are not probabilities. They don’t need to sum or integrate to 1. We’re interested in <em>relative</em> likelihoods:</p>
+<ul>
+<li><p>A higher likelihood value indicates that the given parameter value is more consistent with the observed data.</p></li>
+<li><p>A lower likelihood value indicates that the given parameter value is less consistent with the observed data.</p></li>
+</ul>
+<p>We often work with the log-likelihood, <span class="math inline">\(\log L(\theta|x)\)</span>, which simplifies calculations and makes it easier to compare likelihoods.</p>
 </section>
-<section id="relationship-between-likelihood-and-data" class="level3" data-number="3.3.4">
-<h3 data-number="3.3.4" class="anchored" data-anchor-id="relationship-between-likelihood-and-data"><span class="header-section-number">3.3.4</span> Relationship between Likelihood and Data</h3>
-<p>The likelihood function directly reflects the relationship between the data and the hypothesis. It summarizes how well the hypothesis explains the observed data. A good fit between the hypothesis and the data results in a high likelihood. Conversely, a poor fit results in a low likelihood. The data itself is considered fixed when evaluating the likelihood function; it’s the hypothesis that is variable.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<section id="relationship-between-likelihood-and-prior" class="level3" data-number="3.3.4">
+<h3 data-number="3.3.4" class="anchored" data-anchor-id="relationship-between-likelihood-and-prior"><span class="header-section-number">3.3.4</span> Relationship between Likelihood and Prior</h3>
+<p>The likelihood and prior probability are the two key ingredients in Bayes’ theorem. They combine to produce the posterior probability:</p>
+<p><span class="math inline">\(P(\theta|x) \propto L(\theta|x)P(\theta)\)</span></p>
+<p>where:</p>
+<ul>
+<li><p><span class="math inline">\(P(\theta|x)\)</span> is the posterior probability distribution of the parameter <span class="math inline">\(\theta\)</span> given the data <span class="math inline">\(x\)</span>.</p></li>
+<li><p><span class="math inline">\(L(\theta|x)\)</span> is the likelihood function.</p></li>
+<li><p><span class="math inline">\(P(\theta)\)</span> is the prior probability distribution of the parameter <span class="math inline">\(\theta\)</span>.</p></li>
+</ul>
+<p>The symbol <span class="math inline">\(\propto\)</span> indicates proportionality—the posterior is proportional to the product of the likelihood and prior. The constant of proportionality is determined by ensuring the posterior integrates to 1 (for continuous parameters) or sums to 1 (for discrete parameters).</p>
+<p>Let’s visualize the relationship between likelihood and prior:</p>
+<div id="0194d293" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate some data</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.normal(loc<span class="op">=</span><span class="dv">2</span>, scale<span class="op">=</span><span class="dv">1</span>, size<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample data</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.normal(loc<span class="op">=</span><span class="dv">5</span>, scale<span class="op">=</span><span class="dv">1</span>, size<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a range of possible means</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>means <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">100</span>)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the likelihood for each mean</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>likelihoods <span class="op">=</span> [np.prod(norm.pdf(data, loc<span class="op">=</span>mean, scale<span class="op">=</span><span class="dv">1</span>)) <span class="cf">for</span> mean <span class="kw">in</span> means]</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the likelihood function</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>plt.plot(means, likelihoods)</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Mean (mu)"</span>)</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Likelihood"</span>)</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Likelihood Function for Normal Distribution"</span>)</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This Python code simulates data from a normal distribution and then calculates the likelihood function for different possible means of that distribution. The plot shows how the likelihood is maximized at the true mean used to generate the data, illustrating how the likelihood function reflects the compatibility between the hypothesis (mean) and the data.</p>
-<pre class="mermaid"><code>graph LR
-    A[Data] --&gt; B(Likelihood Function);
-    B --&gt; C[Hypothesis];
-    style B fill:#ccf,stroke:#333,stroke-width:2px</code></pre>
-<p>This diagram visually represents the relationship: the data informs the likelihood function, which in turn helps evaluate the plausibility of different hypotheses. The likelihood function acts as a bridge between the observed data and our assessment of different hypotheses.</p>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Prior distribution</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>prior_mean <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>prior_std <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>prior <span class="op">=</span> norm(loc<span class="op">=</span>prior_mean, scale<span class="op">=</span>prior_std)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Likelihood function (assuming known variance)</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>likelihood_mean <span class="op">=</span> np.mean(data)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>likelihood_std <span class="op">=</span> <span class="dv">1</span> <span class="co">#Assume known standard deviation</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>likelihood <span class="op">=</span> norm(loc<span class="op">=</span>likelihood_mean, scale<span class="op">=</span>likelihood_std)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#Range for plotting</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>theta_range <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">200</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculate Likelihood and Prior</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>prior_probs <span class="op">=</span> prior.pdf(theta_range)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>likelihood_probs <span class="op">=</span> likelihood.pdf(theta_range)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>plt.plot(theta_range, prior_probs, label<span class="op">=</span><span class="st">'Prior'</span>)</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>plt.plot(theta_range, likelihood_probs, label<span class="op">=</span><span class="st">'Likelihood'</span>)</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Theta'</span>)</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Probability Density'</span>)</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Prior and Likelihood'</span>)</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="bayes-theorem-fundamentals_files/figure-html/cell-5-output-1.png" width="597" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This code generates a plot showing a hypothetical prior and likelihood. The posterior (not plotted here for simplicity) would be proportional to the product of these two curves. The posterior would represent a compromise between the prior belief and the information provided by the data. Observe that the prior influences the shape and location of the posterior distribution. In essence, the prior represents our prior belief, while the likelihood incorporates the information from the observed data. The posterior distribution is their combination.</p>
 </section>
 </section>
 <section id="posterior-probability" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="posterior-probability"><span class="header-section-number">3.4</span> Posterior Probability</h2>
 <section id="defining-posterior-probability" class="level3" data-number="3.4.1">
 <h3 data-number="3.4.1" class="anchored" data-anchor-id="defining-posterior-probability"><span class="header-section-number">3.4.1</span> Defining Posterior Probability</h3>
-<p>In Bayesian inference, the posterior probability, often denoted as P(A|B), represents the updated probability of a hypothesis A after considering the observed data B. It’s the result of combining our prior belief about the hypothesis (prior probability, P(A)) with the evidence provided by the data (likelihood, P(B|A)), using Bayes’ Theorem. The posterior probability reflects our refined belief about the hypothesis after incorporating the new information. It’s the central output of a Bayesian analysis, providing a probability distribution over the possible hypotheses, weighted by the evidence.</p>
+<p>In Bayesian statistics, the posterior probability, denoted as <span class="math inline">\(P(\theta|x)\)</span>, represents the updated probability distribution of a parameter <span class="math inline">\(\theta\)</span> after observing data <span class="math inline">\(x\)</span>. It combines prior knowledge about the parameter (prior probability, <span class="math inline">\(P(\theta)\)</span>) with the information obtained from the data (likelihood, <span class="math inline">\(L(\theta|x)\)</span>). The posterior distribution is the central result of a Bayesian analysis, summarizing our updated beliefs about the parameter after incorporating the evidence. It’s essential to understand that the posterior is not just a single value, but a probability distribution, reflecting the uncertainty that remains about the parameter even after observing the data.</p>
 </section>
-<section id="interpreting-posterior-probabilities" class="level3" data-number="3.4.2">
-<h3 data-number="3.4.2" class="anchored" data-anchor-id="interpreting-posterior-probabilities"><span class="header-section-number">3.4.2</span> Interpreting Posterior Probabilities</h3>
-<p>Posterior probabilities are interpreted as probabilities. A higher posterior probability for a given hypothesis indicates stronger support for that hypothesis based on the combined evidence of the prior belief and the observed data. The posterior probability is a probability distribution; it assigns a probability to each possible value of the hypothesis. The area under the posterior probability distribution within a certain interval gives the probability that the true value of the hypothesis lies within that interval. It’s crucial to remember that posterior probabilities are conditional on the chosen prior and the observed data; changing either will alter the posterior.</p>
-</section>
-<section id="updating-beliefs-with-bayes-theorem" class="level3" data-number="3.4.3">
-<h3 data-number="3.4.3" class="anchored" data-anchor-id="updating-beliefs-with-bayes-theorem"><span class="header-section-number">3.4.3</span> Updating Beliefs with Bayes’ Theorem</h3>
-<p>Bayes’ Theorem provides the mechanism for calculating the posterior probability:</p>
-<p>P(A|B) = [P(B|A) * P(A)] / P(B)</p>
-<p>where:</p>
+<section id="interpreting-posterior-distributions" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="interpreting-posterior-distributions"><span class="header-section-number">3.4.2</span> Interpreting Posterior Distributions</h3>
+<p>The posterior distribution is interpreted as a probability distribution over the possible values of the parameter <span class="math inline">\(\theta\)</span>. Different aspects of the posterior distribution offer valuable insights:</p>
 <ul>
-<li>P(A|B) is the posterior probability of hypothesis A given data B.</li>
-<li>P(B|A) is the likelihood of observing data B given hypothesis A.</li>
-<li>P(A) is the prior probability of hypothesis A.</li>
-<li>P(B) is the marginal likelihood (evidence), which acts as a normalizing constant. Often, we don’t directly calculate P(B); instead, we calculate the posterior probability up to a proportionality constant and then normalize it to ensure the probabilities sum to 1.</li>
+<li><p><strong>Mean/Median/Mode:</strong> These summary statistics provide point estimates for the parameter. The mean gives the average value of <span class="math inline">\(\theta\)</span> according to the posterior distribution, the median provides the value that splits the posterior distribution in half, and the mode represents the most likely value of <span class="math inline">\(\theta\)</span>.</p></li>
+<li><p><strong>Credible Intervals:</strong> These intervals provide a range of plausible values for the parameter with a specified probability. For example, a 95% credible interval contains the values of <span class="math inline">\(\theta\)</span> that have a 95% probability of including the true value, given the observed data.</p></li>
+<li><p><strong>Shape:</strong> The shape of the posterior distribution reveals information about the uncertainty and potential multimodality of the parameter. A narrow, peaked distribution indicates high certainty about the parameter value, while a wide, flat distribution implies significant uncertainty.</p></li>
 </ul>
-<p>The theorem shows how our initial belief (prior) is updated by the data (likelihood) to produce a revised belief (posterior). This iterative process allows us to refine our understanding as new evidence becomes available.</p>
 </section>
-<section id="posterior-distribution-visualization" class="level3" data-number="3.4.4">
-<h3 data-number="3.4.4" class="anchored" data-anchor-id="posterior-distribution-visualization"><span class="header-section-number">3.4.4</span> Posterior Distribution Visualization</h3>
-<p>Visualizing the posterior distribution provides valuable insights into the results of a Bayesian analysis. Different methods can be used depending on the type of hypothesis and the form of the posterior distribution. Common methods include histograms, kernel density estimates, and credible intervals.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pymc <span class="im">as</span> pm</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate some data (example: coin flips)</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.binomial(<span class="dv">10</span>, <span class="fl">0.6</span>, size<span class="op">=</span><span class="dv">100</span>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> model:</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Prior distribution (Beta distribution is conjugate for Bernoulli)</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> pm.Beta(<span class="st">"p"</span>, alpha<span class="op">=</span><span class="dv">2</span>, beta<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Likelihood (Bernoulli distribution)</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    obs <span class="op">=</span> pm.Bernoulli(<span class="st">"obs"</span>, p<span class="op">=</span>p, observed<span class="op">=</span>data)</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Posterior sampling</span></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    trace <span class="op">=</span> pm.sample(<span class="dv">1000</span>, tune<span class="op">=</span><span class="dv">1000</span>, return_inferencedata<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the posterior</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>plt.hist(trace.posterior[<span class="st">"p"</span>].values.flatten(), bins<span class="op">=</span><span class="dv">30</span>, density<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Probability of Heads (p)"</span>)</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Density"</span>)</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Posterior Distribution of p"</span>)</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This Python code uses PyMC to perform Bayesian inference on a Bernoulli parameter (probability of heads in a coin flip). The resulting histogram shows the posterior distribution of this parameter after considering the simulated data. The shape of the histogram shows our updated belief about the probability of heads after observing the data, indicating a higher probability near the true value used to generate the data.</p>
-<pre class="mermaid"><code>graph LR
-    A[Prior Distribution] --&gt; B(Data &amp; Likelihood);
-    B --&gt; C[Bayes' Theorem];
-    C --&gt; D[Posterior Distribution];
-    style D fill:#fcf,stroke:#333,stroke-width:2px</code></pre>
-<p>This diagram illustrates the process: The prior distribution, combined with the data through Bayes’ theorem and the likelihood, yields the posterior distribution, our updated belief. The visualization helps us understand this updated belief.</p>
+<section id="updating-beliefs-with-data" class="level3" data-number="3.4.3">
+<h3 data-number="3.4.3" class="anchored" data-anchor-id="updating-beliefs-with-data"><span class="header-section-number">3.4.3</span> Updating Beliefs with Data</h3>
+<p>The Bayesian approach elegantly reflects the updating of beliefs with new data. The prior distribution captures our initial understanding, while the likelihood function incorporates the information from the observed data. Bayes’ theorem formalizes this update:</p>
+<p><span class="math inline">\(P(\theta|x) = \frac{L(\theta|x)P(\theta)}{P(x)}\)</span></p>
+<p>where <span class="math inline">\(P(x)\)</span>, the marginal likelihood (evidence), acts as a normalizing constant, ensuring that the posterior integrates (or sums) to 1. This equation shows how the posterior is proportional to the product of the likelihood and the prior. The evidence plays a essential role, determining the scale of the posterior distribution.</p>
+</section>
+<section id="posterior-predictive-distribution" class="level3" data-number="3.4.4">
+<h3 data-number="3.4.4" class="anchored" data-anchor-id="posterior-predictive-distribution"><span class="header-section-number">3.4.4</span> Posterior Predictive Distribution</h3>
+<p>The posterior predictive distribution, <span class="math inline">\(P(\tilde{x}|x)\)</span>, provides a probability distribution for future observations, <span class="math inline">\(\tilde{x}\)</span>, given the observed data, <span class="math inline">\(x\)</span>. It incorporates uncertainty about the model parameters by averaging over the posterior distribution. This is formally expressed as:</p>
+<p><span class="math inline">\(P(\tilde{x}|x) = \int P(\tilde{x}|\theta)P(\theta|x) d\theta\)</span></p>
+<p>This integral averages the predictive distribution of future observations (<span class="math inline">\(P(\tilde{x}|\theta)\)</span>) across all possible parameter values (<span class="math inline">\(\theta\)</span>), weighted by their posterior probabilities (<span class="math inline">\(P(\theta|x)\)</span>). This approach offers a more realistic and detailed prediction that accounts for the uncertainty in the estimated parameters.</p>
+<p>Let’s illustrate with a Python example using simulated data:</p>
+<div id="79706672" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm, beta</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate data from a normal distribution</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>true_mean <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>true_std <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.normal(loc<span class="op">=</span>true_mean, scale<span class="op">=</span>true_std, size<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior distribution (Normal)</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>prior_mean <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>prior_std <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>prior <span class="op">=</span> norm(loc<span class="op">=</span>prior_mean, scale<span class="op">=</span>prior_std)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior (using conjugate prior for simplicity)</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>posterior_mean <span class="op">=</span> np.mean(data)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>posterior_std <span class="op">=</span> true_std<span class="op">/</span>np.sqrt(<span class="bu">len</span>(data)) <span class="co">#approximation for large sample</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>posterior <span class="op">=</span> norm(loc<span class="op">=</span>posterior_mean, scale<span class="op">=</span>posterior_std)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate samples from posterior predictive distribution</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>num_samples <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>posterior_samples <span class="op">=</span> posterior.rvs(size<span class="op">=</span>num_samples)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>predictive_samples <span class="op">=</span> np.random.normal(loc<span class="op">=</span>posterior_samples, scale<span class="op">=</span>true_std, size<span class="op">=</span>num_samples)</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the posterior predictive distribution</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>plt.hist(predictive_samples, bins<span class="op">=</span><span class="dv">30</span>, density<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, label<span class="op">=</span><span class="st">'Posterior Predictive'</span>)</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Future Observation'</span>)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Density'</span>)</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Posterior Predictive Distribution'</span>)</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="bayes-theorem-fundamentals_files/figure-html/cell-6-output-1.png" width="597" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This code simulates data, defines a prior, calculates a simplified posterior (assuming known variance for convenience), and then generates samples from the posterior predictive distribution. The histogram shows the distribution of predicted future observations, reflecting the uncertainty inherent in the Bayesian approach. Note that a more realistic scenario would involve a full Bayesian update without assuming known variance, requiring more complex computational methods.</p>
 </section>
 </section>
-<section id="practical-applications-and-examples" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="practical-applications-and-examples"><span class="header-section-number">3.5</span> Practical Applications and Examples</h2>
-<section id="example-1-medical-diagnosis" class="level3" data-number="3.5.1">
-<h3 data-number="3.5.1" class="anchored" data-anchor-id="example-1-medical-diagnosis"><span class="header-section-number">3.5.1</span> Example 1: Medical Diagnosis</h3>
-<p>Bayes’ Theorem is fundamental to medical diagnosis. Consider a test for a disease with the following characteristics:</p>
+<section id="practical-examples-and-applications" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="practical-examples-and-applications"><span class="header-section-number">3.5</span> Practical Examples and Applications</h2>
+<section id="simple-example-medical-diagnosis" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="simple-example-medical-diagnosis"><span class="header-section-number">3.5.1</span> Simple Example: Medical Diagnosis</h3>
+<p>Bayes’ theorem is exceptionally useful in medical diagnosis. Consider a test for a rare disease:</p>
 <ul>
-<li><strong>Prior probability (P(D)):</strong> The prevalence of the disease in the population (e.g., 1%).</li>
-<li><strong>Sensitivity (P(+|D)):</strong> The probability of a positive test result given the person has the disease (e.g., 90%).</li>
-<li><strong>Specificity (P(-|¬D)):</strong> The probability of a negative test result given the person does not have the disease (e.g., 95%).</li>
+<li>Let D represent the event that a patient has the disease.</li>
+<li>Let T represent the event that the test is positive.</li>
 </ul>
-<p>If a person tests positive, what’s the probability they actually have the disease (P(D|+))? We need to calculate the positive predictive value. We can use Bayes’ Theorem, but we first need to calculate the probability of a positive test:</p>
-<p>P(+) = P(+|D)P(D) + P(+|¬D)P(¬D) = (0.9 * 0.01) + (0.05 * 0.99) = 0.0585</p>
-<p>Then, applying Bayes’ Theorem:</p>
-<p>P(D|+) = [P(+|D)P(D)] / P(+) = (0.9 * 0.01) / 0.0585 ≈ 0.15</p>
-<p>This shows that even with a seemingly accurate test, the probability of actually having the disease given a positive result is only about 15%, highlighting the importance of considering prior probabilities.</p>
-</section>
-<section id="example-2-spam-filtering" class="level3" data-number="3.5.2">
-<h3 data-number="3.5.2" class="anchored" data-anchor-id="example-2-spam-filtering"><span class="header-section-number">3.5.2</span> Example 2: Spam Filtering</h3>
-<p>Bayes’ Theorem is a cornerstone of spam filtering algorithms. Each email is classified as spam or not spam based on the presence or absence of certain keywords or features.</p>
+<p>We are interested in finding <span class="math inline">\(P(D|T)\)</span>, the probability that a patient has the disease given a positive test result. We need the following information:</p>
 <ul>
-<li><strong>Prior probability (P(Spam)):</strong> The overall probability an email is spam (e.g., 20%).</li>
-<li><strong>Likelihood (P(Keywords|Spam)):</strong> Probability of specific keywords appearing in a spam email.</li>
-<li><strong>Likelihood (P(Keywords|¬Spam)):</strong> Probability of those same keywords appearing in a non-spam email.</li>
+<li><p><strong>Prior probability of disease:</strong> <span class="math inline">\(P(D)\)</span> – The prevalence of the disease in the population. This might be a low value for a rare disease.</p></li>
+<li><p><strong>Sensitivity:</strong> <span class="math inline">\(P(T|D)\)</span> – The probability of a positive test given the disease is present (true positive rate).</p></li>
+<li><p><strong>Specificity:</strong> <span class="math inline">\(P(\neg T|\neg D)\)</span> – The probability of a negative test given the disease is absent (true negative rate). This is equal to <span class="math inline">\(1 - P(T|\neg D)\)</span>.</p></li>
+<li><p><strong>Positive Predictive Value:</strong> This is what we ultimately want to calculate: <span class="math inline">\(P(D|T)\)</span>.</p></li>
 </ul>
-<p>The Bayesian filter calculates the posterior probability P(Spam|Keywords) to determine whether an email is likely spam. The filter learns over time, updating the prior and likelihoods based on user feedback (marking emails as spam or not spam).</p>
-</section>
-<section id="example-3-weather-forecasting" class="level3" data-number="3.5.3">
-<h3 data-number="3.5.3" class="anchored" data-anchor-id="example-3-weather-forecasting"><span class="header-section-number">3.5.3</span> Example 3: Weather Forecasting</h3>
-<p>Weather forecasting utilizes Bayes’ Theorem to incorporate various data sources, such as satellite imagery, radar data, and historical weather patterns, to predict the probability of certain weather events (e.g., rain).</p>
+<p>Bayes’ theorem allows us to calculate the positive predictive value (PPV):</p>
+<p><span class="math inline">\(P(D|T) = \frac{P(T|D)P(D)}{P(T)}\)</span></p>
+<p>Where <span class="math inline">\(P(T)\)</span> (the probability of a positive test) is calculated using the law of total probability:</p>
+<p><span class="math inline">\(P(T) = P(T|D)P(D) + P(T|\neg D)P(\neg D)\)</span></p>
+<p>Let’s assume the following values:</p>
 <ul>
-<li><strong>Prior probability (P(Rain)):</strong> The historical probability of rain on a given day of the year or in a specific location.</li>
-<li><strong>Likelihood (P(Data|Rain)):</strong> The probability of observing the current weather data (temperature, pressure, cloud cover) given that it will rain.</li>
+<li><span class="math inline">\(P(D) = 0.01\)</span> (1% prevalence)</li>
+<li><span class="math inline">\(P(T|D) = 0.95\)</span> (95% sensitivity)</li>
+<li><span class="math inline">\(P(T|\neg D) = 0.05\)</span> (5% false positive rate)</li>
 </ul>
-<p>The posterior probability P(Rain|Data) represents the updated probability of rain given the current weather observations. More sophisticated models use complex likelihood functions and incorporate multiple data sources for better predictions.</p>
+<p>Using this information, we can calculate <span class="math inline">\(P(D|T)\)</span>. This will show that even with a highly sensitive test, the probability of actually having the disease given a positive test might still be surprisingly low due to the low prior probability of the disease. This emphasizes the importance of considering both the test results and the base rate of the condition. We leave the explicit calculation as an exercise for the reader, encouraging them to perform it using Python code similar to the examples in previous sections.</p>
 </section>
-<section id="further-examples-across-diverse-fields" class="level3" data-number="3.5.4">
-<h3 data-number="3.5.4" class="anchored" data-anchor-id="further-examples-across-diverse-fields"><span class="header-section-number">3.5.4</span> Further Examples Across Diverse Fields</h3>
-<p>Bayes’ Theorem finds applications in a vast range of fields:</p>
+<section id="illustrative-example-spam-filtering" class="level3" data-number="3.5.2">
+<h3 data-number="3.5.2" class="anchored" data-anchor-id="illustrative-example-spam-filtering"><span class="header-section-number">3.5.2</span> Illustrative Example: Spam Filtering</h3>
+<p>Spam filtering utilizes Bayesian techniques to classify emails as spam or not spam. The process involves:</p>
+<ol type="1">
+<li><p><strong>Training:</strong> A model is trained on a dataset of labeled emails (spam and not spam), learning the association between words and the email class.</p></li>
+<li><p><strong>Prior Probabilities:</strong> The model establishes prior probabilities for spam and not spam emails based on the training data.</p></li>
+<li><p><strong>Likelihoods:</strong> For each word in a new email, the model calculates the likelihood of that word appearing in spam emails and in non-spam emails.</p></li>
+<li><p><strong>Bayesian Update:</strong> Bayes’ theorem combines the prior probabilities and the likelihoods of words in the new email to calculate the posterior probability that the email is spam.</p></li>
+<li><p><strong>Classification:</strong> If the posterior probability of spam exceeds a certain threshold, the email is classified as spam. Otherwise, it’s considered not spam.</p></li>
+</ol>
+<p>The calculation is similar to the medical diagnosis example but extended to multiple features (words). The simplification using the Naive Bayes assumption (assuming independence between words) makes it computationally efficient. The implementation using Python would involve techniques such as creating frequency tables of words in spam and non-spam emails. This is a common application of Bayes’ theorem and forms the basis of many robust spam filters.</p>
+</section>
+<section id="example-credit-risk-assessment" class="level3" data-number="3.5.3">
+<h3 data-number="3.5.3" class="anchored" data-anchor-id="example-credit-risk-assessment"><span class="header-section-number">3.5.3</span> Example: Credit Risk Assessment</h3>
+<p>Credit risk assessment uses Bayesian methods to predict the probability of a borrower defaulting on a loan.</p>
 <ul>
-<li><strong>Finance:</strong> Credit risk assessment, stock price prediction.</li>
-<li><strong>Machine Learning:</strong> Bayesian networks, naive Bayes classifiers, Bayesian neural networks.</li>
-<li><strong>Image Processing:</strong> Image segmentation, object recognition.</li>
-<li><strong>Natural Language Processing:</strong> Sentiment analysis, text classification.</li>
+<li><p><strong>Prior Information:</strong> Prior information might include the borrower’s credit history, income level, debt-to-income ratio, and other relevant financial data. These factors can inform the prior probability of default (<span class="math inline">\(P(\text{Default})\)</span>).</p></li>
+<li><p><strong>New Data:</strong> New data may include the specific characteristics of the loan application, such as loan amount, interest rate, and loan term. This informs the likelihood of default given certain loan characteristics (<span class="math inline">\(P(\text{Data}|\text{Default})\)</span>).</p></li>
+<li><p><strong>Bayesian Update:</strong> Bayes’ theorem combines prior information with new data to compute the posterior probability of default, providing a more refined risk assessment. This can be implemented using various Bayesian models, such as logistic regression models with appropriate priors.</p></li>
+<li><p><strong>Decision:</strong> The lender uses the posterior probability to decide whether to approve or reject the loan application, balancing the potential profit against the risk of default.</p></li>
 </ul>
-<p>The core principle remains consistent: updating beliefs about a hypothesis based on new evidence using Bayes’ Theorem. The specific implementation varies based on the problem at hand and the nature of the available data and prior information. The flexibility and power of this approach make it a fundamental tool for reasoning under uncertainty in many domains.</p>
-<p><strong>(Note:</strong> Python code for examples 2 and 3 would be considerably more involved and require libraries like scikit-learn or dedicated Bayesian packages. The examples above focus on the conceptual application of Bayes’ Theorem.)</p>
+<p>Python implementations often employ Bayesian logistic regression or other Bayesian models to handle the probabilistic nature of the problem. Libraries like PyMC or Stan would be used to perform the Bayesian inference, providing the posterior distribution of the probability of default. Visualization would then typically involve plots of the posterior distribution and credible intervals to quantify the uncertainty of the prediction. This application highlights the power of Bayesian methods in handling complex real-world scenarios where uncertainty is significant.</p>
 
 
 </section>

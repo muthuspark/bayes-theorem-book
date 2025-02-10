@@ -102,6 +102,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 </head>
@@ -295,7 +298,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../parts/markov-chain-monte-carlo-mcmc/implementation-with-pymc3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Implementation with PyMC3</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Implementation with PyMC</span></span></a>
   </div>
 </li>
       </ul>
@@ -452,10 +455,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#running-your-first-python-script" id="toc-running-your-first-python-script" class="nav-link" data-scroll-target="#running-your-first-python-script"><span class="header-section-number">4.1.3</span> Running your first Python Script</a></li>
   <li><a href="#working-with-python-files-.py" id="toc-working-with-python-files-.py" class="nav-link" data-scroll-target="#working-with-python-files-.py"><span class="header-section-number">4.1.4</span> Working with Python Files (.py)</a></li>
   <li><a href="#using-jupyter-notebooks" id="toc-using-jupyter-notebooks" class="nav-link" data-scroll-target="#using-jupyter-notebooks"><span class="header-section-number">4.1.5</span> Using Jupyter Notebooks</a></li>
-  <li><a href="#calculating-probabilities" id="toc-calculating-probabilities" class="nav-link" data-scroll-target="#calculating-probabilities"><span class="header-section-number">4.1.6</span> Calculating Probabilities</a></li>
-  <li><a href="#generating-random-numbers" id="toc-generating-random-numbers" class="nav-link" data-scroll-target="#generating-random-numbers"><span class="header-section-number">4.1.7</span> Generating Random Numbers</a></li>
-  <li><a href="#sampling-techniques" id="toc-sampling-techniques" class="nav-link" data-scroll-target="#sampling-techniques"><span class="header-section-number">4.1.8</span> Sampling Techniques</a></li>
-  <li><a href="#using-numpy-for-probability-calculations" id="toc-using-numpy-for-probability-calculations" class="nav-link" data-scroll-target="#using-numpy-for-probability-calculations"><span class="header-section-number">4.1.9</span> Using NumPy for Probability Calculations</a></li>
+  </ul></li>
+  <li><a href="#setting-up-python-environment-1" id="toc-setting-up-python-environment-1" class="nav-link" data-scroll-target="#setting-up-python-environment-1"><span class="header-section-number">4.2</span> Setting Up Python Environment</a>
+  <ul class="collapse">
+  <li><a href="#understanding-data-structures-for-probability" id="toc-understanding-data-structures-for-probability" class="nav-link" data-scroll-target="#understanding-data-structures-for-probability"><span class="header-section-number">4.2.1</span> Understanding Data Structures for Probability</a></li>
+  <li><a href="#working-with-random-variables" id="toc-working-with-random-variables" class="nav-link" data-scroll-target="#working-with-random-variables"><span class="header-section-number">4.2.2</span> Working with Random Variables</a></li>
+  <li><a href="#calculating-probabilities" id="toc-calculating-probabilities" class="nav-link" data-scroll-target="#calculating-probabilities"><span class="header-section-number">4.2.3</span> Calculating Probabilities</a></li>
+  <li><a href="#generating-random-numbers" id="toc-generating-random-numbers" class="nav-link" data-scroll-target="#generating-random-numbers"><span class="header-section-number">4.2.4</span> Generating Random Numbers</a></li>
+  <li><a href="#sampling-techniques" id="toc-sampling-techniques" class="nav-link" data-scroll-target="#sampling-techniques"><span class="header-section-number">4.2.5</span> Sampling Techniques</a></li>
+  <li><a href="#using-numpy-for-probability-calculations" id="toc-using-numpy-for-probability-calculations" class="nav-link" data-scroll-target="#using-numpy-for-probability-calculations"><span class="header-section-number">4.2.6</span> Using NumPy for Probability Calculations</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -485,53 +493,77 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This chapter guides you through setting up the Python environment necessary for working through the examples and exercises in this book. We’ll cover installing the essential libraries and managing your Python environment effectively.</p>
 <section id="required-libraries" class="level3" data-number="4.0.1">
 <h3 data-number="4.0.1" class="anchored" data-anchor-id="required-libraries"><span class="header-section-number">4.0.1</span> Required Libraries</h3>
-<p>Several Python libraries are crucial for implementing and visualizing Bayesian methods. We’ll focus on installing NumPy, SciPy, Matplotlib, and Pandas. While others exist, these form the core foundation.</p>
+<p>Several Python libraries are essential for implementing and visualizing Bayesian methods. We’ll focus on installing NumPy, SciPy, Matplotlib, and Pandas. While others exist, these form the core foundation.</p>
 </section>
 <section id="installing-numpy" class="level3" data-number="4.0.2">
 <h3 data-number="4.0.2" class="anchored" data-anchor-id="installing-numpy"><span class="header-section-number">4.0.2</span> Installing NumPy</h3>
 <p>NumPy (Numerical Python) is the fundamental package for scientific computing in Python. It provides powerful N-dimensional array objects and tools for working with them. You can install it using pip:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install numpy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Verify the installation by opening a Python interpreter and typing:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div id="cbcd500e" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.__version__)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1.26.4</code></pre>
+</div>
+</div>
 <p>This should print the installed NumPy version.</p>
 </section>
 <section id="installing-scipy" class="level3" data-number="4.0.3">
 <h3 data-number="4.0.3" class="anchored" data-anchor-id="installing-scipy"><span class="header-section-number">4.0.3</span> Installing SciPy</h3>
 <p>SciPy builds upon NumPy, providing a vast collection of algorithms for scientific computing, including optimization, statistics, and signal processing. Many Bayesian methods rely on SciPy’s functionalities. Install it with:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install scipy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install scipy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Check the installation:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(scipy.__version__)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="b997bdc2" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(scipy.__version__)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1.11.4</code></pre>
+</div>
+</div>
 </section>
 <section id="installing-matplotlib" class="level3" data-number="4.0.4">
 <h3 data-number="4.0.4" class="anchored" data-anchor-id="installing-matplotlib"><span class="header-section-number">4.0.4</span> Installing Matplotlib</h3>
-<p>Matplotlib is a comprehensive plotting library that allows you to create static, interactive, and animated visualizations in Python. We’ll use it extensively to visualize probability distributions and Bayesian inference results. Install it using:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install matplotlib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Matplotlib is a detailed plotting library that allows you to create static, interactive, and animated visualizations in Python. We’ll use it extensively to visualize probability distributions and Bayesian inference results. Install it using:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install matplotlib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>A simple plot to verify the installation:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">100</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.sin(x)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"sin(x)"</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Simple Sine Wave"</span>)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="483eb1d5" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">100</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.sin(x)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"sin(x)"</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Simple Sine Wave"</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="setting-up-python-environment_files/figure-html/cell-4-output-1.png" width="608" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>This will generate a plot of a sine wave.</p>
 </section>
 <section id="installing-pandas" class="level3" data-number="4.0.5">
 <h3 data-number="4.0.5" class="anchored" data-anchor-id="installing-pandas"><span class="header-section-number">4.0.5</span> Installing Pandas</h3>
 <p>Pandas is a powerful data manipulation and analysis library. It provides data structures like DataFrames, which are particularly useful for organizing and working with datasets in Bayesian analysis. Install it with:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install pandas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install pandas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Verify the installation:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.__version__)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="80627c22" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.__version__)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2.2.3</code></pre>
+</div>
+</div>
 </section>
 <section id="installing-other-libraries-optional" class="level3" data-number="4.0.6">
 <h3 data-number="4.0.6" class="anchored" data-anchor-id="installing-other-libraries-optional"><span class="header-section-number">4.0.6</span> Installing Other Libraries (Optional)</h3>
-<p>Depending on the specific Bayesian methods you wish to explore, you might need additional libraries. For example, <code>statsmodels</code> provides statistical modeling capabilities, and libraries like <code>PyMC3</code> or <code>Pyro</code> are dedicated to probabilistic programming and Bayesian inference. Install these as needed using pip, e.g., <code>pip install pymc3</code>.</p>
+<p>Depending on the specific Bayesian methods you wish to explore, you might need additional libraries. For example, <code>statsmodels</code> provides statistical modeling capabilities, and libraries like <code>PyMC</code> or <code>Pyro</code> are dedicated to probabilistic programming and Bayesian inference. Install these as needed using pip, e.g., <code>pip install pymc3</code>.</p>
 </section>
 <section id="managing-environments-with-conda-or-virtualenv" class="level3" data-number="4.0.7">
 <h3 data-number="4.0.7" class="anchored" data-anchor-id="managing-environments-with-conda-or-virtualenv"><span class="header-section-number">4.0.7</span> Managing Environments with Conda or Virtualenv</h3>
@@ -541,13 +573,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>(Illustrative Example with Conda)</strong></p>
 <ol type="1">
 <li><p><strong>Create an environment:</strong></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> bayes_env python=3.9  <span class="co"># Replace 3.9 with your desired Python version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> bayes_env python=3.9  <span class="co"># Replace 3.9 with your desired Python version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p><strong>Activate the environment:</strong></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate bayes_env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate bayes_env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p><strong>Install packages:</strong></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install numpy scipy matplotlib pandas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install numpy scipy matplotlib pandas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p><strong>Deactivate the environment:</strong></p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ol>
 <p>This approach ensures that your project’s dependencies are isolated from other Python projects on your system. Similar steps can be followed using Virtualenv, though the commands will differ slightly. Choose the environment manager that best suits your workflow.</p>
 </section>
@@ -575,7 +607,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="running-your-first-python-script" class="level3" data-number="4.1.3">
 <h3 data-number="4.1.3" class="anchored" data-anchor-id="running-your-first-python-script"><span class="header-section-number">4.1.3</span> Running your first Python Script</h3>
 <p>Let’s write and run a simple Python script to verify your setup. Create a file named <code>hello.py</code> and add the following code:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello, Bayesian World!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3026a979" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello, Bayesian World!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Hello, Bayesian World!</code></pre>
+</div>
+</div>
 <p>Open your IDE, open the <code>hello.py</code> file, and run it. The output (“Hello, Bayesian World!”) should be displayed in your IDE’s console or terminal.</p>
 </section>
 <section id="working-with-python-files-.py" class="level3" data-number="4.1.4">
@@ -592,115 +629,161 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><strong>Write and execute code:</strong> You can type Python code into cells and execute them using the “Run” button or Shift+Enter. The output appears directly below the cell.</p></li>
 </ol>
 <p>Here’s an example of a simple Jupyter Notebook cell using Matplotlib:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">100</span>)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.sin(x)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"sin(x)"</span>)</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Simple Sine Wave"</span>)</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This will generate a plot within the Jupyter Notebook itself.</p>
-<p>You can also add Markdown cells for text and explanations. For example, a simple Mermaid diagram explaining a Bayesian inference concept could be inserted in a Markdown cell like this:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="in">```mermaid</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="in">graph LR</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="in">    A[Prior] --&gt; B{Data};</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="in">    B --&gt; C[Posterior];</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="in">    style B fill:#ccf,stroke:#f66,stroke-width:2px</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<pre><code>
-This will render a simple flow chart within the notebook.  Jupyter Notebooks provide a very interactive and flexible way to work with Python code and data for Bayesian analysis.
-
-
-## Setting Up Python Environment
-
-This chapter introduces basic Python tools for working with probability, building a foundation for applying Bayesian methods.
-
-
-### Understanding Data Structures for Probability
-
-Python offers several data structures well-suited for representing probabilistic concepts.  Lists and dictionaries are commonly used:
-
-* **Lists:** Can represent sequences of events or outcomes. For example, `outcomes = ['Heads', 'Tails']` represents the outcomes of a coin flip.
-
-* **Dictionaries:** Useful for storing probability distributions.  Keys can represent events, and values can represent their probabilities.  For example: `probabilities = {'Heads': 0.5, 'Tails': 0.5}` represents a fair coin.
-
-  NumPy arrays are particularly powerful for handling large datasets and performing numerical computations efficiently.
-
-
-### Working with Random Variables
-
-A random variable is a variable whose value is a numerical outcome of a random phenomenon.  Python doesn't have a specific "random variable" type, but we represent them using variables and numerical data.  For example:
-
-
-```python
-# Representing a discrete random variable (die roll)
-die_roll = np.random.randint(1, 7)  # Generates a random integer between 1 and 6 (inclusive)
-print(f"The die roll is: {die_roll}")
-
-# Representing a continuous random variable (height)
-height = np.random.normal(170, 10) # Generates a random height from a normal distribution (mean=170, std=10)
-print(f"The height is: {height:.2f}")</code></pre>
-</section>
-<section id="calculating-probabilities" class="level3" data-number="4.1.6">
-<h3 data-number="4.1.6" class="anchored" data-anchor-id="calculating-probabilities"><span class="header-section-number">4.1.6</span> Calculating Probabilities</h3>
-<p>Basic probability calculations (e.g., calculating the probability of an event or the conditional probability of an event given another event) are straightforward in Python:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Probability of getting heads twice in a row with a fair coin</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>probability_heads <span class="op">=</span> <span class="fl">0.5</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>probability_two_heads <span class="op">=</span> probability_heads <span class="op">*</span> probability_heads</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability of two heads: </span><span class="sc">{</span>probability_two_heads<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Conditional probability (Bayes' Theorem will be covered later)</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Let's assume:</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co">#P(A|B) = 0.8  # Probability of event A given event B</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co">#P(B) = 0.6     # Probability of event B</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co">#P(A) = 0.7     # Probability of event A</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co">#P(B|A) = (P(A|B) * P(B)) / P(A)</span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>probability_B_given_A <span class="op">=</span> (<span class="fl">0.8</span> <span class="op">*</span> <span class="fl">0.6</span>) <span class="op">/</span> <span class="fl">0.7</span></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability of B given A: </span><span class="sc">{</span>probability_B_given_A<span class="sc">:.2f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="generating-random-numbers" class="level3" data-number="4.1.7">
-<h3 data-number="4.1.7" class="anchored" data-anchor-id="generating-random-numbers"><span class="header-section-number">4.1.7</span> Generating Random Numbers</h3>
-<p>The <code>random</code> module (and <code>numpy.random</code>) provides functions for generating random numbers from various distributions:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
+<div id="ebde99d8" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a random float between 0 and 1</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>random_float <span class="op">=</span> random.random()</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Random float: </span><span class="sc">{</span>random_float<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a random integer between 1 and 10 (inclusive)</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>random_integer <span class="op">=</span> random.randint(<span class="dv">1</span>, <span class="dv">10</span>)</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Random integer: </span><span class="sc">{</span>random_integer<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate random numbers from a normal distribution</span></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>normal_random_numbers <span class="op">=</span> np.random.normal(loc<span class="op">=</span><span class="dv">0</span>, scale<span class="op">=</span><span class="dv">1</span>, size<span class="op">=</span><span class="dv">10</span>) <span class="co"># mean=0, std=1, 10 numbers</span></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Random numbers from a normal distribution: </span><span class="sc">{</span>normal_random_numbers<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">100</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.sin(x)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"sin(x)"</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Simple Sine Wave"</span>)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="setting-up-python-environment_files/figure-html/cell-7-output-1.png" width="608" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This will generate a plot within the Jupyter Notebook itself.</p>
+<p>You can also add Markdown cells for text and explanations. For example, a simple Mermaid diagram explaining a Bayesian inference concept could be inserted in a Markdown cell like this:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A[Prior] --&gt; B{Data};
+    B --&gt; C[Posterior];
+    style B fill:#ccf,stroke:#f66,stroke-width:2px
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>This will render a simple flow chart within the notebook. Jupyter Notebooks provide a very interactive and flexible way to work with Python code and data for Bayesian analysis.</p>
 </section>
-<section id="sampling-techniques" class="level3" data-number="4.1.8">
-<h3 data-number="4.1.8" class="anchored" data-anchor-id="sampling-techniques"><span class="header-section-number">4.1.8</span> Sampling Techniques</h3>
-<p>Sampling from probability distributions is crucial in Bayesian inference. NumPy’s <code>random</code> submodule offers various sampling methods:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sampling from a normal distribution</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>samples <span class="op">=</span> np.random.normal(loc<span class="op">=</span><span class="dv">0</span>, scale<span class="op">=</span><span class="dv">1</span>, size<span class="op">=</span><span class="dv">1000</span>) <span class="co"># 1000 samples</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualizing the sample using Matplotlib</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>plt.hist(samples, bins<span class="op">=</span><span class="dv">30</span>)</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Histogram of samples from a Normal Distribution'</span>)</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Sample Value'</span>)</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Frequency'</span>)</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="using-numpy-for-probability-calculations" class="level3" data-number="4.1.9">
-<h3 data-number="4.1.9" class="anchored" data-anchor-id="using-numpy-for-probability-calculations"><span class="header-section-number">4.1.9</span> Using NumPy for Probability Calculations</h3>
+<section id="setting-up-python-environment-1" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="setting-up-python-environment-1"><span class="header-section-number">4.2</span> Setting Up Python Environment</h2>
+<p>This chapter introduces basic Python tools for working with probability, building a foundation for applying Bayesian methods.</p>
+<section id="understanding-data-structures-for-probability" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="understanding-data-structures-for-probability"><span class="header-section-number">4.2.1</span> Understanding Data Structures for Probability</h3>
+<p>Python offers many data structures well-suited for representing probabilistic concepts. Lists and dictionaries are commonly used:</p>
+<ul>
+<li><p><strong>Lists:</strong> Can represent sequences of events or outcomes. For example, <code>outcomes = ['Heads', 'Tails']</code> represents the outcomes of a coin flip.</p></li>
+<li><p><strong>Dictionaries:</strong> Useful for storing probability distributions. Keys can represent events, and values can represent their probabilities. For example: <code>probabilities = {'Heads': 0.5, 'Tails': 0.5}</code> represents a fair coin.</p>
+<p>NumPy arrays are particularly powerful for handling large datasets and performing numerical computations efficiently.</p></li>
+</ul>
+</section>
+<section id="working-with-random-variables" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="working-with-random-variables"><span class="header-section-number">4.2.2</span> Working with Random Variables</h3>
+<p>A random variable is a variable whose value is a numerical outcome of a random phenomenon. Python doesn’t have a specific “random variable” type, but we represent them using variables and numerical data. For example:</p>
+<div id="7d8bd971" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Representing a discrete random variable (die roll)</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>die_roll <span class="op">=</span> np.random.randint(<span class="dv">1</span>, <span class="dv">7</span>)  <span class="co"># Generates a random integer between 1 and 6 (inclusive)</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"The die roll is: </span><span class="sc">{</span>die_roll<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Representing a continuous random variable (height)</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>height <span class="op">=</span> np.random.normal(<span class="dv">170</span>, <span class="dv">10</span>) <span class="co"># Generates a random height from a normal distribution (mean=170, std=10)</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"The height is: </span><span class="sc">{</span>height<span class="sc">:.2f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The die roll is: 1
+The height is: 174.29</code></pre>
+</div>
+</div>
+</section>
+<section id="calculating-probabilities" class="level3" data-number="4.2.3">
+<h3 data-number="4.2.3" class="anchored" data-anchor-id="calculating-probabilities"><span class="header-section-number">4.2.3</span> Calculating Probabilities</h3>
+<p>Basic probability calculations (e.g., calculating the probability of an event or the conditional probability of an event given another event) are straightforward in Python:</p>
+<div id="3a88fc5d" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Probability of getting heads twice in a row with a fair coin</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>probability_heads <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>probability_two_heads <span class="op">=</span> probability_heads <span class="op">*</span> probability_heads</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability of two heads: </span><span class="sc">{</span>probability_two_heads<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Conditional probability (Bayes' Theorem will be covered later)</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Let's assume:</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co">#P(A|B) = 0.8  # Probability of event A given event B</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co">#P(B) = 0.6     # Probability of event B</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co">#P(A) = 0.7     # Probability of event A</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="co">#P(B|A) = (P(A|B) * P(B)) / P(A)</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>probability_B_given_A <span class="op">=</span> (<span class="fl">0.8</span> <span class="op">*</span> <span class="fl">0.6</span>) <span class="op">/</span> <span class="fl">0.7</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability of B given A: </span><span class="sc">{</span>probability_B_given_A<span class="sc">:.2f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Probability of two heads: 0.25
+Probability of B given A: 0.69</code></pre>
+</div>
+</div>
+</section>
+<section id="generating-random-numbers" class="level3" data-number="4.2.4">
+<h3 data-number="4.2.4" class="anchored" data-anchor-id="generating-random-numbers"><span class="header-section-number">4.2.4</span> Generating Random Numbers</h3>
+<p>The <code>random</code> module (and <code>numpy.random</code>) provides functions for generating random numbers from various distributions:</p>
+<div id="edafe18a" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a random float between 0 and 1</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>random_float <span class="op">=</span> random.random()</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Random float: </span><span class="sc">{</span>random_float<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a random integer between 1 and 10 (inclusive)</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>random_integer <span class="op">=</span> random.randint(<span class="dv">1</span>, <span class="dv">10</span>)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Random integer: </span><span class="sc">{</span>random_integer<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate random numbers from a normal distribution</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>normal_random_numbers <span class="op">=</span> np.random.normal(loc<span class="op">=</span><span class="dv">0</span>, scale<span class="op">=</span><span class="dv">1</span>, size<span class="op">=</span><span class="dv">10</span>) <span class="co"># mean=0, std=1, 10 numbers</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Random numbers from a normal distribution: </span><span class="sc">{</span>normal_random_numbers<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Random float: 0.021925574365079026
+Random integer: 8
+Random numbers from a normal distribution: [-1.11825581 -0.96007133  0.84407854  0.24987352 -0.3923312  -1.08547078
+ -1.64477846  0.11779917 -1.29962105  0.40542599]</code></pre>
+</div>
+</div>
+</section>
+<section id="sampling-techniques" class="level3" data-number="4.2.5">
+<h3 data-number="4.2.5" class="anchored" data-anchor-id="sampling-techniques"><span class="header-section-number">4.2.5</span> Sampling Techniques</h3>
+<p>Sampling from probability distributions is essential in Bayesian inference. NumPy’s <code>random</code> submodule offers various sampling methods:</p>
+<div id="c8b6b7b0" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sampling from a normal distribution</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>samples <span class="op">=</span> np.random.normal(loc<span class="op">=</span><span class="dv">0</span>, scale<span class="op">=</span><span class="dv">1</span>, size<span class="op">=</span><span class="dv">1000</span>) <span class="co"># 1000 samples</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualizing the sample using Matplotlib</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>plt.hist(samples, bins<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Histogram of samples from a Normal Distribution'</span>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Sample Value'</span>)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Frequency'</span>)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="setting-up-python-environment_files/figure-html/cell-11-output-1.png" width="593" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="using-numpy-for-probability-calculations" class="level3" data-number="4.2.6">
+<h3 data-number="4.2.6" class="anchored" data-anchor-id="using-numpy-for-probability-calculations"><span class="header-section-number">4.2.6</span> Using NumPy for Probability Calculations</h3>
 <p>NumPy provides efficient array operations that simplify probability calculations. For example, we can calculate the mean and standard deviation of a sample:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate mean and standard deviation</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>mean <span class="op">=</span> np.mean(samples)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>std <span class="op">=</span> np.std(samples)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean: </span><span class="sc">{</span>mean<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Standard Deviation: </span><span class="sc">{</span>std<span class="sc">:.2f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="294ae42c" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate mean and standard deviation</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>mean <span class="op">=</span> np.mean(samples)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>std <span class="op">=</span> np.std(samples)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean: </span><span class="sc">{</span>mean<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Standard Deviation: </span><span class="sc">{</span>std<span class="sc">:.2f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mean: -0.03
+Standard Deviation: 1.01</code></pre>
+</div>
+</div>
 <p>NumPy’s capabilities extend far beyond this, making it an essential tool for numerical probability and statistics. More advanced techniques like calculating probabilities from probability density functions will be covered in later chapters using SciPy.</p>
 
 

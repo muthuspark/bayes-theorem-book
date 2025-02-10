@@ -1,6 +1,6 @@
 ## Code Organization
 
-This chapter discusses best practices for organizing your Python projects, especially those involving Bayesian methods.  Well-structured code is crucial for readability, maintainability, and reproducibility – essential aspects of any serious data analysis project.
+This chapter discusses best practices for organizing your Python projects, especially those involving Bayesian methods.  Well-structured code is essential for readability, maintainability, and reproducibility – essential aspects of any serious data analysis project.
 
 ### Organizing Files and Folders
 
@@ -75,10 +75,10 @@ bayesian_coin_flip/
 
 **`src/models.py`:**
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
-import pymc3 as pm
+import pymc as pm
 
 def bayesian_coin_flip(data):
     with pm.Model() as model:
@@ -97,7 +97,7 @@ def bayesian_coin_flip(data):
 
 **`notebooks/coin_flip_analysis.ipynb`:** (Illustrative excerpt)
 
-```\{python}
+```{python}
 #| echo: true
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -144,13 +144,13 @@ This example showcases a basic project structure.  More complex projects might r
 
 ## Writing Clean and Modular Code
 
-This chapter focuses on writing well-structured, readable, and maintainable Python code for Bayesian analysis.  Clean code is crucial for collaboration, debugging, and extending your work.
+This chapter focuses on writing well-structured, readable, and maintainable Python code for Bayesian analysis.  Clean code is essential for collaboration, debugging, and extending your work.
 
 ### Functions for Bayesian Calculations
 
 Break down your Bayesian calculations into reusable functions. This improves code readability and reduces redundancy. Each function should ideally perform a single, well-defined task.
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import scipy.stats as stats
@@ -204,12 +204,12 @@ def calculate_posterior(prior, likelihood, data):
 
 ### Classes for Bayesian Models
 
-For more complex models, using classes can greatly enhance organization.  A class can encapsulate data, methods (functions), and attributes related to a specific Bayesian model.
+For more complex models, using classes can greatly improve organization.  A class can encapsulate data, methods (functions), and attributes related to a specific Bayesian model.
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
-import pymc3 as pm
+import pymc as pm
 
 class BayesianLinearRegression:
     def __init__(self, X, y):
@@ -256,12 +256,12 @@ PEP 8 is the style guide for Python code. Adhering to PEP 8 ensures consistency 
 * **Line length:** Keep lines under 79 characters.
 * **Naming conventions:** Use lowercase with underscores for variables and functions (e.g., `my_variable`), and CamelCase for classes (e.g., `MyClass`).
 
-Following these principles results in clean, modular, and easily understandable Bayesian analysis code.  This is crucial for both individual projects and collaborative efforts.
+Following these principles results in clean, modular, and easily understandable Bayesian analysis code.  This is essential for both individual projects and collaborative efforts.
 
 
 ## Testing Bayesian Models
 
-Rigorous testing is crucial for ensuring the correctness and reliability of your Bayesian models.  This section outlines strategies for testing different aspects of your Bayesian implementations.
+Rigorous testing is essential for ensuring the correctness and reliability of your Bayesian models.  This section outlines strategies for testing different aspects of your Bayesian implementations.
 
 ### Unit Testing with `unittest` or `pytest`
 
@@ -269,7 +269,7 @@ Unit testing involves testing individual components of your code in isolation.  
 
 **Example using `unittest`:**
 
-```\{python}
+```{python}
 #| echo: true
 import unittest
 import numpy as np
@@ -290,7 +290,7 @@ if __name__ == '__main__':
 
 **Example using `pytest`:** (requires installing `pytest`)
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 from src.my_bayesian_module import calculate_posterior
@@ -342,18 +342,18 @@ A simple CI workflow might involve:
 6.  Report the results.
 
 
-By implementing these testing strategies, you'll build more robust and reliable Bayesian models in Python.  Comprehensive testing is an investment that pays off in terms of reduced debugging time and increased confidence in your results.
+By implementing these testing strategies, you'll build more robust and reliable Bayesian models in Python.  Detailed testing is an investment that pays off in terms of reduced debugging time and increased confidence in your results.
 
 
 ## Documentation
 
-Clear and comprehensive documentation is essential for any software project, especially those involving complex statistical methods like Bayesian analysis.  Good documentation helps others understand your code and reproduce your results.
+Clear and detailed documentation is essential for any software project, especially those involving complex statistical methods like Bayesian analysis.  Good documentation helps others understand your code and reproduce your results.
 
 ### Documenting Code with Docstrings
 
 Docstrings are string literals used to document Python code.  They are placed at the beginning of modules, classes, functions, and methods.  Use them to explain what a piece of code does, its parameters, return values, and any exceptions it might raise.
 
-```\{python}
+```{python}
 #| echo: true
 def calculate_posterior(prior, likelihood, data):
     """Calculates the unnormalized posterior distribution.
@@ -381,7 +381,7 @@ Sphinx is a popular tool for generating API documentation from docstrings.  It p
 
 A simple `conf.py` file for Sphinx might look like this (you'll need to adapt paths):
 
-```\{python}
+```{python}
 #| echo: true
 # conf.py
 import os
@@ -418,7 +418,7 @@ Jupyter Notebooks are excellent for creating interactive examples and tutorials.
 
 **Example Jupyter Notebook excerpt:**
 
-```\{python}
+```{python}
 #| echo: true
 import matplotlib.pyplot as plt
 import numpy as np
@@ -467,13 +467,13 @@ Refactoring is an iterative process that can significantly improve your codebase
 
 ### Code Optimization for Bayesian Computations
 
-Bayesian computations can be computationally intensive. Optimization is crucial for handling large datasets or complex models.  Techniques include:
+Bayesian computations can be computationally intensive. Optimization is essential for handling large datasets or complex models.  Techniques include:
 
-* **Vectorization:** Use NumPy's vectorized operations to avoid explicit loops. This leverages NumPy's optimized C implementations for significant speedups.
+* **Vectorization:** Use NumPy's vectorized operations to avoid explicit loops. This uses NumPy's optimized C implementations for significant speedups.
 
 * **Just-in-time (JIT) compilation (Numba):** Numba compiles Python code to machine code at runtime, providing substantial performance gains, especially for numerical computations.
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 from numba import jit
@@ -503,7 +503,7 @@ def fast_calculation(x):
 Profiling helps identify performance bottlenecks in your code.  Tools like `cProfile` (built-in) or `line_profiler` (third-party) measure execution times of different code sections.
 
 
-```\{python}
+```{python}
 #| echo: true
 import cProfile
 import my_bayesian_module
@@ -530,4 +530,4 @@ Debugging Bayesian models can be challenging due to the inherent stochasticity a
 
 
 
-By applying these advanced techniques, you can significantly improve the quality, efficiency, and reliability of your Bayesian analysis code. Remember that clean, well-documented, and well-tested code is crucial for successful Bayesian modeling, especially in complex scenarios.
+By applying these advanced techniques, you can significantly improve the quality, efficiency, and reliability of your Bayesian analysis code. Remember that clean, well-documented, and well-tested code is essential for successful Bayesian modeling, especially in complex scenarios.

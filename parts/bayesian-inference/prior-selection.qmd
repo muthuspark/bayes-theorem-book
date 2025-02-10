@@ -14,7 +14,7 @@ where:
 * $P(D)$ is the *evidence* – the probability of observing the data, which acts as a normalizing constant.
 
 
-The prior distribution is a crucial component of Bayesian inference.  It encapsulates our prior knowledge or beliefs about the parameter before we analyze the data.  Choosing an appropriate prior is therefore a critical step in performing a Bayesian analysis.  A poorly chosen prior can lead to misleading or inaccurate inferences, while a well-chosen prior can significantly improve the efficiency and accuracy of the analysis.  This chapter explores different strategies for selecting priors and examines the impact of prior choices on the resulting inferences.
+The prior distribution is a essential component of Bayesian inference.  It encapsulates our prior knowledge or beliefs about the parameter before we analyze the data.  Choosing an appropriate prior is therefore a critical step in performing a Bayesian analysis.  A poorly chosen prior can lead to misleading or inaccurate inferences, while a well-chosen prior can significantly improve the efficiency and accuracy of the analysis.  This chapter explores different strategies for selecting priors and examines the impact of prior choices on the resulting inferences.
 
 
 ### The Role of Priors in Bayesian Inference
@@ -28,7 +28,7 @@ For example, if we're estimating the probability of success in a coin flip, we m
 
 The choice of prior significantly impacts the posterior distribution and, consequently, any inferences drawn from the analysis. Let's illustrate this with a simple example using Python and the `pymc` library.  We'll model the rate parameter $\lambda$ of a Poisson distribution.
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import pymc as pm
@@ -70,7 +70,7 @@ B --> C{Bayes' Theorem};
 C --> D[Posterior Distribution];
 ```
 
-This diagram visually represents how the prior, likelihood, and Bayes' theorem combine to generate the posterior. The choice of prior directly influences the shape of the resulting posterior.  A careful consideration of prior selection is therefore crucial for ensuring that Bayesian analysis is robust and reliable.
+This diagram visually represents how the prior, likelihood, and Bayes' theorem combine to generate the posterior. The choice of prior directly influences the shape of the resulting posterior.  A careful consideration of prior selection is therefore essential for ensuring that Bayesian analysis is robust and reliable.
 
 
 ## Informative Priors
@@ -103,7 +103,7 @@ Several common probability distributions serve as informative priors, depending 
 
 ### Using Expert Knowledge to Define Priors
 
-Incorporating expert knowledge is crucial in selecting an informative prior.  This might involve eliciting prior beliefs through structured interviews or surveys.  For example, asking an expert to specify a range of plausible values and quantiles for the parameter helps in determining an appropriate prior distribution and its parameters.  This subjective approach acknowledges that prior knowledge is not always based on formal data but on professional judgment.
+Incorporating expert knowledge is essential in selecting an informative prior.  This might involve eliciting prior beliefs through structured interviews or surveys.  For example, asking an expert to specify a range of plausible values and quantiles for the parameter helps in determining an appropriate prior distribution and its parameters.  This subjective approach acknowledges that prior knowledge is not always based on formal data but on professional judgment.
 
 
 ### Prior Elicitation Techniques
@@ -135,7 +135,7 @@ Prior elicitation methods aim to systematically translate expert knowledge into 
 The following example demonstrates using informative priors in PyMC. We'll model the mean ($\mu$) of a normal distribution, using a normal prior:
 
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import pymc as pm
@@ -174,7 +174,7 @@ This diagram highlights the flow from prior knowledge to final inferences using 
 
 ### The Concept of Non-Informative Priors
 
-Non-informative priors aim to minimally influence the posterior distribution, letting the data "speak for itself."  They represent a state of maximal ignorance or uncertainty about the parameter before observing any data.  The goal is to allow the likelihood function to dominate the posterior, ensuring that the inference is primarily driven by the observed data.  However, it's crucial to understand that truly "non-informative" priors are often impossible to define; all priors carry some implicit assumptions. The term "non-informative" is therefore a relative one, meaning the prior's impact on the posterior is relatively small compared to the likelihood, especially with a substantial amount of data.
+Non-informative priors aim to minimally influence the posterior distribution, letting the data "speak for itself."  They represent a state of maximal ignorance or uncertainty about the parameter before observing any data.  The goal is to allow the likelihood function to dominate the posterior, ensuring that the inference is primarily driven by the observed data.  However, it's essential to understand that truly "non-informative" priors are often impossible to define; all priors carry some implicit assumptions. The term "non-informative" is therefore a relative one, meaning the prior's impact on the posterior is relatively small compared to the likelihood, especially with a substantial amount of data.
 
 ### Types of Non-Informative Priors (Uniform, Jeffreys Prior)
 
@@ -189,7 +189,7 @@ Several approaches exist for constructing non-informative priors:
 
    While seemingly straightforward, the choice of the range [a, b] can introduce subjectivity and affect the results.
 
-* **Jeffreys prior:** A more sophisticated approach that aims to be invariant under reparameterization.  It's based on the Fisher information matrix, $I(\theta)$, which measures the amount of information about θ contained in the data. The Jeffreys prior is proportional to the square root of the determinant of the Fisher information matrix:
+* **Jeffreys prior:** A more complex approach that aims to be invariant under reparameterization.  It's based on the Fisher information matrix, $I(\theta)$, which measures the amount of information about θ contained in the data. The Jeffreys prior is proportional to the square root of the determinant of the Fisher information matrix:
 
    $P(\theta) \propto \sqrt{\text{det}(I(\theta))}$
 
@@ -215,7 +215,7 @@ An improper prior is a probability distribution that doesn't integrate to one (i
 
 Let's illustrate a non-informative prior (uniform) in PyMC:
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import pymc as pm
@@ -255,7 +255,7 @@ This diagram demonstrates how a non-informative prior minimally influences the p
 
 ### Introduction to Empirical Bayes
 
-Empirical Bayes methods offer a compromise between fully Bayesian approaches and frequentist methods.  They leverage the data to estimate the parameters of the prior distribution, rather than specifying the prior subjectively or using a non-informative prior.  This approach treats the hyperparameters of the prior distribution as unknown parameters that need to be estimated from the data.  The resulting prior is then used in Bayes' theorem to update the posterior distribution of the parameters of interest.  Empirical Bayes avoids the subjectivity inherent in choosing a prior distribution, but it also avoids the computational challenges of fully Bayesian methods in complex models.
+Empirical Bayes methods offer a compromise between fully Bayesian approaches and frequentist methods.  They use the data to estimate the parameters of the prior distribution, rather than specifying the prior subjectively or using a non-informative prior.  This approach treats the hyperparameters of the prior distribution as unknown parameters that need to be estimated from the data.  The resulting prior is then used in Bayes' theorem to update the posterior distribution of the parameters of interest.  Empirical Bayes avoids the subjectivity inherent in choosing a prior distribution, but it also avoids the computational challenges of fully Bayesian methods in complex models.
 
 ### Estimating Hyperparameters from Data
 
@@ -285,7 +285,7 @@ This marginal likelihood is obtained by integrating out the $\theta_i$.  The max
 
 Scikit-learn provides tools for empirical Bayes methods, especially within the context of Gaussian mixture models.  Here’s a simple example using `sklearn.mixture.BayesianGaussianMixture`:
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 from sklearn.mixture import BayesianGaussianMixture
@@ -342,7 +342,7 @@ This diagram shows the workflow of empirical Bayes: data is used to estimate pri
 
 ### Assessing the Impact of Prior Choice
 
-Prior sensitivity analysis is crucial in Bayesian inference to evaluate how much the posterior inferences depend on the choice of prior distribution.  A robust Bayesian analysis should yield similar conclusions even with different, but reasonable, prior specifications.  If the posterior is highly sensitive to the prior choice, it indicates either limited data (where the prior's influence is strong) or a poor model specification.  This section details methods to assess and visualize prior sensitivity.
+Prior sensitivity analysis is essential in Bayesian inference to evaluate how much the posterior inferences depend on the choice of prior distribution.  A robust Bayesian analysis should yield similar conclusions even with different, but reasonable, prior specifications.  If the posterior is highly sensitive to the prior choice, it indicates either limited data (where the prior's influence is strong) or a poor model specification.  This section details methods to assess and visualize prior sensitivity.
 
 
 ### Methods for Sensitivity Analysis
@@ -374,7 +374,7 @@ A robust Bayesian analysis shows minimal changes in posterior inferences despite
 
 Here's a Python example demonstrating posterior sensitivity analysis:
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import pymc as pm
@@ -426,7 +426,7 @@ This diagram illustrates the process of prior sensitivity analysis: comparing po
 
 ### Considerations for Prior Selection
 
-Selecting an appropriate prior is a crucial step in Bayesian inference. The choice depends on several factors:
+Selecting an appropriate prior is a essential step in Bayesian inference. The choice depends on many factors:
 
 * **Available prior knowledge:**  If strong prior knowledge exists (e.g., from previous studies or expert opinion), an informative prior is appropriate.  With limited or weak prior knowledge, a weakly informative or non-informative prior might be preferred.
 * **Amount of data:**  With abundant data, the likelihood dominates, and the influence of the prior is less critical. Conversely, with limited data, the prior plays a more significant role, demanding careful consideration.
@@ -445,7 +445,7 @@ These guidelines help choose an appropriate prior:
 
 3. **Use conjugate priors when possible:**  Conjugate priors lead to analytically tractable posterior distributions, simplifying computations.  However, choosing a conjugate prior might necessitate compromising on realism.
 
-4. **Consider prior elicitation:** If expert knowledge is available, employ prior elicitation techniques (quantile, histogram, or comparative elicitation) to translate subjective expertise into a quantitative prior.
+4. **Consider prior elicitation:** If expert knowledge is available, use prior elicitation techniques (quantile, histogram, or comparative elicitation) to translate subjective expertise into a quantitative prior.
 
 5. **Justify the prior:** Always document and justify the choice of prior.  Transparency about prior selection helps others evaluate the robustness and validity of the analysis.
 
@@ -468,7 +468,7 @@ Prior selection strategies vary depending on the model.  Here are a few examples
 The Python example below demonstrates prior selection for a simple linear regression:
 
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import pymc as pm
@@ -510,4 +510,4 @@ C --> D(Prior Choice);
 D --> E[Posterior Inference];
 ```
 
-This diagram summarizes the interplay between model type, parameter, prior knowledge, prior choice, and final inference.  Choosing the right prior depends on all these factors.
+This diagram summarizes the relationship between model type, parameter, prior knowledge, prior choice, and final inference.  Choosing the right prior depends on all these factors.

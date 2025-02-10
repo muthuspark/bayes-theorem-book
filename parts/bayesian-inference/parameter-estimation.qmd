@@ -44,7 +44,7 @@ and observe data $x_1, x_2, ..., x_n$ which are i.i.d. from $N(\mu, \sigma^2)$. 
 $P(x|\mu) = \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}}exp(-\frac{(x_i-\mu)^2}{2\sigma^2})$
 
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
@@ -90,7 +90,7 @@ This diagram illustrates how Bayes' Theorem combines the prior and likelihood to
 
 ## Point Estimation
 
-Point estimation aims to provide a single best guess for the unknown parameter(s) of a statistical model.  In the Bayesian framework, this is often done by summarizing the posterior distribution.  We'll explore two common approaches: Maximum Likelihood Estimation (MLE) and Maximum A Posteriori (MAP) estimation.
+Point estimation aims to provide a single best guess for the unknown parameter(s) of a statistical model.  In the Bayesian framework, this is often done by summarizing the posterior distribution.  We'll look at two common approaches: Maximum Likelihood Estimation (MLE) and Maximum A Posteriori (MAP) estimation.
 
 ### Maximum Likelihood Estimation (MLE)
 
@@ -128,7 +128,7 @@ As the number of data points increases, the influence of the prior diminishes, a
 
 Let's revisit the example of estimating the mean ($\mu$) of a normal distribution with known variance ($\sigma^2$). We'll assume a normal prior for $\mu$.
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 from scipy.stats import norm
@@ -210,7 +210,7 @@ There are different ways to construct credible intervals:
 
 Let's demonstrate calculating equal-tailed credible intervals using the previous example of estimating the mean of a normal distribution.
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 from scipy.stats import norm
@@ -284,19 +284,19 @@ Here, $\theta_i$ are group-level parameters,  $\mu$ and $\tau^2$ represent the h
 
 ### Dealing with High-Dimensional Data
 
-High-dimensional data (many parameters relative to the number of data points) pose challenges for Bayesian estimation.  Techniques like regularization (e.g., adding priors that shrink parameters towards zero) or dimensionality reduction are crucial to avoid overfitting and ensure stable posterior estimates.  Prior selection plays a critical role in high-dimensional settings.  Sparsity-inducing priors, like Laplace or horseshoe priors, are particularly useful in shrinking many parameters to exactly zero, effectively performing variable selection.
+High-dimensional data (many parameters relative to the number of data points) pose challenges for Bayesian estimation.  Techniques like regularization (e.g., adding priors that shrink parameters towards zero) or dimensionality reduction are essential to avoid overfitting and ensure stable posterior estimates.  Prior selection plays a critical role in high-dimensional settings.  Sparsity-inducing priors, like Laplace or horseshoe priors, are particularly useful in shrinking many parameters to exactly zero, effectively performing variable selection.
 
 
 ### Computational Methods (MCMC)
 
-For complex models, analytical solutions are often intractable. Markov Chain Monte Carlo (MCMC) methods provide a powerful approach to approximate the posterior distribution by generating a sample from it.   MCMC algorithms, such as Metropolis-Hastings and Gibbs sampling, construct a Markov chain whose stationary distribution is the target posterior.  By running the chain for a sufficient number of iterations, we can obtain a sample that accurately represents the posterior.  Libraries like PyMC3 provide tools for implementing MCMC in Python.
+For complex models, analytical solutions are often intractable. Markov Chain Monte Carlo (MCMC) methods provide a powerful approach to approximate the posterior distribution by generating a sample from it.   MCMC algorithms, such as Metropolis-Hastings and Gibbs sampling, construct a Markov chain whose stationary distribution is the target posterior.  By running the chain for a sufficient number of iterations, we can obtain a sample that accurately represents the posterior.  Libraries like PyMC provide tools for implementing MCMC in Python.
 
-```\{python}
+```{python}
 #| echo: true
-import pymc3 as pm
+import pymc as pm
 import numpy as np
 
-# Example: Simple linear regression with PyMC3
+# Example: Simple linear regression with PyMC
 
 # Data
 X = np.array([1, 2, 3, 4, 5])
@@ -315,14 +315,14 @@ with pm.Model() as model:
     # Posterior sampling using MCMC
     trace = pm.sample(1000, tune=1000) #tune helps the algorithm to converge faster
 
-pm.traceplot(trace)
+pm.plot_trace(trace)
 plt.show()
 
 pm.summary(trace)
 ```
 
 
-This code performs a simple linear regression using PyMC3, demonstrating MCMC sampling to obtain posterior estimates of the model parameters.  Note that `tune` is added to allow the sampler to find a good starting point for the MCMC chain. The trace plot visualizes the MCMC samples and helps assess convergence.  The summary provides statistics like the mean, standard deviation, and credible intervals for each parameter.  The use of priors such as `HalfNormal` helps to guide and constrain the MCMC algorithm.
+This code performs a simple linear regression using PyMC, demonstrating MCMC sampling to obtain posterior estimates of the model parameters.  Note that `tune` is added to allow the sampler to find a good starting point for the MCMC chain. The trace plot visualizes the MCMC samples and helps assess convergence.  The summary provides statistics like the mean, standard deviation, and credible intervals for each parameter.  The use of priors such as `HalfNormal` helps to guide and constrain the MCMC algorithm.
 
 ```{mermaid}
 graph LR
@@ -359,7 +359,7 @@ $\mu_n = \frac{\frac{\mu_0}{\sigma_0^2} + \frac{\sum_{i=1}^n x_i}{\sigma^2}}{\fr
 
 $\sigma_n^2 = \frac{1}{\frac{1}{\sigma_0^2} + \frac{n}{\sigma^2}}$
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
@@ -411,27 +411,27 @@ The posterior distribution is also a Beta distribution:
 
 $\theta | k \sim Beta(\alpha + k, \beta + n - k)$
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import beta
 
 # Prior parameters
-alpha = 1
-beta = 1  #Uniform prior
+alpha_index = 1
+beta_index = 1  #Uniform prior
 
 # Data
 n = 10
 k = 6
 
 # Posterior parameters
-alpha_post = alpha + k
-beta_post = beta + n - k
+alpha_post = alpha_index + k
+beta_post = beta_index + n - k
 
 # Plotting
 x = np.linspace(0, 1, 100)
-plt.plot(x, beta.pdf(x, alpha, beta), label='Prior')
+plt.plot(x, beta.pdf(x, alpha_index, beta_index), label='Prior')
 plt.plot(x, beta.pdf(x, alpha_post, beta_post), label='Posterior')
 plt.xlabel('θ')
 plt.ylabel('Density')
@@ -451,10 +451,10 @@ $y_i = X_i \beta + \epsilon_i$
 
 where $\epsilon_i \sim N(0, \sigma^2)$.  We can assign priors to $\beta$ and $\sigma^2$ (e.g., normal and inverse gamma, respectively).  Inference is performed using MCMC sampling.
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
-import pymc3 as pm
+import pymc as pm
 import matplotlib.pyplot as plt
 
 #Simulate some data
@@ -478,12 +478,12 @@ with pm.Model() as model:
     #MCMC
     trace = pm.sample(2000, tune=1000)
     
-pm.traceplot(trace)
+pm.plot_trace(trace)
 plt.show()
 pm.summary(trace)
 ```
 
-This uses PyMC3 to perform Bayesian linear regression, illustrating the use of MCMC for posterior inference. The trace plot visualizes the samples.  The summary shows the posterior means, standard deviations, and credible intervals for the intercept and slope.
+This uses PyMC to perform Bayesian linear regression, illustrating the use of MCMC for posterior inference. The trace plot visualizes the samples.  The summary shows the posterior means, standard deviations, and credible intervals for the intercept and slope.
 
 
 

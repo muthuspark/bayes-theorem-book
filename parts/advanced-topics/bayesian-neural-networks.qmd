@@ -2,11 +2,11 @@
 
 ### Why Bayesian Neural Networks?
 
-Standard, or frequentist, neural networks treat the network weights as fixed parameters to be estimated.  The training process aims to find a single "best" set of weights that minimizes a loss function on the training data. This approach suffers from several limitations, as we'll discuss below.  Bayesian neural networks (BNNs), in contrast, treat the network weights as random variables with probability distributions. This allows us to quantify the uncertainty in our model's predictions, a crucial advantage in many real-world applications.  Instead of a single point estimate for the weights, a BNN provides a posterior distribution over the weights, reflecting our belief about the weights given the observed data. This posterior distribution is then used to make predictions, integrating over all possible weight configurations.  The result is a prediction that incorporates uncertainty, leading to more robust and reliable outcomes, especially in situations with limited data or noisy observations.
+Standard, or frequentist, neural networks treat the network weights as fixed parameters to be estimated.  The training process aims to find a single "best" set of weights that minimizes a loss function on the training data. This approach suffers from many limitations, as we'll discuss below.  Bayesian neural networks (BNNs), in contrast, treat the network weights as random variables with probability distributions. This allows us to quantify the uncertainty in our model's predictions, a essential advantage in many real-world applications.  Instead of a single point estimate for the weights, a BNN provides a posterior distribution over the weights, reflecting our belief about the weights given the observed data. This posterior distribution is then used to make predictions, integrating over all possible weight configurations.  The result is a prediction that incorporates uncertainty, leading to more robust and reliable outcomes, especially in situations with limited data or noisy observations.
 
 ### Limitations of Frequentist Neural Networks
 
-Frequentist neural networks have several drawbacks:
+Frequentist neural networks have many drawbacks:
 
 * **Overfitting:**  They can easily overfit the training data, performing well on the training set but poorly on unseen data.  The single point estimate of the weights can be highly sensitive to the specific training set.
 * **Lack of Uncertainty Quantification:**  They provide no inherent measure of the uncertainty associated with their predictions.  A confident prediction might be completely wrong, and there's no way to know from the model itself.
@@ -30,7 +30,7 @@ where:
 
 Calculating the posterior directly is often intractable for complex models like neural networks.  Therefore, we use approximation methods like Markov Chain Monte Carlo (MCMC) or Variational Inference (VI).  MCMC methods generate samples from the posterior distribution, while VI approximates the posterior with a simpler, tractable distribution.
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
@@ -55,7 +55,7 @@ plt.figure(figsize=(8, 6))
 plt.plot(prior_x, prior_y, label='Prior')
 plt.plot(likelihood_x, likelihood_y, label='Likelihood')
 
-# (Note:  Posterior calculation requires more sophisticated methods like MCMC or VI, 
+# (Note:  Posterior calculation requires more complex methods like MCMC or VI, 
 # which are beyond the scope of this simplified example.  The true posterior would
 # be a combination of the prior and likelihood.)
 
@@ -73,7 +73,7 @@ This Python code provides a simplified illustration of prior and likelihood dist
 
 ### Understanding Weight Uncertainty
 
-In frequentist neural networks, the training process aims to find a single "best" set of weights, $\mathbf{w}^*$, that minimizes a loss function.  This $\mathbf{w}^*$ is a point estimate, representing our best guess for the true weights of the network.  However, this point estimate ignores the inherent uncertainty in the model's parameters.  The uncertainty stems from several sources:
+In frequentist neural networks, the training process aims to find a single "best" set of weights, $\mathbf{w}^*$, that minimizes a loss function.  This $\mathbf{w}^*$ is a point estimate, representing our best guess for the true weights of the network.  However, this point estimate ignores the inherent uncertainty in the model's parameters.  The uncertainty stems from many sources:
 
 * **Limited Data:**  The training data may not fully represent the underlying data distribution, leading to unreliable weight estimates.
 * **Model Misspecification:** The chosen neural network architecture might not perfectly capture the true data generating process.
@@ -83,7 +83,7 @@ Ignoring this uncertainty can have serious consequences, resulting in overconfid
 
 ### The Problem of Point Estimates
 
-Using a point estimate $\mathbf{w}^*$ for the network weights leads to several problems:
+Using a point estimate $\mathbf{w}^*$ for the network weights leads to many problems:
 
 * **Overconfidence:**  The model produces predictions without acknowledging the uncertainty in its parameters. This can lead to overly confident, yet potentially inaccurate, predictions.
 * **Poor Generalization:** A point estimate can overfit to the training data, resulting in poor performance on unseen data.  Slight variations in the training set can significantly alter the point estimate, making it unstable and unreliable.
@@ -108,7 +108,7 @@ where:
 This integration process accounts for the uncertainty in the weights, leading to more robust and reliable predictions.  In practice, this integral is often intractable, and we resort to approximation methods like Markov Chain Monte Carlo (MCMC) or Variational Inference (VI) to obtain samples from or approximate the posterior distribution.
 
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
@@ -181,11 +181,11 @@ The choice of the variational distribution $q_\phi(\mathbf{w})$ is crucial.  Com
 Several practical considerations are important when using VI for BNNs:
 
 * **Computational Cost:** VI can still be computationally expensive, especially for large networks and complex variational distributions.
-* **Choice of Optimizer and Learning Rate:** Careful selection of the optimizer and learning rate is crucial for efficient convergence.
+* **Choice of Optimizer and Learning Rate:** Careful selection of the optimizer and learning rate is essential for efficient convergence.
 * **Hyperparameter Tuning:**  The variational distribution's parameters and other hyperparameters (e.g., learning rate, prior parameters) need to be tuned to achieve optimal performance.  Techniques like Bayesian optimization can be useful for this purpose.
 
 
-```\{python}
+```{python}
 #| echo: true
 # Simplified illustrative example (using PyTorch - requires installation)
 import torch
@@ -221,7 +221,7 @@ for epoch in range(100):
 
 ```
 
-This code snippet provides a skeletal structure. A complete implementation requires a detailed specification of the variational distribution, the calculation of the ELBO, and the gradient computation and optimization steps, which are complex and beyond the scope of this concise example.  The complete code would require several more lines to implement the actual variational inference process.
+This code snippet provides a skeletal structure. A complete implementation requires a detailed specification of the variational distribution, the calculation of the ELBO, and the gradient computation and optimization steps, which are complex and beyond the scope of this concise example.  The complete code would require many more lines to implement the actual variational inference process.
 
 
 ## Dropout as a Bayesian Approximation
@@ -247,7 +247,7 @@ where $\odot$ denotes element-wise multiplication.
 
 ### MC Dropout for Uncertainty Estimation
 
-"MC Dropout" leverages this connection to obtain uncertainty estimates.  Instead of running dropout only during training, we also apply it during testing.  By repeatedly running the network with different dropout masks and averaging the predictions, we can get an approximation of the predictive distribution.  The variance of these predictions provides an estimate of the model's uncertainty.
+"MC Dropout" uses this connection to obtain uncertainty estimates.  Instead of running dropout only during training, we also apply it during testing.  By repeatedly running the network with different dropout masks and averaging the predictions, we can get an approximation of the predictive distribution.  The variance of these predictions provides an estimate of the model's uncertainty.
 
 More formally, we obtain $T$ predictions $\{y_1, y_2, \dots, y_T\}$ by applying dropout repeatedly with different random masks. The mean prediction is given by:
 
@@ -265,10 +265,10 @@ While MC Dropout provides a simple and effective way to estimate uncertainty, it
 * **Approximation Quality:**  The approximation of the true posterior distribution is only valid under specific conditions, such as the assumption of independent dropout masks across layers.  In reality, this assumption is often violated.
 * **Overestimation of Uncertainty:** MC Dropout might overestimate the uncertainty, especially for simple tasks.
 * **Computational Cost:** Repeatedly running the network with different dropout masks increases the computational cost, especially for large networks.
-* **No explicit prior:** MC dropout doesn't explicitly model a prior over the weights, which is a crucial component of Bayesian inference.
+* **No explicit prior:** MC dropout doesn't explicitly model a prior over the weights, which is a essential component of Bayesian inference.
 
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import tensorflow as tf
@@ -308,7 +308,7 @@ This code shows a simple example of MC Dropout using TensorFlow/Keras.  Remember
 
 ### Bayesian Neural Networks for Regression
 
-Bayesian neural networks (BNNs) are well-suited for regression tasks where we aim to predict a continuous target variable.  The posterior distribution over the weights allows us to obtain not only a point estimate of the target variable but also a measure of the uncertainty associated with this estimate.  This uncertainty can be crucial in applications where understanding the reliability of predictions is important.  For example, in predicting house prices, a BNN could provide not only the predicted price but also a confidence interval, indicating the range within which the true price is likely to fall.  This can be particularly useful in informing decision-making, as it helps users understand the risk associated with the prediction.
+Bayesian neural networks (BNNs) are well-suited for regression tasks where we aim to predict a continuous target variable.  The posterior distribution over the weights allows us to obtain not only a point estimate of the target variable but also a measure of the uncertainty associated with this estimate.  This uncertainty can be essential in applications where understanding the reliability of predictions is important.  For example, in predicting house prices, a BNN could provide not only the predicted price but also a confidence interval, indicating the range within which the true price is likely to fall.  This can be particularly useful in informing decision-making, as it helps users understand the risk associated with the prediction.
 
 The predictive distribution in regression is given by:
 
@@ -349,7 +349,7 @@ Evaluating the predictive uncertainty of a BNN is crucial.  Metrics commonly use
 * **Negative Log-Likelihood (NLL):**  Lower NLL indicates better predictive performance, taking both accuracy and uncertainty into account.  If the model is calibrated and well-specified, lower NLL implies better uncertainty quantification.
 * **Visual Inspection:**  Plotting the predictive distribution (e.g., mean and confidence intervals) alongside the true values can give a visual assessment of the model's performance and uncertainty estimates.  This can reveal potential issues, such as over- or under-confidence.
 
-```\{python}
+```{python}
 #| echo: true
 #Illustrative code snippet (requires libraries like Pyro or Edward2)
 # ... (BNN model training and prediction using Pyro or Edward2) ...
@@ -387,7 +387,7 @@ Popular MCMC methods for BNNs include:
 
 ### Hamiltonian Monte Carlo (HMC)
 
-Hamiltonian Monte Carlo (HMC) is a more advanced MCMC method that leverages Hamiltonian dynamics to explore the probability distribution more efficiently than simpler methods like random walk Metropolis.  It uses the concept of momentum to guide the sampling process, leading to longer jumps in the sample space and faster convergence.  HMC is particularly useful for high-dimensional problems, such as those encountered in large BNNs, because it avoids the random walk behavior of simpler MCMC methods, which can be very slow in high dimensions.
+Hamiltonian Monte Carlo (HMC) is a more advanced MCMC method that uses Hamiltonian dynamics to look at the probability distribution more efficiently than simpler methods like random walk Metropolis.  It uses the concept of momentum to guide the sampling process, leading to longer jumps in the sample space and faster convergence.  HMC is particularly useful for high-dimensional problems, such as those encountered in large BNNs, because it avoids the random walk behavior of simpler MCMC methods, which can be very slow in high dimensions.
 
 
 ### Scalable Bayesian Neural Network Training
@@ -407,10 +407,10 @@ Several Python libraries provide tools and functionalities for building and trai
 * **Pyro:** A probabilistic programming language built on PyTorch.  It offers a flexible and expressive way to define and infer Bayesian models, including BNNs.
 * **Edward2:**  A probabilistic programming language built on TensorFlow.  Similar to Pyro, it provides a high-level interface for building and training BNNs.
 * **TensorFlow Probability (TFP):**  A library within TensorFlow that provides tools for probabilistic modeling and inference, including methods for training BNNs.
-* **PyMC3:**  A library focused on Bayesian modeling using MCMC methods.  While not specifically designed for deep learning, it can be used to build and train BNNs.
+* **PyMC:**  A library focused on Bayesian modeling using MCMC methods.  While not specifically designed for deep learning, it can be used to build and train BNNs.
 
 
-```\{python}
+```{python}
 #| echo: true
 #Illustrative code snippet (using Pyro - requires installation)
 

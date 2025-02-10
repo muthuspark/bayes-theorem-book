@@ -4,7 +4,7 @@ Medical diagnosis often involves using diagnostic tests to determine the presenc
 
 ### Sensitivity and Specificity
 
-Sensitivity and specificity are crucial characteristics of a diagnostic test.
+Sensitivity and specificity are essential characteristics of a diagnostic test.
 
 * **Sensitivity:** The probability that a test will be positive given that the patient has the disease.  Mathematically:
 
@@ -54,7 +54,7 @@ Let's calculate the posterior probability using Python.  Assume:
 * Sensitivity = 0.95
 * Specificity = 0.90
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 
@@ -81,7 +81,7 @@ print(f"Posterior probability (negative test): {posterior_negative:.4f}")
 
 We can visualize the impact of different prior probabilities on the posterior probability.
 
-```\{python}
+```{python}
 #| echo: true
 import matplotlib.pyplot as plt
 import numpy as np
@@ -123,7 +123,7 @@ This diagram shows how the posterior probability from one test feeds into the ne
 
 ## Risk Assessment and Prediction
 
-Risk assessment is crucial in healthcare for identifying individuals at high risk of developing specific diseases or experiencing adverse events. Bayes' theorem and related techniques provide powerful tools for quantifying and managing risk.
+Risk assessment is essential in healthcare for identifying individuals at high risk of developing specific diseases or experiencing adverse events. Bayes' theorem and related techniques provide powerful tools for quantifying and managing risk.
 
 ### Risk Stratification
 
@@ -140,7 +140,7 @@ Unfortunately, constructing and visualizing complex Bayesian networks within thi
 
 We can model the relationship between risk factors and the outcome using logistic regression, a statistical model suitable for binary outcomes (e.g., disease present/absent).
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import pandas as pd
@@ -172,7 +172,7 @@ print(f"Accuracy: {accuracy}")
 print(f"Confusion Matrix:\n{conf_matrix}")
 ```
 
-This code demonstrates a simple logistic regression model.  In real-world applications, more sophisticated models and feature engineering are usually necessary.
+This code demonstrates a simple logistic regression model.  In real-world applications, more complex models and feature engineering are usually necessary.
 
 
 ### Predictive Modeling using Machine Learning
@@ -183,7 +183,7 @@ Various machine learning algorithms (e.g., support vector machines, random fores
 
 Model performance is assessed using metrics like accuracy, precision, recall, F1-score, and the area under the ROC curve (AUC).  The confusion matrix, shown in the previous example, provides a detailed breakdown of the model's performance.  The choice of metric depends on the relative importance of true positives, true negatives, false positives, and false negatives in the specific context.
 
-```\{python}
+```{python}
 #| echo: true
 from sklearn.metrics import roc_auc_score, roc_curve
 import matplotlib.pyplot as plt
@@ -211,7 +211,7 @@ Risk predictions are inherently uncertain.  Bayesian methods provide a natural f
 
 ## Treatment Decision Support Systems
 
-Treatment decision support systems (TDSS) aim to assist healthcare professionals in making optimal treatment choices based on patient characteristics, disease severity, and available treatment options.  Bayes' theorem plays a vital role in these systems by providing a framework for updating probabilities based on new information.
+Treatment decision support systems (TDSS) aim to assist healthcare professionals in making optimal treatment choices based on patient characteristics, disease severity, and available treatment options.  Bayes' theorem plays an important role in these systems by providing a framework for updating probabilities based on new information.
 
 
 ### Decision Trees and Bayes' Theorem
@@ -248,14 +248,14 @@ TDSS can integrate CEA to guide treatment choices, balancing cost and effectiven
 
 ### Incorporating Patient Preferences
 
-Patient preferences play a crucial role in treatment decisions.  Methods like conjoint analysis or multi-criteria decision analysis can be used to elicit and quantify patient preferences, which can then be incorporated into the TDSS.  These methods allow for personalization of treatment recommendations.
+Patient preferences play a essential role in treatment decisions.  Methods like conjoint analysis or multi-criteria decision analysis can be used to elicit and quantify patient preferences, which can then be incorporated into the TDSS.  These methods allow for personalization of treatment recommendations.
 
 
 ### Developing a Treatment Decision Support System in Python
 
 Let's create a simplified example of a TDSS using Python. This example only scratches the surface; real-world TDSS are significantly more complex.
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 
@@ -302,7 +302,7 @@ This simplified example demonstrates the core logic. A real TDSS would involve m
 
 ### Ethical Considerations in Treatment Decisions
 
-TDSS must be developed and used ethically, ensuring fairness, transparency, and accountability.  Consideration should be given to potential biases in the data and algorithms, the impact on patient autonomy, and the responsibility for decision-making.  Regular audits and validation are crucial to maintain the integrity and trustworthiness of TDSS.  Further, equitable access to the system should be prioritized.
+TDSS must be developed and used ethically, ensuring fairness, transparency, and accountability.  Consideration should be given to potential biases in the data and algorithms, the impact on patient autonomy, and the responsibility for decision-making.  Regular audits and validation are essential to maintain the integrity and trustworthiness of TDSS.  Further, equitable access to the system should be prioritized.
 
 
 ## Case Studies in Medical Diagnosis
@@ -323,7 +323,7 @@ We can use Bayes' theorem to calculate the positive predictive value (PPV):
 
 $PPV = P(Disease | Positive) = \frac{Sensitivity \times P(Disease)}{Sensitivity \times P(Disease) + (1 - Specificity) \times (1 - P(Disease))}$
 
-```\{python}
+```{python}
 #| echo: true
 prior_prob = 0.005
 sensitivity = 0.9
@@ -347,14 +347,14 @@ Suppose a new treatment (Treatment A) is being evaluated for its effectiveness i
 | Control Group (Standard Treatment) | 20% | 100 |
 
 
-We can use a statistical test (like a chi-squared test or Fisher's exact test) to determine if the difference in mortality rates is statistically significant.  While Bayes' Theorem isn't directly used for hypothesis testing in this case, we can use Bayesian methods to estimate the treatment effect and quantify uncertainty around the estimate.  This would involve using Bayesian models (e.g., Bayesian logistic regression) to estimate the posterior distribution of the treatment effect, providing a more complete picture of the treatment's effectiveness than a simple p-value.  Due to the complexity of Bayesian modeling, a full example is omitted here; however, libraries such as PyMC3 can be used to perform such analyses.
+We can use a statistical test (like a chi-squared test or Fisher's exact test) to determine if the difference in mortality rates is statistically significant.  While Bayes' Theorem isn't directly used for hypothesis testing in this case, we can use Bayesian methods to estimate the treatment effect and quantify uncertainty around the estimate.  This would involve using Bayesian models (e.g., Bayesian logistic regression) to estimate the posterior distribution of the treatment effect, providing a more complete picture of the treatment's effectiveness than a simple p-value.  Due to the complexity of Bayesian modeling, a full example is omitted here; however, libraries such as PyMC can be used to perform such analyses.
 
 
 ### Case Study 3: Risk Stratification of Patients
 
 Consider patients with a history of heart disease. Several risk factors are identified: age, blood pressure, cholesterol levels, and smoking status. We can develop a risk stratification model using logistic regression to predict the probability of a cardiac event within the next 5 years.
 
-```\{python}
+```{python}
 #| echo: true
 import pandas as pd
 from sklearn.model_selection import train_test_split

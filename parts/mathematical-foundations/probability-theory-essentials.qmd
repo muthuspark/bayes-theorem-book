@@ -1,6 +1,6 @@
 ## Introduction to Probability
 
-This chapter lays the groundwork for understanding Bayes' Theorem by reviewing essential concepts from probability theory.  A solid grasp of these fundamentals is crucial for effectively applying Bayes' Theorem and interpreting its results.  We will cover basic probability concepts, the relationship between set theory and probability, conditional probability, and a brief preview of Bayes' Theorem itself.
+This chapter lays the groundwork for understanding Bayes' Theorem by reviewing essential concepts from probability theory.  A solid grasp of these fundamentals is essential for effectively applying Bayes' Theorem and interpreting its results.  We will cover basic probability concepts, the relationship between set theory and probability, conditional probability, and a brief preview of Bayes' Theorem itself.
 
 ### Basic Probability Concepts
 
@@ -31,7 +31,7 @@ $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
 If events $A$ and $B$ are mutually exclusive (i.e., they cannot occur simultaneously, $A \cap B = \emptyset$), then $P(A \cup B) = P(A) + P(B)$.
 
 
-```\{python}
+```{python}
 #| echo: true
 import matplotlib.pyplot as plt
 import numpy as np
@@ -64,7 +64,7 @@ This formula tells us that the probability of $A$ given $B$ is the ratio of the 
 
 ### Bayes' Theorem (Preview)
 
-Bayes' Theorem provides a way to update our beliefs about an event based on new evidence.  It's a powerful tool for revising probabilities in light of new information.  We'll explore it in detail in later chapters, but here's a preview:
+Bayes' Theorem provides a way to update our beliefs about an event based on new evidence.  It's a powerful tool for revising probabilities in light of new information.  We'll look at it in detail in later chapters, but here's a preview:
 
 Let $A$ and $B$ be two events. Bayes' Theorem states:
 
@@ -77,7 +77,7 @@ Where:
 * $P(A)$ is the prior probability of $A$.
 * $P(B)$ is the marginal likelihood of $B$. (Often calculated as $P(B) = P(B|A)P(A) + P(B|A^c)P(A^c)$ )
 
-We will delve deeper into the interpretation and applications of Bayes' Theorem in subsequent chapters.  For now, it's important to understand this fundamental equation as a cornerstone of Bayesian inference.
+We will  examine the interpretation and applications of Bayes' Theorem in subsequent chapters.  For now, it's important to understand this fundamental equation as a cornerstone of Bayesian inference.
 
 
 ```{mermaid}
@@ -91,7 +91,7 @@ graph LR
 
 ## Random Variables
 
-This chapter introduces the concept of random variables, a crucial building block for understanding probability distributions and their application in Bayesian statistics. We will explore different types of random variables, their associated probability functions, and how to represent them using Python.
+This chapter introduces the concept of random variables, a essential building block for understanding probability distributions and their application in Bayesian statistics. We will look at different types of random variables, their associated probability functions, and how to represent them using Python.
 
 ### Definition and Types of Random Variables
 
@@ -116,7 +116,7 @@ The probability mass function (PMF) describes the probability distribution of a 
 2. $\sum_{x} P(X = x) = 1$, where the sum is over all possible values of $x$.
 
 
-```\{python}
+```{python}
 #| echo: true
 import matplotlib.pyplot as plt
 import numpy as np
@@ -145,7 +145,7 @@ The PDF must satisfy the following conditions:
 2. $\int_{-\infty}^{\infty} f(x) dx = 1$
 
 
-```\{python}
+```{python}
 #| echo: true
 import matplotlib.pyplot as plt
 import numpy as np
@@ -177,7 +177,7 @@ $F(x) = \int_{-\infty}^{x} f(t) dt$
 The CDF is a non-decreasing function, with $F(-\infty) = 0$ and $F(\infty) = 1$.
 
 
-```\{python}
+```{python}
 #| echo: true
 import matplotlib.pyplot as plt
 import numpy as np
@@ -210,7 +210,7 @@ graph LR
 
 ## Common Probability Distributions
 
-This chapter introduces some of the most frequently encountered probability distributions in statistics and their applications. Understanding these distributions is fundamental for applying Bayes' Theorem effectively in various contexts. We will explore both discrete and continuous distributions and demonstrate how to work with them using Python.
+This chapter introduces some of the most frequently encountered probability distributions in statistics and their applications. Understanding these distributions is fundamental for applying Bayes' Theorem effectively in various contexts. We will look at both discrete and continuous distributions and demonstrate how to work with them using Python.
 
 ### Discrete Distributions: Bernoulli, Binomial, Poisson
 
@@ -230,7 +230,7 @@ The PMF is:
 $P(X=k) = \frac{e^{-\lambda} \lambda^k}{k!}$, where $k \in \{0, 1, 2, ...\}$.
 
 
-```\{python}
+```{python}
 #| echo: true
 import matplotlib.pyplot as plt
 import numpy as np
@@ -281,7 +281,7 @@ $f(x) = \lambda e^{-\lambda x}$ for $x \ge 0$.
 $f(x) = \frac{1}{b-a}$ for $a \le x \le b$.
 
 
-```\{python}
+```{python}
 #| echo: true
 import matplotlib.pyplot as plt
 import numpy as np
@@ -323,7 +323,7 @@ Visualizing probability distributions provides valuable insights into their shap
 
 ### Working with Distributions in Python
 
-Python libraries like SciPy and NumPy offer powerful tools for working with probability distributions. The examples above demonstrate how to generate random samples, calculate probabilities, and plot distributions using `scipy.stats`.  Further exploration of these libraries will greatly enhance your ability to perform Bayesian analysis.
+Python libraries like SciPy and NumPy offer powerful tools for working with probability distributions. The examples above demonstrate how to generate random samples, calculate probabilities, and plot distributions using `scipy.stats`.  Further exploration of these libraries will greatly improve your ability to perform Bayesian analysis.
 
 ```{mermaid}
 graph LR
@@ -346,7 +346,7 @@ graph LR
 
 ## Expected Value and Variance
 
-Expected value and variance are two fundamental concepts in probability theory that describe the central tendency and spread of a probability distribution.  Understanding these concepts is crucial for interpreting statistical results and applying Bayesian methods.
+Expected value and variance are two fundamental concepts in probability theory that describe the central tendency and spread of a probability distribution.  Understanding these concepts is essential for interpreting statistical results and applying Bayesian methods.
 
 ### Expected Value: Definition and Calculation
 
@@ -391,7 +391,7 @@ Some important properties of expected value and variance include:
 
 ### Calculating Expected Value and Variance in Python
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 from scipy.stats import binom
@@ -440,7 +440,7 @@ graph LR
 
 ## Joint Probability Distributions
 
-This chapter extends the concepts of probability distributions to scenarios involving multiple random variables.  Understanding joint distributions is crucial for tackling many real-world problems, particularly in Bayesian contexts where we often deal with multiple interacting variables.
+This chapter extends the concepts of probability distributions to scenarios involving multiple random variables.  Understanding joint distributions is essential for tackling many real-world problems, particularly in Bayesian contexts where we often deal with multiple interacting variables.
 
 ### Joint PMF and PDF
 
@@ -482,7 +482,7 @@ Two random variables $X$ and $Y$ are independent if knowing the value of one var
 
 If $X$ and $Y$ are independent, their joint distribution is simply the product of their marginal distributions.
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt

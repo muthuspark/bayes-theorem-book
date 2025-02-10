@@ -46,7 +46,7 @@ Similarly, if $\mathbf{v} = \begin{bmatrix} v_1 \\ v_2 \\ v_3 \end{bmatrix}$, th
 
 NumPy is a powerful Python library for numerical computation, providing efficient support for vectors and matrices.
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
@@ -148,7 +148,7 @@ For larger matrices, the calculation is more involved (e.g., cofactor expansion)
 
 ### Matrix Operations in Python (NumPy)
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 
@@ -214,7 +214,7 @@ For a square matrix $A$, an eigenvector $\mathbf{v}$ is a non-zero vector that, 
 
 $A\mathbf{v} = \lambda\mathbf{v}$
 
-This equation represents an eigenvalue problem.  Finding the eigenvalues and eigenvectors of a matrix is crucial in many linear algebra applications.
+This equation represents an eigenvalue problem.  Finding the eigenvalues and eigenvectors of a matrix is essential in many linear algebra applications.
 
 
 ### Calculating Eigenvalues and Eigenvectors
@@ -257,7 +257,7 @@ Eigenvalues and eigenvectors have numerous applications, including:
 
 ### Finding Eigenvalues and Eigenvectors in Python (NumPy/SciPy)
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 from scipy.linalg import eig
@@ -331,7 +331,7 @@ $S(s_x, s_y) = \begin{bmatrix} s_x & 0 \\ 0 & s_y \end{bmatrix}$
 
 ### Linear Transformations in Python
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
@@ -448,7 +448,7 @@ A subspace $W$ of a vector space $V$ is a subset of $V$ that is itself a vector 
 3. $W$ is closed under scalar multiplication: If $c \in F$ and $\mathbf{u} \in W$, then $c\mathbf{u} \in W$.
 
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 

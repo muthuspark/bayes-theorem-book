@@ -33,7 +33,7 @@ Gaussian processes are a type of *Bayesian nonparametric* method.  Unlike parame
 ### Advantages of Gaussian Processes
 
 * **Flexibility:**  GPs can model a wide range of functions without making strong assumptions about their form.
-* **Uncertainty Quantification:**  GPs naturally provide a measure of uncertainty associated with predictions, which is crucial in many applications.
+* **Uncertainty Quantification:**  GPs naturally provide a measure of uncertainty associated with predictions, which is essential in many applications.
 * **Bayesian Framework:**  The Bayesian approach allows for the incorporation of prior knowledge and the quantification of uncertainty in a principled manner.
 * **Interpretability:** The covariance function provides insights into the relationships between different input variables.
 
@@ -46,7 +46,7 @@ Gaussian processes are a type of *Bayesian nonparametric* method.  Unlike parame
 * **Difficulty with High-Dimensional Inputs:**  GPs can struggle with high-dimensional input spaces due to the curse of dimensionality; the number of data points needed to accurately represent the function grows exponentially with the dimensionality.
 
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
@@ -95,7 +95,7 @@ C --> D[Predictions & Uncertainty];
 
 ### Definition and Properties of Kernels
 
-The kernel function, $k(x, x')$, is the heart of a Gaussian process. It defines the covariance between the function values at any two points $x$ and $x'$ in the input space.  A kernel is a function that satisfies certain mathematical properties to ensure that the resulting covariance matrix is positive semi-definite. This is crucial because a positive semi-definite covariance matrix guarantees that the joint distribution of the random variables is a valid probability distribution.  The positive semi-definite property means that for any set of points $\{x_1, x_2, ..., x_n\}$ and any vector $v \in \mathbb{R}^n$, we have:
+The kernel function, $k(x, x')$, is the heart of a Gaussian process. It defines the covariance between the function values at any two points $x$ and $x'$ in the input space.  A kernel is a function that satisfies certain mathematical properties to ensure that the resulting covariance matrix is positive semi-definite. This is essential because a positive semi-definite covariance matrix guarantees that the joint distribution of the random variables is a valid probability distribution.  The positive semi-definite property means that for any set of points $\{x_1, x_2, ..., x_n\}$ and any vector $v \in \mathbb{R}^n$, we have:
 
 $v^T K v \ge 0$
 
@@ -148,7 +148,7 @@ Kernel engineering involves designing and combining kernels to create new kernel
 
 The following code visualizes the impact of different hyperparameters on the RBF kernel:
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
@@ -237,7 +237,7 @@ The kernel hyperparameters (e.g., length scale, signal variance, noise variance)
 
 ### Illustrative Examples with Python Code
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
@@ -324,7 +324,7 @@ Expectation propagation (EP) is another approximate inference method. It iterati
 
 ### Illustrative Examples with Python Code
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
@@ -422,7 +422,7 @@ Gaussian processes have found numerous applications in machine learning, includi
 * **Reinforcement Learning:**  Modeling the reward function and guiding policy optimization in control systems.
 
 
-```\{python}
+```{python}
 #| echo: true
 # Example of Bayesian Optimization (requires GPyOpt)
 import GPy

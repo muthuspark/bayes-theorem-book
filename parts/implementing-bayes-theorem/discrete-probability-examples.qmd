@@ -15,7 +15,7 @@ Let's consider an example: rolling a fair six-sided die.  The random variable $X
 
 $P(X=x) = \begin{cases} \frac{1}{6} & x \in \{1, 2, 3, 4, 5, 6\} \\ 0 & \text{otherwise} \end{cases}$
 
-```\{python}
+```{python}
 #| echo: true
 import matplotlib.pyplot as plt
 import numpy as np
@@ -42,7 +42,7 @@ For our six-sided die example, the CDF is:
 $F(x) = \begin{cases} 0 & x < 1 \\ \frac{1}{6} & 1 \le x < 2 \\ \frac{2}{6} & 2 \le x < 3 \\ \frac{3}{6} & 3 \le x < 4 \\ \frac{4}{6} & 4 \le x < 5 \\ \frac{5}{6} & 5 \le x < 6 \\ 1 & x \ge 6 \end{cases}$
 
 
-```\{python}
+```{python}
 #| echo: true
 x = np.arange(1, 7)
 y = np.cumsum(np.full(6, 1/6))
@@ -82,7 +82,7 @@ $E[X^2] = 1^2(\frac{1}{6}) + 2^2(\frac{1}{6}) + 3^2(\frac{1}{6}) + 4^2(\frac{1}{
 
 $Var(X) = \frac{91}{6} - (3.5)^2 = \frac{35}{12} \approx 2.92$
 
-```\{python}
+```{python}
 #| echo: true
 mu = np.mean(x)
 variance = np.var(x)
@@ -123,7 +123,7 @@ $F(k) = P(X \le k) = \sum_{i=0}^{k} \binom{n}{i} p^i (1-p)^{n-i}$
 
 Python's `scipy.stats` module provides functions for working with the binomial distribution.
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
@@ -181,7 +181,7 @@ $E[X] = 10 \times 0.3 = 3$
 $Var(X) = 10 \times 0.3 \times (1 - 0.3) = 2.1$
 
 
-```\{python}
+```{python}
 #| echo: true
 mean = n * p
 variance = n * p * (1 - p)
@@ -202,7 +202,7 @@ Let's say we observe $k$ successes in $n$ trials.  If the prior for $p$ is a Bet
 
 $P(p | k, n) \sim Beta(\alpha + k, \beta + n - k)$
 
-```\{python}
+```{python}
 #| echo: true
 from scipy.stats import beta
 import matplotlib.pyplot as plt
@@ -275,7 +275,7 @@ $F(k) = P(X \le k) = \sum_{i=0}^{k} \frac{e^{-\lambda}\lambda^i}{i!}$
 
 ### Calculating Poisson Probabilities with Python
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
@@ -326,7 +326,7 @@ $E[X] = λ$
 $Var(X) = λ$
 
 
-```\{python}
+```{python}
 #| echo: true
 mean = lam
 variance = lam
@@ -346,7 +346,7 @@ If the prior for λ is a Gamma distribution with shape parameter α and rate par
 
 $P(λ | k) \sim Gamma(α + k, β + 1)$
 
-```\{python}
+```{python}
 #| echo: true
 from scipy.stats import gamma
 import matplotlib.pyplot as plt
@@ -419,7 +419,7 @@ where:
 
 ### Calculating Probabilities with Categorical Data in Python
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 from scipy.stats import multinomial
@@ -457,7 +457,7 @@ If the prior is $Dir(\alpha)$, and we observe counts $x = (x_1, x_2, ..., x_k)$,
 
 $P(p | x) \sim Dir(\alpha + x)$
 
-```\{python}
+```{python}
 #| echo: true
 from scipy.stats import dirichlet
 import matplotlib.pyplot as plt
@@ -473,7 +473,7 @@ x = np.array([4,3,3]) #Counts of Red, Green, Blue
 # Posterior parameters
 alpha_posterior = alpha_prior + x
 
-#Plotting the posterior - this requires more sophisticated visualization for >2 categories
+#Plotting the posterior - this requires more complex visualization for >2 categories
 #This example demonstrates 2D projection for simplicity.  More complex visualization methods are needed for higher dimensions.
 #We can only effectively visualize the first two categories.
 
@@ -507,7 +507,7 @@ $P(p|data) = \frac{P(data|p)P(p)}{P(data)}$
 * **Evidence:** $P(data)$ is a normalizing constant that ensures the posterior integrates to 1.
 
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
@@ -548,7 +548,7 @@ For a Poisson distribution with rate parameter λ, we can use a Gamma distributi
 * **Posterior:** $P(λ|data) \sim Gamma(α + k, β + n)$ where k is the total number of events observed over n intervals.
 
 
-```\{python}
+```{python}
 #| echo: true
 from scipy.stats import gamma, poisson
 
@@ -590,7 +590,7 @@ For categorical data, we use the multinomial distribution for the likelihood and
 
 
 
-```\{python}
+```{python}
 #| echo: true
 from scipy.stats import dirichlet
 import matplotlib.pyplot as plt

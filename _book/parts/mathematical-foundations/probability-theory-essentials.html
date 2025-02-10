@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; Probability Theory Essentials – bayes-theorem-book</title>
+<title>5&nbsp; Introduction to Probability – bayes-theorem-book</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -68,7 +102,39 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -399,15 +465,54 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#basic-probability-concepts" id="toc-basic-probability-concepts" class="nav-link active" data-scroll-target="#basic-probability-concepts"><span class="header-section-number">5.0.1</span> Basic Probability Concepts</a></li>
+  <li><a href="#set-theory-and-probability" id="toc-set-theory-and-probability" class="nav-link" data-scroll-target="#set-theory-and-probability"><span class="header-section-number">5.0.2</span> Set Theory and Probability</a></li>
+  <li><a href="#conditional-probability" id="toc-conditional-probability" class="nav-link" data-scroll-target="#conditional-probability"><span class="header-section-number">5.0.3</span> Conditional Probability</a></li>
+  <li><a href="#bayes-theorem-preview" id="toc-bayes-theorem-preview" class="nav-link" data-scroll-target="#bayes-theorem-preview"><span class="header-section-number">5.0.4</span> Bayes’ Theorem (Preview)</a></li>
+  <li><a href="#random-variables" id="toc-random-variables" class="nav-link" data-scroll-target="#random-variables"><span class="header-section-number">5.1</span> Random Variables</a>
+  <ul class="collapse">
+  <li><a href="#definition-and-types-of-random-variables" id="toc-definition-and-types-of-random-variables" class="nav-link" data-scroll-target="#definition-and-types-of-random-variables"><span class="header-section-number">5.1.1</span> Definition and Types of Random Variables</a></li>
+  <li><a href="#discrete-vs.-continuous-random-variables" id="toc-discrete-vs.-continuous-random-variables" class="nav-link" data-scroll-target="#discrete-vs.-continuous-random-variables"><span class="header-section-number">5.1.2</span> Discrete vs.&nbsp;Continuous Random Variables</a></li>
+  <li><a href="#probability-mass-function-pmf" id="toc-probability-mass-function-pmf" class="nav-link" data-scroll-target="#probability-mass-function-pmf"><span class="header-section-number">5.1.3</span> Probability Mass Function (PMF)</a></li>
+  <li><a href="#probability-density-function-pdf" id="toc-probability-density-function-pdf" class="nav-link" data-scroll-target="#probability-density-function-pdf"><span class="header-section-number">5.1.4</span> Probability Density Function (PDF)</a></li>
+  <li><a href="#cumulative-distribution-function-cdf" id="toc-cumulative-distribution-function-cdf" class="nav-link" data-scroll-target="#cumulative-distribution-function-cdf"><span class="header-section-number">5.1.5</span> Cumulative Distribution Function (CDF)</a></li>
+  </ul></li>
+  <li><a href="#common-probability-distributions" id="toc-common-probability-distributions" class="nav-link" data-scroll-target="#common-probability-distributions"><span class="header-section-number">5.2</span> Common Probability Distributions</a>
+  <ul class="collapse">
+  <li><a href="#discrete-distributions-bernoulli-binomial-poisson" id="toc-discrete-distributions-bernoulli-binomial-poisson" class="nav-link" data-scroll-target="#discrete-distributions-bernoulli-binomial-poisson"><span class="header-section-number">5.2.1</span> Discrete Distributions: Bernoulli, Binomial, Poisson</a></li>
+  <li><a href="#continuous-distributions-normal-exponential-uniform" id="toc-continuous-distributions-normal-exponential-uniform" class="nav-link" data-scroll-target="#continuous-distributions-normal-exponential-uniform"><span class="header-section-number">5.2.2</span> Continuous Distributions: Normal, Exponential, Uniform</a></li>
+  <li><a href="#visualizing-probability-distributions" id="toc-visualizing-probability-distributions" class="nav-link" data-scroll-target="#visualizing-probability-distributions"><span class="header-section-number">5.2.3</span> Visualizing Probability Distributions</a></li>
+  <li><a href="#working-with-distributions-in-python" id="toc-working-with-distributions-in-python" class="nav-link" data-scroll-target="#working-with-distributions-in-python"><span class="header-section-number">5.2.4</span> Working with Distributions in Python</a></li>
+  </ul></li>
+  <li><a href="#expected-value-and-variance" id="toc-expected-value-and-variance" class="nav-link" data-scroll-target="#expected-value-and-variance"><span class="header-section-number">5.3</span> Expected Value and Variance</a>
+  <ul class="collapse">
+  <li><a href="#expected-value-definition-and-calculation" id="toc-expected-value-definition-and-calculation" class="nav-link" data-scroll-target="#expected-value-definition-and-calculation"><span class="header-section-number">5.3.1</span> Expected Value: Definition and Calculation</a></li>
+  <li><a href="#variance-and-standard-deviation" id="toc-variance-and-standard-deviation" class="nav-link" data-scroll-target="#variance-and-standard-deviation"><span class="header-section-number">5.3.2</span> Variance and Standard Deviation</a></li>
+  <li><a href="#properties-of-expected-value-and-variance" id="toc-properties-of-expected-value-and-variance" class="nav-link" data-scroll-target="#properties-of-expected-value-and-variance"><span class="header-section-number">5.3.3</span> Properties of Expected Value and Variance</a></li>
+  <li><a href="#interpreting-expected-value-and-variance" id="toc-interpreting-expected-value-and-variance" class="nav-link" data-scroll-target="#interpreting-expected-value-and-variance"><span class="header-section-number">5.3.4</span> Interpreting Expected Value and Variance</a></li>
+  <li><a href="#calculating-expected-value-and-variance-in-python" id="toc-calculating-expected-value-and-variance-in-python" class="nav-link" data-scroll-target="#calculating-expected-value-and-variance-in-python"><span class="header-section-number">5.3.5</span> Calculating Expected Value and Variance in Python</a></li>
+  </ul></li>
+  <li><a href="#joint-probability-distributions" id="toc-joint-probability-distributions" class="nav-link" data-scroll-target="#joint-probability-distributions"><span class="header-section-number">5.4</span> Joint Probability Distributions</a>
+  <ul class="collapse">
+  <li><a href="#joint-pmf-and-pdf" id="toc-joint-pmf-and-pdf" class="nav-link" data-scroll-target="#joint-pmf-and-pdf"><span class="header-section-number">5.4.1</span> Joint PMF and PDF</a></li>
+  <li><a href="#marginal-distributions" id="toc-marginal-distributions" class="nav-link" data-scroll-target="#marginal-distributions"><span class="header-section-number">5.4.2</span> Marginal Distributions</a></li>
+  <li><a href="#conditional-distributions" id="toc-conditional-distributions" class="nav-link" data-scroll-target="#conditional-distributions"><span class="header-section-number">5.4.3</span> Conditional Distributions</a></li>
+  <li><a href="#independence-of-random-variables" id="toc-independence-of-random-variables" class="nav-link" data-scroll-target="#independence-of-random-variables"><span class="header-section-number">5.4.4</span> Independence of Random Variables</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../parts/mathematical-foundations/intro.html">Mathematical Foundations</a></li><li class="breadcrumb-item"><a href="../../parts/mathematical-foundations/probability-theory-essentials.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introduction to Probability</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Probability Theory Essentials</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introduction to Probability</span></h1>
 </div>
 
 
@@ -424,8 +529,559 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>This chapter lays the groundwork for understanding Bayes’ Theorem by reviewing essential concepts from probability theory. A solid grasp of these fundamentals is essential for effectively applying Bayes’ Theorem and interpreting its results. We will cover basic probability concepts, the relationship between set theory and probability, conditional probability, and a brief preview of Bayes’ Theorem itself.</p>
+<section id="basic-probability-concepts" class="level3" data-number="5.0.1">
+<h3 data-number="5.0.1" class="anchored" data-anchor-id="basic-probability-concepts"><span class="header-section-number">5.0.1</span> Basic Probability Concepts</h3>
+<p>Probability quantifies the likelihood of an event occurring. The probability of an event <span class="math inline">\(A\)</span>, denoted as <span class="math inline">\(P(A)\)</span>, is a number between 0 and 1 inclusive. <span class="math inline">\(P(A) = 0\)</span> indicates that event <span class="math inline">\(A\)</span> is impossible, while <span class="math inline">\(P(A) = 1\)</span> indicates that event <span class="math inline">\(A\)</span> is certain.</p>
+<p>The probability of an event can be determined through various methods, including:</p>
+<ul>
+<li><p><strong>Classical Approach:</strong> If all outcomes are equally likely, the probability of an event is the ratio of favorable outcomes to the total number of possible outcomes. For example, the probability of rolling a 6 on a fair six-sided die is <span class="math inline">\(\frac{1}{6}\)</span>.</p></li>
+<li><p><strong>Frequentist Approach:</strong> The probability of an event is estimated as the relative frequency of its occurrence in a large number of trials. For instance, if a coin is flipped 1000 times and lands heads 505 times, the estimated probability of heads is <span class="math inline">\(\frac{505}{1000} = 0.505\)</span>.</p></li>
+<li><p><strong>Subjective Approach:</strong> The probability of an event is assigned based on an individual’s belief or judgment, often incorporating prior knowledge and expert opinion. This approach is particularly relevant in Bayesian statistics.</p></li>
+</ul>
+</section>
+<section id="set-theory-and-probability" class="level3" data-number="5.0.2">
+<h3 data-number="5.0.2" class="anchored" data-anchor-id="set-theory-and-probability"><span class="header-section-number">5.0.2</span> Set Theory and Probability</h3>
+<p>Set theory provides a powerful framework for representing and manipulating events. An event can be viewed as a subset of the sample space, which is the set of all possible outcomes.</p>
+<ul>
+<li><strong>Union:</strong> The union of two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, denoted as <span class="math inline">\(A \cup B\)</span>, represents the event that either <span class="math inline">\(A\)</span> or <span class="math inline">\(B\)</span> (or both) occur.</li>
+<li><strong>Intersection:</strong> The intersection of two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, denoted as <span class="math inline">\(A \cap B\)</span>, represents the event that both <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> occur.</li>
+<li><strong>Complement:</strong> The complement of an event <span class="math inline">\(A\)</span>, denoted as <span class="math inline">\(A^c\)</span> or <span class="math inline">\(A'\)</span>, represents the event that <span class="math inline">\(A\)</span> does not occur.</li>
+</ul>
+<p>The probability of the union of two events can be calculated using the addition rule:</p>
+<p><span class="math inline">\(P(A \cup B) = P(A) + P(B) - P(A \cap B)\)</span></p>
+<p>If events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are mutually exclusive (i.e., they cannot occur simultaneously, <span class="math inline">\(A \cap B = \emptyset\)</span>), then <span class="math inline">\(P(A \cup B) = P(A) + P(B)\)</span>.</p>
+<div id="57b453d0" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Visualizing the union of two sets using Venn diagram (simplified representation)</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Create dummy data for visualization (replace with your own data)</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>setA <span class="op">=</span> np.random.rand(<span class="dv">20</span>) <span class="op">&lt;</span> <span class="fl">0.6</span> <span class="co">#Simulate set A</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>setB <span class="op">=</span> np.random.rand(<span class="dv">20</span>) <span class="op">&lt;</span> <span class="fl">0.4</span> <span class="co">#Simulate set B</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>plt.scatter(setA, np.zeros_like(setA), label<span class="op">=</span><span class="st">'Set A'</span>, color<span class="op">=</span><span class="st">'blue'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>plt.scatter(setB, np.zeros_like(setB), label<span class="op">=</span><span class="st">'Set B'</span>, color<span class="op">=</span><span class="st">'red'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>plt.scatter(np.intersect1d(setA, setB), np.zeros_like(np.intersect1d(setA, setB)), label<span class="op">=</span><span class="st">'A ∩ B'</span>, color<span class="op">=</span><span class="st">'purple'</span>, alpha<span class="op">=</span><span class="fl">0.9</span>) <span class="co">#Visualize the intersection</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Data points'</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>plt.yticks([])</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Simplified Venn Diagram representation'</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="probability-theory-essentials_files/figure-html/cell-2-output-1.png" width="466" height="376" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="conditional-probability" class="level3" data-number="5.0.3">
+<h3 data-number="5.0.3" class="anchored" data-anchor-id="conditional-probability"><span class="header-section-number">5.0.3</span> Conditional Probability</h3>
+<p>Conditional probability refers to the probability of an event occurring given that another event has already occurred. The conditional probability of event <span class="math inline">\(A\)</span> given event <span class="math inline">\(B\)</span>, denoted as <span class="math inline">\(P(A|B)\)</span>, is defined as:</p>
+<p><span class="math inline">\(P(A|B) = \frac{P(A \cap B)}{P(B)}\)</span>, provided <span class="math inline">\(P(B) &gt; 0\)</span></p>
+<p>This formula tells us that the probability of <span class="math inline">\(A\)</span> given <span class="math inline">\(B\)</span> is the ratio of the probability of both <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> occurring to the probability of <span class="math inline">\(B\)</span> occurring.</p>
+</section>
+<section id="bayes-theorem-preview" class="level3" data-number="5.0.4">
+<h3 data-number="5.0.4" class="anchored" data-anchor-id="bayes-theorem-preview"><span class="header-section-number">5.0.4</span> Bayes’ Theorem (Preview)</h3>
+<p>Bayes’ Theorem provides a way to update our beliefs about an event based on new evidence. It’s a powerful tool for revising probabilities in light of new information. We’ll look at it in detail in later chapters, but here’s a preview:</p>
+<p>Let <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> be two events. Bayes’ Theorem states:</p>
+<p><span class="math inline">\(P(A|B) = \frac{P(B|A)P(A)}{P(B)}\)</span></p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(P(A|B)\)</span> is the posterior probability of <span class="math inline">\(A\)</span> given <span class="math inline">\(B\)</span>.</li>
+<li><span class="math inline">\(P(B|A)\)</span> is the likelihood of <span class="math inline">\(B\)</span> given <span class="math inline">\(A\)</span>.</li>
+<li><span class="math inline">\(P(A)\)</span> is the prior probability of <span class="math inline">\(A\)</span>.</li>
+<li><span class="math inline">\(P(B)\)</span> is the marginal likelihood of <span class="math inline">\(B\)</span>. (Often calculated as <span class="math inline">\(P(B) = P(B|A)P(A) + P(B|A^c)P(A^c)\)</span> )</li>
+</ul>
+<p>We will examine the interpretation and applications of Bayes’ Theorem in subsequent chapters. For now, it’s important to understand this fundamental equation as a cornerstone of Bayesian inference.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A[Prior Probability P(A)] --&gt; B(Bayes' Theorem);
+    C[Likelihood P(B|A)] --&gt; B;
+    B --&gt; D[Posterior Probability P(A|B)];
+    E[Evidence P(B)] --&gt; B;
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="random-variables" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="random-variables"><span class="header-section-number">5.1</span> Random Variables</h2>
+<p>This chapter introduces the concept of random variables, a essential building block for understanding probability distributions and their application in Bayesian statistics. We will look at different types of random variables, their associated probability functions, and how to represent them using Python.</p>
+<section id="definition-and-types-of-random-variables" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="definition-and-types-of-random-variables"><span class="header-section-number">5.1.1</span> Definition and Types of Random Variables</h3>
+<p>A random variable is a variable whose value is a numerical outcome of a random phenomenon. It’s a function that maps the outcomes of a random experiment to numerical values. Random variables are typically denoted by uppercase letters (e.g., <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span>, <span class="math inline">\(Z\)</span>), while their specific values are denoted by lowercase letters (e.g., <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, <span class="math inline">\(z\)</span>).</p>
+<p>Random variables can be broadly classified into two types:</p>
+<ul>
+<li><p><strong>Discrete Random Variables:</strong> These variables can only take on a finite number of values or a countably infinite number of values. Examples include the number of heads in three coin flips (0, 1, 2, 3), the number of cars passing a certain point on a highway in an hour, or the outcome of rolling a die.</p></li>
+<li><p><strong>Continuous Random Variables:</strong> These variables can take on any value within a given range or interval. Examples include the height of a person, the temperature of a room, or the time it takes to complete a task.</p></li>
+</ul>
+</section>
+<section id="discrete-vs.-continuous-random-variables" class="level3" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="discrete-vs.-continuous-random-variables"><span class="header-section-number">5.1.2</span> Discrete vs.&nbsp;Continuous Random Variables</h3>
+<p>The key difference lies in the possible values the variable can assume. Discrete random variables have gaps between their possible values, while continuous random variables can take on any value within a continuous range. This difference leads to different ways of describing their probability distributions.</p>
+</section>
+<section id="probability-mass-function-pmf" class="level3" data-number="5.1.3">
+<h3 data-number="5.1.3" class="anchored" data-anchor-id="probability-mass-function-pmf"><span class="header-section-number">5.1.3</span> Probability Mass Function (PMF)</h3>
+<p>The probability mass function (PMF) describes the probability distribution of a discrete random variable. For a discrete random variable <span class="math inline">\(X\)</span>, the PMF is denoted as <span class="math inline">\(P(X = x)\)</span> and represents the probability that <span class="math inline">\(X\)</span> takes on the specific value <span class="math inline">\(x\)</span>. The PMF must satisfy the following conditions:</p>
+<ol type="1">
+<li><span class="math inline">\(P(X = x) \ge 0\)</span> for all <span class="math inline">\(x\)</span>.</li>
+<li><span class="math inline">\(\sum_{x} P(X = x) = 1\)</span>, where the sum is over all possible values of <span class="math inline">\(x\)</span>.</li>
+</ol>
+<div id="d30adfa1" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: PMF of a fair six-sided die</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="dv">7</span>)  <span class="co"># Possible values of the die roll</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>px <span class="op">=</span> np.full(<span class="dv">6</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">6</span>)  <span class="co"># Probability of each value (uniform distribution)</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>plt.stem(x, px)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"X (Die Roll)"</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"P(X = x)"</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"PMF of a Fair Six-Sided Die"</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="probability-theory-essentials_files/figure-html/cell-3-output-1.png" width="606" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="probability-density-function-pdf" class="level3" data-number="5.1.4">
+<h3 data-number="5.1.4" class="anchored" data-anchor-id="probability-density-function-pdf"><span class="header-section-number">5.1.4</span> Probability Density Function (PDF)</h3>
+<p>The probability density function (PDF) describes the probability distribution of a continuous random variable. For a continuous random variable <span class="math inline">\(X\)</span>, the PDF is denoted as <span class="math inline">\(f(x)\)</span>. Unlike the PMF, the PDF does <em>not</em> directly give the probability of <span class="math inline">\(X\)</span> taking on a specific value. Instead, the probability of <span class="math inline">\(X\)</span> falling within a given interval <span class="math inline">\([a, b]\)</span> is given by the integral of the PDF over that interval:</p>
+<p><span class="math inline">\(P(a \le X \le b) = \int_{a}^{b} f(x) dx\)</span></p>
+<p>The PDF must satisfy the following conditions:</p>
+<ol type="1">
+<li><span class="math inline">\(f(x) \ge 0\)</span> for all <span class="math inline">\(x\)</span>.</li>
+<li><span class="math inline">\(\int_{-\infty}^{\infty} f(x) dx = 1\)</span></li>
+</ol>
+<div id="df0c611b" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: PDF of a standard normal distribution</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">100</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> norm.pdf(x)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"X"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"f(x)"</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"PDF of a Standard Normal Distribution"</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="probability-theory-essentials_files/figure-html/cell-4-output-1.png" width="597" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="cumulative-distribution-function-cdf" class="level3" data-number="5.1.5">
+<h3 data-number="5.1.5" class="anchored" data-anchor-id="cumulative-distribution-function-cdf"><span class="header-section-number">5.1.5</span> Cumulative Distribution Function (CDF)</h3>
+<p>The cumulative distribution function (CDF) is a function that gives the probability that a random variable <span class="math inline">\(X\)</span> is less than or equal to a given value <span class="math inline">\(x\)</span>. It’s denoted as <span class="math inline">\(F(x)\)</span> and is defined as:</p>
+<p><span class="math inline">\(F(x) = P(X \le x)\)</span></p>
+<p>The CDF is defined for both discrete and continuous random variables. For discrete variables, it’s the sum of probabilities up to <span class="math inline">\(x\)</span>. For continuous variables, it’s the integral of the PDF up to <span class="math inline">\(x\)</span>:</p>
+<p><span class="math inline">\(F(x) = \int_{-\infty}^{x} f(t) dt\)</span></p>
+<p>The CDF is a non-decreasing function, with <span class="math inline">\(F(-\infty) = 0\)</span> and <span class="math inline">\(F(\infty) = 1\)</span>.</p>
+<div id="c9de7e4b" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: CDF of a standard normal distribution</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">100</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> norm.cdf(x)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"X"</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"F(x)"</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"CDF of a Standard Normal Distribution"</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="probability-theory-essentials_files/figure-html/cell-5-output-1.png" width="589" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A[Random Variable X] --&gt; B(PMF/PDF);
+    B --&gt; C[CDF F(x)];
+    subgraph Discrete
+        A --&gt; D[Probability Mass Function P(X=x)];
+    end
+    subgraph Continuous
+        A --&gt; E[Probability Density Function f(x)];
+    end
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="common-probability-distributions" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="common-probability-distributions"><span class="header-section-number">5.2</span> Common Probability Distributions</h2>
+<p>This chapter introduces some of the most frequently encountered probability distributions in statistics and their applications. Understanding these distributions is fundamental for applying Bayes’ Theorem effectively in various contexts. We will look at both discrete and continuous distributions and demonstrate how to work with them using Python.</p>
+<section id="discrete-distributions-bernoulli-binomial-poisson" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="discrete-distributions-bernoulli-binomial-poisson"><span class="header-section-number">5.2.1</span> Discrete Distributions: Bernoulli, Binomial, Poisson</h3>
+<p><strong>Bernoulli Distribution:</strong> Models the outcome of a single Bernoulli trial—an experiment with only two possible outcomes, typically labeled “success” (1) and “failure” (0). The probability of success is denoted by <span class="math inline">\(p\)</span>, and the probability of failure is <span class="math inline">\(1-p\)</span>.</p>
+<p>The PMF is: <span class="math inline">\(P(X=k) = p^k (1-p)^{1-k}\)</span>, where <span class="math inline">\(k \in \{0, 1\}\)</span>.</p>
+<p><strong>Binomial Distribution:</strong> Models the number of successes in a fixed number of independent Bernoulli trials. The parameters are <span class="math inline">\(n\)</span> (number of trials) and <span class="math inline">\(p\)</span> (probability of success in a single trial).</p>
+<p>The PMF is: <span class="math inline">\(P(X=k) = \binom{n}{k} p^k (1-p)^{n-k}\)</span>, where <span class="math inline">\(k \in \{0, 1, ..., n\}\)</span>.</p>
+<p><strong>Poisson Distribution:</strong> Models the number of events occurring in a fixed interval of time or space, given a known average rate of occurrence (<span class="math inline">\(\lambda\)</span>).</p>
+<p>The PMF is: <span class="math inline">\(P(X=k) = \frac{e^{-\lambda} \lambda^k}{k!}\)</span>, where <span class="math inline">\(k \in \{0, 1, 2, ...\}\)</span>.</p>
+<div id="6d4ae25a" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> bernoulli, binom, poisson</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Example plots (adjust parameters as needed)</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Bernoulli</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>x_bern <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">1</span>]</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>p_bern <span class="op">=</span> <span class="fl">0.7</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>prob_bern <span class="op">=</span> bernoulli.pmf(x_bern, p_bern)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].stem(x_bern, prob_bern)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"Bernoulli Distribution (p=0.7)"</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Binomial</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>n_binom <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>p_binom <span class="op">=</span> <span class="fl">0.4</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>x_binom <span class="op">=</span> np.arange(n_binom <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>prob_binom <span class="op">=</span> binom.pmf(x_binom, n_binom, p_binom)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].stem(x_binom, prob_binom)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"Binomial Distribution (n=10, p=0.4)"</span>)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Poisson</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>lambda_poisson <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>x_poisson <span class="op">=</span> np.arange(<span class="dv">15</span>)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>prob_poisson <span class="op">=</span> poisson.pmf(x_poisson, lambda_poisson)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].stem(x_poisson, prob_poisson)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].set_title(<span class="st">"Poisson Distribution (λ=5)"</span>)</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="probability-theory-essentials_files/figure-html/cell-6-output-1.png" width="1166" height="431" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="continuous-distributions-normal-exponential-uniform" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="continuous-distributions-normal-exponential-uniform"><span class="header-section-number">5.2.2</span> Continuous Distributions: Normal, Exponential, Uniform</h3>
+<p><strong>Normal Distribution:</strong> A bell-shaped distribution characterized by its mean (<span class="math inline">\(\mu\)</span>) and standard deviation (<span class="math inline">\(\sigma\)</span>). It’s also known as the Gaussian distribution. The PDF is:</p>
+<p><span class="math inline">\(f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}\)</span></p>
+<p><strong>Exponential Distribution:</strong> Models the time between events in a Poisson process. It’s characterized by a rate parameter (<span class="math inline">\(\lambda\)</span>). The PDF is:</p>
+<p><span class="math inline">\(f(x) = \lambda e^{-\lambda x}\)</span> for <span class="math inline">\(x \ge 0\)</span>.</p>
+<p><strong>Uniform Distribution:</strong> Assigns equal probability to all values within a given range <span class="math inline">\([a, b]\)</span>. The PDF is:</p>
+<p><span class="math inline">\(f(x) = \frac{1}{b-a}\)</span> for <span class="math inline">\(a \le x \le b\)</span>.</p>
+<div id="216d41b8" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm, expon, uniform</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Example plots (adjust parameters as needed)</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>))</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Normal</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>x_norm <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">100</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>mu_norm <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>sigma_norm <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>prob_norm <span class="op">=</span> norm.pdf(x_norm, mu_norm, sigma_norm)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(x_norm, prob_norm)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"Normal Distribution (μ=0, σ=1)"</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Exponential</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>x_exp <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">100</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>lambda_exp <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>prob_exp <span class="op">=</span> expon.pdf(x_exp, scale<span class="op">=</span><span class="dv">1</span><span class="op">/</span>lambda_exp)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(x_exp, prob_exp)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"Exponential Distribution (λ=1)"</span>)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Uniform</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>a_unif <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>b_unif <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>x_unif <span class="op">=</span> np.linspace(a_unif, b_unif, <span class="dv">100</span>)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>prob_unif <span class="op">=</span> uniform.pdf(x_unif, loc<span class="op">=</span>a_unif, scale<span class="op">=</span>b_unif <span class="op">-</span> a_unif)</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].plot(x_unif, prob_unif)</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].set_title(<span class="st">"Uniform Distribution (a=0, b=1)"</span>)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="probability-theory-essentials_files/figure-html/cell-7-output-1.png" width="1174" height="431" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="visualizing-probability-distributions" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="visualizing-probability-distributions"><span class="header-section-number">5.2.3</span> Visualizing Probability Distributions</h3>
+<p>Visualizing probability distributions provides valuable insights into their shapes, central tendencies, and spread. Histograms, PMFs (for discrete distributions), PDFs (for continuous distributions), and CDFs are commonly used visualization tools. The Python code examples above already showcase some of these visualizations.</p>
+</section>
+<section id="working-with-distributions-in-python" class="level3" data-number="5.2.4">
+<h3 data-number="5.2.4" class="anchored" data-anchor-id="working-with-distributions-in-python"><span class="header-section-number">5.2.4</span> Working with Distributions in Python</h3>
+<p>Python libraries like SciPy and NumPy offer powerful tools for working with probability distributions. The examples above demonstrate how to generate random samples, calculate probabilities, and plot distributions using <code>scipy.stats</code>. Further exploration of these libraries will greatly improve your ability to perform Bayesian analysis.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A[Discrete Distributions] --&gt; B(Bernoulli);
+    A --&gt; C(Binomial);
+    A --&gt; D(Poisson);
+    E[Continuous Distributions] --&gt; F(Normal);
+    E --&gt; G(Exponential);
+    E --&gt; H(Uniform);
+    B -- PMF --&gt; I[Visualization];
+    C -- PMF --&gt; I;
+    D -- PMF --&gt; I;
+    F -- PDF --&gt; I;
+    G -- PDF --&gt; I;
+    H -- PDF --&gt; I;
+    I --&gt; J[Python (SciPy, NumPy)];
+
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="expected-value-and-variance" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="expected-value-and-variance"><span class="header-section-number">5.3</span> Expected Value and Variance</h2>
+<p>Expected value and variance are two fundamental concepts in probability theory that describe the central tendency and spread of a probability distribution. Understanding these concepts is essential for interpreting statistical results and applying Bayesian methods.</p>
+<section id="expected-value-definition-and-calculation" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="expected-value-definition-and-calculation"><span class="header-section-number">5.3.1</span> Expected Value: Definition and Calculation</h3>
+<p>The expected value (or expectation) of a random variable <span class="math inline">\(X\)</span>, denoted as <span class="math inline">\(E[X]\)</span> or <span class="math inline">\(\mu\)</span>, represents the average value of <span class="math inline">\(X\)</span> over many repeated trials. For a discrete random variable with PMF <span class="math inline">\(P(X=x)\)</span>, the expected value is:</p>
+<p><span class="math inline">\(E[X] = \sum_{x} x \cdot P(X=x)\)</span></p>
+<p>For a continuous random variable with PDF <span class="math inline">\(f(x)\)</span>, the expected value is:</p>
+<p><span class="math inline">\(E[X] = \int_{-\infty}^{\infty} x \cdot f(x) dx\)</span></p>
+<p>The expected value is a weighted average, where each possible value of <span class="math inline">\(X\)</span> is weighted by its probability.</p>
+</section>
+<section id="variance-and-standard-deviation" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="variance-and-standard-deviation"><span class="header-section-number">5.3.2</span> Variance and Standard Deviation</h3>
+<p>The variance of a random variable <span class="math inline">\(X\)</span>, denoted as <span class="math inline">\(Var(X)\)</span> or <span class="math inline">\(\sigma^2\)</span>, measures the spread or dispersion of the distribution around its expected value. It’s the average squared deviation from the mean. For a discrete random variable:</p>
+<p><span class="math inline">\(Var(X) = E[(X - \mu)^2] = \sum_{x} (x - \mu)^2 \cdot P(X=x)\)</span></p>
+<p>For a continuous random variable:</p>
+<p><span class="math inline">\(Var(X) = E[(X - \mu)^2] = \int_{-\infty}^{\infty} (x - \mu)^2 \cdot f(x) dx\)</span></p>
+<p>The standard deviation, denoted as <span class="math inline">\(\sigma\)</span>, is the square root of the variance: <span class="math inline">\(\sigma = \sqrt{Var(X)}\)</span>. It’s expressed in the same units as the random variable and provides a more interpretable measure of spread.</p>
+</section>
+<section id="properties-of-expected-value-and-variance" class="level3" data-number="5.3.3">
+<h3 data-number="5.3.3" class="anchored" data-anchor-id="properties-of-expected-value-and-variance"><span class="header-section-number">5.3.3</span> Properties of Expected Value and Variance</h3>
+<p>Some important properties of expected value and variance include:</p>
+<ul>
+<li><span class="math inline">\(E[c] = c\)</span>, where <span class="math inline">\(c\)</span> is a constant.</li>
+<li><span class="math inline">\(E[aX + b] = aE[X] + b\)</span>, where <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are constants.</li>
+<li><span class="math inline">\(Var(c) = 0\)</span>, where <span class="math inline">\(c\)</span> is a constant.</li>
+<li><span class="math inline">\(Var(aX + b) = a^2 Var(X)\)</span>, where <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are constants.</li>
+</ul>
+</section>
+<section id="interpreting-expected-value-and-variance" class="level3" data-number="5.3.4">
+<h3 data-number="5.3.4" class="anchored" data-anchor-id="interpreting-expected-value-and-variance"><span class="header-section-number">5.3.4</span> Interpreting Expected Value and Variance</h3>
+<ul>
+<li><p><strong>Expected Value:</strong> Provides a measure of the central tendency or “average” of the distribution. It doesn’t represent a value the variable will necessarily take on, but rather the long-run average of many observations.</p></li>
+<li><p><strong>Variance/Standard Deviation:</strong> Indicates the variability or spread of the distribution. A larger variance means the values are more spread out from the mean, while a smaller variance suggests values are clustered closely around the mean.</p></li>
+</ul>
+</section>
+<section id="calculating-expected-value-and-variance-in-python" class="level3" data-number="5.3.5">
+<h3 data-number="5.3.5" class="anchored" data-anchor-id="calculating-expected-value-and-variance-in-python"><span class="header-section-number">5.3.5</span> Calculating Expected Value and Variance in Python</h3>
+<div id="92e524a5" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> binom</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Expected value and variance of a binomial distribution</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10</span>  <span class="co"># Number of trials</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="fl">0.5</span>  <span class="co"># Probability of success</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Using scipy.stats</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>mean_binom <span class="op">=</span> binom.mean(n, p)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>var_binom <span class="op">=</span> binom.var(n, p)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>std_binom <span class="op">=</span> binom.std(n, p)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Binomial Distribution (n=</span><span class="sc">{</span>n<span class="sc">}</span><span class="ss">, p=</span><span class="sc">{</span>p<span class="sc">}</span><span class="ss">):"</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Expected Value (Mean): </span><span class="sc">{</span>mean_binom<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Variance: </span><span class="sc">{</span>var_binom<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Standard Deviation: </span><span class="sc">{</span>std_binom<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Manual calculation (for demonstration)</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(n <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>pmf <span class="op">=</span> binom.pmf(x, n, p)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>manual_mean <span class="op">=</span> np.<span class="bu">sum</span>(x <span class="op">*</span> pmf)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>manual_var <span class="op">=</span> np.<span class="bu">sum</span>((x <span class="op">-</span> manual_mean)<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> pmf)</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Manual Calculation:"</span>)</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Expected Value (Mean): </span><span class="sc">{</span>manual_mean<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Variance: </span><span class="sc">{</span>manual_var<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Binomial Distribution (n=10, p=0.5):
+  Expected Value (Mean): 5.0
+  Variance: 2.5
+  Standard Deviation: 1.5811388300841898
+
+Manual Calculation:
+  Expected Value (Mean): 4.999999999999999
+  Variance: 2.5000000000000004</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A[Random Variable X] --&gt; B(Expected Value E[X]);
+    A --&gt; C(Variance Var(X));
+    C --&gt; D(Standard Deviation σ);
+    B -. measures central tendency --&gt; E[Interpretation];
+    C -. measures spread --&gt; E;
+    E --&gt; F[Understanding Distribution];
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="joint-probability-distributions" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="joint-probability-distributions"><span class="header-section-number">5.4</span> Joint Probability Distributions</h2>
+<p>This chapter extends the concepts of probability distributions to scenarios involving multiple random variables. Understanding joint distributions is essential for tackling many real-world problems, particularly in Bayesian contexts where we often deal with multiple interacting variables.</p>
+<section id="joint-pmf-and-pdf" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="joint-pmf-and-pdf"><span class="header-section-number">5.4.1</span> Joint PMF and PDF</h3>
+<p>When dealing with two or more random variables, we need to consider their joint distribution. This describes the probabilities of different combinations of values for all variables.</p>
+<ul>
+<li><p><strong>Discrete Random Variables:</strong> For discrete random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, the joint probability mass function (PMF) is denoted as <span class="math inline">\(P(X=x, Y=y)\)</span> and gives the probability that <span class="math inline">\(X=x\)</span> and <span class="math inline">\(Y=y\)</span> simultaneously.</p></li>
+<li><p><strong>Continuous Random Variables:</strong> For continuous random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, the joint probability density function (PDF) is denoted as <span class="math inline">\(f(x, y)\)</span>. The probability that <span class="math inline">\(X\)</span> falls within the interval <span class="math inline">\([a, b]\)</span> and <span class="math inline">\(Y\)</span> falls within the interval <span class="math inline">\([c, d]\)</span> is given by the double integral:</p>
+<p><span class="math inline">\(P(a \le X \le b, c \le Y \le d) = \int_{a}^{b} \int_{c}^{d} f(x, y) \, dy \, dx\)</span></p></li>
+</ul>
+</section>
+<section id="marginal-distributions" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="marginal-distributions"><span class="header-section-number">5.4.2</span> Marginal Distributions</h3>
+<p>The marginal distribution of a single random variable is obtained from the joint distribution by summing or integrating over all possible values of the other variables.</p>
+<ul>
+<li><p><strong>Discrete:</strong> The marginal PMF of <span class="math inline">\(X\)</span> is: <span class="math inline">\(P(X=x) = \sum_{y} P(X=x, Y=y)\)</span> (similarly for <span class="math inline">\(Y\)</span>).</p></li>
+<li><p><strong>Continuous:</strong> The marginal PDF of <span class="math inline">\(X\)</span> is: <span class="math inline">\(f_X(x) = \int_{-\infty}^{\infty} f(x, y) \, dy\)</span> (similarly for <span class="math inline">\(Y\)</span>).</p></li>
+</ul>
+<p>The marginal distributions describe the probability distribution of each variable individually, ignoring the other variable(s).</p>
+</section>
+<section id="conditional-distributions" class="level3" data-number="5.4.3">
+<h3 data-number="5.4.3" class="anchored" data-anchor-id="conditional-distributions"><span class="header-section-number">5.4.3</span> Conditional Distributions</h3>
+<p>The conditional distribution of one random variable given another describes the probability distribution of one variable when the value of the other variable is known.</p>
+<ul>
+<li><p><strong>Discrete:</strong> The conditional PMF of <span class="math inline">\(X\)</span> given <span class="math inline">\(Y=y\)</span> is: <span class="math inline">\(P(X=x|Y=y) = \frac{P(X=x, Y=y)}{P(Y=y)}\)</span>, provided <span class="math inline">\(P(Y=y) &gt; 0\)</span>.</p></li>
+<li><p><strong>Continuous:</strong> The conditional PDF of <span class="math inline">\(X\)</span> given <span class="math inline">\(Y=y\)</span> is: <span class="math inline">\(f(x|y) = \frac{f(x, y)}{f_Y(y)}\)</span>, provided <span class="math inline">\(f_Y(y) &gt; 0\)</span>.</p></li>
+</ul>
+</section>
+<section id="independence-of-random-variables" class="level3" data-number="5.4.4">
+<h3 data-number="5.4.4" class="anchored" data-anchor-id="independence-of-random-variables"><span class="header-section-number">5.4.4</span> Independence of Random Variables</h3>
+<p>Two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent if knowing the value of one variable doesn’t change the probability distribution of the other. This means:</p>
+<ul>
+<li><strong>Discrete:</strong> <span class="math inline">\(P(X=x, Y=y) = P(X=x)P(Y=y)\)</span> for all <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.</li>
+<li><strong>Continuous:</strong> <span class="math inline">\(f(x, y) = f_X(x)f_Y(y)\)</span> for all <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.</li>
+</ul>
+<p>If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, their joint distribution is simply the product of their marginal distributions.</p>
+<div id="378b8c4f" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> multivariate_normal</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Bivariate Normal Distribution (Illustrating marginal and conditional distributions)</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters for the bivariate normal distribution</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>mean <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>]</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>cov <span class="op">=</span> [[<span class="dv">1</span>, <span class="fl">0.8</span>], [<span class="fl">0.8</span>, <span class="dv">1</span>]]  <span class="co"># Covariance matrix (0.8 indicates correlation)</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate data from bivariate normal distribution</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> multivariate_normal.rvs(mean<span class="op">=</span>mean, cov<span class="op">=</span>cov, size<span class="op">=</span><span class="dv">1000</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> data[:, <span class="dv">0</span>], data[:, <span class="dv">1</span>]</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">6</span>))</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>ax.scatter(x,y, alpha<span class="op">=</span><span class="fl">0.5</span>, s<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"X"</span>)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Y"</span>)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Scatter Plot of Bivariate Normal Distribution"</span>)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Marginal distributions would require more complex integration for proper PDF calculation.</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="co"># This section just highlights visualization of the joint distribution</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Further analysis of marginal and conditional distributions requires more advanced techniques.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="probability-theory-essentials_files/figure-html/cell-9-output-1.png" width="662" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A[X, Y (Joint Distribution)] --&gt; B(Joint PMF/PDF);
+    B --&gt; C(Marginal Distribution of X);
+    B --&gt; D(Marginal Distribution of Y);
+    B --&gt; E(Conditional Distribution X|Y);
+    B --&gt; F(Conditional Distribution Y|X);
+    subgraph Independence
+        A -.  P(X,Y) = P(X)P(Y) --&gt; G[Independent];
+    end
+    subgraph Dependence
+        A --&gt; H[Dependent];
+    end
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -5,7 +5,7 @@ This chapter guides you through setting up the Python environment necessary for 
 
 ### Required Libraries
 
-Several Python libraries are crucial for implementing and visualizing Bayesian methods.  We'll focus on installing NumPy, SciPy, Matplotlib, and Pandas.  While others exist, these form the core foundation.
+Several Python libraries are essential for implementing and visualizing Bayesian methods.  We'll focus on installing NumPy, SciPy, Matplotlib, and Pandas.  While others exist, these form the core foundation.
 
 
 ### Installing NumPy
@@ -18,7 +18,7 @@ pip install numpy
 
 Verify the installation by opening a Python interpreter and typing:
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 print(np.__version__)
@@ -37,7 +37,7 @@ pip install scipy
 
 Check the installation:
 
-```\{python}
+```{python}
 #| echo: true
 import scipy
 print(scipy.__version__)
@@ -46,7 +46,7 @@ print(scipy.__version__)
 
 ### Installing Matplotlib
 
-Matplotlib is a comprehensive plotting library that allows you to create static, interactive, and animated visualizations in Python.  We'll use it extensively to visualize probability distributions and Bayesian inference results.  Install it using:
+Matplotlib is a detailed plotting library that allows you to create static, interactive, and animated visualizations in Python.  We'll use it extensively to visualize probability distributions and Bayesian inference results.  Install it using:
 
 ```bash
 pip install matplotlib
@@ -54,7 +54,7 @@ pip install matplotlib
 
 A simple plot to verify the installation:
 
-```\{python}
+```{python}
 #| echo: true
 import matplotlib.pyplot as plt
 import numpy as np
@@ -81,7 +81,7 @@ pip install pandas
 
 Verify the installation:
 
-```\{python}
+```{python}
 #| echo: true
 import pandas as pd
 print(pd.__version__)
@@ -90,7 +90,7 @@ print(pd.__version__)
 
 ### Installing Other Libraries (Optional)
 
-Depending on the specific Bayesian methods you wish to explore, you might need additional libraries.  For example, `statsmodels` provides statistical modeling capabilities, and libraries like `PyMC3` or `Pyro` are dedicated to probabilistic programming and Bayesian inference.  Install these as needed using pip, e.g., `pip install pymc3`.
+Depending on the specific Bayesian methods you wish to explore, you might need additional libraries.  For example, `statsmodels` provides statistical modeling capabilities, and libraries like `PyMC` or `Pyro` are dedicated to probabilistic programming and Bayesian inference.  Install these as needed using pip, e.g., `pip install pymc3`.
 
 
 ### Managing Environments with Conda or Virtualenv
@@ -158,7 +158,7 @@ The setup process varies slightly depending on your chosen IDE.  Generally, you'
 
 Let's write and run a simple Python script to verify your setup.  Create a file named `hello.py` and add the following code:
 
-```\{python}
+```{python}
 #| echo: true
 print("Hello, Bayesian World!")
 ```
@@ -186,7 +186,7 @@ To run a Jupyter Notebook:
 
 Here's an example of a simple Jupyter Notebook cell using Matplotlib:
 
-```\{python}
+```{python}
 #| echo: true
 import matplotlib.pyplot as plt
 import numpy as np
@@ -204,13 +204,11 @@ This will generate a plot within the Jupyter Notebook itself.
 
 You can also add Markdown cells for text and explanations. For example, a simple Mermaid diagram explaining a Bayesian inference concept could be inserted in a Markdown cell like this:
 
-```markdown
 ```{mermaid}
 graph LR
     A[Prior] --> B{Data};
     B --> C[Posterior];
     style B fill:#ccf,stroke:#f66,stroke-width:2px
-```
 ```
 
 This will render a simple flow chart within the notebook.  Jupyter Notebooks provide a very interactive and flexible way to work with Python code and data for Bayesian analysis.
@@ -223,7 +221,7 @@ This chapter introduces basic Python tools for working with probability, buildin
 
 ### Understanding Data Structures for Probability
 
-Python offers several data structures well-suited for representing probabilistic concepts.  Lists and dictionaries are commonly used:
+Python offers many data structures well-suited for representing probabilistic concepts.  Lists and dictionaries are commonly used:
 
 * **Lists:** Can represent sequences of events or outcomes. For example, `outcomes = ['Heads', 'Tails']` represents the outcomes of a coin flip.
 
@@ -237,7 +235,7 @@ Python offers several data structures well-suited for representing probabilistic
 A random variable is a variable whose value is a numerical outcome of a random phenomenon.  Python doesn't have a specific "random variable" type, but we represent them using variables and numerical data.  For example:
 
 
-```\{python}
+```{python}
 #| echo: true
 # Representing a discrete random variable (die roll)
 die_roll = np.random.randint(1, 7)  # Generates a random integer between 1 and 6 (inclusive)
@@ -254,7 +252,7 @@ print(f"The height is: {height:.2f}")
 Basic probability calculations (e.g., calculating the probability of an event or the conditional probability of an event given another event) are straightforward in Python:
 
 
-```\{python}
+```{python}
 #| echo: true
 # Example: Probability of getting heads twice in a row with a fair coin
 probability_heads = 0.5
@@ -276,7 +274,7 @@ print(f"Probability of B given A: {probability_B_given_A:.2f}")
 
 The `random` module (and `numpy.random`) provides functions for generating random numbers from various distributions:
 
-```\{python}
+```{python}
 #| echo: true
 import random
 import numpy as np
@@ -297,9 +295,9 @@ print(f"Random numbers from a normal distribution: {normal_random_numbers}")
 
 ### Sampling Techniques
 
-Sampling from probability distributions is crucial in Bayesian inference.  NumPy's `random` submodule offers various sampling methods:
+Sampling from probability distributions is essential in Bayesian inference.  NumPy's `random` submodule offers various sampling methods:
 
-```\{python}
+```{python}
 #| echo: true
 # Sampling from a normal distribution
 samples = np.random.normal(loc=0, scale=1, size=1000) # 1000 samples
@@ -320,7 +318,7 @@ plt.show()
 NumPy provides efficient array operations that simplify probability calculations. For example, we can calculate the mean and standard deviation of a sample:
 
 
-```\{python}
+```{python}
 #| echo: true
 # Calculate mean and standard deviation
 mean = np.mean(samples)

@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -68,7 +102,39 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -399,8 +465,54 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#vectors-definition-and-representation" id="toc-vectors-definition-and-representation" class="nav-link active" data-scroll-target="#vectors-definition-and-representation"><span class="header-section-number">7.0.1</span> Vectors: Definition and Representation</a></li>
+  <li><a href="#matrices-definition-and-representation" id="toc-matrices-definition-and-representation" class="nav-link" data-scroll-target="#matrices-definition-and-representation"><span class="header-section-number">7.0.2</span> Matrices: Definition and Representation</a></li>
+  <li><a href="#special-matrices-e.g.-identity-diagonal" id="toc-special-matrices-e.g.-identity-diagonal" class="nav-link" data-scroll-target="#special-matrices-e.g.-identity-diagonal"><span class="header-section-number">7.0.3</span> Special Matrices (e.g., Identity, Diagonal)</a></li>
+  <li><a href="#vector-and-matrix-transpose" id="toc-vector-and-matrix-transpose" class="nav-link" data-scroll-target="#vector-and-matrix-transpose"><span class="header-section-number">7.0.4</span> Vector and Matrix Transpose</a></li>
+  <li><a href="#vectors-and-matrices-in-python-numpy" id="toc-vectors-and-matrices-in-python-numpy" class="nav-link" data-scroll-target="#vectors-and-matrices-in-python-numpy"><span class="header-section-number">7.0.5</span> Vectors and Matrices in Python (NumPy)</a></li>
+  <li><a href="#linear-algebra-review" id="toc-linear-algebra-review" class="nav-link" data-scroll-target="#linear-algebra-review"><span class="header-section-number">7.1</span> Linear Algebra Review</a></li>
+  <li><a href="#matrix-operations" id="toc-matrix-operations" class="nav-link" data-scroll-target="#matrix-operations"><span class="header-section-number">7.2</span> Matrix Operations</a>
+  <ul class="collapse">
+  <li><a href="#matrix-addition-and-subtraction" id="toc-matrix-addition-and-subtraction" class="nav-link" data-scroll-target="#matrix-addition-and-subtraction"><span class="header-section-number">7.2.1</span> Matrix Addition and Subtraction</a></li>
+  <li><a href="#scalar-multiplication" id="toc-scalar-multiplication" class="nav-link" data-scroll-target="#scalar-multiplication"><span class="header-section-number">7.2.2</span> Scalar Multiplication</a></li>
+  <li><a href="#matrix-multiplication" id="toc-matrix-multiplication" class="nav-link" data-scroll-target="#matrix-multiplication"><span class="header-section-number">7.2.3</span> Matrix Multiplication</a></li>
+  <li><a href="#hadamard-product" id="toc-hadamard-product" class="nav-link" data-scroll-target="#hadamard-product"><span class="header-section-number">7.2.4</span> Hadamard Product</a></li>
+  <li><a href="#matrix-inverse" id="toc-matrix-inverse" class="nav-link" data-scroll-target="#matrix-inverse"><span class="header-section-number">7.2.5</span> Matrix Inverse</a></li>
+  <li><a href="#determinant-of-a-matrix" id="toc-determinant-of-a-matrix" class="nav-link" data-scroll-target="#determinant-of-a-matrix"><span class="header-section-number">7.2.6</span> Determinant of a Matrix</a></li>
+  <li><a href="#matrix-operations-in-python-numpy" id="toc-matrix-operations-in-python-numpy" class="nav-link" data-scroll-target="#matrix-operations-in-python-numpy"><span class="header-section-number">7.2.7</span> Matrix Operations in Python (NumPy)</a></li>
+  </ul></li>
+  <li><a href="#linear-algebra-review-1" id="toc-linear-algebra-review-1" class="nav-link" data-scroll-target="#linear-algebra-review-1"><span class="header-section-number">7.3</span> Linear Algebra Review</a></li>
+  <li><a href="#eigenvalues-and-eigenvectors" id="toc-eigenvalues-and-eigenvectors" class="nav-link" data-scroll-target="#eigenvalues-and-eigenvectors"><span class="header-section-number">7.4</span> Eigenvalues and Eigenvectors</a>
+  <ul class="collapse">
+  <li><a href="#definition-of-eigenvalues-and-eigenvectors" id="toc-definition-of-eigenvalues-and-eigenvectors" class="nav-link" data-scroll-target="#definition-of-eigenvalues-and-eigenvectors"><span class="header-section-number">7.4.1</span> Definition of Eigenvalues and Eigenvectors</a></li>
+  <li><a href="#calculating-eigenvalues-and-eigenvectors" id="toc-calculating-eigenvalues-and-eigenvectors" class="nav-link" data-scroll-target="#calculating-eigenvalues-and-eigenvectors"><span class="header-section-number">7.4.2</span> Calculating Eigenvalues and Eigenvectors</a></li>
+  <li><a href="#eigenvalue-decomposition" id="toc-eigenvalue-decomposition" class="nav-link" data-scroll-target="#eigenvalue-decomposition"><span class="header-section-number">7.4.3</span> Eigenvalue Decomposition</a></li>
+  <li><a href="#applications-in-linear-algebra" id="toc-applications-in-linear-algebra" class="nav-link" data-scroll-target="#applications-in-linear-algebra"><span class="header-section-number">7.4.4</span> Applications in Linear Algebra</a></li>
+  <li><a href="#finding-eigenvalues-and-eigenvectors-in-python-numpyscipy" id="toc-finding-eigenvalues-and-eigenvectors-in-python-numpyscipy" class="nav-link" data-scroll-target="#finding-eigenvalues-and-eigenvectors-in-python-numpyscipy"><span class="header-section-number">7.4.5</span> Finding Eigenvalues and Eigenvectors in Python (NumPy/SciPy)</a></li>
+  </ul></li>
+  <li><a href="#linear-algebra-review-2" id="toc-linear-algebra-review-2" class="nav-link" data-scroll-target="#linear-algebra-review-2"><span class="header-section-number">7.5</span> Linear Algebra Review</a></li>
+  <li><a href="#linear-transformations" id="toc-linear-transformations" class="nav-link" data-scroll-target="#linear-transformations"><span class="header-section-number">7.6</span> Linear Transformations</a>
+  <ul class="collapse">
+  <li><a href="#introduction-to-linear-transformations" id="toc-introduction-to-linear-transformations" class="nav-link" data-scroll-target="#introduction-to-linear-transformations"><span class="header-section-number">7.6.1</span> Introduction to Linear Transformations</a></li>
+  <li><a href="#representing-linear-transformations-with-matrices" id="toc-representing-linear-transformations-with-matrices" class="nav-link" data-scroll-target="#representing-linear-transformations-with-matrices"><span class="header-section-number">7.6.2</span> Representing Linear Transformations with Matrices</a></li>
+  <li><a href="#matrix-transformations-in-2d-and-3d-space" id="toc-matrix-transformations-in-2d-and-3d-space" class="nav-link" data-scroll-target="#matrix-transformations-in-2d-and-3d-space"><span class="header-section-number">7.6.3</span> Matrix Transformations in 2D and 3D Space</a></li>
+  <li><a href="#linear-transformations-in-python" id="toc-linear-transformations-in-python" class="nav-link" data-scroll-target="#linear-transformations-in-python"><span class="header-section-number">7.6.4</span> Linear Transformations in Python</a></li>
+  </ul></li>
+  <li><a href="#linear-algebra-review-3" id="toc-linear-algebra-review-3" class="nav-link" data-scroll-target="#linear-algebra-review-3"><span class="header-section-number">7.7</span> Linear Algebra Review</a></li>
+  <li><a href="#vector-spaces" id="toc-vector-spaces" class="nav-link" data-scroll-target="#vector-spaces"><span class="header-section-number">7.8</span> Vector Spaces</a>
+  <ul class="collapse">
+  <li><a href="#definition-and-examples" id="toc-definition-and-examples" class="nav-link" data-scroll-target="#definition-and-examples"><span class="header-section-number">7.8.1</span> Definition and Examples</a></li>
+  <li><a href="#linear-independence-and-span" id="toc-linear-independence-and-span" class="nav-link" data-scroll-target="#linear-independence-and-span"><span class="header-section-number">7.8.2</span> Linear Independence and Span</a></li>
+  <li><a href="#basis-and-dimension" id="toc-basis-and-dimension" class="nav-link" data-scroll-target="#basis-and-dimension"><span class="header-section-number">7.8.3</span> Basis and Dimension</a></li>
+  <li><a href="#subspaces" id="toc-subspaces" class="nav-link" data-scroll-target="#subspaces"><span class="header-section-number">7.8.4</span> Subspaces</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -424,8 +536,560 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="vectors-definition-and-representation" class="level3" data-number="7.0.1">
+<h3 data-number="7.0.1" class="anchored" data-anchor-id="vectors-definition-and-representation"><span class="header-section-number">7.0.1</span> Vectors: Definition and Representation</h3>
+<p>A vector is a mathematical object that has both magnitude and direction. It can be represented as an ordered list of numbers, called its components or elements. In <span class="math inline">\(n\)</span>-dimensional space, a vector <span class="math inline">\(\mathbf{v}\)</span> is often written as:</p>
+<p><span class="math inline">\(\mathbf{v} = \begin{bmatrix} v_1 \\ v_2 \\ \vdots \\ v_n \end{bmatrix}\)</span></p>
+<p>where <span class="math inline">\(v_1, v_2, \dots, v_n\)</span> are the components of the vector. The number of components, <span class="math inline">\(n\)</span>, is the dimension of the vector. Vectors can represent various things, such as points in space, directions, or forces.</p>
+</section>
+<section id="matrices-definition-and-representation" class="level3" data-number="7.0.2">
+<h3 data-number="7.0.2" class="anchored" data-anchor-id="matrices-definition-and-representation"><span class="header-section-number">7.0.2</span> Matrices: Definition and Representation</h3>
+<p>A matrix is a rectangular array of numbers, symbols, or expressions, arranged in rows and columns. An <span class="math inline">\(m \times n\)</span> matrix <span class="math inline">\(A\)</span> has <span class="math inline">\(m\)</span> rows and <span class="math inline">\(n\)</span> columns and is represented as:</p>
+<p><span class="math inline">\(A = \begin{bmatrix} a_{11} &amp; a_{12} &amp; \cdots &amp; a_{1n} \\ a_{21} &amp; a_{22} &amp; \cdots &amp; a_{2n} \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ a_{m1} &amp; a_{m2} &amp; \cdots &amp; a_{mn} \end{bmatrix}\)</span></p>
+<p>where <span class="math inline">\(a_{ij}\)</span> represents the element in the <span class="math inline">\(i\)</span>-th row and <span class="math inline">\(j\)</span>-th column. Matrices are fundamental in linear algebra and are used to represent linear transformations, systems of equations, and much more.</p>
+</section>
+<section id="special-matrices-e.g.-identity-diagonal" class="level3" data-number="7.0.3">
+<h3 data-number="7.0.3" class="anchored" data-anchor-id="special-matrices-e.g.-identity-diagonal"><span class="header-section-number">7.0.3</span> Special Matrices (e.g., Identity, Diagonal)</h3>
+<p>Several types of matrices have special properties:</p>
+<ul>
+<li><p><strong>Identity Matrix (<span class="math inline">\(I\)</span>):</strong> A square matrix (<span class="math inline">\(n \times n\)</span>) with ones on the main diagonal and zeros elsewhere. It acts as a multiplicative identity: <span class="math inline">\(AI = IA = A\)</span>.</p>
+<p><span class="math inline">\(I_3 = \begin{bmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{bmatrix}\)</span></p></li>
+<li><p><strong>Diagonal Matrix:</strong> A square matrix where all off-diagonal elements are zero. The elements <span class="math inline">\(a_{ii}\)</span> on the main diagonal can be any value.</p>
+<p><span class="math inline">\(D = \begin{bmatrix} 2 &amp; 0 &amp; 0 \\ 0 &amp; 5 &amp; 0 \\ 0 &amp; 0 &amp; -1 \end{bmatrix}\)</span></p></li>
+<li><p><strong>Zero Matrix (or Null Matrix):</strong> A matrix where all elements are zero.</p></li>
+</ul>
+</section>
+<section id="vector-and-matrix-transpose" class="level3" data-number="7.0.4">
+<h3 data-number="7.0.4" class="anchored" data-anchor-id="vector-and-matrix-transpose"><span class="header-section-number">7.0.4</span> Vector and Matrix Transpose</h3>
+<p>The transpose of a matrix (or vector) is obtained by interchanging its rows and columns. The transpose of matrix <span class="math inline">\(A\)</span> is denoted as <span class="math inline">\(A^T\)</span> (or <span class="math inline">\(A'\)</span>).</p>
+<p>If <span class="math inline">\(A = \begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix}\)</span>, then <span class="math inline">\(A^T = \begin{bmatrix} a &amp; c \\ b &amp; d \end{bmatrix}\)</span>.</p>
+<p>Similarly, if <span class="math inline">\(\mathbf{v} = \begin{bmatrix} v_1 \\ v_2 \\ v_3 \end{bmatrix}\)</span>, then <span class="math inline">\(\mathbf{v}^T = \begin{bmatrix} v_1 &amp; v_2 &amp; v_3 \end{bmatrix}\)</span>.</p>
+</section>
+<section id="vectors-and-matrices-in-python-numpy" class="level3" data-number="7.0.5">
+<h3 data-number="7.0.5" class="anchored" data-anchor-id="vectors-and-matrices-in-python-numpy"><span class="header-section-number">7.0.5</span> Vectors and Matrices in Python (NumPy)</h3>
+<p>NumPy is a powerful Python library for numerical computation, providing efficient support for vectors and matrices.</p>
+<div id="609e69b9" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating vectors</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>vector_v <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Vector v:</span><span class="ch">\n</span><span class="st">"</span>, vector_v)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating matrices</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>matrix_A <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>], [<span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>]])</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Matrix A:</span><span class="ch">\n</span><span class="st">"</span>, matrix_A)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Identity matrix</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>identity_matrix <span class="op">=</span> np.identity(<span class="dv">3</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Identity Matrix:</span><span class="ch">\n</span><span class="st">"</span>, identity_matrix)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Transpose</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>transpose_v <span class="op">=</span> vector_v.T</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Transpose of vector v:</span><span class="ch">\n</span><span class="st">"</span>, transpose_v)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>transpose_A <span class="op">=</span> matrix_A.T</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Transpose of matrix A:</span><span class="ch">\n</span><span class="st">"</span>, transpose_A)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting a 2D vector (example)</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>vector_2d <span class="op">=</span> np.array([<span class="dv">2</span>, <span class="dv">3</span>])</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>plt.quiver(<span class="dv">0</span>, <span class="dv">0</span>, vector_2d[<span class="dv">0</span>], vector_2d[<span class="dv">1</span>], angles<span class="op">=</span><span class="st">'xy'</span>, scale_units<span class="op">=</span><span class="st">'xy'</span>, scale<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="op">-</span><span class="dv">1</span>, <span class="dv">5</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="op">-</span><span class="dv">1</span>, <span class="dv">5</span>)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"y"</span>)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"2D Vector Representation"</span>)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Vector v:
+ [1 2 3]
+
+Matrix A:
+ [[1 2 3]
+ [4 5 6]
+ [7 8 9]]
+
+Identity Matrix:
+ [[1. 0. 0.]
+ [0. 1. 0.]
+ [0. 0. 1.]]
+
+Transpose of vector v:
+ [1 2 3]
+
+Transpose of matrix A:
+ [[1 4 7]
+ [2 5 8]
+ [3 6 9]]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="linear-algebra-review_files/figure-html/cell-2-output-2.png" width="591" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A[Vector] --&gt; B(Magnitude);
+    A --&gt; C(Direction);
+    D[Matrix] --&gt; E(Rows);
+    D --&gt; F(Columns);
+    G[Identity Matrix] --&gt; H(I);
+    I --&gt; J(1s on diagonal);
+    I --&gt; K(0s elsewhere);
+
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="linear-algebra-review" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="linear-algebra-review"><span class="header-section-number">7.1</span> Linear Algebra Review</h2>
+</section>
+<section id="matrix-operations" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="matrix-operations"><span class="header-section-number">7.2</span> Matrix Operations</h2>
+<section id="matrix-addition-and-subtraction" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="matrix-addition-and-subtraction"><span class="header-section-number">7.2.1</span> Matrix Addition and Subtraction</h3>
+<p>Matrix addition and subtraction are element-wise operations. Two matrices can be added or subtracted only if they have the same dimensions (<span class="math inline">\(m \times n\)</span>). If <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are <span class="math inline">\(m \times n\)</span> matrices, then their sum <span class="math inline">\(C = A + B\)</span> and difference <span class="math inline">\(D = A - B\)</span> are also <span class="math inline">\(m \times n\)</span> matrices, with elements:</p>
+<p><span class="math inline">\(c_{ij} = a_{ij} + b_{ij}\)</span></p>
+<p><span class="math inline">\(d_{ij} = a_{ij} - b_{ij}\)</span></p>
+</section>
+<section id="scalar-multiplication" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="scalar-multiplication"><span class="header-section-number">7.2.2</span> Scalar Multiplication</h3>
+<p>Scalar multiplication involves multiplying a matrix by a single number (scalar). If <span class="math inline">\(A\)</span> is an <span class="math inline">\(m \times n\)</span> matrix and <span class="math inline">\(k\)</span> is a scalar, then <span class="math inline">\(kA\)</span> is an <span class="math inline">\(m \times n\)</span> matrix with elements:</p>
+<p><span class="math inline">\((kA)_{ij} = k \cdot a_{ij}\)</span></p>
+</section>
+<section id="matrix-multiplication" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="matrix-multiplication"><span class="header-section-number">7.2.3</span> Matrix Multiplication</h3>
+<p>Matrix multiplication is more complex than addition or scalar multiplication. To multiply two matrices, the number of columns in the first matrix must equal the number of rows in the second matrix. If <span class="math inline">\(A\)</span> is an <span class="math inline">\(m \times n\)</span> matrix and <span class="math inline">\(B\)</span> is an <span class="math inline">\(n \times p\)</span> matrix, then their product <span class="math inline">\(C = AB\)</span> is an <span class="math inline">\(m \times p\)</span> matrix with elements:</p>
+<p><span class="math inline">\(c_{ij} = \sum_{k=1}^{n} a_{ik}b_{kj}\)</span></p>
+<p>This means each element <span class="math inline">\(c_{ij}\)</span> is the dot product of the <span class="math inline">\(i\)</span>-th row of <span class="math inline">\(A\)</span> and the <span class="math inline">\(j\)</span>-th column of <span class="math inline">\(B\)</span>. Matrix multiplication is not commutative (<span class="math inline">\(AB \neq BA\)</span> in general).</p>
+</section>
+<section id="hadamard-product" class="level3" data-number="7.2.4">
+<h3 data-number="7.2.4" class="anchored" data-anchor-id="hadamard-product"><span class="header-section-number">7.2.4</span> Hadamard Product</h3>
+<p>The Hadamard product (also known as the element-wise product) is defined for matrices of the same dimensions. If <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are both <span class="math inline">\(m \times n\)</span> matrices, their Hadamard product <span class="math inline">\(C = A \odot B\)</span> is an <span class="math inline">\(m \times n\)</span> matrix with elements:</p>
+<p><span class="math inline">\(c_{ij} = a_{ij} \cdot b_{ij}\)</span></p>
+</section>
+<section id="matrix-inverse" class="level3" data-number="7.2.5">
+<h3 data-number="7.2.5" class="anchored" data-anchor-id="matrix-inverse"><span class="header-section-number">7.2.5</span> Matrix Inverse</h3>
+<p>The inverse of a square matrix <span class="math inline">\(A\)</span>, denoted as <span class="math inline">\(A^{-1}\)</span>, is a matrix such that <span class="math inline">\(AA^{-1} = A^{-1}A = I\)</span>, where <span class="math inline">\(I\)</span> is the identity matrix. Not all square matrices have inverses; a matrix is invertible (or nonsingular) if and only if its determinant is non-zero.</p>
+</section>
+<section id="determinant-of-a-matrix" class="level3" data-number="7.2.6">
+<h3 data-number="7.2.6" class="anchored" data-anchor-id="determinant-of-a-matrix"><span class="header-section-number">7.2.6</span> Determinant of a Matrix</h3>
+<p>The determinant of a square matrix <span class="math inline">\(A\)</span>, denoted as <span class="math inline">\(\det(A)\)</span> or <span class="math inline">\(|A|\)</span>, is a scalar value that can be computed from its elements. It provides information about the matrix’s properties, such as invertibility. For a <span class="math inline">\(2 \times 2\)</span> matrix:</p>
+<p><span class="math inline">\(A = \begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix}\)</span>, <span class="math inline">\(\det(A) = ad - bc\)</span></p>
+<p>For larger matrices, the calculation is more involved (e.g., cofactor expansion).</p>
+</section>
+<section id="matrix-operations-in-python-numpy" class="level3" data-number="7.2.7">
+<h3 data-number="7.2.7" class="anchored" data-anchor-id="matrix-operations-in-python-numpy"><span class="header-section-number">7.2.7</span> Matrix Operations in Python (NumPy)</h3>
+<div id="330842e1" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Matrix addition and subtraction</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>]])</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> np.array([[<span class="dv">5</span>, <span class="dv">6</span>], [<span class="dv">7</span>, <span class="dv">8</span>]])</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> A <span class="op">+</span> B</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> A <span class="op">-</span> B</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"A + B:</span><span class="ch">\n</span><span class="st">"</span>, C)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"A - B:</span><span class="ch">\n</span><span class="st">"</span>, D)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Scalar multiplication</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>kA <span class="op">=</span> k <span class="op">*</span> A</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">kA:</span><span class="ch">\n</span><span class="st">"</span>, kA)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Matrix multiplication</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>E <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>]])</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>F <span class="op">=</span> np.array([[<span class="dv">5</span>, <span class="dv">6</span>], [<span class="dv">7</span>, <span class="dv">8</span>]])</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>EF <span class="op">=</span> np.dot(E, F)  <span class="co"># or E @ F in Python 3.5+</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">E x F:</span><span class="ch">\n</span><span class="st">"</span>, EF)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Hadamard product</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>]])</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>H <span class="op">=</span> np.array([[<span class="dv">5</span>, <span class="dv">6</span>], [<span class="dv">7</span>, <span class="dv">8</span>]])</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>GH <span class="op">=</span> np.multiply(G, H) <span class="co">#or G * H in Python (with broadcasting considerations)</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Hadamard Product (G*H):</span><span class="ch">\n</span><span class="st">"</span>, GH)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Determinant</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>det_A <span class="op">=</span> np.linalg.det(A)</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Determinant of A:"</span>, det_A)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Inverse (if it exists)</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    inverse_A <span class="op">=</span> np.linalg.inv(A)</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Inverse of A:</span><span class="ch">\n</span><span class="st">"</span>, inverse_A)</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> np.linalg.LinAlgError:</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Matrix A is not invertible."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>A + B:
+ [[ 6  8]
+ [10 12]]
+A - B:
+ [[-4 -4]
+ [-4 -4]]
+
+kA:
+ [[2 4]
+ [6 8]]
+
+E x F:
+ [[19 22]
+ [43 50]]
+
+Hadamard Product (G*H):
+ [[ 5 12]
+ [21 32]]
+
+Determinant of A: -2.0000000000000004
+
+Inverse of A:
+ [[-2.   1. ]
+ [ 1.5 -0.5]]</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A[Matrix Operations] --&gt; B(Addition);
+    A --&gt; C(Subtraction);
+    A --&gt; D(Scalar Multiplication);
+    A --&gt; E(Matrix Multiplication);
+    A --&gt; F(Hadamard Product);
+    A --&gt; G(Inverse);
+    A --&gt; H(Determinant);
+
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="linear-algebra-review-1" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="linear-algebra-review-1"><span class="header-section-number">7.3</span> Linear Algebra Review</h2>
+</section>
+<section id="eigenvalues-and-eigenvectors" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="eigenvalues-and-eigenvectors"><span class="header-section-number">7.4</span> Eigenvalues and Eigenvectors</h2>
+<section id="definition-of-eigenvalues-and-eigenvectors" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="definition-of-eigenvalues-and-eigenvectors"><span class="header-section-number">7.4.1</span> Definition of Eigenvalues and Eigenvectors</h3>
+<p>For a square matrix <span class="math inline">\(A\)</span>, an eigenvector <span class="math inline">\(\mathbf{v}\)</span> is a non-zero vector that, when multiplied by <span class="math inline">\(A\)</span>, only changes by a scalar factor <span class="math inline">\(\lambda\)</span>. This scalar <span class="math inline">\(\lambda\)</span> is called the eigenvalue associated with the eigenvector <span class="math inline">\(\mathbf{v}\)</span>. Formally:</p>
+<p><span class="math inline">\(A\mathbf{v} = \lambda\mathbf{v}\)</span></p>
+<p>This equation represents an eigenvalue problem. Finding the eigenvalues and eigenvectors of a matrix is essential in many linear algebra applications.</p>
+</section>
+<section id="calculating-eigenvalues-and-eigenvectors" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="calculating-eigenvalues-and-eigenvectors"><span class="header-section-number">7.4.2</span> Calculating Eigenvalues and Eigenvectors</h3>
+<p>To find the eigenvalues and eigenvectors, we rewrite the eigenvalue equation as:</p>
+<p><span class="math inline">\((A - \lambda I)\mathbf{v} = \mathbf{0}\)</span></p>
+<p>where <span class="math inline">\(I\)</span> is the identity matrix. For a non-trivial solution (<span class="math inline">\(\mathbf{v} \neq \mathbf{0}\)</span>), the determinant of the matrix <span class="math inline">\((A - \lambda I)\)</span> must be zero:</p>
+<p><span class="math inline">\(\det(A - \lambda I) = 0\)</span></p>
+<p>This equation is called the characteristic equation. Solving it gives the eigenvalues <span class="math inline">\(\lambda\)</span>. For each eigenvalue, we then solve the system of linear equations <span class="math inline">\((A - \lambda I)\mathbf{v} = \mathbf{0}\)</span> to find the corresponding eigenvector <span class="math inline">\(\mathbf{v}\)</span>.</p>
+</section>
+<section id="eigenvalue-decomposition" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="eigenvalue-decomposition"><span class="header-section-number">7.4.3</span> Eigenvalue Decomposition</h3>
+<p>If a square matrix <span class="math inline">\(A\)</span> has <span class="math inline">\(n\)</span> linearly independent eigenvectors, it can be decomposed as:</p>
+<p><span class="math inline">\(A = V \Lambda V^{-1}\)</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(V\)</span> is a matrix whose columns are the eigenvectors of <span class="math inline">\(A\)</span>.</li>
+<li><span class="math inline">\(\Lambda\)</span> is a diagonal matrix whose diagonal elements are the eigenvalues of <span class="math inline">\(A\)</span>.</li>
+<li><span class="math inline">\(V^{-1}\)</span> is the inverse of <span class="math inline">\(V\)</span>.</li>
+</ul>
+<p>This decomposition is called the eigenvalue decomposition or spectral decomposition. It’s a powerful tool for understanding the properties of a matrix.</p>
+</section>
+<section id="applications-in-linear-algebra" class="level3" data-number="7.4.4">
+<h3 data-number="7.4.4" class="anchored" data-anchor-id="applications-in-linear-algebra"><span class="header-section-number">7.4.4</span> Applications in Linear Algebra</h3>
+<p>Eigenvalues and eigenvectors have numerous applications, including:</p>
+<ul>
+<li><strong>Principal Component Analysis (PCA):</strong> Used for dimensionality reduction. Eigenvectors corresponding to the largest eigenvalues represent the principal components.</li>
+<li><strong>Markov Chains:</strong> Eigenvalues and eigenvectors are used to find the stationary distribution of a Markov chain.</li>
+<li><strong>Solving differential equations:</strong> Eigenvalues and eigenvectors simplify the solution of systems of linear differential equations.</li>
+<li><strong>Graph theory:</strong> Eigenvalues of the adjacency matrix of a graph provide information about the graph’s structure.</li>
+</ul>
+</section>
+<section id="finding-eigenvalues-and-eigenvectors-in-python-numpyscipy" class="level3" data-number="7.4.5">
+<h3 data-number="7.4.5" class="anchored" data-anchor-id="finding-eigenvalues-and-eigenvectors-in-python-numpyscipy"><span class="header-section-number">7.4.5</span> Finding Eigenvalues and Eigenvectors in Python (NumPy/SciPy)</h3>
+<div id="15d9fb59" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> eig</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Example matrix</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">2</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">2</span>]])</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate eigenvalues and eigenvectors using NumPy/SciPy</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>eigenvalues, eigenvectors <span class="op">=</span> eig(A)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Eigenvalues:</span><span class="ch">\n</span><span class="st">"</span>, eigenvalues)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Eigenvectors:</span><span class="ch">\n</span><span class="st">"</span>, eigenvectors)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Verify the eigenvalue equation (approximately due to floating point precision)</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(eigenvalues)):</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Verification for eigenvalue </span><span class="sc">{</span>eigenvalues[i]<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(np.dot(A,eigenvectors[:,i]))</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(eigenvalues[i]<span class="op">*</span>eigenvectors[:,i])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Eigenvalues:
+ [3.+0.j 1.+0.j]
+
+Eigenvectors:
+ [[ 0.70710678 -0.70710678]
+ [ 0.70710678  0.70710678]]
+
+Verification for eigenvalue (3+0j):
+[2.12132034 2.12132034]
+[2.12132034+0.j 2.12132034+0.j]
+
+Verification for eigenvalue (1+0j):
+[-0.70710678  0.70710678]
+[-0.70710678+0.j  0.70710678+0.j]</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A[Matrix A] --&gt; B{Eigenvalue Problem};
+    B --&gt; C(Eigenvalues λ);
+    B --&gt; D(Eigenvectors v);
+    C --&gt; E[Eigenvalue Decomposition];
+    D --&gt; E;
+    E --&gt; F(Applications);
+    F --&gt; G(PCA);
+    F --&gt; H(Markov Chains);
+
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="linear-algebra-review-2" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="linear-algebra-review-2"><span class="header-section-number">7.5</span> Linear Algebra Review</h2>
+</section>
+<section id="linear-transformations" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="linear-transformations"><span class="header-section-number">7.6</span> Linear Transformations</h2>
+<section id="introduction-to-linear-transformations" class="level3" data-number="7.6.1">
+<h3 data-number="7.6.1" class="anchored" data-anchor-id="introduction-to-linear-transformations"><span class="header-section-number">7.6.1</span> Introduction to Linear Transformations</h3>
+<p>A linear transformation is a function <span class="math inline">\(T: \mathbb{R}^n \rightarrow \mathbb{R}^m\)</span> that maps vectors from an <span class="math inline">\(n\)</span>-dimensional space to an <span class="math inline">\(m\)</span>-dimensional space, satisfying two key properties:</p>
+<ol type="1">
+<li><strong>Additivity:</strong> <span class="math inline">\(T(\mathbf{u} + \mathbf{v}) = T(\mathbf{u}) + T(\mathbf{v})\)</span> for all vectors <span class="math inline">\(\mathbf{u}, \mathbf{v} \in \mathbb{R}^n\)</span>.</li>
+<li><strong>Homogeneity:</strong> <span class="math inline">\(T(c\mathbf{u}) = cT(\mathbf{u})\)</span> for all vectors <span class="math inline">\(\mathbf{u} \in \mathbb{R}^n\)</span> and all scalars <span class="math inline">\(c\)</span>.</li>
+</ol>
+<p>These properties ensure that the transformation preserves linear combinations. Linear transformations are fundamental in linear algebra and have wide applications in various fields.</p>
+</section>
+<section id="representing-linear-transformations-with-matrices" class="level3" data-number="7.6.2">
+<h3 data-number="7.6.2" class="anchored" data-anchor-id="representing-linear-transformations-with-matrices"><span class="header-section-number">7.6.2</span> Representing Linear Transformations with Matrices</h3>
+<p>Any linear transformation <span class="math inline">\(T: \mathbb{R}^n \rightarrow \mathbb{R}^m\)</span> can be represented by an <span class="math inline">\(m \times n\)</span> matrix <span class="math inline">\(A\)</span>. If <span class="math inline">\(\mathbf{x}\)</span> is a vector in <span class="math inline">\(\mathbb{R}^n\)</span>, then the transformed vector <span class="math inline">\(\mathbf{y} = T(\mathbf{x})\)</span> in <span class="math inline">\(\mathbb{R}^m\)</span> is given by:</p>
+<p><span class="math inline">\(\mathbf{y} = A\mathbf{x}\)</span></p>
+<p>The matrix <span class="math inline">\(A\)</span> encodes the transformation’s effect on the basis vectors of <span class="math inline">\(\mathbb{R}^n\)</span>.</p>
+</section>
+<section id="matrix-transformations-in-2d-and-3d-space" class="level3" data-number="7.6.3">
+<h3 data-number="7.6.3" class="anchored" data-anchor-id="matrix-transformations-in-2d-and-3d-space"><span class="header-section-number">7.6.3</span> Matrix Transformations in 2D and 3D Space</h3>
+<p>In 2D and 3D space, matrix transformations can represent various geometric operations such as rotation, scaling, shearing, and reflection. For example:</p>
+<ul>
+<li><strong>Rotation in 2D:</strong> A rotation by an angle <span class="math inline">\(\theta\)</span> counterclockwise is represented by the matrix:</li>
+</ul>
+<p><span class="math inline">\(R(\theta) = \begin{bmatrix} \cos\theta &amp; -\sin\theta \\ \sin\theta &amp; \cos\theta \end{bmatrix}\)</span></p>
+<ul>
+<li><strong>Scaling in 2D:</strong> Scaling by factors <span class="math inline">\(s_x\)</span> and <span class="math inline">\(s_y\)</span> along the x and y axes is represented by:</li>
+</ul>
+<p><span class="math inline">\(S(s_x, s_y) = \begin{bmatrix} s_x &amp; 0 \\ 0 &amp; s_y \end{bmatrix}\)</span></p>
+</section>
+<section id="linear-transformations-in-python" class="level3" data-number="7.6.4">
+<h3 data-number="7.6.4" class="anchored" data-anchor-id="linear-transformations-in-python"><span class="header-section-number">7.6.4</span> Linear Transformations in Python</h3>
+<div id="9900bcef" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: 2D rotation</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> np.pi <span class="op">/</span> <span class="dv">4</span>  <span class="co"># 45-degree rotation</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> np.array([[np.cos(theta), <span class="op">-</span>np.sin(theta)], [np.sin(theta), np.cos(theta)]])</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector to transform</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">0</span>])</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the transformation</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.dot(R, x)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#Plotting</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>,<span class="dv">6</span>))</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>plt.quiver([<span class="dv">0</span>,<span class="dv">0</span>],[<span class="dv">0</span>,<span class="dv">0</span>],[x[<span class="dv">0</span>],y[<span class="dv">0</span>]],[x[<span class="dv">1</span>],y[<span class="dv">1</span>]],angles<span class="op">=</span><span class="st">'xy'</span>,scale_units<span class="op">=</span><span class="st">'xy'</span>,scale<span class="op">=</span><span class="dv">1</span>,color<span class="op">=</span>[<span class="st">'blue'</span>,<span class="st">'red'</span>])</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>plt.xlim([<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>])</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>plt.ylim([<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>])</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"y"</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"2D Rotation Transformation"</span>)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: 2D scaling</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> np.array([[<span class="dv">2</span>, <span class="dv">0</span>], [<span class="dv">0</span>, <span class="fl">0.5</span>]])</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">1</span>,<span class="dv">1</span>])</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.dot(S,x)</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>,<span class="dv">6</span>))</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>plt.quiver([<span class="dv">0</span>,<span class="dv">0</span>],[<span class="dv">0</span>,<span class="dv">0</span>],[x[<span class="dv">0</span>],y[<span class="dv">0</span>]],[x[<span class="dv">1</span>],y[<span class="dv">1</span>]],angles<span class="op">=</span><span class="st">'xy'</span>,scale_units<span class="op">=</span><span class="st">'xy'</span>,scale<span class="op">=</span><span class="dv">1</span>,color<span class="op">=</span>[<span class="st">'blue'</span>,<span class="st">'red'</span>])</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>plt.xlim([<span class="op">-</span><span class="dv">1</span>,<span class="dv">3</span>])</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>plt.ylim([<span class="op">-</span><span class="dv">1</span>,<span class="dv">2</span>])</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"y"</span>)</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"2D Scaling Transformation"</span>)</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="linear-algebra-review_files/figure-html/cell-5-output-1.png" width="549" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="linear-algebra-review_files/figure-html/cell-5-output-2.png" width="536" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A[Linear Transformation] --&gt; B(Additivity);
+    A --&gt; C(Homogeneity);
+    D[Matrix Representation] --&gt; E(mxn matrix A);
+    E --&gt; F(y = Ax);
+    G[2D/3D Transformations] --&gt; H(Rotation);
+    G --&gt; I(Scaling);
+    G --&gt; J(Shearing);
+    G --&gt; K(Reflection);
+
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="linear-algebra-review-3" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="linear-algebra-review-3"><span class="header-section-number">7.7</span> Linear Algebra Review</h2>
+</section>
+<section id="vector-spaces" class="level2" data-number="7.8">
+<h2 data-number="7.8" class="anchored" data-anchor-id="vector-spaces"><span class="header-section-number">7.8</span> Vector Spaces</h2>
+<section id="definition-and-examples" class="level3" data-number="7.8.1">
+<h3 data-number="7.8.1" class="anchored" data-anchor-id="definition-and-examples"><span class="header-section-number">7.8.1</span> Definition and Examples</h3>
+<p>A vector space <span class="math inline">\(V\)</span> over a field <span class="math inline">\(F\)</span> (often the real numbers <span class="math inline">\(\mathbb{R}\)</span> or complex numbers <span class="math inline">\(\mathbb{C}\)</span>) is a set of objects (vectors) that satisfy the following axioms under two operations: vector addition and scalar multiplication.</p>
+<p><strong>Vector Addition Axioms:</strong></p>
+<ol type="1">
+<li>Closure under addition: For all <span class="math inline">\(\mathbf{u}, \mathbf{v} \in V\)</span>, <span class="math inline">\(\mathbf{u} + \mathbf{v} \in V\)</span>.</li>
+<li>Commutativity: <span class="math inline">\(\mathbf{u} + \mathbf{v} = \mathbf{v} + \mathbf{u}\)</span> for all <span class="math inline">\(\mathbf{u}, \mathbf{v} \in V\)</span>.</li>
+<li>Associativity: <span class="math inline">\((\mathbf{u} + \mathbf{v}) + \mathbf{w} = \mathbf{u} + (\mathbf{v} + \mathbf{w})\)</span> for all <span class="math inline">\(\mathbf{u}, \mathbf{v}, \mathbf{w} \in V\)</span>.</li>
+<li>Identity element: There exists a zero vector <span class="math inline">\(\mathbf{0} \in V\)</span> such that <span class="math inline">\(\mathbf{u} + \mathbf{0} = \mathbf{u}\)</span> for all <span class="math inline">\(\mathbf{u} \in V\)</span>.</li>
+<li>Inverse element: For every <span class="math inline">\(\mathbf{u} \in V\)</span>, there exists an additive inverse <span class="math inline">\(-\mathbf{u} \in V\)</span> such that <span class="math inline">\(\mathbf{u} + (-\mathbf{u}) = \mathbf{0}\)</span>.</li>
+</ol>
+<p><strong>Scalar Multiplication Axioms:</strong></p>
+<ol type="1">
+<li>Closure under scalar multiplication: For all <span class="math inline">\(c \in F\)</span> and <span class="math inline">\(\mathbf{u} \in V\)</span>, <span class="math inline">\(c\mathbf{u} \in V\)</span>.</li>
+<li>Distributivity over vector addition: <span class="math inline">\(c(\mathbf{u} + \mathbf{v}) = c\mathbf{u} + c\mathbf{v}\)</span> for all <span class="math inline">\(c \in F\)</span> and <span class="math inline">\(\mathbf{u}, \mathbf{v} \in V\)</span>.</li>
+<li>Distributivity over scalar addition: <span class="math inline">\((c + d)\mathbf{u} = c\mathbf{u} + d\mathbf{u}\)</span> for all <span class="math inline">\(c, d \in F\)</span> and <span class="math inline">\(\mathbf{u} \in V\)</span>.</li>
+<li>Associativity of scalar multiplication: <span class="math inline">\(c(d\mathbf{u}) = (cd)\mathbf{u}\)</span> for all <span class="math inline">\(c, d \in F\)</span> and <span class="math inline">\(\mathbf{u} \in V\)</span>.</li>
+<li>Identity element: <span class="math inline">\(1\mathbf{u} = \mathbf{u}\)</span> for all <span class="math inline">\(\mathbf{u} \in V\)</span>, where <span class="math inline">\(1\)</span> is the multiplicative identity in <span class="math inline">\(F\)</span>.</li>
+</ol>
+<p><strong>Examples:</strong></p>
+<ul>
+<li><span class="math inline">\(\mathbb{R}^n\)</span>: The set of all <span class="math inline">\(n\)</span>-dimensional vectors with real components.</li>
+<li>The set of all polynomials of degree at most <span class="math inline">\(n\)</span>.</li>
+<li>The set of all continuous functions on an interval <span class="math inline">\([a, b]\)</span>.</li>
+</ul>
+</section>
+<section id="linear-independence-and-span" class="level3" data-number="7.8.2">
+<h3 data-number="7.8.2" class="anchored" data-anchor-id="linear-independence-and-span"><span class="header-section-number">7.8.2</span> Linear Independence and Span</h3>
+<p>A set of vectors <span class="math inline">\(\{\mathbf{v}_1, \mathbf{v}_2, \dots, \mathbf{v}_k\}\)</span> in a vector space <span class="math inline">\(V\)</span> is linearly independent if the only solution to the equation:</p>
+<p><span class="math inline">\(c_1\mathbf{v}_1 + c_2\mathbf{v}_2 + \dots + c_k\mathbf{v}_k = \mathbf{0}\)</span></p>
+<p>is the trivial solution <span class="math inline">\(c_1 = c_2 = \dots = c_k = 0\)</span>. Otherwise, the vectors are linearly dependent.</p>
+<p>The span of a set of vectors <span class="math inline">\(\{\mathbf{v}_1, \mathbf{v}_2, \dots, \mathbf{v}_k\}\)</span> is the set of all possible linear combinations of these vectors:</p>
+<p><span class="math inline">\(\text{span}(\{\mathbf{v}_1, \mathbf{v}_2, \dots, \mathbf{v}_k\}) = \{c_1\mathbf{v}_1 + c_2\mathbf{v}_2 + \dots + c_k\mathbf{v}_k : c_i \in F\}\)</span></p>
+</section>
+<section id="basis-and-dimension" class="level3" data-number="7.8.3">
+<h3 data-number="7.8.3" class="anchored" data-anchor-id="basis-and-dimension"><span class="header-section-number">7.8.3</span> Basis and Dimension</h3>
+<p>A basis for a vector space <span class="math inline">\(V\)</span> is a linearly independent set of vectors that spans <span class="math inline">\(V\)</span>. The dimension of <span class="math inline">\(V\)</span> is the number of vectors in a basis. A vector space can have multiple bases, but they all have the same number of vectors.</p>
+</section>
+<section id="subspaces" class="level3" data-number="7.8.4">
+<h3 data-number="7.8.4" class="anchored" data-anchor-id="subspaces"><span class="header-section-number">7.8.4</span> Subspaces</h3>
+<p>A subspace <span class="math inline">\(W\)</span> of a vector space <span class="math inline">\(V\)</span> is a subset of <span class="math inline">\(V\)</span> that is itself a vector space under the same operations as <span class="math inline">\(V\)</span>. To verify that a subset is a subspace, it must satisfy:</p>
+<ol type="1">
+<li>The zero vector <span class="math inline">\(\mathbf{0}\)</span> is in <span class="math inline">\(W\)</span>.</li>
+<li><span class="math inline">\(W\)</span> is closed under addition: If <span class="math inline">\(\mathbf{u}, \mathbf{v} \in W\)</span>, then <span class="math inline">\(\mathbf{u} + \mathbf{v} \in W\)</span>.</li>
+<li><span class="math inline">\(W\)</span> is closed under scalar multiplication: If <span class="math inline">\(c \in F\)</span> and <span class="math inline">\(\mathbf{u} \in W\)</span>, then <span class="math inline">\(c\mathbf{u} \in W\)</span>.</li>
+</ol>
+<div id="51a01ef7" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: checking linear independence</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>v1 <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">0</span>])</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>v2 <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>v3 <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">1</span>])</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Form a matrix and compute the rank</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>matrix <span class="op">=</span> np.vstack([v1,v2,v3])</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>rank <span class="op">=</span> np.linalg.matrix_rank(matrix)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> rank <span class="op">==</span> <span class="bu">len</span>([v1,v2,v3]):</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Vectors are linearly independent."</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Vectors are linearly dependent."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Vectors are linearly dependent.</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A[Vector Space V] --&gt; B(Vectors);
+    A --&gt; C(Operations);
+    C --&gt; D(Addition);
+    C --&gt; E(Scalar Multiplication);
+    F[Linear Independence] --&gt; G(Spanning Set);
+    H[Basis] --&gt; I(Linearly Independent);
+    H --&gt; J(Spans V);
+    K[Subspace W] --&gt; L(⊂ V);
+    K --&gt; M(Closed under +);
+    K --&gt; N(Closed under scalar multiplication);
 
 
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -14,7 +14,7 @@ This conditional probability is often represented by a transition kernel, $K(x, 
 
 ### Detailed Balance and Stationarity
 
-A crucial concept in MCMC is *detailed balance*. A Markov chain satisfies detailed balance with respect to a distribution $\pi(\theta)$ if:
+A essential concept in MCMC is *detailed balance*. A Markov chain satisfies detailed balance with respect to a distribution $\pi(\theta)$ if:
 
 $\pi(x) K(x, x') = \pi(x') K(x', x) \quad \forall x, x'$
 
@@ -22,11 +22,11 @@ This condition states that the probability flux from state $x$ to $x'$ is equal 
 
 ### Convergence Diagnostics
 
-Determining when an MCMC chain has converged to its stationary distribution is crucial for reliable inference.  Several diagnostic methods exist to assess convergence:
+Determining when an MCMC chain has converged to its stationary distribution is essential for reliable inference.  Several diagnostic methods exist to assess convergence:
 
 * **Visual inspection of trace plots:**  Plotting the sampled values of each parameter against iteration number can reveal trends or slow mixing.  If the chain hasn't converged, you might see trends and lack of randomness in the plot.
 
-```\{python}
+```{python}
 #| echo: true
 import matplotlib.pyplot as plt
 import numpy as np
@@ -51,7 +51,7 @@ plt.show()
 
 * **Autocorrelation function:** Measures the correlation between samples separated by a certain lag. High autocorrelation indicates slow mixing and a lack of independence between samples.
 
-```\{python}
+```{python}
 #| echo: true
 from statsmodels.tsa.stattools import acf
 import matplotlib.pyplot as plt
@@ -73,7 +73,7 @@ plt.show()
 * **Effective sample size (ESS):** Accounts for autocorrelation between samples. A lower ESS than the actual number of samples indicates that the autocorrelation is high, and the effective information content of the sample is reduced.
 
 
-It is important to use multiple convergence diagnostics and visually inspect the trace plots before drawing any conclusions about the MCMC output.  It's common practice to discard the initial samples (burn-in period) before using the remaining samples for inference.  The choice of burn-in period and the assessment of convergence are often subjective and require careful consideration.  Software packages like PyMC3 and Stan provide tools for implementing and monitoring MCMC algorithms.
+It is important to use multiple convergence diagnostics and visually inspect the trace plots before drawing any conclusions about the MCMC output.  It's common practice to discard the initial samples (burn-in period) before using the remaining samples for inference.  The choice of burn-in period and the assessment of convergence are often subjective and require careful consideration.  Software packages like PyMC and Stan provide tools for implementing and monitoring MCMC algorithms.
 
 
 ## Metropolis-Hastings Algorithm
@@ -100,7 +100,7 @@ The algorithm iteratively generates samples as follows:
 5. **Iteration:** Repeat steps 2-4 for a large number of iterations.
 
 
-The intuition behind the acceptance probability is to favor moves that increase the probability mass of the target distribution. If the proposed move increases the probability ($\pi(\theta^*) > \pi(\theta^{(t)})$), it is always accepted. If the proposed move decreases the probability, it is accepted with a probability proportional to the ratio of the probability densities.  The proposal distribution $q$ plays a crucial role in the efficiency of the algorithm.
+The intuition behind the acceptance probability is to favor moves that increase the probability mass of the target distribution. If the proposed move increases the probability ($\pi(\theta^*) > \pi(\theta^{(t)})$), it is always accepted. If the proposed move decreases the probability, it is accepted with a probability proportional to the ratio of the probability densities.  The proposal distribution $q$ plays a essential role in the efficiency of the algorithm.
 
 
 ### Proposal Distributions
@@ -108,7 +108,7 @@ The intuition behind the acceptance probability is to favor moves that increase 
 The choice of proposal distribution significantly impacts the efficiency of the Metropolis-Hastings algorithm.  A good proposal distribution should:
 
 * Be easy to sample from.
-* Have sufficient spread to explore the target distribution effectively.
+* Have sufficient spread to look at the target distribution effectively.
 * Not be too broad to have low acceptance rates.
 
 Common choices include:
@@ -135,7 +135,7 @@ $\alpha(\theta^* | \theta^{(t)}) = \min \left( 1, \frac{\pi(\theta^*)}{\pi(\thet
 
 ### Python Implementation
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
@@ -272,7 +272,7 @@ We can easily sample from these conditional distributions using standard methods
 
 ### Python Implementation
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
@@ -330,7 +330,7 @@ This code implements Gibbs sampling for a bivariate Gaussian distribution.  The 
 
 ## Hamiltonian Monte Carlo (HMC)
 
-Hamiltonian Monte Carlo (HMC) is an advanced MCMC algorithm that addresses some of the limitations of simpler methods like Metropolis-Hastings and Gibbs sampling.  It leverages Hamiltonian dynamics to propose more efficient moves in high-dimensional spaces, leading to better exploration of the target distribution and reduced autocorrelation between samples.
+Hamiltonian Monte Carlo (HMC) is an advanced MCMC algorithm that addresses some of the limitations of simpler methods like Metropolis-Hastings and Gibbs sampling.  It uses Hamiltonian dynamics to propose more efficient moves in high-dimensional spaces, leading to better exploration of the target distribution and reduced autocorrelation between samples.
 
 
 ### Hamiltonian Dynamics
@@ -396,7 +396,7 @@ The efficiency of HMC depends crucially on the choice of step size ($\epsilon$) 
 
 * **Step size ($\epsilon$):**  A small step size reduces numerical error but increases computational cost. A large step size can lead to inaccurate proposals and low acceptance rates.
 
-* **Number of leapfrog steps ($L$):**  A small number of steps leads to short proposals, which might not explore the parameter space effectively.  A large number of steps increases computational cost.
+* **Number of leapfrog steps ($L$):**  A small number of steps leads to short proposals, which might not look at the parameter space effectively.  A large number of steps increases computational cost.
 
 
 Finding optimal values often requires experimentation.  Adaptive HMC methods aim to automatically tune these parameters during the sampling process.
@@ -416,11 +416,11 @@ However, HMC can be more computationally expensive per iteration than simpler me
 
 ### Example: HMC for a Gaussian Mixture Model
 
-Implementing HMC for a Gaussian mixture model requires a bit more setup than the previous examples. We will use PyMC3, a powerful probabilistic programming library that handles HMC automatically.
+Implementing HMC for a Gaussian mixture model requires a bit more setup than the previous examples. We will use PyMC, a powerful probabilistic programming library that handles HMC automatically.
 
-```\{python}
+```{python}
 #| echo: true
-import pymc3 as pm
+import pymc as pm
 import numpy as np
 import matplotlib.pyplot as plt
 import arviz as az
@@ -455,13 +455,13 @@ plt.show()
 
 ```
 
-This PyMC3 code defines a Gaussian Mixture Model and performs inference using HMC. PyMC3 automatically handles the Hamiltonian dynamics and tuning of parameters. The `az.plot_trace` function provides visual diagnostics of the convergence.  Remember to install PyMC3: `pip install pymc3 arviz`.  Stan is another powerful option for HMC, but its syntax is different.  Both offer significant advantages over manual HMC implementation.
+This PyMC code defines a Gaussian Mixture Model and performs inference using HMC. PyMC automatically handles the Hamiltonian dynamics and tuning of parameters. The `az.plot_trace` function provides visual diagnostics of the convergence.  Remember to install PyMC: `pip install pymc3 arviz`.  Stan is another powerful option for HMC, but its syntax is different.  Both offer significant advantages over manual HMC implementation.
 
 
 
 ## Comparing MCMC Algorithms
 
-Choosing the right MCMC algorithm for a specific problem is crucial for efficient and accurate Bayesian inference.  Different algorithms have strengths and weaknesses concerning efficiency, convergence rates, and computational cost.
+Choosing the right MCMC algorithm for a specific problem is essential for efficient and accurate Bayesian inference.  Different algorithms have strengths and weaknesses concerning efficiency, convergence rates, and computational cost.
 
 
 ### Efficiency and Convergence Rates
@@ -477,7 +477,7 @@ The efficiency of an MCMC algorithm is often measured by its convergence rate an
 
 ### Computational Cost
 
-The computational cost of an MCMC algorithm depends on several factors, including:
+The computational cost of an MCMC algorithm depends on many factors, including:
 
 * **Number of iterations:** Algorithms with faster convergence rates require fewer iterations, reducing the overall computational cost.
 
@@ -491,7 +491,7 @@ The choice of algorithm should consider the balance between computational cost a
 
 ### Choosing the Right Algorithm for a Specific Problem
 
-The optimal MCMC algorithm depends on several factors related to the target distribution and computational resources:
+The optimal MCMC algorithm depends on many factors related to the target distribution and computational resources:
 
 * **Target distribution:**  If the full conditional distributions are easy to sample from, Gibbs sampling can be highly efficient. If the target is high-dimensional and complex, HMC is often preferred.  If the target is simple, Metropolis-Hastings with a well-tuned proposal distribution might suffice.
 
@@ -510,10 +510,10 @@ In practice, it's often beneficial to experiment with multiple algorithms and co
 | HMC                 | Efficient in high dimensions, reduced autocorrelation | More computationally expensive per iteration, requires tuning | High-dimensional problems, complex target distributions |
 
 
-There's no universally "best" algorithm. The optimal choice often involves experimentation and careful consideration of the problem's specific characteristics.  Software packages like PyMC3 and Stan offer a range of algorithms and automatic tuning capabilities, simplifying the process of choosing and implementing an appropriate MCMC method.
+There's no universally "best" algorithm. The optimal choice often involves experimentation and careful consideration of the problem's specific characteristics.  Software packages like PyMC and Stan offer a range of algorithms and automatic tuning capabilities, simplifying the process of choosing and implementing an appropriate MCMC method.
 
 
-```\{python}
+```{python}
 #| echo: true
 #Illustrative comparison (not a real-world benchmark)
 
@@ -542,7 +542,7 @@ This section briefly explores some advanced techniques to improve the efficiency
 
 ### Parallel MCMC
 
-Running multiple MCMC chains in parallel offers several advantages:
+Running multiple MCMC chains in parallel offers many advantages:
 
 * **Faster convergence assessment:**  Comparing multiple chains helps assess convergence more reliably than with a single chain. The Gelman-Rubin diagnostic, for example, relies on parallel chains.
 
@@ -551,7 +551,7 @@ Running multiple MCMC chains in parallel offers several advantages:
 * **Reduced autocorrelation:**  Properly parallelized chains can reduce autocorrelation between samples, further enhancing efficiency.
 
 
-Parallel tempering is a sophisticated parallel MCMC approach. It runs multiple chains at different temperatures, allowing chains at higher temperatures (with more exploration) to occasionally swap states with chains at lower temperatures (with more exploitation).  This improves exploration of the target distribution, especially for multimodal distributions.
+Parallel tempering is a complex parallel MCMC approach. It runs multiple chains at different temperatures, allowing chains at higher temperatures (with more exploration) to occasionally swap states with chains at lower temperatures (with more exploitation).  This improves exploration of the target distribution, especially for multimodal distributions.
 
 
 ```{mermaid}
@@ -576,12 +576,12 @@ Adaptive MCMC methods adjust the algorithm's parameters (e.g., step size in HMC,
 * **Adaptive Hamiltonian Monte Carlo:**  Adapts the step size and number of leapfrog steps based on the acceptance rate.
 
 
-Careful implementation and monitoring are critical for adaptive methods to guarantee convergence to the correct stationary distribution.
+Careful implementation and monitoring are important in adaptive methods to guarantee convergence to the correct stationary distribution.
 
 
 ### Dealing with High-Dimensional Problems
 
-High-dimensional problems pose significant challenges for MCMC due to the "curse of dimensionality":  the volume of the parameter space increases exponentially with the number of dimensions, making it increasingly difficult to explore the target distribution effectively.  Strategies for tackling high-dimensional problems include:
+High-dimensional problems pose significant challenges for MCMC due to the "curse of dimensionality":  the volume of the parameter space increases exponentially with the number of dimensions, making it increasingly difficult to look at the target distribution effectively.  Strategies for tackling high-dimensional problems include:
 
 * **Dimensionality reduction:**  Techniques like principal component analysis (PCA) can reduce the dimensionality before applying MCMC.  This reduces the computational cost and improves exploration.
 
@@ -592,10 +592,10 @@ High-dimensional problems pose significant challenges for MCMC due to the "curse
 * **Parallel MCMC:** Running multiple chains in parallel allows for more efficient exploration of the high-dimensional space.
 
 
-Efficiently sampling from high-dimensional distributions often requires a combination of strategies tailored to the specific problem.  Advanced techniques such as Hamiltonian Monte Carlo with sophisticated adaptation schemes, or parallel tempering, are often necessary.  The choice of prior distributions can also affect the efficiency of sampling in high dimensions.  Carefully considering the prior specification is crucial to avoid overly diffuse priors that lead to slower convergence.
+Efficiently sampling from high-dimensional distributions often requires a combination of strategies tailored to the specific problem.  Advanced techniques such as Hamiltonian Monte Carlo with complex adaptation schemes, or parallel tempering, are often necessary.  The choice of prior distributions can also affect the efficiency of sampling in high dimensions.  Carefully considering the prior specification is essential to avoid overly diffuse priors that lead to slower convergence.
 
 
-```\{python}
+```{python}
 #| echo: true
 #Illustrative example of dimensionality reduction (PCA) before MCMC (requires more detailed implementation)
 import numpy as np
@@ -614,4 +614,4 @@ reduced_data = pca.fit_transform(data)
 
 ```
 
-This code snippet demonstrates dimensionality reduction using PCA before applying MCMC.  The actual MCMC implementation would need to be added, applied to the `reduced_data`.  Remember that dimensionality reduction might lead to information loss, and the choice of the number of components is a crucial decision.  This example requires additional code (for instance, a call to a chosen MCMC algorithm) to perform the MCMC steps.
+This code snippet demonstrates dimensionality reduction using PCA before applying MCMC.  The actual MCMC implementation would need to be added, applied to the `reduced_data`.  Remember that dimensionality reduction might lead to information loss, and the choice of the number of components is a essential decision.  This example requires additional code (for instance, a call to a chosen MCMC algorithm) to perform the MCMC steps.

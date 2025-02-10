@@ -2,10 +2,10 @@
 
 ### Prior Elicitation for Experimental Parameters
 
-In scientific experiments, choosing appropriate prior distributions for parameters is crucial for Bayesian analysis.  Prior elicitation involves translating expert knowledge or previous data into a probability distribution.  This process can be subjective but aims to reflect the pre-experimental belief about the parameter.  For example, if we're investigating the effectiveness of a new drug, we might use a weakly informative prior that allows for a wide range of effects but penalizes extremely large or small effects.  Suppose we believe the drug's effect size ($\theta$) is likely between -0.2 and 0.8, and we model this with a Beta distribution.  We can use the `scipy.stats` library to define this prior:
+In scientific experiments, choosing appropriate prior distributions for parameters is essential for Bayesian analysis.  Prior elicitation involves translating expert knowledge or previous data into a probability distribution.  This process can be subjective but aims to reflect the pre-experimental belief about the parameter.  For example, if we're investigating the effectiveness of a new drug, we might use a weakly informative prior that allows for a wide range of effects but penalizes extremely large or small effects.  Suppose we believe the drug's effect size ($\theta$) is likely between -0.2 and 0.8, and we model this with a Beta distribution.  We can use the `scipy.stats` library to define this prior:
 
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
@@ -27,7 +27,7 @@ plt.title("Prior Distribution for Drug Effect Size")
 plt.show()
 ```
 
-This code generates a plot showing our prior belief.  The choice of Beta distribution allows for bounded support between -0.2 and 0.8, reflecting our prior knowledge.  More complex situations might require more sophisticated prior elicitation techniques, possibly involving expert interviews or hierarchical models. The choice of the prior should always be documented and justified.
+This code generates a plot showing our prior belief.  The choice of Beta distribution allows for bounded support between -0.2 and 0.8, reflecting our prior knowledge.  For complicated cases, we might need a more detailed initial assessment, possibly involving expert interviews or hierarchical models. The choice of the prior should always be documented and justified.
 
 ### Bayesian Optimization for Experimental Design
 
@@ -41,7 +41,7 @@ where $m(x)$ is the mean function and $k(x, x')$ is the covariance function (ker
 
 The following (simplified) code illustrates the core idea using the `scikit-optimize` library:
 
-```\{python}
+```{python}
 #| echo: true
 from skopt import gp_minimize
 
@@ -66,7 +66,7 @@ print("Best objective function value:", res.fun)
 
 ### A/B Testing with Bayesian Inference
 
-A/B testing is used to compare two versions (A and B) of a system, such as a website or an advertisement. Bayesian inference provides a more nuanced approach to A/B testing compared to frequentist methods.  Instead of simply calculating p-values, we obtain posterior distributions for the conversion rates of both versions.  This allows for more informed decision-making, considering uncertainty in the estimates.
+A/B testing is used to compare two versions (A and B) of a system, such as a website or an advertisement. Bayesian inference provides a better approach to A/B testing compared to frequentist methods.  Instead of simply calculating p-values, we obtain posterior distributions for the conversion rates of both versions.  This allows for more informed decision-making, considering uncertainty in the estimates.
 
 
 Let's assume we have $n_A$ trials for version A with $s_A$ successes and $n_B$ trials for version B with $s_B$ successes. We can model the conversion rates ($\theta_A$ and $\theta_B$) using Beta distributions:
@@ -82,7 +82,7 @@ $P(\theta_A > \theta_B | data) = \int_0^1 \int_0^{\theta_A} p(\theta_A|s_A, n_A)
 This integral can be approximated using Monte Carlo sampling:
 
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 from scipy.stats import beta
@@ -107,7 +107,7 @@ print(f"Probability that A is better than B: {prob_A_better}")
 
 Adaptive experimental designs adjust the experimental procedure based on the data collected so far.  This is particularly useful when resources are limited or when the goal is to quickly find the optimal treatment.  Bayesian methods are well-suited for adaptive designs, as they allow for efficient updating of beliefs as data becomes available.  For example, in clinical trials, an adaptive design might change the allocation of patients to different treatment arms based on the accumulating evidence of their efficacy.
 
-A simple example would be a sequential design where a new data point is added and the posterior is updated after each experiment. This approach allows for a dynamic adjustment of experimental parameters based on accruing evidence.  More complex adaptive designs involve sophisticated algorithms for optimizing the allocation of resources and exploring the experimental space efficiently.  The choice of a specific adaptive design depends heavily on the particular problem and experimental constraints.
+A simple example would be a sequential design where a new data point is added and the posterior is updated after each experiment. This approach allows for a dynamic adjustment of experimental parameters based on accruing evidence.  More complex adaptive designs involve complex algorithms for optimizing the allocation of resources and exploring the experimental space efficiently.  The choice of a specific adaptive design depends heavily on the particular problem and experimental constraints.
 
 
 ```{mermaid}
@@ -140,12 +140,12 @@ Using Bayes' theorem, the posterior distribution is proportional to the likeliho
 
 $p(\mathbf{\beta}, \sigma^2 | \mathbf{y}, \mathbf{X}) \propto p(\mathbf{y} | \mathbf{X}, \mathbf{\beta}, \sigma^2) p(\mathbf{\beta}) p(\sigma^2)$
 
-We can use Markov Chain Monte Carlo (MCMC) methods, such as PyMC3, to sample from the posterior distribution:
+We can use Markov Chain Monte Carlo (MCMC) methods, such as PyMC, to sample from the posterior distribution:
 
 
-```\{python}
+```{python}
 #| echo: true
-import pymc3 as pm
+import pymc as pm
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -157,7 +157,7 @@ beta_true = np.array([1, 2])
 sigma_true = 0.5
 y = X.dot(beta_true) + np.random.normal(0, sigma_true, n)
 
-# Bayesian Linear Regression with PyMC3
+# Bayesian Linear Regression with PyMC
 with pm.Model() as model:
     # Priors
     sigma = pm.HalfCauchy("sigma", beta=10)
@@ -171,7 +171,7 @@ with pm.Model() as model:
     trace = pm.sample(2000, tune=1000)
 
 # Plot posterior distributions
-pm.traceplot(trace);
+pm.plot_trace(trace);
 plt.show()
 ```
 
@@ -184,9 +184,9 @@ $P(y_i = 1 | \mathbf{x}_i, \mathbf{\beta}) = \frac{1}{1 + exp(-\mathbf{x}_i^T \m
 
 Similar to linear regression, we assign prior distributions to the regression coefficients $\mathbf{\beta}$.  Common choices include normal priors.  The posterior distribution is again obtained using Bayes' theorem and sampled using MCMC:
 
-```\{python}
+```{python}
 #| echo: true
-import pymc3 as pm
+import pymc as pm
 import numpy as np
 import matplotlib.pyplot as plt
 np.random.seed(0)
@@ -202,7 +202,7 @@ with pm.Model() as model:
     y_obs = pm.Bernoulli("y_obs", p=p, observed=y)
     trace = pm.sample(2000, tune=1000)
 
-pm.traceplot(trace);
+pm.plot_trace(trace);
 plt.show()
 ```
 
@@ -218,7 +218,7 @@ Bayesian model selection involves comparing different models to find the one tha
 
 ### Markov Chain Monte Carlo (MCMC) Methods
 
-MCMC methods are essential for sampling from complex posterior distributions in Bayesian analysis.  They involve constructing a Markov chain whose stationary distribution is the target posterior.  Popular MCMC algorithms include Metropolis-Hastings and Hamiltonian Monte Carlo (HMC).  PyMC3 uses HMC by default, which is generally more efficient than Metropolis-Hastings for many problems.  The efficiency of MCMC depends on careful tuning of parameters and appropriate proposal distributions.
+MCMC methods are essential for sampling from complex posterior distributions in Bayesian analysis.  They involve constructing a Markov chain whose stationary distribution is the target posterior.  Popular MCMC algorithms include Metropolis-Hastings and Hamiltonian Monte Carlo (HMC).  PyMC uses HMC by default, which is generally more efficient than Metropolis-Hastings for many problems.  The efficiency of MCMC depends on careful tuning of parameters and appropriate proposal distributions.
 
 
 
@@ -229,7 +229,7 @@ Bayesian methods offer a natural framework for handling missing data.  Instead o
 
 ### Model Checking and Diagnostics
 
-After fitting a Bayesian model, it's crucial to check its adequacy and diagnose potential problems.  This involves examining the posterior distributions of the parameters, assessing the goodness of fit, and checking for model misspecification.  Diagnostic tools include:
+After fitting a Bayesian model, it's essential to check its adequacy and diagnose potential problems.  This involves examining the posterior distributions of the parameters, assessing the goodness of fit, and checking for model misspecification.  Diagnostic tools include:
 
 * **Trace plots:** Visualize the MCMC chains to assess convergence and mixing.
 * **Posterior predictive checks:** Compare observed data with simulated data from the posterior predictive distribution.  Significant discrepancies suggest model misspecification.
@@ -273,9 +273,9 @@ A Bayes factor greater than 1 provides evidence in favor of $H_1$, while a value
 | >30 | Very Strong |
 
 
-Calculating the marginal likelihoods can be challenging, often requiring sophisticated computational techniques like thermodynamic integration or bridge sampling.  However, for some models, analytical approximations are available.  Here's a simple example using simulated data:
+Calculating the marginal likelihoods can be challenging, often requiring complex computational techniques like thermodynamic integration or bridge sampling.  However, for some models, analytical approximations are available.  Here's a simple example using simulated data:
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 from scipy.stats import norm
@@ -305,9 +305,9 @@ print(f"Bayes factor: {BF_10}")
 
 Posterior predictive checks assess the compatibility of the model with the observed data.  They involve simulating new data from the posterior predictive distribution, $p(y_{rep}|y)$, and comparing these replicated datasets to the observed data.  Large discrepancies suggest model inadequacy.  This is a visual approach rather than providing a single numerical value.
 
-```\{python}
+```{python}
 #| echo: true
-import pymc3 as pm
+import pymc as pm
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -332,7 +332,7 @@ plt.show()
 
 ### Comparing Competing Hypotheses
 
-Bayesian hypothesis testing allows for the comparison of multiple hypotheses simultaneously.  Instead of using a single null hypothesis, we can specify several alternative hypotheses and calculate the Bayes factors among them.  This provides a more comprehensive assessment of the relative evidence for each hypothesis.
+Bayesian hypothesis testing allows for the comparison of multiple hypotheses simultaneously.  Instead of using a single null hypothesis, we can specify many alternative hypotheses and calculate the Bayes factors among them.  This provides a more detailed assessment of the relative evidence for each hypothesis.
 
 
 ### Interpreting Bayesian p-values
@@ -344,10 +344,10 @@ Unlike frequentist p-values, Bayesian p-values (also called posterior predictive
 
 A credible interval is an interval within which a parameter lies with a specified probability, according to the posterior distribution. For example, a 95% credible interval means that there's a 95% probability that the true parameter value lies within the interval.   This is a direct probability statement about the parameter, unlike the frequentist confidence interval.  Credible intervals are easily obtained from the posterior samples:
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
-import pymc3 as pm
+import pymc as pm
 
 #Extract the posterior samples for mu
 mu_samples = trace["mu"]
@@ -369,7 +369,7 @@ Bayesian methods are extensively used in astronomy for parameter estimation and 
 
 A simplified model could use a Gaussian process to model stellar variability and a parameterized function for the transit shape. The posterior distribution over model parameters is then sampled using MCMC. This approach provides not just point estimates but also quantifies the uncertainty associated with these parameters.
 
-```\{python}
+```{python}
 #| echo: true
 # This is a placeholder. A real implementation would require a dedicated astronomy package
 # and a more complex model. This demonstrates the general Bayesian workflow.
@@ -389,7 +389,7 @@ plt.title("Simulated Transit Photometry Data")
 plt.show()
 
 
-# Bayesian analysis (placeholder - would require PyMC3 or similar)
+# Bayesian analysis (placeholder - would require PyMC or similar)
 # ...  (Code for setting up a Bayesian model with priors and likelihood, then sampling) ...
 
 # Results (placeholder)
@@ -399,13 +399,13 @@ plt.show()
 
 ### Application in Medicine
 
-Bayesian methods are crucial in medical diagnosis, prognosis, and treatment optimization. A classic example is diagnostic testing.  Let's say we have a test for a disease with sensitivity $P(+\text{test}| \text{disease})$ and specificity $P(-\text{test}|\neg\text{disease})$.  Given the prior probability of the disease, $P(\text{disease})$, and a positive test result, we can use Bayes' theorem to calculate the posterior probability of having the disease:
+Bayesian methods are essential in medical diagnosis, prognosis, and treatment optimization. A classic example is diagnostic testing.  Let's say we have a test for a disease with sensitivity $P(+\text{test}| \text{disease})$ and specificity $P(-\text{test}|\neg\text{disease})$.  Given the prior probability of the disease, $P(\text{disease})$, and a positive test result, we can use Bayes' theorem to calculate the posterior probability of having the disease:
 
 $P(\text{disease}|+\text{test}) = \frac{P(+\text{test}|\text{disease}) P(\text{disease})}{P(+\text{test})}$
 
-where $P(+\text{test})$ can be calculated using the law of total probability. This allows for a more nuanced understanding of the test's result, accounting for the prevalence of the disease.
+where $P(+\text{test})$ can be calculated using the law of total probability. This allows for a better understanding of the test's result, accounting for the prevalence of the disease.
 
-```\{python}
+```{python}
 #| echo: true
 # Example calculation
 sensitivity = 0.95
@@ -424,7 +424,7 @@ print(f"Posterior probability of disease given a positive test: {posterior_prob}
 
 ### Application in Genetics
 
-Bayesian methods are widely used in genetic analysis, particularly in areas like linkage analysis, genome-wide association studies (GWAS), and gene expression analysis.  For instance, in GWAS, we might test for associations between single nucleotide polymorphisms (SNPs) and a trait of interest. A Bayesian approach allows for incorporating prior information about the genetic architecture of the trait, leading to more powerful and robust results.  This often involves hierarchical models to account for the relationships between SNPs and the trait across different individuals.  Posterior probabilities for associations can provide more nuanced interpretations compared to frequentist p-values.
+Bayesian methods are widely used in genetic analysis, particularly in areas like linkage analysis, genome-wide association studies (GWAS), and gene expression analysis.  For instance, in GWAS, we might test for associations between single nucleotide polymorphisms (SNPs) and a trait of interest. A Bayesian approach allows for incorporating prior information about the genetic architecture of the trait, leading to more powerful and robust results.  This often involves hierarchical models to account for the relationships between SNPs and the trait across different individuals.  Posterior probabilities for associations can provide better interpretations compared to frequentist p-values.
 
 
 ### Application in Climate Science

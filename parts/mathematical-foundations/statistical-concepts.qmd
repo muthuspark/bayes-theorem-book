@@ -21,7 +21,7 @@ Probability is a function $P$ that assigns a number between 0 and 1 to each even
 2. **Normalization:** $P(\Omega) = 1$. The probability of the entire sample space is 1.
 3. **Additivity:** For any two mutually exclusive events A and B (meaning $A \cap B = \emptyset$, the empty set), $P(A \cup B) = P(A) + P(B)$. This extends to any finite or countable number of mutually exclusive events.
 
-From these axioms, several important properties can be derived, including:
+From these axioms, many important properties can be derived, including:
 
 * $P(A^c) = 1 - P(A)$
 * $P(A \cup B) = P(A) + P(B) - P(A \cap B)$ (inclusion-exclusion principle)
@@ -38,7 +38,7 @@ provided that $P(B) > 0$.  This formula expresses the probability of A occurring
 
 For example, consider drawing two cards from a standard deck without replacement. Let A be the event that the second card is a king, and B be the event that the first card is a king. Then $P(A|B) = \frac{3}{51}$ because given that the first card is a king, there are only 3 kings left out of 51 cards.
 
-```\{python}
+```{python}
 #| echo: true
 import matplotlib.pyplot as plt
 
@@ -70,7 +70,7 @@ or, most commonly used definition for independence:
 
 $P(A \cap B) = P(A)P(B)$
 
-If events are independent, the joint probability is simply the product of their individual probabilities.  If they are not independent, they are dependent.  The concept of independence is crucial in many areas of statistics and probability.
+If events are independent, the joint probability is simply the product of their individual probabilities.  If they are not independent, they are dependent.  The concept of independence is essential in many areas of statistics and probability.
 
 
 ```{mermaid}
@@ -123,7 +123,7 @@ Joint and marginal probabilities can be visualized using various methods.  For d
 A joint probability table is a convenient way to represent the joint probability distribution for discrete random variables.  Each cell in the table represents the joint probability $P(x, y)$ for a specific pair of values $(x, y)$.  The sums of the rows and columns give the marginal probabilities.
 
 
-```\{python}
+```{python}
 #| echo: true
 import matplotlib.pyplot as plt
 import numpy as np
@@ -215,7 +215,7 @@ $P(A_2|A_1) = \frac{P(A_2 \cap A_1)}{P(A_1)} = \frac{2/10}{3/5} = \frac{2}{6} = 
 There are only 2 red marbles left out of 4 total marbles after drawing one red marble.
 
 
-```\{python}
+```{python}
 #| echo: true
 import matplotlib.pyplot as plt
 
@@ -238,7 +238,7 @@ plt.show()
 
 ### Setting the Stage for Bayes' Theorem
 
-The examples above highlight the importance of conditional probability.  Bayes' Theorem essentially provides a formal framework for updating our understanding of probabilities given new information.  We use prior knowledge ($P(A)$) and new evidence ($P(B|A)$) to calculate a refined posterior probability ($P(A|B)$).  The subsequent chapters will delve into the application of Bayes' Theorem in more complex scenarios, and demonstrate its usefulness in various fields.
+The examples above highlight the importance of conditional probability.  Bayes' Theorem essentially provides a formal framework for updating our understanding of probabilities given new information.  We use prior knowledge ($P(A)$) and new evidence ($P(B|A)$) to calculate a refined posterior probability ($P(A|B)$).  The subsequent chapters will look at the application of Bayes' Theorem in more complex scenarios, and demonstrate its usefulness in various fields.
 
 ```{mermaid}
 graph LR
@@ -254,7 +254,7 @@ graph LR
 
 ## Independence of Events
 
-Understanding independence is crucial for applying Bayes' Theorem and for many probability calculations. This section explores the concept of independence in detail.
+Understanding independence is essential for applying Bayes' Theorem and for many probability calculations. This section explores the concept of independence in detail.
 
 ### Definition of Independence
 
@@ -297,7 +297,7 @@ $P(A_1 \cap A_2 \cap \dots \cap A_n) = P(A_1)P(A_2) \dots P(A_n)$
 This result extends to more complex scenarios, making it a powerful tool in probability modeling.  Conversely, the absence of independence requires more complex calculations involving conditional probabilities and joint distributions.
 
 
-```\{python}
+```{python}
 #| echo: true
 import matplotlib.pyplot as plt
 import numpy as np
@@ -399,7 +399,7 @@ $Var(X) = E[(X - \mu)^2]$
 The standard deviation, $\sigma = \sqrt{Var(X)}$, is the square root of the variance and has the same units as the random variable.
 
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
@@ -424,7 +424,7 @@ cdf_cont = norm.cdf(x_cont, mu, sigma)
 #Plotting
 plt.figure(figsize=(12, 5))
 plt.subplot(1, 2, 1)
-plt.stem(x, pmf, label='PMF', use_line_collection=True)
+plt.stem(x, pmf, label='PMF')
 plt.plot(x, cdf, label='CDF', drawstyle='steps-post')
 plt.xlabel('x')
 plt.ylabel('Probability')
@@ -467,7 +467,7 @@ graph LR
 
 ## Common Probability Distributions
 
-This section introduces several commonly encountered probability distributions, highlighting their properties and applications.
+This section introduces many commonly encountered probability distributions, highlighting their properties and applications.
 
 ### Bernoulli Distribution
 
@@ -507,7 +507,7 @@ The normal (or Gaussian) distribution is a continuous distribution, symmetric ar
 
 $f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}$
 
-The expected value is $E[X] = \mu$, and the variance is $Var(X) = \sigma^2$.  The normal distribution is crucial in many areas of statistics due to the central limit theorem.
+The expected value is $E[X] = \mu$, and the variance is $Var(X) = \sigma^2$.  The normal distribution is essential in many areas of statistics due to the central limit theorem.
 
 
 ### Uniform Distribution
@@ -519,7 +519,7 @@ $f(x) = \begin{cases} \frac{1}{b-a} & a \le x \le b \\ 0 & \text{otherwise} \end
 The expected value is $E[X] = \frac{a+b}{2}$, and the variance is $Var(X) = \frac{(b-a)^2}{12}$.
 
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt

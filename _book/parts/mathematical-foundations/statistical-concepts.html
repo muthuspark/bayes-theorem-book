@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>6&nbsp; Statistical Concepts – bayes-theorem-book</title>
+<title>6&nbsp; Basic Probability Concepts – bayes-theorem-book</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -68,7 +102,39 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -399,15 +465,60 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sample-space-and-events" id="toc-sample-space-and-events" class="nav-link active" data-scroll-target="#sample-space-and-events"><span class="header-section-number">6.0.1</span> Sample Space and Events</a></li>
+  <li><a href="#probability-axioms" id="toc-probability-axioms" class="nav-link" data-scroll-target="#probability-axioms"><span class="header-section-number">6.0.2</span> Probability Axioms</a></li>
+  <li><a href="#conditional-probability" id="toc-conditional-probability" class="nav-link" data-scroll-target="#conditional-probability"><span class="header-section-number">6.0.3</span> Conditional Probability</a></li>
+  <li><a href="#the-concept-of-independence" id="toc-the-concept-of-independence" class="nav-link" data-scroll-target="#the-concept-of-independence"><span class="header-section-number">6.0.4</span> The Concept of Independence</a></li>
+  <li><a href="#joint-and-marginal-probability" id="toc-joint-and-marginal-probability" class="nav-link" data-scroll-target="#joint-and-marginal-probability"><span class="header-section-number">6.1</span> Joint and Marginal Probability</a>
+  <ul class="collapse">
+  <li><a href="#joint-probability-distributions" id="toc-joint-probability-distributions" class="nav-link" data-scroll-target="#joint-probability-distributions"><span class="header-section-number">6.1.1</span> Joint Probability Distributions</a></li>
+  <li><a href="#calculating-marginal-probabilities-from-joint-distributions" id="toc-calculating-marginal-probabilities-from-joint-distributions" class="nav-link" data-scroll-target="#calculating-marginal-probabilities-from-joint-distributions"><span class="header-section-number">6.1.2</span> Calculating Marginal Probabilities from Joint Distributions</a></li>
+  <li><a href="#visualizing-joint-and-marginal-probabilities" id="toc-visualizing-joint-and-marginal-probabilities" class="nav-link" data-scroll-target="#visualizing-joint-and-marginal-probabilities"><span class="header-section-number">6.1.3</span> Visualizing Joint and Marginal Probabilities</a></li>
+  <li><a href="#joint-probability-tables" id="toc-joint-probability-tables" class="nav-link" data-scroll-target="#joint-probability-tables"><span class="header-section-number">6.1.4</span> Joint Probability Tables</a></li>
+  </ul></li>
+  <li><a href="#conditional-probability-and-bayes-theorem-preview" id="toc-conditional-probability-and-bayes-theorem-preview" class="nav-link" data-scroll-target="#conditional-probability-and-bayes-theorem-preview"><span class="header-section-number">6.2</span> Conditional Probability and Bayes’ Theorem (Preview)</a>
+  <ul class="collapse">
+  <li><a href="#understanding-conditional-probability" id="toc-understanding-conditional-probability" class="nav-link" data-scroll-target="#understanding-conditional-probability"><span class="header-section-number">6.2.1</span> Understanding Conditional Probability</a></li>
+  <li><a href="#bayes-theorem-an-intuitive-introduction" id="toc-bayes-theorem-an-intuitive-introduction" class="nav-link" data-scroll-target="#bayes-theorem-an-intuitive-introduction"><span class="header-section-number">6.2.2</span> Bayes’ Theorem: An Intuitive Introduction</a></li>
+  <li><a href="#illustrative-examples-of-conditional-probability" id="toc-illustrative-examples-of-conditional-probability" class="nav-link" data-scroll-target="#illustrative-examples-of-conditional-probability"><span class="header-section-number">6.2.3</span> Illustrative Examples of Conditional Probability</a></li>
+  <li><a href="#setting-the-stage-for-bayes-theorem" id="toc-setting-the-stage-for-bayes-theorem" class="nav-link" data-scroll-target="#setting-the-stage-for-bayes-theorem"><span class="header-section-number">6.2.4</span> Setting the Stage for Bayes’ Theorem</a></li>
+  </ul></li>
+  <li><a href="#independence-of-events" id="toc-independence-of-events" class="nav-link" data-scroll-target="#independence-of-events"><span class="header-section-number">6.3</span> Independence of Events</a>
+  <ul class="collapse">
+  <li><a href="#definition-of-independence" id="toc-definition-of-independence" class="nav-link" data-scroll-target="#definition-of-independence"><span class="header-section-number">6.3.1</span> Definition of Independence</a></li>
+  <li><a href="#testing-for-independence" id="toc-testing-for-independence" class="nav-link" data-scroll-target="#testing-for-independence"><span class="header-section-number">6.3.2</span> Testing for Independence</a></li>
+  <li><a href="#conditional-independence" id="toc-conditional-independence" class="nav-link" data-scroll-target="#conditional-independence"><span class="header-section-number">6.3.3</span> Conditional Independence</a></li>
+  <li><a href="#consequences-of-independence-for-probability-calculations" id="toc-consequences-of-independence-for-probability-calculations" class="nav-link" data-scroll-target="#consequences-of-independence-for-probability-calculations"><span class="header-section-number">6.3.4</span> Consequences of Independence for Probability Calculations</a></li>
+  </ul></li>
+  <li><a href="#discrete-and-continuous-random-variables" id="toc-discrete-and-continuous-random-variables" class="nav-link" data-scroll-target="#discrete-and-continuous-random-variables"><span class="header-section-number">6.4</span> Discrete and Continuous Random Variables</a>
+  <ul class="collapse">
+  <li><a href="#discrete-random-variables-and-probability-mass-functions" id="toc-discrete-random-variables-and-probability-mass-functions" class="nav-link" data-scroll-target="#discrete-random-variables-and-probability-mass-functions"><span class="header-section-number">6.4.1</span> Discrete Random Variables and Probability Mass Functions</a></li>
+  <li><a href="#continuous-random-variables-and-probability-density-functions" id="toc-continuous-random-variables-and-probability-density-functions" class="nav-link" data-scroll-target="#continuous-random-variables-and-probability-density-functions"><span class="header-section-number">6.4.2</span> Continuous Random Variables and Probability Density Functions</a></li>
+  <li><a href="#cumulative-distribution-functions-cdfs" id="toc-cumulative-distribution-functions-cdfs" class="nav-link" data-scroll-target="#cumulative-distribution-functions-cdfs"><span class="header-section-number">6.4.3</span> Cumulative Distribution Functions (CDFs)</a></li>
+  <li><a href="#expected-value-and-variance" id="toc-expected-value-and-variance" class="nav-link" data-scroll-target="#expected-value-and-variance"><span class="header-section-number">6.4.4</span> Expected Value and Variance</a></li>
+  </ul></li>
+  <li><a href="#common-probability-distributions" id="toc-common-probability-distributions" class="nav-link" data-scroll-target="#common-probability-distributions"><span class="header-section-number">6.5</span> Common Probability Distributions</a>
+  <ul class="collapse">
+  <li><a href="#bernoulli-distribution" id="toc-bernoulli-distribution" class="nav-link" data-scroll-target="#bernoulli-distribution"><span class="header-section-number">6.5.1</span> Bernoulli Distribution</a></li>
+  <li><a href="#binomial-distribution" id="toc-binomial-distribution" class="nav-link" data-scroll-target="#binomial-distribution"><span class="header-section-number">6.5.2</span> Binomial Distribution</a></li>
+  <li><a href="#poisson-distribution" id="toc-poisson-distribution" class="nav-link" data-scroll-target="#poisson-distribution"><span class="header-section-number">6.5.3</span> Poisson Distribution</a></li>
+  <li><a href="#normal-distribution" id="toc-normal-distribution" class="nav-link" data-scroll-target="#normal-distribution"><span class="header-section-number">6.5.4</span> Normal Distribution</a></li>
+  <li><a href="#uniform-distribution" id="toc-uniform-distribution" class="nav-link" data-scroll-target="#uniform-distribution"><span class="header-section-number">6.5.5</span> Uniform Distribution</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../parts/mathematical-foundations/intro.html">Mathematical Foundations</a></li><li class="breadcrumb-item"><a href="../../parts/mathematical-foundations/statistical-concepts.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Basic Probability Concepts</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Statistical Concepts</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Basic Probability Concepts</span></h1>
 </div>
 
 
@@ -424,8 +535,610 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>This section lays the groundwork for understanding Bayes’ Theorem by reviewing fundamental concepts in probability theory.</p>
+<section id="sample-space-and-events" class="level3" data-number="6.0.1">
+<h3 data-number="6.0.1" class="anchored" data-anchor-id="sample-space-and-events"><span class="header-section-number">6.0.1</span> Sample Space and Events</h3>
+<p>The sample space, often denoted as <span class="math inline">\(\Omega\)</span> (Omega), represents the set of all possible outcomes of a random experiment. An <em>event</em> is a subset of the sample space. For example, if we roll a six-sided die, the sample space is <span class="math inline">\(\Omega = \{1, 2, 3, 4, 5, 6\}\)</span>. The event “rolling an even number” is the subset <span class="math inline">\(A = \{2, 4, 6\}\)</span>. Another event could be “rolling a number greater than 3”, represented by <span class="math inline">\(B = \{4, 5, 6\}\)</span>.</p>
+<p>Events can be combined using set operations:</p>
+<ul>
+<li><strong>Union:</strong> <span class="math inline">\(A \cup B\)</span> represents the event that either A or B (or both) occur. In our example, <span class="math inline">\(A \cup B = \{2, 4, 5, 6\}\)</span>.</li>
+<li><strong>Intersection:</strong> <span class="math inline">\(A \cap B\)</span> represents the event that both A and B occur. In our example, <span class="math inline">\(A \cap B = \{4, 6\}\)</span>.</li>
+<li><strong>Complement:</strong> <span class="math inline">\(A^c\)</span> (or <span class="math inline">\(A'\)</span>) represents the event that A does not occur. The complement of A is <span class="math inline">\(A^c = \{1, 3, 5\}\)</span>.</li>
+</ul>
+</section>
+<section id="probability-axioms" class="level3" data-number="6.0.2">
+<h3 data-number="6.0.2" class="anchored" data-anchor-id="probability-axioms"><span class="header-section-number">6.0.2</span> Probability Axioms</h3>
+<p>Probability is a function <span class="math inline">\(P\)</span> that assigns a number between 0 and 1 to each event in the sample space, satisfying the following axioms:</p>
+<ol type="1">
+<li><strong>Non-negativity:</strong> For any event A, <span class="math inline">\(P(A) \ge 0\)</span>.</li>
+<li><strong>Normalization:</strong> <span class="math inline">\(P(\Omega) = 1\)</span>. The probability of the entire sample space is 1.</li>
+<li><strong>Additivity:</strong> For any two mutually exclusive events A and B (meaning <span class="math inline">\(A \cap B = \emptyset\)</span>, the empty set), <span class="math inline">\(P(A \cup B) = P(A) + P(B)\)</span>. This extends to any finite or countable number of mutually exclusive events.</li>
+</ol>
+<p>From these axioms, many important properties can be derived, including:</p>
+<ul>
+<li><span class="math inline">\(P(A^c) = 1 - P(A)\)</span></li>
+<li><span class="math inline">\(P(A \cup B) = P(A) + P(B) - P(A \cap B)\)</span> (inclusion-exclusion principle)</li>
+<li><span class="math inline">\(P(\emptyset) = 0\)</span></li>
+</ul>
+</section>
+<section id="conditional-probability" class="level3" data-number="6.0.3">
+<h3 data-number="6.0.3" class="anchored" data-anchor-id="conditional-probability"><span class="header-section-number">6.0.3</span> Conditional Probability</h3>
+<p>Conditional probability addresses the probability of an event given that another event has already occurred. The conditional probability of event A given event B is denoted as <span class="math inline">\(P(A|B)\)</span> and is defined as:</p>
+<p><span class="math inline">\(P(A|B) = \frac{P(A \cap B)}{P(B)}\)</span></p>
+<p>provided that <span class="math inline">\(P(B) &gt; 0\)</span>. This formula expresses the probability of A occurring, <em>knowing</em> that B has already occurred. The denominator adjusts the probability to reflect the reduced sample space.</p>
+<p>For example, consider drawing two cards from a standard deck without replacement. Let A be the event that the second card is a king, and B be the event that the first card is a king. Then <span class="math inline">\(P(A|B) = \frac{3}{51}\)</span> because given that the first card is a king, there are only 3 kings left out of 51 cards.</p>
+<div id="ad18644d" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: visualizing conditional probability</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>events <span class="op">=</span> [<span class="st">'King'</span>, <span class="st">'Not King'</span>]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>probabilities_before <span class="op">=</span> [<span class="dv">4</span><span class="op">/</span><span class="dv">52</span>, <span class="dv">48</span><span class="op">/</span><span class="dv">52</span>]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>probabilities_after <span class="op">=</span> [<span class="dv">3</span><span class="op">/</span><span class="dv">51</span>, <span class="dv">48</span><span class="op">/</span><span class="dv">51</span>]</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>plt.bar(events, probabilities_before, label<span class="op">=</span><span class="st">'Before knowing the first card'</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>plt.bar(events, probabilities_after, label<span class="op">=</span><span class="st">'After knowing first card is King'</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Probability'</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Conditional Probability Example'</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="statistical-concepts_files/figure-html/cell-2-output-1.png" width="663" height="505" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="the-concept-of-independence" class="level3" data-number="6.0.4">
+<h3 data-number="6.0.4" class="anchored" data-anchor-id="the-concept-of-independence"><span class="header-section-number">6.0.4</span> The Concept of Independence</h3>
+<p>Two events A and B are independent if the occurrence of one does not affect the probability of the occurrence of the other. Mathematically, this is expressed as:</p>
+<p><span class="math inline">\(P(A|B) = P(A)\)</span> or equivalently, <span class="math inline">\(P(B|A) = P(B)\)</span></p>
+<p>or, most commonly used definition for independence:</p>
+<p><span class="math inline">\(P(A \cap B) = P(A)P(B)\)</span></p>
+<p>If events are independent, the joint probability is simply the product of their individual probabilities. If they are not independent, they are dependent. The concept of independence is essential in many areas of statistics and probability.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A[Event A] --&gt;|P(A|B) = P(A)| B[Event B];
+    B --&gt;|P(B|A) = P(B)| A;
+    subgraph Independent Events
+        style A fill:#ccf,stroke:#000,stroke-width:2px
+        style B fill:#ccf,stroke:#000,stroke-width:2px
+    end
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="joint-and-marginal-probability" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="joint-and-marginal-probability"><span class="header-section-number">6.1</span> Joint and Marginal Probability</h2>
+<p>This section delves into joint and marginal probability distributions, essential concepts for understanding Bayes’ Theorem and its applications.</p>
+<section id="joint-probability-distributions" class="level3" data-number="6.1.1">
+<h3 data-number="6.1.1" class="anchored" data-anchor-id="joint-probability-distributions"><span class="header-section-number">6.1.1</span> Joint Probability Distributions</h3>
+<p>A joint probability distribution describes the probability of two or more events occurring together. For discrete random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, the joint probability mass function (PMF) is denoted as <span class="math inline">\(P(X=x, Y=y)\)</span> or more concisely as <span class="math inline">\(P(x, y)\)</span>. This function gives the probability that <span class="math inline">\(X\)</span> takes on the value <span class="math inline">\(x\)</span> and <span class="math inline">\(Y\)</span> takes on the value <span class="math inline">\(y\)</span> simultaneously. For continuous random variables, we use the joint probability density function (PDF), denoted as <span class="math inline">\(f(x, y)\)</span>. The joint distribution must satisfy the following conditions:</p>
+<ul>
+<li><span class="math inline">\(P(x, y) \ge 0\)</span> for all <span class="math inline">\(x, y\)</span> (or <span class="math inline">\(f(x, y) \ge 0\)</span>)</li>
+<li><span class="math inline">\(\sum_{x}\sum_{y} P(x, y) = 1\)</span> for discrete variables (or <span class="math inline">\(\int_{-\infty}^{\infty}\int_{-\infty}^{\infty} f(x, y) \,dx \,dy = 1\)</span> for continuous variables)</li>
+</ul>
+<p>The joint distribution contains all the information about the individual variables and their relationship.</p>
+</section>
+<section id="calculating-marginal-probabilities-from-joint-distributions" class="level3" data-number="6.1.2">
+<h3 data-number="6.1.2" class="anchored" data-anchor-id="calculating-marginal-probabilities-from-joint-distributions"><span class="header-section-number">6.1.2</span> Calculating Marginal Probabilities from Joint Distributions</h3>
+<p>Marginal probabilities represent the probability of a single event occurring, regardless of the outcome of other events. They are obtained by “marginalizing” (summing or integrating) over the other variables in the joint distribution.</p>
+<p>For discrete variables:</p>
+<ul>
+<li><span class="math inline">\(P(X=x) = \sum_{y} P(x, y)\)</span> (Marginal PMF of X)</li>
+<li><span class="math inline">\(P(Y=y) = \sum_{x} P(x, y)\)</span> (Marginal PMF of Y)</li>
+</ul>
+<p>For continuous variables:</p>
+<ul>
+<li><span class="math inline">\(f(x) = \int_{-\infty}^{\infty} f(x, y) \,dy\)</span> (Marginal PDF of X)</li>
+<li><span class="math inline">\(f(y) = \int_{-\infty}^{\infty} f(x, y) \,dx\)</span> (Marginal PDF of Y)</li>
+</ul>
+</section>
+<section id="visualizing-joint-and-marginal-probabilities" class="level3" data-number="6.1.3">
+<h3 data-number="6.1.3" class="anchored" data-anchor-id="visualizing-joint-and-marginal-probabilities"><span class="header-section-number">6.1.3</span> Visualizing Joint and Marginal Probabilities</h3>
+<p>Joint and marginal probabilities can be visualized using various methods. For discrete variables, a joint probability table or a bar chart is often used. For continuous variables, we might use a heatmap or contour plot for the joint distribution, and histograms or density plots for the marginal distributions.</p>
+</section>
+<section id="joint-probability-tables" class="level3" data-number="6.1.4">
+<h3 data-number="6.1.4" class="anchored" data-anchor-id="joint-probability-tables"><span class="header-section-number">6.1.4</span> Joint Probability Tables</h3>
+<p>A joint probability table is a convenient way to represent the joint probability distribution for discrete random variables. Each cell in the table represents the joint probability <span class="math inline">\(P(x, y)\)</span> for a specific pair of values <span class="math inline">\((x, y)\)</span>. The sums of the rows and columns give the marginal probabilities.</p>
+<div id="54db91ea" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Joint Probability Table and Visualization</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample data (replace with your own data)</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {<span class="st">'X'</span>: [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>], <span class="st">'Y'</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>], <span class="st">'Probability'</span>: [<span class="fl">0.2</span>, <span class="fl">0.1</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>]}</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>joint_prob_table <span class="op">=</span> pd.pivot_table(df, values<span class="op">=</span><span class="st">'Probability'</span>, index<span class="op">=</span>[<span class="st">'X'</span>], columns<span class="op">=</span>[<span class="st">'Y'</span>], aggfunc<span class="op">=</span>np.<span class="bu">sum</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculating Marginal Probabilities</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>marginal_x <span class="op">=</span> joint_prob_table.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>marginal_y <span class="op">=</span> joint_prob_table.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Joint Probability Table:</span><span class="ch">\n</span><span class="st">"</span>, joint_prob_table)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Marginal Probability of X:</span><span class="ch">\n</span><span class="st">"</span>, marginal_x)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Marginal Probability of Y:</span><span class="ch">\n</span><span class="st">"</span>, marginal_y)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualization</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>sns.heatmap(joint_prob_table, annot<span class="op">=</span><span class="va">True</span>, cmap<span class="op">=</span><span class="st">"Blues"</span>, fmt<span class="op">=</span><span class="st">".2f"</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Joint Probability Distribution"</span>)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>plt.bar([<span class="st">'X=1'</span>, <span class="st">'X=2'</span>], marginal_x, label<span class="op">=</span><span class="st">'Marginal P(X)'</span>)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>plt.bar([<span class="st">'Y=1'</span>, <span class="st">'Y=2'</span>], marginal_y, label<span class="op">=</span><span class="st">'Marginal P(Y)'</span>)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Marginal Probabilities"</span>)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Joint Probability Table:
+ Y    1    2
+X          
+1  0.2  0.1
+2  0.3  0.4
+
+Marginal Probability of X:
+ X
+1    0.3
+2    0.7
+dtype: float64
+
+Marginal Probability of Y:
+ Y
+1    0.5
+2    0.5
+dtype: float64</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_2195334/2308017241.py:11: FutureWarning: The provided callable &lt;function sum at 0x7ff1d82349a0&gt; is currently using DataFrameGroupBy.sum. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "sum" instead.
+  joint_prob_table = pd.pivot_table(df, values='Probability', index=['X'], columns=['Y'], aggfunc=np.sum)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="statistical-concepts_files/figure-html/cell-3-output-3.png" width="804" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A[Joint Probability&lt;br/&gt;P(X,Y)] --&gt; B(Marginal Probability&lt;br/&gt;P(X));
+    A --&gt; C(Marginal Probability&lt;br/&gt;P(Y));
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="conditional-probability-and-bayes-theorem-preview" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="conditional-probability-and-bayes-theorem-preview"><span class="header-section-number">6.2</span> Conditional Probability and Bayes’ Theorem (Preview)</h2>
+<p>This section provides a gentle introduction to conditional probability and offers a preview of Bayes’ Theorem, which will be explored in detail in subsequent chapters.</p>
+<section id="understanding-conditional-probability" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="understanding-conditional-probability"><span class="header-section-number">6.2.1</span> Understanding Conditional Probability</h3>
+<p>Conditional probability quantifies the likelihood of an event occurring given that another event has already happened. Recall the definition from the previous section:</p>
+<p><span class="math inline">\(P(A|B) = \frac{P(A \cap B)}{P(B)}\)</span></p>
+<p>where <span class="math inline">\(P(A|B)\)</span> is the conditional probability of event A given event B, <span class="math inline">\(P(A \cap B)\)</span> is the joint probability of both A and B occurring, and <span class="math inline">\(P(B)\)</span> is the probability of event B. The key insight is that knowing B has occurred changes the sample space, affecting the probability of A.</p>
+</section>
+<section id="bayes-theorem-an-intuitive-introduction" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="bayes-theorem-an-intuitive-introduction"><span class="header-section-number">6.2.2</span> Bayes’ Theorem: An Intuitive Introduction</h3>
+<p>Bayes’ Theorem provides a way to update our beliefs about an event based on new evidence. It’s a powerful tool for revising probabilities in light of observed data. In its simplest form, Bayes’ Theorem states:</p>
+<p><span class="math inline">\(P(A|B) = \frac{P(B|A)P(A)}{P(B)}\)</span></p>
+<p>Here:</p>
+<ul>
+<li><span class="math inline">\(P(A|B)\)</span> is the posterior probability of A given B (what we want to find).</li>
+<li><span class="math inline">\(P(B|A)\)</span> is the likelihood of B given A.</li>
+<li><span class="math inline">\(P(A)\)</span> is the prior probability of A (our initial belief).</li>
+<li><span class="math inline">\(P(B)\)</span> is the probability of B (evidence).</li>
+</ul>
+<p>The denominator, <span class="math inline">\(P(B)\)</span>, can be expanded using the law of total probability (discussed in more detail later):</p>
+<p><span class="math inline">\(P(B) = P(B|A)P(A) + P(B|A^c)P(A^c)\)</span></p>
+</section>
+<section id="illustrative-examples-of-conditional-probability" class="level3" data-number="6.2.3">
+<h3 data-number="6.2.3" class="anchored" data-anchor-id="illustrative-examples-of-conditional-probability"><span class="header-section-number">6.2.3</span> Illustrative Examples of Conditional Probability</h3>
+<p>Let’s illustrate conditional probability with a simple example. Suppose we have a bag containing 3 red marbles and 2 blue marbles.</p>
+<ul>
+<li><strong>Event A:</strong> Drawing a red marble.</li>
+<li><strong>Event B:</strong> Drawing a blue marble.</li>
+</ul>
+<p><span class="math inline">\(P(A) = \frac{3}{5}\)</span> and <span class="math inline">\(P(B) = \frac{2}{5}\)</span></p>
+<p>Now, let’s consider drawing two marbles without replacement. What’s the probability of drawing a red marble second, given that the first marble was red? This is <span class="math inline">\(P(A_2|A_1)\)</span>.</p>
+<p><span class="math inline">\(P(A_2|A_1) = \frac{P(A_2 \cap A_1)}{P(A_1)} = \frac{2/10}{3/5} = \frac{2}{6} = \frac{1}{3}\)</span></p>
+<p>There are only 2 red marbles left out of 4 total marbles after drawing one red marble.</p>
+<div id="7a0c5ad4" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizing the Marble Example</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>events <span class="op">=</span> [<span class="st">'Red'</span>, <span class="st">'Blue'</span>]</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>probabilities_before <span class="op">=</span> [<span class="dv">3</span><span class="op">/</span><span class="dv">5</span>, <span class="dv">2</span><span class="op">/</span><span class="dv">5</span>]</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>probabilities_after_red <span class="op">=</span> [<span class="dv">2</span><span class="op">/</span><span class="dv">4</span>, <span class="dv">2</span><span class="op">/</span><span class="dv">4</span>]</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>plt.bar(events, probabilities_before, label<span class="op">=</span><span class="st">'Before First Draw'</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>plt.bar(events, probabilities_after_red, label<span class="op">=</span><span class="st">'After First Draw (Red)'</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Probability'</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Conditional Probability: Marble Example'</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="statistical-concepts_files/figure-html/cell-4-output-1.png" width="663" height="505" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="setting-the-stage-for-bayes-theorem" class="level3" data-number="6.2.4">
+<h3 data-number="6.2.4" class="anchored" data-anchor-id="setting-the-stage-for-bayes-theorem"><span class="header-section-number">6.2.4</span> Setting the Stage for Bayes’ Theorem</h3>
+<p>The examples above highlight the importance of conditional probability. Bayes’ Theorem essentially provides a formal framework for updating our understanding of probabilities given new information. We use prior knowledge (<span class="math inline">\(P(A)\)</span>) and new evidence (<span class="math inline">\(P(B|A)\)</span>) to calculate a refined posterior probability (<span class="math inline">\(P(A|B)\)</span>). The subsequent chapters will look at the application of Bayes’ Theorem in more complex scenarios, and demonstrate its usefulness in various fields.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A[Prior Probability P(A)] --&gt; B(Evidence P(B|A));
+    B --&gt; C[Posterior Probability P(A|B)];
+    subgraph Bayes' Theorem
+        style A fill:#ccf,stroke:#000,stroke-width:2px
+        style B fill:#ccf,stroke:#000,stroke-width:2px
+        style C fill:#ccf,stroke:#000,stroke-width:2px
+    end
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="independence-of-events" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="independence-of-events"><span class="header-section-number">6.3</span> Independence of Events</h2>
+<p>Understanding independence is essential for applying Bayes’ Theorem and for many probability calculations. This section explores the concept of independence in detail.</p>
+<section id="definition-of-independence" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="definition-of-independence"><span class="header-section-number">6.3.1</span> Definition of Independence</h3>
+<p>Two events, A and B, are independent if the occurrence of one event does not affect the probability of the occurrence of the other event. Mathematically, this is expressed as:</p>
+<p><span class="math inline">\(P(A|B) = P(A)\)</span></p>
+<p>or equivalently:</p>
+<p><span class="math inline">\(P(B|A) = P(B)\)</span></p>
+<p>The most common and useful definition for independence is:</p>
+<p><span class="math inline">\(P(A \cap B) = P(A)P(B)\)</span></p>
+<p>This means the joint probability of A and B occurring is simply the product of their individual probabilities. If this equation holds, then A and B are independent. If it doesn’t, they are dependent.</p>
+</section>
+<section id="testing-for-independence" class="level3" data-number="6.3.2">
+<h3 data-number="6.3.2" class="anchored" data-anchor-id="testing-for-independence"><span class="header-section-number">6.3.2</span> Testing for Independence</h3>
+<p>To test whether two events are independent, we compare the joint probability <span class="math inline">\(P(A \cap B)\)</span> with the product of the individual probabilities <span class="math inline">\(P(A)P(B)\)</span>. If they are approximately equal (allowing for some margin of error due to sampling variation), we can conclude that the events are likely independent. A statistically rigorous test would involve hypothesis testing, which is beyond the scope of this introductory section.</p>
+</section>
+<section id="conditional-independence" class="level3" data-number="6.3.3">
+<h3 data-number="6.3.3" class="anchored" data-anchor-id="conditional-independence"><span class="header-section-number">6.3.3</span> Conditional Independence</h3>
+<p>Events A and B are conditionally independent given a third event C if:</p>
+<p><span class="math inline">\(P(A \cap B | C) = P(A|C)P(B|C)\)</span></p>
+<p>This means that given the knowledge that C has occurred, the occurrence of A doesn’t influence the probability of B and vice versa. Note that conditional independence does not imply (and is not implied by) marginal independence. Events can be independent in one context (given C) but dependent in another.</p>
+</section>
+<section id="consequences-of-independence-for-probability-calculations" class="level3" data-number="6.3.4">
+<h3 data-number="6.3.4" class="anchored" data-anchor-id="consequences-of-independence-for-probability-calculations"><span class="header-section-number">6.3.4</span> Consequences of Independence for Probability Calculations</h3>
+<p>Independence significantly simplifies probability calculations. When events are independent, the joint probability is simply the product of the individual probabilities, as shown above. This makes calculating probabilities of complex events much easier. For example, if we have <em>n</em> independent events <span class="math inline">\(A_1, A_2, \dots, A_n\)</span>, the probability that all of them occur is:</p>
+<p><span class="math inline">\(P(A_1 \cap A_2 \cap \dots \cap A_n) = P(A_1)P(A_2) \dots P(A_n)\)</span></p>
+<p>This result extends to more complex scenarios, making it a powerful tool in probability modeling. Conversely, the absence of independence requires more complex calculations involving conditional probabilities and joint distributions.</p>
+<div id="93f1695b" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Example illustrating independence vs. dependence</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Independent Events</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>prob_A <span class="op">=</span> <span class="fl">0.6</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>prob_B <span class="op">=</span> <span class="fl">0.4</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>prob_A_and_B <span class="op">=</span> prob_A <span class="op">*</span> prob_B</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Dependent Events (Example)</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>prob_C <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>prob_D_given_C <span class="op">=</span> <span class="fl">0.8</span>  <span class="co">#probability of D given C occurred</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>prob_D_and_C <span class="op">=</span> prob_C <span class="op">*</span> prob_D_given_C</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>events <span class="op">=</span> [<span class="st">'A and B'</span>,<span class="st">'C and D'</span>]</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>probabilities <span class="op">=</span> [prob_A_and_B, prob_D_and_C]</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">6</span>))</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>plt.bar(events,probabilities)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Probability'</span>)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Independent vs Dependent Events'</span>)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability of A and B (independent): </span><span class="sc">{</span>prob_A_and_B<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability of C and D (dependent): </span><span class="sc">{</span>prob_D_and_C<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="statistical-concepts_files/figure-html/cell-5-output-1.png" width="672" height="505" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Probability of A and B (independent): 0.24
+Probability of C and D (dependent): 0.4</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A[Event A] -.-&gt; B[Event B];
+    subgraph Independent Events
+        style A fill:#ccf,stroke:#000,stroke-width:2px
+        style B fill:#ccf,stroke:#000,stroke-width:2px
+        linkStyle 0,1,2,3 stroke:#000,stroke-width:2px,stroke-dasharray: 5 5
+    end
+    C[Event C] --&gt; D[Event D];
+    subgraph Dependent Events
+        style C fill:#ccf,stroke:#000,stroke-width:2px
+        style D fill:#ccf,stroke:#000,stroke-width:2px
+    end
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="discrete-and-continuous-random-variables" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="discrete-and-continuous-random-variables"><span class="header-section-number">6.4</span> Discrete and Continuous Random Variables</h2>
+<p>This section distinguishes between discrete and continuous random variables, introducing key concepts for describing their probability distributions.</p>
+<section id="discrete-random-variables-and-probability-mass-functions" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="discrete-random-variables-and-probability-mass-functions"><span class="header-section-number">6.4.1</span> Discrete Random Variables and Probability Mass Functions</h3>
+<p>A discrete random variable is a variable whose value can only take on a finite number of values or a countably infinite number of values. The probability distribution of a discrete random variable is described by its probability mass function (PMF), denoted as <span class="math inline">\(P(X=x)\)</span> or <span class="math inline">\(p(x)\)</span>. This function assigns a probability to each possible value of the variable. The PMF must satisfy:</p>
+<ul>
+<li><span class="math inline">\(P(X=x) \ge 0\)</span> for all x</li>
+<li><span class="math inline">\(\sum_{x} P(X=x) = 1\)</span> (The sum of probabilities over all possible values is 1)</li>
+</ul>
+<p>For example, the outcome of rolling a fair six-sided die is a discrete random variable. The PMF would be <span class="math inline">\(P(X=x) = \frac{1}{6}\)</span> for <span class="math inline">\(x \in \{1, 2, 3, 4, 5, 6\}\)</span>.</p>
+</section>
+<section id="continuous-random-variables-and-probability-density-functions" class="level3" data-number="6.4.2">
+<h3 data-number="6.4.2" class="anchored" data-anchor-id="continuous-random-variables-and-probability-density-functions"><span class="header-section-number">6.4.2</span> Continuous Random Variables and Probability Density Functions</h3>
+<p>A continuous random variable is a variable whose value can take on any value within a given range. The probability distribution of a continuous random variable is described by its probability density function (PDF), denoted as <span class="math inline">\(f(x)\)</span>. Unlike the PMF, the PDF doesn’t directly give the probability of a specific value; instead, the probability of the variable falling within a certain interval is given by the integral of the PDF over that interval:</p>
+<p><span class="math inline">\(P(a \le X \le b) = \int_{a}^{b} f(x) \,dx\)</span></p>
+<p>The PDF must satisfy:</p>
+<ul>
+<li><span class="math inline">\(f(x) \ge 0\)</span> for all x</li>
+<li><span class="math inline">\(\int_{-\infty}^{\infty} f(x) \,dx = 1\)</span></li>
+</ul>
+<p>For example, the height of a randomly selected adult is a continuous random variable.</p>
+</section>
+<section id="cumulative-distribution-functions-cdfs" class="level3" data-number="6.4.3">
+<h3 data-number="6.4.3" class="anchored" data-anchor-id="cumulative-distribution-functions-cdfs"><span class="header-section-number">6.4.3</span> Cumulative Distribution Functions (CDFs)</h3>
+<p>The cumulative distribution function (CDF), denoted as <span class="math inline">\(F(x)\)</span>, gives the probability that a random variable X is less than or equal to a given value x. It’s defined for both discrete and continuous random variables:</p>
+<ul>
+<li><strong>Discrete:</strong> <span class="math inline">\(F(x) = P(X \le x) = \sum_{k \le x} P(X=k)\)</span></li>
+<li><strong>Continuous:</strong> <span class="math inline">\(F(x) = P(X \le x) = \int_{-\infty}^{x} f(t) \,dt\)</span></li>
+</ul>
+<p>The CDF is a non-decreasing function, ranging from 0 to 1.</p>
+</section>
+<section id="expected-value-and-variance" class="level3" data-number="6.4.4">
+<h3 data-number="6.4.4" class="anchored" data-anchor-id="expected-value-and-variance"><span class="header-section-number">6.4.4</span> Expected Value and Variance</h3>
+<p>The expected value (or mean) of a random variable, denoted as <span class="math inline">\(E[X]\)</span> or <span class="math inline">\(\mu\)</span>, represents the average value of the variable over many repetitions of the experiment.</p>
+<ul>
+<li><strong>Discrete:</strong> <span class="math inline">\(E[X] = \sum_{x} x P(X=x)\)</span></li>
+<li><strong>Continuous:</strong> <span class="math inline">\(E[X] = \int_{-\infty}^{\infty} x f(x) \,dx\)</span></li>
+</ul>
+<p>The variance, denoted as <span class="math inline">\(Var(X)\)</span> or <span class="math inline">\(\sigma^2\)</span>, measures the spread or dispersion of the distribution around the mean. It’s the expected value of the squared difference between the variable and its mean:</p>
+<p><span class="math inline">\(Var(X) = E[(X - \mu)^2]\)</span></p>
+<p>The standard deviation, <span class="math inline">\(\sigma = \sqrt{Var(X)}\)</span>, is the square root of the variance and has the same units as the random variable.</p>
+<div id="30b5fd33" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> binom, norm</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Discrete (Binomial) and Continuous (Normal) distributions</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Binomial Distribution (Discrete)</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10</span>  <span class="co"># Number of trials</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="fl">0.5</span> <span class="co"># Probability of success</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="dv">0</span>, n <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>pmf <span class="op">=</span> binom.pmf(x, n, p)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>cdf <span class="op">=</span> binom.cdf(x, n, p)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Normal Distribution (Continuous)</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> <span class="dv">0</span>   <span class="co"># Mean</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> <span class="dv">1</span> <span class="co"># Standard Deviation</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>x_cont <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">100</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>pdf_cont <span class="op">=</span> norm.pdf(x_cont, mu, sigma)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>cdf_cont <span class="op">=</span> norm.cdf(x_cont, mu, sigma)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co">#Plotting</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>plt.stem(x, pmf, label<span class="op">=</span><span class="st">'PMF'</span>)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>plt.plot(x, cdf, label<span class="op">=</span><span class="st">'CDF'</span>, drawstyle<span class="op">=</span><span class="st">'steps-post'</span>)</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'x'</span>)</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Probability'</span>)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Binomial Distribution'</span>)</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>plt.plot(x_cont, pdf_cont, label<span class="op">=</span><span class="st">'PDF'</span>)</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>plt.plot(x_cont, cdf_cont, label<span class="op">=</span><span class="st">'CDF'</span>)</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'x'</span>)</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Probability Density'</span>)</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Normal Distribution'</span>)</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a><span class="co">#Expected Value and Variance (Binomial)</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>expected_value <span class="op">=</span> n<span class="op">*</span>p</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>variance <span class="op">=</span> n<span class="op">*</span>p<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>p)</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Binomial Distribution:"</span>)</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Expected Value: </span><span class="sc">{</span>expected_value<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Variance: </span><span class="sc">{</span>variance<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a><span class="co">#Expected Value and Variance (Normal) - parameters are mu and sigma</span></span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Normal Distribution:"</span>)</span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Expected Value (mu): </span><span class="sc">{</span>mu<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Variance (sigma^2): </span><span class="sc">{</span>sigma<span class="op">**</span><span class="dv">2</span><span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="statistical-concepts_files/figure-html/cell-6-output-1.png" width="961" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Binomial Distribution:
+Expected Value: 5.0
+Variance: 2.5
+
+Normal Distribution:
+Expected Value (mu): 0
+Variance (sigma^2): 1</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A[Discrete Random Variable] --&gt; B(Probability Mass Function (PMF));
+    C[Continuous Random Variable] --&gt; D(Probability Density Function (PDF));
+    B --&gt; E(Cumulative Distribution Function (CDF));
+    D --&gt; E;
+    E --&gt; F(Expected Value &amp; Variance);
+
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="common-probability-distributions" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="common-probability-distributions"><span class="header-section-number">6.5</span> Common Probability Distributions</h2>
+<p>This section introduces many commonly encountered probability distributions, highlighting their properties and applications.</p>
+<section id="bernoulli-distribution" class="level3" data-number="6.5.1">
+<h3 data-number="6.5.1" class="anchored" data-anchor-id="bernoulli-distribution"><span class="header-section-number">6.5.1</span> Bernoulli Distribution</h3>
+<p>The Bernoulli distribution models a single trial with two possible outcomes: success (1) or failure (0). The probability of success is denoted by <span class="math inline">\(p\)</span>, and the probability of failure is <span class="math inline">\(1-p\)</span>. The PMF is:</p>
+<p><span class="math inline">\(P(X=k) = p^k (1-p)^{1-k}\)</span> for <span class="math inline">\(k \in \{0, 1\}\)</span></p>
+<p>where <span class="math inline">\(X\)</span> is the Bernoulli random variable.</p>
+<p>The expected value is <span class="math inline">\(E[X] = p\)</span>, and the variance is <span class="math inline">\(Var(X) = p(1-p)\)</span>.</p>
+</section>
+<section id="binomial-distribution" class="level3" data-number="6.5.2">
+<h3 data-number="6.5.2" class="anchored" data-anchor-id="binomial-distribution"><span class="header-section-number">6.5.2</span> Binomial Distribution</h3>
+<p>The binomial distribution models the number of successes in a fixed number of independent Bernoulli trials. It’s characterized by two parameters: <span class="math inline">\(n\)</span> (number of trials) and <span class="math inline">\(p\)</span> (probability of success in each trial). The PMF is:</p>
+<p><span class="math inline">\(P(X=k) = \binom{n}{k} p^k (1-p)^{n-k}\)</span> for <span class="math inline">\(k \in \{0, 1, \dots, n\}\)</span></p>
+<p>where <span class="math inline">\(\binom{n}{k} = \frac{n!}{k!(n-k)!}\)</span> is the binomial coefficient.</p>
+<p>The expected value is <span class="math inline">\(E[X] = np\)</span>, and the variance is <span class="math inline">\(Var(X) = np(1-p)\)</span>.</p>
+</section>
+<section id="poisson-distribution" class="level3" data-number="6.5.3">
+<h3 data-number="6.5.3" class="anchored" data-anchor-id="poisson-distribution"><span class="header-section-number">6.5.3</span> Poisson Distribution</h3>
+<p>The Poisson distribution models the number of events occurring in a fixed interval of time or space, given a constant average rate of events. It’s characterized by a single parameter, <span class="math inline">\(\lambda\)</span> (the average rate of events). The PMF is:</p>
+<p><span class="math inline">\(P(X=k) = \frac{e^{-\lambda} \lambda^k}{k!}\)</span> for <span class="math inline">\(k \in \{0, 1, 2, \dots\}\)</span></p>
+<p>where <span class="math inline">\(e\)</span> is the base of the natural logarithm.</p>
+<p>The expected value is <span class="math inline">\(E[X] = \lambda\)</span>, and the variance is <span class="math inline">\(Var(X) = \lambda\)</span>.</p>
+</section>
+<section id="normal-distribution" class="level3" data-number="6.5.4">
+<h3 data-number="6.5.4" class="anchored" data-anchor-id="normal-distribution"><span class="header-section-number">6.5.4</span> Normal Distribution</h3>
+<p>The normal (or Gaussian) distribution is a continuous distribution, symmetric around its mean, and characterized by its mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span>. Its PDF is:</p>
+<p><span class="math inline">\(f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}\)</span></p>
+<p>The expected value is <span class="math inline">\(E[X] = \mu\)</span>, and the variance is <span class="math inline">\(Var(X) = \sigma^2\)</span>. The normal distribution is essential in many areas of statistics due to the central limit theorem.</p>
+</section>
+<section id="uniform-distribution" class="level3" data-number="6.5.5">
+<h3 data-number="6.5.5" class="anchored" data-anchor-id="uniform-distribution"><span class="header-section-number">6.5.5</span> Uniform Distribution</h3>
+<p>The uniform distribution assigns equal probability to all values within a given range <span class="math inline">\([a, b]\)</span>. Its PDF is:</p>
+<p><span class="math inline">\(f(x) = \begin{cases} \frac{1}{b-a} &amp; a \le x \le b \\ 0 &amp; \text{otherwise} \end{cases}\)</span></p>
+<p>The expected value is <span class="math inline">\(E[X] = \frac{a+b}{2}\)</span>, and the variance is <span class="math inline">\(Var(X) = \frac{(b-a)^2}{12}\)</span>.</p>
+<div id="f4d7cfae" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> bernoulli, binom, poisson, norm, uniform</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting various distributions</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>x_bernoulli <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">1</span>]</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>x_binom <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="dv">11</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>x_poisson <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="dv">11</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>x_normal <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">100</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>x_uniform <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">10</span>))</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>plt.bar(x_bernoulli, bernoulli.pmf(x_bernoulli, <span class="fl">0.6</span>))</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Bernoulli Distribution (p=0.6)'</span>)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>plt.bar(x_binom, binom.pmf(x_binom, <span class="dv">10</span>, <span class="fl">0.5</span>))</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Binomial Distribution (n=10, p=0.5)'</span>)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>)</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>plt.bar(x_poisson, poisson.pmf(x_poisson, <span class="dv">3</span>))</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Poisson Distribution (λ=3)'</span>)</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>plt.plot(x_normal, norm.pdf(x_normal, <span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Normal Distribution (μ=0, σ=1)'</span>)</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>)</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>plt.plot(x_uniform, uniform.pdf(x_uniform, <span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Uniform Distribution (a=0, b=1)'</span>)</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="statistical-concepts_files/figure-html/cell-7-output-1.png" width="1430" height="950" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A[Common Distributions] --&gt; B(Bernoulli);
+    A --&gt; C(Binomial);
+    A --&gt; D(Poisson);
+    A --&gt; E(Normal);
+    A --&gt; F(Uniform);
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

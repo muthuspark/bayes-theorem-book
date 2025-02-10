@@ -18,7 +18,7 @@ $\hat{I} = \frac{b-a}{N} \sum_{i=1}^N f(X_i)$
 As $N$ increases, the estimate $\hat{I}$ converges to the true value $I$ by the Law of Large Numbers. The error of this estimation decreases with $\mathcal{O}(N^{-1/2})$
 
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
@@ -89,7 +89,7 @@ While Monte Carlo integration is powerful, it has limitations:
 
 * **Slow Convergence:** The rate of convergence is  $O(N^{-1/2})$, meaning that to halve the error, we need to quadruple the number of samples. This can be computationally expensive for high accuracy.
 * **High Variance:** The variance of the estimate can be high, especially if the function $f(x)$ is highly variable or the number of samples is small.  This can lead to inaccurate estimates, unless a large number of samples is used.
-* **Dimensionality Curse:**  The computational cost grows exponentially with the dimensionality of the integral.  This makes basic Monte Carlo impractical for high-dimensional problems.  More advanced techniques, such as importance sampling and Markov Chain Monte Carlo (MCMC), are needed to mitigate these issues.
+* **Dimensionality Curse:**  The computational cost grows exponentially with the dimensionality of the essential.  This makes basic Monte Carlo impractical for high-dimensional problems.  More advanced techniques, such as importance sampling and Markov Chain Monte Carlo (MCMC), are needed to mitigate these issues.
 
 
 
@@ -101,7 +101,7 @@ Markov Chains are fundamental to understanding Markov Chain Monte Carlo (MCMC) m
 
 ### Definition and Properties of Markov Chains
 
-A Markov chain is a stochastic process defined by a sequence of random variables, $\{X_0, X_1, X_2, \dots\}$, taking values in a state space $\mathcal{S}$. The crucial property defining a Markov chain is the **Markov property**:
+A Markov chain is a stochastic process defined by a sequence of random variables, $\{X_0, X_1, X_2, \dots\}$, taking values in a state space $\mathcal{S}$. The essential property defining a Markov chain is the **Markov property**:
 
 $P(X_{t+1} = x | X_t = x_t, X_{t-1} = x_{t-1}, \dots, X_0 = x_0) = P(X_{t+1} = x | X_t = x_t)$
 
@@ -117,7 +117,7 @@ These probabilities form the **transition matrix** $\mathbf{P}$, where the eleme
 * $\sum_{j \in \mathcal{S}} P_{ij} = 1$ for all $i \in \mathcal{S}$ (rows sum to 1)
 
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 
@@ -155,12 +155,12 @@ This is a system of linear equations.  If a stationary distribution exists, it r
 
 ### Ergodic Markov Chains
 
-An ergodic Markov chain is one that satisfies several important properties:
+An ergodic Markov chain is one that satisfies many important properties:
 
 * **Irreducibility:**  Every state can be reached from every other state (possibly in multiple steps).
 * **Aperiodicity:** There are no periodic cycles.  The chain doesn't get stuck in repeating patterns of states.
 
-Ergodicity guarantees that the Markov chain will converge to a unique stationary distribution regardless of the starting state.  This is crucial for MCMC methods, as we want our sampling procedure to converge to the target distribution.
+Ergodicity guarantees that the Markov chain will converge to a unique stationary distribution regardless of the starting state.  This is essential for MCMC methods, as we want our sampling procedure to converge to the target distribution.
 
 
 ### Detailed Balance and Reversibility
@@ -195,7 +195,7 @@ This diagram illustrates detailed balance between states A and B.  The bidirecti
 
 ## Markov Chain Monte Carlo (MCMC)
 
-Markov Chain Monte Carlo (MCMC) methods are a powerful class of algorithms used to sample from probability distributions, particularly those that are difficult or impossible to sample from directly.  This is crucial in Bayesian inference, where we often need to sample from posterior distributions that have complex forms.
+Markov Chain Monte Carlo (MCMC) methods are a powerful class of algorithms used to sample from probability distributions, particularly those that are difficult or impossible to sample from directly.  This is essential in Bayesian inference, where we often need to sample from posterior distributions that have complex forms.
 
 
 ### The MCMC Idea: Sampling from a Target Distribution
@@ -227,7 +227,7 @@ Many different MCMC algorithms exist, each with its strengths and weaknesses. Th
 The choice of algorithm depends on the specifics of the target distribution and the computational resources available.   Implementing these algorithms often requires careful tuning of parameters (e.g., proposal distribution parameters) to ensure efficient convergence.
 
 
-```\{python}
+```{python}
 #| echo: true
 #Illustrative (simplified) Metropolis-Hastings
 import numpy as np
@@ -266,7 +266,7 @@ plt.ylabel("Density")
 plt.show()
 ```
 
-This code provides a simplified illustration of the Metropolis-Hastings algorithm.  Real-world implementations often require more sophisticated handling of proposal distributions and acceptance criteria.  The choice of proposal distribution's variance (sigma) significantly impacts the algorithm's efficiency.  Too small and it moves slowly, too large and samples are often rejected.
+This code provides a simplified illustration of the Metropolis-Hastings algorithm.  Real-world implementations often require more complex handling of proposal distributions and acceptance criteria.  The choice of proposal distribution's variance (sigma) significantly impacts the algorithm's efficiency.  Too small and it moves slowly, too large and samples are often rejected.
 
 
 ```{mermaid}
@@ -315,7 +315,7 @@ The Metropolis-Hastings algorithm generates a Markov chain whose stationary dist
 
 ### Choosing a Proposal Distribution
 
-The choice of proposal distribution, $q(x^* | x^{(t)})$, is crucial for the efficiency of the Metropolis-Hastings algorithm.  A poorly chosen proposal can lead to slow convergence or high rejection rates.  Ideally, the proposal should:
+The choice of proposal distribution, $q(x^* | x^{(t)})$, is essential for the efficiency of the Metropolis-Hastings algorithm.  A poorly chosen proposal can lead to slow convergence or high rejection rates.  Ideally, the proposal should:
 
 * **Explore the state space adequately:** The proposal should be able to reach all regions of significant probability mass in the target distribution.
 
@@ -327,13 +327,13 @@ Common choices include Gaussian distributions, but other distributions (e.g., un
 
 ### Acceptance Rate and Efficiency
 
-The acceptance rate—the fraction of proposed states that are accepted—is a key indicator of the efficiency of the Metropolis-Hastings algorithm.  A very low acceptance rate suggests that the proposal distribution is too broad; the algorithm is wasting time generating proposals that are almost always rejected. Conversely, a very high acceptance rate might indicate that the proposal distribution is too narrow; the chain is moving too slowly to effectively explore the state space.
+The acceptance rate—the fraction of proposed states that are accepted—is a key indicator of the efficiency of the Metropolis-Hastings algorithm.  A very low acceptance rate suggests that the proposal distribution is too broad; the algorithm is wasting time generating proposals that are almost always rejected. Conversely, a very high acceptance rate might indicate that the proposal distribution is too narrow; the chain is moving too slowly to effectively look at the state space.
 
 An optimal acceptance rate is often considered to be around 23% for high-dimensional problems, although this is a rule of thumb and may vary depending on the specific problem.  This is a balance between exploration and exploitation.
 
 ### Example: Implementing Metropolis-Hastings in Python
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
@@ -410,7 +410,7 @@ The algorithm assumes that the conditional distributions,  $\pi(x_i | x_1, \dots
 
 Let's consider a bivariate Gaussian distribution as an example. The conditional distributions for a bivariate Gaussian are also Gaussian, which makes Gibbs sampling particularly straightforward.
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 import matplotlib.pyplot as plt
@@ -481,7 +481,7 @@ Gibbs sampling is generally more efficient than Metropolis-Hastings when the con
 
 ## Convergence Diagnostics
 
-Assessing the convergence of MCMC algorithms is crucial for ensuring the reliability of the generated samples.  If the Markov chain hasn't converged to its stationary distribution, the samples will not accurately reflect the target distribution, leading to potentially erroneous inferences.
+Assessing the convergence of MCMC algorithms is essential for ensuring the reliability of the generated samples.  If the Markov chain hasn't converged to its stationary distribution, the samples will not accurately reflect the target distribution, leading to potentially erroneous inferences.
 
 
 ### Assessing Convergence: Why it Matters
@@ -497,7 +497,7 @@ A first step in assessing convergence is visual inspection.  We typically plot:
 
 * **Histograms:**  Histograms visualize the distribution of the samples.  If the chain has converged, the histogram should resemble the target distribution (or at least a reasonable approximation).
 
-```\{python}
+```{python}
 #| echo: true
 import matplotlib.pyplot as plt
 import numpy as np
@@ -556,7 +556,7 @@ This code generates example trace plots and histograms to illustrate how visual 
 The autocorrelation function (ACF) measures the correlation between samples separated by different lags.  High autocorrelation indicates strong dependence between consecutive samples, suggesting slow convergence.  Ideally, we want low autocorrelation, especially at larger lags.  ACF plots show the correlation as a function of lag, visually indicating the rate of decay of correlation.
 
 
-```\{python}
+```{python}
 #| echo: true
 import matplotlib.pyplot as plt
 from statsmodels.graphics.tsaplots import plot_acf
@@ -591,7 +591,7 @@ where:
 * $B$ is the between-chain variance
 
 
-```\{python}
+```{python}
 #| echo: true
 import numpy as np
 
@@ -615,7 +615,7 @@ print(f'Gelman-Rubin Diagnostic (R_hat): {R_hat}')
 The effective sample size ($n_{eff}$) accounts for the autocorrelation in the MCMC samples.  It represents the number of independent samples that would provide the same amount of information as the correlated MCMC samples.  A lower $n_{eff}$ relative to the total number of samples indicates high autocorrelation and thus, less efficient sampling.
 
 
-```\{python}
+```{python}
 #| echo: true
 from scipy.stats import autocorr
 
@@ -628,7 +628,7 @@ neff = len(chain) / (1 + autocorrelations[1])
 
 print(f"Effective Sample Size (neff): {neff}")
 
-#More sophisticated Neff estimations are available in libraries like pymc.
+#More complex Neff estimations are available in libraries like pymc.
 ```
 
 This simplified example uses only the first autocorrelation; better estimates exist in libraries that take into account the entire autocorrelation function.   Ideally, $n_{eff}$ should be a significant fraction of the total number of samples.  Low $n_{eff}$ suggests the need for more iterations or a better-tuned MCMC algorithm.  Libraries like `pymc` provide more robust functions for calculating the effective sample size.
@@ -641,9 +641,9 @@ This section delves into more advanced aspects of MCMC, providing guidance for t
 
 ### Choosing the Right MCMC Algorithm
 
-The choice of MCMC algorithm depends on several factors:
+The choice of MCMC algorithm depends on many factors:
 
-* **Target distribution:** The complexity and dimensionality of the target distribution significantly influence the choice.  Simple distributions might be adequately sampled using Metropolis-Hastings, while complex, high-dimensional distributions often benefit from more sophisticated techniques.
+* **Target distribution:** The complexity and dimensionality of the target distribution significantly influence the choice.  Simple distributions might be adequately sampled using Metropolis-Hastings, while complex, high-dimensional distributions often benefit from more complex techniques.
 
 * **Computational resources:**  Some algorithms, such as Hamiltonian Monte Carlo (HMC), are computationally more intensive than others (like Gibbs sampling). The available computational power and memory limitations should be considered.
 
@@ -660,27 +660,27 @@ High-dimensional problems pose significant challenges for MCMC algorithms.  The 
 
 * **Adaptive MCMC methods:** These algorithms adjust their proposal distributions during the sampling process to improve efficiency in high dimensions.
 
-* **Hamiltonian Monte Carlo (HMC) and its variants:**  These methods are often more efficient than Metropolis-Hastings in high-dimensional spaces because they use gradient information to explore the target distribution more effectively.
+* **Hamiltonian Monte Carlo (HMC) and its variants:**  These methods are often more efficient than Metropolis-Hastings in high-dimensional spaces because they use gradient information to look at the target distribution more effectively.
 
 
 ### Parallel MCMC
 
 Parallel computing can significantly accelerate MCMC sampling, particularly for high-dimensional problems or when multiple chains are used for convergence diagnostics. Strategies include:
 
-* **Running multiple independent chains:**  This allows for simultaneous sampling from the target distribution, facilitating convergence diagnostics and providing a more robust estimate of the posterior distribution.
+* **Running multiple independent chains:**  This allows for simultaneous sampling from the target distribution, supporting convergence diagnostics and providing a more robust estimate of the posterior distribution.
 
-* **Parallel tempering:** This technique runs multiple chains at different temperatures, allowing chains at higher temperatures to explore the state space more broadly, which helps chains at lower temperatures converge faster.
+* **Parallel tempering:** This technique runs multiple chains at different temperatures, allowing chains at higher temperatures to look at the state space more broadly, which helps chains at lower temperatures converge faster.
 
 
 ### Hamiltonian Monte Carlo (HMC) and No-U-Turn Sampler (NUTS)
 
-Hamiltonian Monte Carlo (HMC) is an advanced MCMC algorithm that leverages Hamiltonian dynamics to generate proposals.  It introduces an auxiliary momentum variable and uses Hamiltonian equations to simulate the movement of a particle in a potential energy field represented by the negative log-probability of the target distribution. This allows HMC to make large, informed steps, leading to much more efficient exploration of the target distribution, especially in high dimensions, compared to random-walk Metropolis.
+Hamiltonian Monte Carlo (HMC) is an advanced MCMC algorithm that uses Hamiltonian dynamics to generate proposals.  It introduces an auxiliary momentum variable and uses Hamiltonian equations to simulate the movement of a particle in a potential energy field represented by the negative log-probability of the target distribution. This allows HMC to make large, informed steps, leading to much more efficient exploration of the target distribution, especially in high dimensions, compared to random-walk Metropolis.
 
 
-The No-U-Turn Sampler (NUTS) is a sophisticated variant of HMC that automatically tunes the length of the Hamiltonian trajectory. This automates the crucial step of choosing the step size and integration time in standard HMC, making it more user-friendly and robust.  NUTS avoids the need for manual tuning and adapts to the target distribution's geometry, enhancing its efficiency.
+The No-U-Turn Sampler (NUTS) is a complex variant of HMC that automatically tunes the length of the Hamiltonian trajectory. This automates the essential step of choosing the step size and integration time in standard HMC, making it more user-friendly and robust.  NUTS avoids the need for manual tuning and adapts to the target distribution's geometry, enhancing its efficiency.
 
 
-```\{python}
+```{python}
 #| echo: true
 #Illustrative code (requires specialized libraries like PyMC or Stan):
 #This is not a full implementation but shows how it is used.
@@ -695,7 +695,7 @@ with pm.Model() as model:
 
     # Analyze the trace (convergence diagnostics, etc.)
     pm.summary(trace)
-    pm.traceplot(trace)
+    pm.plot_trace(trace)
     plt.show()
 
 ```
