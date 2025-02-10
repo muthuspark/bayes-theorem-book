@@ -20,10 +20,44 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -68,7 +102,42 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
 
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -261,7 +330,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../parts/markov-chain-monte-carlo-mcmc/implementation-with-pymc3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Implementation with PyMC3</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Implementation with PyMC</span></span></a>
   </div>
 </li>
       </ul>
@@ -399,8 +468,54 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction-to-prior-selection" id="toc-introduction-to-prior-selection" class="nav-link active" data-scroll-target="#introduction-to-prior-selection"><span class="header-section-number">13.0.1</span> Introduction to Prior Selection</a></li>
+  <li><a href="#the-role-of-priors-in-bayesian-inference" id="toc-the-role-of-priors-in-bayesian-inference" class="nav-link" data-scroll-target="#the-role-of-priors-in-bayesian-inference"><span class="header-section-number">13.0.2</span> The Role of Priors in Bayesian Inference</a></li>
+  <li><a href="#impact-of-prior-choice-on-inference" id="toc-impact-of-prior-choice-on-inference" class="nav-link" data-scroll-target="#impact-of-prior-choice-on-inference"><span class="header-section-number">13.0.3</span> Impact of Prior Choice on Inference</a></li>
+  <li><a href="#informative-priors" id="toc-informative-priors" class="nav-link" data-scroll-target="#informative-priors"><span class="header-section-number">13.1</span> Informative Priors</a>
+  <ul class="collapse">
+  <li><a href="#defining-informative-priors" id="toc-defining-informative-priors" class="nav-link" data-scroll-target="#defining-informative-priors"><span class="header-section-number">13.1.1</span> Defining Informative Priors</a></li>
+  <li><a href="#examples-of-informative-priors-beta-gamma-normal" id="toc-examples-of-informative-priors-beta-gamma-normal" class="nav-link" data-scroll-target="#examples-of-informative-priors-beta-gamma-normal"><span class="header-section-number">13.1.2</span> Examples of Informative Priors (Beta, Gamma, Normal)</a></li>
+  <li><a href="#using-expert-knowledge-to-define-priors" id="toc-using-expert-knowledge-to-define-priors" class="nav-link" data-scroll-target="#using-expert-knowledge-to-define-priors"><span class="header-section-number">13.1.3</span> Using Expert Knowledge to Define Priors</a></li>
+  <li><a href="#prior-elicitation-techniques" id="toc-prior-elicitation-techniques" class="nav-link" data-scroll-target="#prior-elicitation-techniques"><span class="header-section-number">13.1.4</span> Prior Elicitation Techniques</a></li>
+  <li><a href="#advantages-and-disadvantages-of-informative-priors" id="toc-advantages-and-disadvantages-of-informative-priors" class="nav-link" data-scroll-target="#advantages-and-disadvantages-of-informative-priors"><span class="header-section-number">13.1.5</span> Advantages and Disadvantages of Informative Priors</a></li>
+  <li><a href="#implementation-in-python-pymc-stan" id="toc-implementation-in-python-pymc-stan" class="nav-link" data-scroll-target="#implementation-in-python-pymc-stan"><span class="header-section-number">13.1.6</span> Implementation in Python (PyMC, Stan)</a></li>
+  </ul></li>
+  <li><a href="#non-informative-priors" id="toc-non-informative-priors" class="nav-link" data-scroll-target="#non-informative-priors"><span class="header-section-number">13.2</span> Non-Informative Priors</a>
+  <ul class="collapse">
+  <li><a href="#the-concept-of-non-informative-priors" id="toc-the-concept-of-non-informative-priors" class="nav-link" data-scroll-target="#the-concept-of-non-informative-priors"><span class="header-section-number">13.2.1</span> The Concept of Non-Informative Priors</a></li>
+  <li><a href="#types-of-non-informative-priors-uniform-jeffreys-prior" id="toc-types-of-non-informative-priors-uniform-jeffreys-prior" class="nav-link" data-scroll-target="#types-of-non-informative-priors-uniform-jeffreys-prior"><span class="header-section-number">13.2.2</span> Types of Non-Informative Priors (Uniform, Jeffreys Prior)</a></li>
+  <li><a href="#limitations-and-criticisms-of-non-informative-priors" id="toc-limitations-and-criticisms-of-non-informative-priors" class="nav-link" data-scroll-target="#limitations-and-criticisms-of-non-informative-priors"><span class="header-section-number">13.2.3</span> Limitations and Criticisms of Non-Informative Priors</a></li>
+  <li><a href="#improper-priors" id="toc-improper-priors" class="nav-link" data-scroll-target="#improper-priors"><span class="header-section-number">13.2.4</span> Improper Priors</a></li>
+  <li><a href="#implementation-in-python-pymc-stan-1" id="toc-implementation-in-python-pymc-stan-1" class="nav-link" data-scroll-target="#implementation-in-python-pymc-stan-1"><span class="header-section-number">13.2.5</span> Implementation in Python (PyMC, Stan)</a></li>
+  </ul></li>
+  <li><a href="#empirical-bayes" id="toc-empirical-bayes" class="nav-link" data-scroll-target="#empirical-bayes"><span class="header-section-number">13.3</span> Empirical Bayes</a>
+  <ul class="collapse">
+  <li><a href="#introduction-to-empirical-bayes" id="toc-introduction-to-empirical-bayes" class="nav-link" data-scroll-target="#introduction-to-empirical-bayes"><span class="header-section-number">13.3.1</span> Introduction to Empirical Bayes</a></li>
+  <li><a href="#estimating-hyperparameters-from-data" id="toc-estimating-hyperparameters-from-data" class="nav-link" data-scroll-target="#estimating-hyperparameters-from-data"><span class="header-section-number">13.3.2</span> Estimating Hyperparameters from Data</a></li>
+  <li><a href="#advantages-and-disadvantages-of-empirical-bayes" id="toc-advantages-and-disadvantages-of-empirical-bayes" class="nav-link" data-scroll-target="#advantages-and-disadvantages-of-empirical-bayes"><span class="header-section-number">13.3.3</span> Advantages and Disadvantages of Empirical Bayes</a></li>
+  <li><a href="#implementation-in-python-using-scikit-learn" id="toc-implementation-in-python-using-scikit-learn" class="nav-link" data-scroll-target="#implementation-in-python-using-scikit-learn"><span class="header-section-number">13.3.4</span> Implementation in Python (using scikit-learn)</a></li>
+  <li><a href="#applications-of-empirical-bayes" id="toc-applications-of-empirical-bayes" class="nav-link" data-scroll-target="#applications-of-empirical-bayes"><span class="header-section-number">13.3.5</span> Applications of Empirical Bayes</a></li>
+  </ul></li>
+  <li><a href="#prior-sensitivity-analysis" id="toc-prior-sensitivity-analysis" class="nav-link" data-scroll-target="#prior-sensitivity-analysis"><span class="header-section-number">13.4</span> Prior Sensitivity Analysis</a>
+  <ul class="collapse">
+  <li><a href="#assessing-the-impact-of-prior-choice" id="toc-assessing-the-impact-of-prior-choice" class="nav-link" data-scroll-target="#assessing-the-impact-of-prior-choice"><span class="header-section-number">13.4.1</span> Assessing the Impact of Prior Choice</a></li>
+  <li><a href="#methods-for-sensitivity-analysis" id="toc-methods-for-sensitivity-analysis" class="nav-link" data-scroll-target="#methods-for-sensitivity-analysis"><span class="header-section-number">13.4.2</span> Methods for Sensitivity Analysis</a></li>
+  <li><a href="#visualizing-prior-sensitivity" id="toc-visualizing-prior-sensitivity" class="nav-link" data-scroll-target="#visualizing-prior-sensitivity"><span class="header-section-number">13.4.3</span> Visualizing Prior Sensitivity</a></li>
+  <li><a href="#robustness-of-bayesian-inference-to-prior-choice" id="toc-robustness-of-bayesian-inference-to-prior-choice" class="nav-link" data-scroll-target="#robustness-of-bayesian-inference-to-prior-choice"><span class="header-section-number">13.4.4</span> Robustness of Bayesian Inference to Prior Choice</a></li>
+  </ul></li>
+  <li><a href="#choosing-the-right-prior-best-practices" id="toc-choosing-the-right-prior-best-practices" class="nav-link" data-scroll-target="#choosing-the-right-prior-best-practices"><span class="header-section-number">13.5</span> Choosing the Right Prior: Best Practices</a>
+  <ul class="collapse">
+  <li><a href="#considerations-for-prior-selection" id="toc-considerations-for-prior-selection" class="nav-link" data-scroll-target="#considerations-for-prior-selection"><span class="header-section-number">13.5.1</span> Considerations for Prior Selection</a></li>
+  <li><a href="#guidelines-for-selecting-appropriate-priors" id="toc-guidelines-for-selecting-appropriate-priors" class="nav-link" data-scroll-target="#guidelines-for-selecting-appropriate-priors"><span class="header-section-number">13.5.2</span> Guidelines for Selecting Appropriate Priors</a></li>
+  <li><a href="#prior-selection-in-different-bayesian-models" id="toc-prior-selection-in-different-bayesian-models" class="nav-link" data-scroll-target="#prior-selection-in-different-bayesian-models"><span class="header-section-number">13.5.3</span> Prior Selection in Different Bayesian Models</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -424,8 +539,900 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="introduction-to-prior-selection" class="level3" data-number="13.0.1">
+<h3 data-number="13.0.1" class="anchored" data-anchor-id="introduction-to-prior-selection"><span class="header-section-number">13.0.1</span> Introduction to Prior Selection</h3>
+<p>Bayesian inference centers around updating our beliefs about a parameter (or hypothesis) in light of new data. This update is achieved using Bayes’ Theorem:</p>
+<p><span class="math inline">\(P(\theta|D) = \frac{P(D|\theta)P(\theta)}{P(D)}\)</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(P(\theta|D)\)</span> is the <em>posterior</em> distribution – our updated belief about the parameter <span class="math inline">\(\theta\)</span> given the data <span class="math inline">\(D\)</span>.</li>
+<li><span class="math inline">\(P(D|\theta)\)</span> is the <em>likelihood</em> – the probability of observing the data given a specific value of <span class="math inline">\(\theta\)</span>.</li>
+<li><span class="math inline">\(P(\theta)\)</span> is the <em>prior</em> distribution – our belief about the parameter <span class="math inline">\(\theta\)</span> <em>before</em> observing any data.</li>
+<li><span class="math inline">\(P(D)\)</span> is the <em>evidence</em> – the probability of observing the data, which acts as a normalizing constant.</li>
+</ul>
+<p>The prior distribution is a essential component of Bayesian inference. It encapsulates our prior knowledge or beliefs about the parameter before we analyze the data. Choosing an appropriate prior is therefore a critical step in performing a Bayesian analysis. A poorly chosen prior can lead to misleading or inaccurate inferences, while a well-chosen prior can significantly improve the efficiency and accuracy of the analysis. This chapter explores different strategies for selecting priors and examines the impact of prior choices on the resulting inferences.</p>
+</section>
+<section id="the-role-of-priors-in-bayesian-inference" class="level3" data-number="13.0.2">
+<h3 data-number="13.0.2" class="anchored" data-anchor-id="the-role-of-priors-in-bayesian-inference"><span class="header-section-number">13.0.2</span> The Role of Priors in Bayesian Inference</h3>
+<p>The prior distribution represents our initial uncertainty about the parameter <span class="math inline">\(\theta\)</span>. It can be based on previous studies, expert knowledge, theoretical considerations, or simply a lack of strong prior beliefs (in which case, we might choose a relatively non-informative prior). The prior’s influence on the posterior is particularly strong when the amount of data is limited. As more data becomes available, the likelihood function dominates, and the influence of the prior diminishes. This is a key aspect of Bayesian updating: data gradually refines our initial beliefs.</p>
+<p>For example, if we’re estimating the probability of success in a coin flip, we might initially believe the coin is fair. We could represent this prior belief with a Beta(1,1) distribution (a uniform distribution on [0,1]). After observing 10 heads out of 10 flips, our posterior will shift significantly toward a higher probability of heads. However, if we had started with a prior that strongly favored biased coins (e.g., Beta(0.1, 0.1)), even the strong data wouldn’t shift our posterior as dramatically.</p>
+</section>
+<section id="impact-of-prior-choice-on-inference" class="level3" data-number="13.0.3">
+<h3 data-number="13.0.3" class="anchored" data-anchor-id="impact-of-prior-choice-on-inference"><span class="header-section-number">13.0.3</span> Impact of Prior Choice on Inference</h3>
+<p>The choice of prior significantly impacts the posterior distribution and, consequently, any inferences drawn from the analysis. Let’s illustrate this with a simple example using Python and the <code>pymc</code> library. We’ll model the rate parameter <span class="math inline">\(\lambda\)</span> of a Poisson distribution.</p>
+<div id="3cbca0b5" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pymc <span class="im">as</span> pm</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Observed data</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.poisson(<span class="dv">5</span>, size<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior 1: Weakly informative prior (Gamma)</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> model1:</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    lambda_1 <span class="op">=</span> pm.Gamma(<span class="st">"lambda"</span>, alpha<span class="op">=</span><span class="dv">1</span>, beta<span class="op">=</span><span class="dv">1</span>)  <span class="co"># Prior</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    obs_1 <span class="op">=</span> pm.Poisson(<span class="st">"obs"</span>, mu<span class="op">=</span>lambda_1, observed<span class="op">=</span>data)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    trace1 <span class="op">=</span> pm.sample(<span class="dv">1000</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior 2: More informative prior (Gamma)</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> model2:</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    lambda_2 <span class="op">=</span> pm.Gamma(<span class="st">"lambda"</span>, alpha<span class="op">=</span><span class="dv">5</span>, beta<span class="op">=</span><span class="dv">1</span>) <span class="co">#Prior</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    obs_2 <span class="op">=</span> pm.Poisson(<span class="st">"obs"</span>, mu<span class="op">=</span>lambda_2, observed<span class="op">=</span>data)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    trace2 <span class="op">=</span> pm.sample(<span class="dv">1000</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot the results</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>pm.plot_trace(trace1, var_names<span class="op">=</span>[<span class="st">"lambda"</span>])</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>pm.plot_trace(trace2, var_names<span class="op">=</span>[<span class="st">"lambda"</span>])</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>pm.summary(trace1)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>pm.summary(trace2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [lambda]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">/home/leopard/development/QuantumTraderX/venv/lib/python3.12/site-packages/rich/live.py:231: UserWarning: install 
+"ipywidgets" for Jupyter support
+  warnings.warn('install "ipywidgets" for Jupyter support')
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 1 seconds.
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [lambda]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">/home/leopard/development/QuantumTraderX/venv/lib/python3.12/site-packages/rich/live.py:231: UserWarning: install 
+"ipywidgets" for Jupyter support
+  warnings.warn('install "ipywidgets" for Jupyter support')
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 1 seconds.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="prior-selection_files/figure-html/cell-2-output-8.png" width="912" height="209" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="prior-selection_files/figure-html/cell-2-output-9.png" width="912" height="209" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div>
 
 
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">sd</th>
+<th data-quarto-table-cell-role="th">hdi_3%</th>
+<th data-quarto-table-cell-role="th">hdi_97%</th>
+<th data-quarto-table-cell-role="th">mcse_mean</th>
+<th data-quarto-table-cell-role="th">mcse_sd</th>
+<th data-quarto-table-cell-role="th">ess_bulk</th>
+<th data-quarto-table-cell-role="th">ess_tail</th>
+<th data-quarto-table-cell-role="th">r_hat</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">lambda</td>
+<td>5.026</td>
+<td>0.674</td>
+<td>3.831</td>
+<td>6.35</td>
+<td>0.017</td>
+<td>0.012</td>
+<td>1581.0</td>
+<td>2553.0</td>
+<td>1.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>This code defines two models with different Gamma priors for <span class="math inline">\(\lambda\)</span>. The first uses a weakly informative prior (alpha=1, beta=1), while the second uses a more informative prior (alpha=5, beta=1), reflecting a prior belief that <span class="math inline">\(\lambda\)</span> is likely around 5. The impact of these different priors on the posterior distribution is visualized by comparing the trace plots and summary statistics. You will observe that the more informative prior leads to a posterior distribution concentrated closer to the prior mean, even with the same observed data. The choice of prior, therefore, affects the posterior and shapes our conclusions.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+A[Prior Distribution] --&gt; B(Likelihood);
+B --&gt; C{Bayes' Theorem};
+C --&gt; D[Posterior Distribution];
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>This diagram visually represents how the prior, likelihood, and Bayes’ theorem combine to generate the posterior. The choice of prior directly influences the shape of the resulting posterior. A careful consideration of prior selection is therefore essential for ensuring that Bayesian analysis is robust and reliable.</p>
+</section>
+<section id="informative-priors" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="informative-priors"><span class="header-section-number">13.1</span> Informative Priors</h2>
+<section id="defining-informative-priors" class="level3" data-number="13.1.1">
+<h3 data-number="13.1.1" class="anchored" data-anchor-id="defining-informative-priors"><span class="header-section-number">13.1.1</span> Defining Informative Priors</h3>
+<p>Informative priors incorporate prior knowledge or beliefs about the parameter of interest into the Bayesian analysis. Unlike non-informative priors, which aim to have minimal influence on the posterior, informative priors actively shape the posterior distribution. This is particularly useful when prior knowledge is available from previous studies, expert opinions, or theoretical considerations. The strength of the prior’s influence depends on the amount of data available – with abundant data, the likelihood often dominates, reducing the prior’s impact. However, with limited data, the prior can significantly shape the posterior inference. A well-chosen informative prior can improve the efficiency and precision of Bayesian estimates.</p>
+</section>
+<section id="examples-of-informative-priors-beta-gamma-normal" class="level3" data-number="13.1.2">
+<h3 data-number="13.1.2" class="anchored" data-anchor-id="examples-of-informative-priors-beta-gamma-normal"><span class="header-section-number">13.1.2</span> Examples of Informative Priors (Beta, Gamma, Normal)</h3>
+<p>Several common probability distributions serve as informative priors, depending on the nature of the parameter being estimated:</p>
+<ul>
+<li><p><strong>Beta distribution:</strong> Often used for parameters representing probabilities (e.g., success rate in a binomial experiment). The parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> control the shape. A Beta(1,1) is a uniform distribution, while other values reflect varying degrees of belief about the probability. For example, Beta(10,2) expresses a stronger belief that the probability is closer to 1. The probability density function (pdf) is given by:</p>
+<p><span class="math inline">\(f(x;\alpha,\beta) = \frac{1}{B(\alpha,\beta)}x^{\alpha-1}(1-x)^{\beta-1}\)</span> for <span class="math inline">\(0 \le x \le 1\)</span></p>
+<p>where <span class="math inline">\(B(\alpha,\beta)\)</span> is the Beta function.</p></li>
+<li><p><strong>Gamma distribution:</strong> Suitable for positive-valued parameters, often used for rates (e.g., in Poisson or exponential distributions). The parameters <span class="math inline">\(\alpha\)</span> (shape) and <span class="math inline">\(\beta\)</span> (rate) control the shape and scale.</p>
+<p><span class="math inline">\(f(x;\alpha,\beta) = \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}\)</span> for <span class="math inline">\(x \ge 0\)</span></p>
+<p>where <span class="math inline">\(\Gamma(\alpha)\)</span> is the Gamma function.</p></li>
+<li><p><strong>Normal distribution:</strong> A versatile choice for parameters that can take on any real value. The parameters <span class="math inline">\(\mu\)</span> (mean) and <span class="math inline">\(\sigma\)</span> (standard deviation) specify the location and spread.</p>
+<p><span class="math inline">\(f(x;\mu,\sigma) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}\)</span> for <span class="math inline">\(-\infty &lt; x &lt; \infty\)</span></p></li>
+</ul>
+</section>
+<section id="using-expert-knowledge-to-define-priors" class="level3" data-number="13.1.3">
+<h3 data-number="13.1.3" class="anchored" data-anchor-id="using-expert-knowledge-to-define-priors"><span class="header-section-number">13.1.3</span> Using Expert Knowledge to Define Priors</h3>
+<p>Incorporating expert knowledge is essential in selecting an informative prior. This might involve eliciting prior beliefs through structured interviews or surveys. For example, asking an expert to specify a range of plausible values and quantiles for the parameter helps in determining an appropriate prior distribution and its parameters. This subjective approach acknowledges that prior knowledge is not always based on formal data but on professional judgment.</p>
+</section>
+<section id="prior-elicitation-techniques" class="level3" data-number="13.1.4">
+<h3 data-number="13.1.4" class="anchored" data-anchor-id="prior-elicitation-techniques"><span class="header-section-number">13.1.4</span> Prior Elicitation Techniques</h3>
+<p>Prior elicitation methods aim to systematically translate expert knowledge into a quantitative prior distribution. Some popular techniques include:</p>
+<ul>
+<li><strong>Quantile elicitation:</strong> Asking the expert to specify quantiles (e.g., 5th, 50th, 95th percentiles) of the parameter’s distribution. This information can be used to fit a suitable distribution.</li>
+<li><strong>Histogram elicitation:</strong> Requesting the expert to draw a histogram representing their belief about the parameter’s distribution. This visual approach aids in better understanding their perspective.</li>
+<li><strong>Comparative elicitation:</strong> Presenting the expert with different options (e.g., different prior distributions or parameter values) and asking for comparative judgments about their plausibility.</li>
+</ul>
+</section>
+<section id="advantages-and-disadvantages-of-informative-priors" class="level3" data-number="13.1.5">
+<h3 data-number="13.1.5" class="anchored" data-anchor-id="advantages-and-disadvantages-of-informative-priors"><span class="header-section-number">13.1.5</span> Advantages and Disadvantages of Informative Priors</h3>
+<p><strong>Advantages:</strong></p>
+<ul>
+<li><strong>Improved efficiency:</strong> Informative priors can lead to more precise estimates, especially with limited data.</li>
+<li><strong>Incorporation of prior knowledge:</strong> They allow the incorporation of valuable insights from previous studies or expert opinion.</li>
+<li><strong>More realistic modeling:</strong> They can lead to models that better reflect the real-world context.</li>
+</ul>
+<p><strong>Disadvantages:</strong></p>
+<ul>
+<li><strong>Subjectivity:</strong> The choice of prior can introduce subjectivity into the analysis.</li>
+<li><strong>Sensitivity:</strong> The posterior can be sensitive to the choice of prior, particularly with limited data.</li>
+<li><strong>Potential bias:</strong> Misspecified or inappropriate priors can lead to biased inferences.</li>
+</ul>
+</section>
+<section id="implementation-in-python-pymc-stan" class="level3" data-number="13.1.6">
+<h3 data-number="13.1.6" class="anchored" data-anchor-id="implementation-in-python-pymc-stan"><span class="header-section-number">13.1.6</span> Implementation in Python (PyMC, Stan)</h3>
+<p>The following example demonstrates using informative priors in PyMC. We’ll model the mean (<span class="math inline">\(\mu\)</span>) of a normal distribution, using a normal prior:</p>
+<div id="970c78ab" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pymc <span class="im">as</span> pm</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Observed data</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.normal(loc<span class="op">=</span><span class="dv">10</span>, scale<span class="op">=</span><span class="dv">2</span>, size<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Informative prior: Normal(mu=5, sigma=3)</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> model:</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> pm.Normal(<span class="st">"mu"</span>, mu<span class="op">=</span><span class="dv">5</span>, sigma<span class="op">=</span><span class="dv">3</span>)  <span class="co"># Informative prior</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span> pm.HalfNormal(<span class="st">"sigma"</span>, sigma<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>mu, sigma<span class="op">=</span>sigma, observed<span class="op">=</span>data)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    trace <span class="op">=</span> pm.sample(<span class="dv">2000</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>pm.plot_trace(trace)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>pm.summary(trace)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [mu, sigma]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">/home/leopard/development/QuantumTraderX/venv/lib/python3.12/site-packages/rich/live.py:231: UserWarning: install 
+"ipywidgets" for Jupyter support
+  warnings.warn('install "ipywidgets" for Jupyter support')
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 3 seconds.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="prior-selection_files/figure-html/cell-3-output-5.png" width="912" height="357" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">sd</th>
+<th data-quarto-table-cell-role="th">hdi_3%</th>
+<th data-quarto-table-cell-role="th">hdi_97%</th>
+<th data-quarto-table-cell-role="th">mcse_mean</th>
+<th data-quarto-table-cell-role="th">mcse_sd</th>
+<th data-quarto-table-cell-role="th">ess_bulk</th>
+<th data-quarto-table-cell-role="th">ess_tail</th>
+<th data-quarto-table-cell-role="th">r_hat</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">mu</td>
+<td>10.192</td>
+<td>0.398</td>
+<td>9.433</td>
+<td>10.937</td>
+<td>0.005</td>
+<td>0.003</td>
+<td>6794.0</td>
+<td>4093.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">sigma</td>
+<td>1.767</td>
+<td>0.264</td>
+<td>1.294</td>
+<td>2.243</td>
+<td>0.003</td>
+<td>0.002</td>
+<td>6824.0</td>
+<td>5112.0</td>
+<td>1.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>This code uses a Normal(5,3) prior for μ, reflecting a prior belief that the mean is around 5 with a standard deviation of 3. The posterior distribution, obtained after observing the data, shows how this prior influences the final inference. Similar implementations are possible using Stan, offering greater flexibility and scalability for complex Bayesian models. Remember to carefully assess the sensitivity of your results to the prior choice.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+A[Prior Knowledge] --&gt; B(Prior Distribution);
+B --&gt; C{Bayesian Model};
+C --&gt; D[Posterior Distribution];
+D --&gt; E[Inferences];
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>This diagram highlights the flow from prior knowledge to final inferences using informative priors in a Bayesian model.</p>
+</section>
+</section>
+<section id="non-informative-priors" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="non-informative-priors"><span class="header-section-number">13.2</span> Non-Informative Priors</h2>
+<section id="the-concept-of-non-informative-priors" class="level3" data-number="13.2.1">
+<h3 data-number="13.2.1" class="anchored" data-anchor-id="the-concept-of-non-informative-priors"><span class="header-section-number">13.2.1</span> The Concept of Non-Informative Priors</h3>
+<p>Non-informative priors aim to minimally influence the posterior distribution, letting the data “speak for itself.” They represent a state of maximal ignorance or uncertainty about the parameter before observing any data. The goal is to allow the likelihood function to dominate the posterior, ensuring that the inference is primarily driven by the observed data. However, it’s essential to understand that truly “non-informative” priors are often impossible to define; all priors carry some implicit assumptions. The term “non-informative” is therefore a relative one, meaning the prior’s impact on the posterior is relatively small compared to the likelihood, especially with a substantial amount of data.</p>
+</section>
+<section id="types-of-non-informative-priors-uniform-jeffreys-prior" class="level3" data-number="13.2.2">
+<h3 data-number="13.2.2" class="anchored" data-anchor-id="types-of-non-informative-priors-uniform-jeffreys-prior"><span class="header-section-number">13.2.2</span> Types of Non-Informative Priors (Uniform, Jeffreys Prior)</h3>
+<p>Several approaches exist for constructing non-informative priors:</p>
+<ul>
+<li><p><strong>Uniform prior:</strong> Assigns equal probability density to all possible values of the parameter within a specified range. For a parameter θ in the interval [a, b], the uniform prior is:</p>
+<p><span class="math inline">\(P(\theta) = \begin{cases}
+     \frac{1}{b-a} &amp; a \le \theta \le b \\
+     0 &amp; \text{otherwise}
+\end{cases}\)</span></p>
+<p>While seemingly straightforward, the choice of the range [a, b] can introduce subjectivity and affect the results.</p></li>
+<li><p><strong>Jeffreys prior:</strong> A more complex approach that aims to be invariant under reparameterization. It’s based on the Fisher information matrix, <span class="math inline">\(I(\theta)\)</span>, which measures the amount of information about θ contained in the data. The Jeffreys prior is proportional to the square root of the determinant of the Fisher information matrix:</p>
+<p><span class="math inline">\(P(\theta) \propto \sqrt{\text{det}(I(\theta))}\)</span></p>
+<p>This approach attempts to be less sensitive to the choice of parameterization than uniform priors. However, it can still lead to improper priors (discussed below).</p></li>
+</ul>
+</section>
+<section id="limitations-and-criticisms-of-non-informative-priors" class="level3" data-number="13.2.3">
+<h3 data-number="13.2.3" class="anchored" data-anchor-id="limitations-and-criticisms-of-non-informative-priors"><span class="header-section-number">13.2.3</span> Limitations and Criticisms of Non-Informative Priors</h3>
+<p>Despite their appeal, non-informative priors have limitations:</p>
+<ul>
+<li><strong>Subjectivity in range selection (uniform):</strong> The choice of the range for a uniform prior is inherently subjective and can significantly impact the results.</li>
+<li><strong>Improper priors:</strong> Some non-informative priors, including some Jeffreys priors, are <em>improper</em>, meaning they don’t integrate to one. While often yielding proper posteriors, this can cause problems in certain contexts.</li>
+<li><strong>Sensitivity to transformations:</strong> The choice of parameterization can significantly affect the resulting posterior when using non-informative priors.</li>
+<li><strong>Not truly non-informative:</strong> As mentioned before, the concept of a truly non-informative prior is often unrealistic. Even priors intended to be non-informative impose certain assumptions about the parameter space.</li>
+</ul>
+</section>
+<section id="improper-priors" class="level3" data-number="13.2.4">
+<h3 data-number="13.2.4" class="anchored" data-anchor-id="improper-priors"><span class="header-section-number">13.2.4</span> Improper Priors</h3>
+<p>An improper prior is a probability distribution that doesn’t integrate to one (i.e., its total probability mass is not equal to 1). This means it doesn’t represent a valid probability distribution in the traditional sense. However, improper priors can sometimes lead to proper posterior distributions, especially when combined with a likelihood function that provides sufficient information. The use of improper priors raises some concerns, but in many applications, they do not cause any significant practical issues.</p>
+</section>
+<section id="implementation-in-python-pymc-stan-1" class="level3" data-number="13.2.5">
+<h3 data-number="13.2.5" class="anchored" data-anchor-id="implementation-in-python-pymc-stan-1"><span class="header-section-number">13.2.5</span> Implementation in Python (PyMC, Stan)</h3>
+<p>Let’s illustrate a non-informative prior (uniform) in PyMC:</p>
+<div id="a1341bbd" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pymc <span class="im">as</span> pm</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Observed Data (Example: coin flips)</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>]) <span class="co"># 1 represents heads, 0 represents tails.</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> model:</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> pm.Uniform(<span class="st">"p"</span>, lower<span class="op">=</span><span class="dv">0</span>, upper<span class="op">=</span><span class="dv">1</span>) <span class="co">#Non-informative prior for probability of heads</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Bernoulli(<span class="st">"y"</span>, p<span class="op">=</span>p, observed<span class="op">=</span>data)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    trace <span class="op">=</span> pm.sample(<span class="dv">2000</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>pm.plot_trace(trace)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>pm.summary(trace)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [p]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">/home/leopard/development/QuantumTraderX/venv/lib/python3.12/site-packages/rich/live.py:231: UserWarning: install 
+"ipywidgets" for Jupyter support
+  warnings.warn('install "ipywidgets" for Jupyter support')
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 1 seconds.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="prior-selection_files/figure-html/cell-4-output-5.png" width="912" height="209" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">sd</th>
+<th data-quarto-table-cell-role="th">hdi_3%</th>
+<th data-quarto-table-cell-role="th">hdi_97%</th>
+<th data-quarto-table-cell-role="th">mcse_mean</th>
+<th data-quarto-table-cell-role="th">mcse_sd</th>
+<th data-quarto-table-cell-role="th">ess_bulk</th>
+<th data-quarto-table-cell-role="th">ess_tail</th>
+<th data-quarto-table-cell-role="th">r_hat</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">p</td>
+<td>0.584</td>
+<td>0.136</td>
+<td>0.325</td>
+<td>0.821</td>
+<td>0.002</td>
+<td>0.002</td>
+<td>3182.0</td>
+<td>4771.0</td>
+<td>1.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>This code uses a uniform prior for the probability of heads (<code>p</code>) in a sequence of coin flips. The posterior distribution for <code>p</code> will be primarily shaped by the observed data, reflecting the non-informative nature of the prior. Note that while a uniform prior might seem objective, its range (0 to 1 in this case) is implicitly chosen and represents an assumption.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+A[Data] --&gt; B(Likelihood);
+B --&gt; C{Bayes' Theorem};
+C --&gt; D[Posterior Distribution];
+D --&gt; E[Inference];
+subgraph "Prior"
+    B -.-&gt; F(Non-informative Prior);
+end
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>This diagram demonstrates how a non-informative prior minimally influences the posterior distribution, with the data (and likelihood) having the dominant effect. However, even this seemingly non-informative prior implicitly assumes the probability lies within the [0,1] range.</p>
+</section>
+</section>
+<section id="empirical-bayes" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="empirical-bayes"><span class="header-section-number">13.3</span> Empirical Bayes</h2>
+<section id="introduction-to-empirical-bayes" class="level3" data-number="13.3.1">
+<h3 data-number="13.3.1" class="anchored" data-anchor-id="introduction-to-empirical-bayes"><span class="header-section-number">13.3.1</span> Introduction to Empirical Bayes</h3>
+<p>Empirical Bayes methods offer a compromise between fully Bayesian approaches and frequentist methods. They use the data to estimate the parameters of the prior distribution, rather than specifying the prior subjectively or using a non-informative prior. This approach treats the hyperparameters of the prior distribution as unknown parameters that need to be estimated from the data. The resulting prior is then used in Bayes’ theorem to update the posterior distribution of the parameters of interest. Empirical Bayes avoids the subjectivity inherent in choosing a prior distribution, but it also avoids the computational challenges of fully Bayesian methods in complex models.</p>
+</section>
+<section id="estimating-hyperparameters-from-data" class="level3" data-number="13.3.2">
+<h3 data-number="13.3.2" class="anchored" data-anchor-id="estimating-hyperparameters-from-data"><span class="header-section-number">13.3.2</span> Estimating Hyperparameters from Data</h3>
+<p>The core of empirical Bayes is estimating the hyperparameters of the prior distribution. This is typically done using maximum likelihood estimation (MLE) or maximum a posteriori (MAP) estimation. Let’s consider a simple example where we have <span class="math inline">\(N\)</span> independent observations <span class="math inline">\(x_1, ..., x_N\)</span> which are assumed to come from a normal distribution with unknown mean <span class="math inline">\(\theta_i\)</span> and known variance <span class="math inline">\(\sigma^2\)</span>: <span class="math inline">\(x_i \sim N(\theta_i, \sigma^2)\)</span>. Further, we assume that the <span class="math inline">\(\theta_i\)</span> are drawn from a normal distribution with hyperparameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\tau^2\)</span>: <span class="math inline">\(\theta_i \sim N(\mu, \tau^2)\)</span>. In this case, the hyperparameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\tau^2\)</span> are estimated by maximizing the marginal likelihood:</p>
+<p><span class="math inline">\(P(x_1, ..., x_N | \mu, \tau^2) = \prod_{i=1}^N \int P(x_i | \theta_i)P(\theta_i | \mu, \tau^2) d\theta_i\)</span></p>
+<p>This marginal likelihood is obtained by integrating out the <span class="math inline">\(\theta_i\)</span>. The maximization can be performed numerically, often using optimization algorithms.</p>
+</section>
+<section id="advantages-and-disadvantages-of-empirical-bayes" class="level3" data-number="13.3.3">
+<h3 data-number="13.3.3" class="anchored" data-anchor-id="advantages-and-disadvantages-of-empirical-bayes"><span class="header-section-number">13.3.3</span> Advantages and Disadvantages of Empirical Bayes</h3>
+<p><strong>Advantages:</strong></p>
+<ul>
+<li><strong>Reduced subjectivity:</strong> Employs data to estimate the prior, reducing reliance on subjective prior specification.</li>
+<li><strong>Improved estimation efficiency:</strong> Can lead to more efficient estimates compared to using non-informative priors, particularly with limited data.</li>
+<li><strong>Computationally simpler:</strong> Often simpler to implement than fully Bayesian methods, especially for complex models.</li>
+</ul>
+<p><strong>Disadvantages:</strong></p>
+<ul>
+<li><strong>Bias:</strong> Can introduce bias in estimating the posterior distribution, particularly when the assumed prior model is misspecified.</li>
+<li><strong>Sensitivity to model assumptions:</strong> The validity of the results strongly depends on the correctness of the assumed prior model.</li>
+<li><strong>Underestimation of uncertainty:</strong> The uncertainty in the posterior may be underestimated because the uncertainty in the hyperparameter estimation is not fully accounted for.</li>
+</ul>
+</section>
+<section id="implementation-in-python-using-scikit-learn" class="level3" data-number="13.3.4">
+<h3 data-number="13.3.4" class="anchored" data-anchor-id="implementation-in-python-using-scikit-learn"><span class="header-section-number">13.3.4</span> Implementation in Python (using scikit-learn)</h3>
+<p>Scikit-learn provides tools for empirical Bayes methods, especially within the context of Gaussian mixture models. Here’s a simple example using <code>sklearn.mixture.BayesianGaussianMixture</code>:</p>
+<div id="be291d93" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.mixture <span class="im">import</span> BayesianGaussianMixture</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate sample data</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.concatenate([np.random.normal(loc<span class="op">=-</span><span class="dv">3</span>, scale<span class="op">=</span><span class="dv">1</span>, size<span class="op">=</span><span class="dv">100</span>),</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>                    np.random.normal(loc<span class="op">=</span><span class="dv">3</span>, scale<span class="op">=</span><span class="dv">1</span>, size<span class="op">=</span><span class="dv">100</span>)])[:, np.newaxis]</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit Bayesian Gaussian Mixture model (Empirical Bayes)</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>bgm <span class="op">=</span> BayesianGaussianMixture(n_components<span class="op">=</span><span class="dv">2</span>, weight_concentration_prior<span class="op">=</span><span class="fl">1e-2</span>) <span class="co"># adjust weight_concentration_prior to control prior strength</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>bgm.fit(X)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Get posterior means and covariances</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>means <span class="op">=</span> bgm.means_</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>covariances <span class="op">=</span> bgm.covariances_</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot results</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>plt.hist(X, bins<span class="op">=</span><span class="dv">50</span>, density<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">8</span>, <span class="dv">8</span>, <span class="dv">100</span>)[:, np.newaxis]</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(bgm.n_components):</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    plt.plot(x, bgm.predict_proba(x)[:, i])</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Means:"</span>, means)</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Covariances:"</span>, covariances)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="prior-selection_files/figure-html/cell-5-output-1.png" width="571" height="411" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Means: [[ 3.01115465]
+ [-2.71155752]]
+Covariances: [[[1.02812265]]
+
+ [[1.3304072 ]]]</code></pre>
+</div>
+</div>
+<p>This example fits a Gaussian mixture model to data, allowing the mixture weights, means and variances to be inferred from the data, reflecting an empirical Bayes approach.</p>
+</section>
+<section id="applications-of-empirical-bayes" class="level3" data-number="13.3.5">
+<h3 data-number="13.3.5" class="anchored" data-anchor-id="applications-of-empirical-bayes"><span class="header-section-number">13.3.5</span> Applications of Empirical Bayes</h3>
+<p>Empirical Bayes methods find applications in various fields:</p>
+<ul>
+<li><strong>Meta-analysis:</strong> Combining results from multiple studies.</li>
+<li><strong>Shrinkage estimation:</strong> Shrinking noisy estimates towards a common mean.</li>
+<li><strong>Bioinformatics:</strong> Analyzing gene expression data.</li>
+<li><strong>Machine learning:</strong> Improving the performance of classification and regression models.</li>
+</ul>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+A[Data] --&gt; B(Estimate Hyperparameters);
+B --&gt; C(Prior Distribution);
+C --&gt; D{Bayes' Theorem};
+D --&gt; E[Posterior Distribution];
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>This diagram shows the workflow of empirical Bayes: data is used to estimate prior hyperparameters, which are then used to define the prior distribution for Bayesian inference.</p>
+</section>
+</section>
+<section id="prior-sensitivity-analysis" class="level2" data-number="13.4">
+<h2 data-number="13.4" class="anchored" data-anchor-id="prior-sensitivity-analysis"><span class="header-section-number">13.4</span> Prior Sensitivity Analysis</h2>
+<section id="assessing-the-impact-of-prior-choice" class="level3" data-number="13.4.1">
+<h3 data-number="13.4.1" class="anchored" data-anchor-id="assessing-the-impact-of-prior-choice"><span class="header-section-number">13.4.1</span> Assessing the Impact of Prior Choice</h3>
+<p>Prior sensitivity analysis is essential in Bayesian inference to evaluate how much the posterior inferences depend on the choice of prior distribution. A robust Bayesian analysis should yield similar conclusions even with different, but reasonable, prior specifications. If the posterior is highly sensitive to the prior choice, it indicates either limited data (where the prior’s influence is strong) or a poor model specification. This section details methods to assess and visualize prior sensitivity.</p>
+</section>
+<section id="methods-for-sensitivity-analysis" class="level3" data-number="13.4.2">
+<h3 data-number="13.4.2" class="anchored" data-anchor-id="methods-for-sensitivity-analysis"><span class="header-section-number">13.4.2</span> Methods for Sensitivity Analysis</h3>
+<p>Several methods exist to assess prior sensitivity:</p>
+<ul>
+<li><strong>Prior predictive checks:</strong> Simulate data from the prior distribution and compare them to the observed data. Large discrepancies suggest a mismatch between the prior and the data-generating process.</li>
+<li><strong>Posterior sensitivity analysis:</strong> Compare posterior distributions obtained with different priors. Significant differences highlight sensitivity to the prior choice. This comparison is often done qualitatively (visual inspection) and quantitatively (comparing summary statistics like means and credible intervals).</li>
+<li><strong>Influence measures:</strong> Quantify the influence of each data point on the posterior distribution. This helps in identifying outliers or influential observations that might be driving prior sensitivity.</li>
+<li><strong>Sensitivity analysis using different prior families:</strong> Explore a range of prior distributions with varying levels of informativeness within a given family (e.g., different parameters for a Gamma prior).</li>
+</ul>
+</section>
+<section id="visualizing-prior-sensitivity" class="level3" data-number="13.4.3">
+<h3 data-number="13.4.3" class="anchored" data-anchor-id="visualizing-prior-sensitivity"><span class="header-section-number">13.4.3</span> Visualizing Prior Sensitivity</h3>
+<p>Visualizing posterior distributions obtained with different priors is essential. Common visualization techniques include:</p>
+<ul>
+<li><strong>Overlapping density plots:</strong> Plot the posterior density functions for different priors on the same graph. This allows a visual comparison of their shapes and locations.</li>
+<li><strong>Trace plots:</strong> Display the posterior samples generated from different priors. This visualizes the sampling process and helps identify differences in posterior exploration.</li>
+<li><strong>Credible interval plots:</strong> Show the credible intervals (e.g., 95% credible intervals) for each prior choice. This provides a quantitative comparison of uncertainty estimates.</li>
+</ul>
+</section>
+<section id="robustness-of-bayesian-inference-to-prior-choice" class="level3" data-number="13.4.4">
+<h3 data-number="13.4.4" class="anchored" data-anchor-id="robustness-of-bayesian-inference-to-prior-choice"><span class="header-section-number">13.4.4</span> Robustness of Bayesian Inference to Prior Choice</h3>
+<p>A robust Bayesian analysis shows minimal changes in posterior inferences despite variations in reasonable prior choices. Robustness generally increases with more data; as the sample size increases, the influence of the prior diminishes. If the prior has a substantial influence even with substantial data, it suggests potential issues:</p>
+<ul>
+<li><strong>Model misspecification:</strong> The chosen likelihood function might not accurately reflect the data-generating process.</li>
+<li><strong>Poor prior selection:</strong> The priors might not be well-justified or reflect unrealistic beliefs.</li>
+<li><strong>Insufficient data:</strong> More data might be needed to overcome the influence of the prior.</li>
+</ul>
+<p>Here’s a Python example demonstrating posterior sensitivity analysis:</p>
+<div id="0c10da87" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pymc <span class="im">as</span> pm</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulated data (Example: Poisson data)</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.poisson(lam<span class="op">=</span><span class="dv">5</span>, size<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Prior 1: Gamma(1,1)</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> model1:</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    lam1 <span class="op">=</span> pm.Gamma(<span class="st">"lambda"</span>, alpha<span class="op">=</span><span class="dv">1</span>, beta<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    y1 <span class="op">=</span> pm.Poisson(<span class="st">"y"</span>, mu<span class="op">=</span>lam1, observed<span class="op">=</span>data)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    trace1 <span class="op">=</span> pm.sample(<span class="dv">1000</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">#Prior 2: Gamma(5,1)</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> model2:</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    lam2 <span class="op">=</span> pm.Gamma(<span class="st">"lambda"</span>, alpha<span class="op">=</span><span class="dv">5</span>, beta<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    y2 <span class="op">=</span> pm.Poisson(<span class="st">"y"</span>, mu<span class="op">=</span>lam2, observed<span class="op">=</span>data)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    trace2 <span class="op">=</span> pm.sample(<span class="dv">1000</span>)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot posterior distributions</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>pm.plot_posterior(trace1, var_names<span class="op">=</span>[<span class="st">'lambda'</span>], label<span class="op">=</span><span class="st">"Prior 1"</span>)</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>pm.plot_posterior(trace2, var_names<span class="op">=</span>[<span class="st">'lambda'</span>], label<span class="op">=</span><span class="st">"Prior 2"</span>)</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="co">#Compare Summary Statistics</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>pm.summary(trace1)</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>pm.summary(trace2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [lambda]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">/home/leopard/development/QuantumTraderX/venv/lib/python3.12/site-packages/rich/live.py:231: UserWarning: install 
+"ipywidgets" for Jupyter support
+  warnings.warn('install "ipywidgets" for Jupyter support')
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 1 seconds.
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [lambda]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">/home/leopard/development/QuantumTraderX/venv/lib/python3.12/site-packages/rich/live.py:231: UserWarning: install 
+"ipywidgets" for Jupyter support
+  warnings.warn('install "ipywidgets" for Jupyter support')
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 1 seconds.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="prior-selection_files/figure-html/cell-6-output-8.png" width="540" height="440" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="prior-selection_files/figure-html/cell-6-output-9.png" width="540" height="440" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">sd</th>
+<th data-quarto-table-cell-role="th">hdi_3%</th>
+<th data-quarto-table-cell-role="th">hdi_97%</th>
+<th data-quarto-table-cell-role="th">mcse_mean</th>
+<th data-quarto-table-cell-role="th">mcse_sd</th>
+<th data-quarto-table-cell-role="th">ess_bulk</th>
+<th data-quarto-table-cell-role="th">ess_tail</th>
+<th data-quarto-table-cell-role="th">r_hat</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">lambda</td>
+<td>4.485</td>
+<td>0.441</td>
+<td>3.659</td>
+<td>5.292</td>
+<td>0.011</td>
+<td>0.008</td>
+<td>1578.0</td>
+<td>2630.0</td>
+<td>1.01</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>This code compares posterior distributions for a Poisson rate parameter using two different Gamma priors. By visualizing the posterior distributions and comparing their summary statistics, we can assess the sensitivity of the inference to the prior choice. The degree of overlap between the posterior distributions visually represents the robustness of the inference. If the overlap is small, it implies a significant sensitivity to the prior choice.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+A[Prior 1] --&gt; B(Posterior 1);
+C[Prior 2] --&gt; D(Posterior 2);
+B -.-&gt; E(Compare);
+D -.-&gt; E;
+E --&gt; F[Robustness Assessment];
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>This diagram illustrates the process of prior sensitivity analysis: comparing posterior distributions derived from different priors to evaluate robustness.</p>
+</section>
+</section>
+<section id="choosing-the-right-prior-best-practices" class="level2" data-number="13.5">
+<h2 data-number="13.5" class="anchored" data-anchor-id="choosing-the-right-prior-best-practices"><span class="header-section-number">13.5</span> Choosing the Right Prior: Best Practices</h2>
+<section id="considerations-for-prior-selection" class="level3" data-number="13.5.1">
+<h3 data-number="13.5.1" class="anchored" data-anchor-id="considerations-for-prior-selection"><span class="header-section-number">13.5.1</span> Considerations for Prior Selection</h3>
+<p>Selecting an appropriate prior is a essential step in Bayesian inference. The choice depends on many factors:</p>
+<ul>
+<li><strong>Available prior knowledge:</strong> If strong prior knowledge exists (e.g., from previous studies or expert opinion), an informative prior is appropriate. With limited or weak prior knowledge, a weakly informative or non-informative prior might be preferred.</li>
+<li><strong>Amount of data:</strong> With abundant data, the likelihood dominates, and the influence of the prior is less critical. Conversely, with limited data, the prior plays a more significant role, demanding careful consideration.</li>
+<li><strong>Model complexity:</strong> For complex models, selecting appropriate priors for numerous parameters can be challenging. Hierarchical models can help manage complexity, but still require careful prior specification at each level.</li>
+<li><strong>Computational feasibility:</strong> The choice of prior can affect computational efficiency. Some priors might lead to more challenging posterior computations.</li>
+<li><strong>Interpretability:</strong> The chosen prior should be easy to interpret and justify.</li>
+</ul>
+</section>
+<section id="guidelines-for-selecting-appropriate-priors" class="level3" data-number="13.5.2">
+<h3 data-number="13.5.2" class="anchored" data-anchor-id="guidelines-for-selecting-appropriate-priors"><span class="header-section-number">13.5.2</span> Guidelines for Selecting Appropriate Priors</h3>
+<p>These guidelines help choose an appropriate prior:</p>
+<ol type="1">
+<li><p><strong>Start with weakly informative priors:</strong> Unless strong prior knowledge justifies an informative prior, begin with weakly informative priors. These balance the influence of prior beliefs and data. Common choices include weakly informative variants of common distributions (e.g., Gamma(1,1), Normal(0,10) for parameters with large possible ranges).</p></li>
+<li><p><strong>Check for prior sensitivity:</strong> Perform a sensitivity analysis to assess the posterior’s dependence on the prior. If the posterior is highly sensitive, additional data might be required, or the model specification might need revision.</p></li>
+<li><p><strong>Use conjugate priors when possible:</strong> Conjugate priors lead to analytically tractable posterior distributions, simplifying computations. However, choosing a conjugate prior might necessitate compromising on realism.</p></li>
+<li><p><strong>Consider prior elicitation:</strong> If expert knowledge is available, use prior elicitation techniques (quantile, histogram, or comparative elicitation) to translate subjective expertise into a quantitative prior.</p></li>
+<li><p><strong>Justify the prior:</strong> Always document and justify the choice of prior. Transparency about prior selection helps others evaluate the robustness and validity of the analysis.</p></li>
+<li><p><strong>Avoid improper priors unless necessary and carefully considered:</strong> While improper priors can sometimes yield proper posteriors, they can lead to difficulties in interpretation and comparison.</p></li>
+<li><p><strong>Use hierarchical models for complex scenarios:</strong> If your model involves many parameters, consider a hierarchical structure, which allows for borrowing strength across different levels and can lead to more stable and robust inferences.</p></li>
+</ol>
+</section>
+<section id="prior-selection-in-different-bayesian-models" class="level3" data-number="13.5.3">
+<h3 data-number="13.5.3" class="anchored" data-anchor-id="prior-selection-in-different-bayesian-models"><span class="header-section-number">13.5.3</span> Prior Selection in Different Bayesian Models</h3>
+<p>Prior selection strategies vary depending on the model. Here are a few examples:</p>
+<ul>
+<li><p><strong>Linear Regression:</strong> For regression coefficients, weakly informative normal priors (e.g., N(0, σ²)) are often used, where σ² is a large value reflecting considerable uncertainty. For the variance of the errors, an Inverse Gamma prior is common.</p></li>
+<li><p><strong>Logistic Regression:</strong> For logistic regression coefficients, weakly informative normal priors are also often used.</p></li>
+<li><p><strong>Time Series Models:</strong> In time series analysis, priors depend on the specific model. For instance, in ARIMA models, priors for autoregressive coefficients might be uniform distributions restricted to the stationary region.</p></li>
+</ul>
+<p>The Python example below demonstrates prior selection for a simple linear regression:</p>
+<div id="880be5ed" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pymc <span class="im">as</span> pm</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Simulated Data</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">123</span>)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">50</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>true_intercept <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>true_slope <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>true_variance <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> true_intercept <span class="op">+</span> true_slope <span class="op">*</span> X <span class="op">+</span> np.random.normal(<span class="dv">0</span>, np.sqrt(true_variance), <span class="dv">50</span>)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> model:</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    intercept <span class="op">=</span> pm.Normal(<span class="st">"intercept"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">10</span>)  <span class="co"># weakly informative prior</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    slope <span class="op">=</span> pm.Normal(<span class="st">"slope"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">10</span>)       <span class="co"># weakly informative prior</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    variance <span class="op">=</span> pm.HalfCauchy(<span class="st">"variance"</span>, beta<span class="op">=</span><span class="dv">5</span>)       <span class="co"># weakly informative prior</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> intercept <span class="op">+</span> slope <span class="op">*</span> X</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    y_obs <span class="op">=</span> pm.Normal(<span class="st">"y_obs"</span>, mu<span class="op">=</span>mu, sigma<span class="op">=</span>variance, observed<span class="op">=</span>y)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    trace <span class="op">=</span> pm.sample(<span class="dv">2000</span>)</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>pm.plot_trace(trace)</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>pm.summary(trace)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [intercept, slope, variance]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">/home/leopard/development/QuantumTraderX/venv/lib/python3.12/site-packages/rich/live.py:231: UserWarning: install 
+"ipywidgets" for Jupyter support
+  warnings.warn('install "ipywidgets" for Jupyter support')
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 2 seconds.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="prior-selection_files/figure-html/cell-7-output-5.png" width="917" height="505" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">sd</th>
+<th data-quarto-table-cell-role="th">hdi_3%</th>
+<th data-quarto-table-cell-role="th">hdi_97%</th>
+<th data-quarto-table-cell-role="th">mcse_mean</th>
+<th data-quarto-table-cell-role="th">mcse_sd</th>
+<th data-quarto-table-cell-role="th">ess_bulk</th>
+<th data-quarto-table-cell-role="th">ess_tail</th>
+<th data-quarto-table-cell-role="th">r_hat</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">intercept</td>
+<td>1.814</td>
+<td>0.347</td>
+<td>1.134</td>
+<td>2.437</td>
+<td>0.006</td>
+<td>0.004</td>
+<td>3069.0</td>
+<td>3563.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">slope</td>
+<td>0.539</td>
+<td>0.060</td>
+<td>0.429</td>
+<td>0.650</td>
+<td>0.001</td>
+<td>0.001</td>
+<td>3107.0</td>
+<td>3350.0</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">variance</td>
+<td>1.242</td>
+<td>0.134</td>
+<td>1.008</td>
+<td>1.502</td>
+<td>0.002</td>
+<td>0.001</td>
+<td>4555.0</td>
+<td>3975.0</td>
+<td>1.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>This code shows weakly informative priors for the intercept and slope (Normal(0,10)) and a weakly informative Half Cauchy prior for the error variance. The choice of prior variance (10) reflects substantial initial uncertainty. The Half-Cauchy prior is often preferred to Inverse Gamma as it’s less sensitive to the choice of hyperparameters. Adjusting these hyperparameters demonstrates the impact of prior selection.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+A[Model Type] --&gt; B(Parameter);
+B --&gt; C{Prior Knowledge};
+C --&gt; D(Prior Choice);
+D --&gt; E[Posterior Inference];
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>This diagram summarizes the relationship between model type, parameter, prior knowledge, prior choice, and final inference. Choosing the right prior depends on all these factors.</p>
+
+
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
