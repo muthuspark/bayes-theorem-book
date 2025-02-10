@@ -1,0 +1,513 @@
+## Prior Selection
+
+### Introduction to Prior Selection
+
+Bayesian inference centers around updating our beliefs about a parameter (or hypothesis) in light of new data.  This update is achieved using Bayes' Theorem:
+
+$P(\theta|D) = \frac{P(D|\theta)P(\theta)}{P(D)}$
+
+where:
+
+* $P(\theta|D)$ is the *posterior* distribution – our updated belief about the parameter $\theta$ given the data $D$.
+* $P(D|\theta)$ is the *likelihood* – the probability of observing the data given a specific value of $\theta$.
+* $P(\theta)$ is the *prior* distribution – our belief about the parameter $\theta$ *before* observing any data.
+* $P(D)$ is the *evidence* – the probability of observing the data, which acts as a normalizing constant.
+
+
+The prior distribution is a crucial component of Bayesian inference.  It encapsulates our prior knowledge or beliefs about the parameter before we analyze the data.  Choosing an appropriate prior is therefore a critical step in performing a Bayesian analysis.  A poorly chosen prior can lead to misleading or inaccurate inferences, while a well-chosen prior can significantly improve the efficiency and accuracy of the analysis.  This chapter explores different strategies for selecting priors and examines the impact of prior choices on the resulting inferences.
+
+
+### The Role of Priors in Bayesian Inference
+
+The prior distribution represents our initial uncertainty about the parameter $\theta$.  It can be based on previous studies, expert knowledge, theoretical considerations, or simply a lack of strong prior beliefs (in which case, we might choose a relatively non-informative prior).  The prior's influence on the posterior is particularly strong when the amount of data is limited.  As more data becomes available, the likelihood function dominates, and the influence of the prior diminishes.  This is a key aspect of Bayesian updating: data gradually refines our initial beliefs.
+
+For example, if we're estimating the probability of success in a coin flip, we might initially believe the coin is fair. We could represent this prior belief with a Beta(1,1) distribution (a uniform distribution on [0,1]).  After observing 10 heads out of 10 flips, our posterior will shift significantly toward a higher probability of heads. However, if we had started with a prior that strongly favored biased coins (e.g., Beta(0.1, 0.1)), even the strong data wouldn't shift our posterior as dramatically.
+
+
+### Impact of Prior Choice on Inference
+
+The choice of prior significantly impacts the posterior distribution and, consequently, any inferences drawn from the analysis. Let's illustrate this with a simple example using Python and the `pymc` library.  We'll model the rate parameter $\lambda$ of a Poisson distribution.
+
+```\{python}
+#| echo: true
+import numpy as np
+import pymc as pm
+import matplotlib.pyplot as plt
+
+# Observed data
+data = np.random.poisson(5, size=10)
+
+# Prior 1: Weakly informative prior (Gamma)
+with pm.Model() as model1:
+    lambda_1 = pm.Gamma("lambda", alpha=1, beta=1)  # Prior
+    obs_1 = pm.Poisson("obs", mu=lambda_1, observed=data)
+    trace1 = pm.sample(1000)
+
+# Prior 2: More informative prior (Gamma)
+with pm.Model() as model2:
+    lambda_2 = pm.Gamma("lambda", alpha=5, beta=1) #Prior
+    obs_2 = pm.Poisson("obs", mu=lambda_2, observed=data)
+    trace2 = pm.sample(1000)
+
+
+#Plot the results
+pm.plot_trace(trace1, var_names=["lambda"])
+plt.show()
+pm.plot_trace(trace2, var_names=["lambda"])
+plt.show()
+
+pm.summary(trace1)
+pm.summary(trace2)
+```
+
+This code defines two models with different Gamma priors for $\lambda$.  The first uses a weakly informative prior (alpha=1, beta=1), while the second uses a more informative prior (alpha=5, beta=1), reflecting a prior belief that $\lambda$ is likely around 5.  The impact of these different priors on the posterior distribution is visualized by comparing the trace plots and summary statistics.  You will observe that the more informative prior leads to a posterior distribution concentrated closer to the prior mean, even with the same observed data.  The choice of prior, therefore, affects the posterior and shapes our conclusions.
+
+
+```{mermaid}
+graph LR
+A[Prior Distribution] --> B(Likelihood);
+B --> C{Bayes' Theorem};
+C --> D[Posterior Distribution];
+```
+
+This diagram visually represents how the prior, likelihood, and Bayes' theorem combine to generate the posterior. The choice of prior directly influences the shape of the resulting posterior.  A careful consideration of prior selection is therefore crucial for ensuring that Bayesian analysis is robust and reliable.
+
+
+## Informative Priors
+
+### Defining Informative Priors
+
+Informative priors incorporate prior knowledge or beliefs about the parameter of interest into the Bayesian analysis.  Unlike non-informative priors, which aim to have minimal influence on the posterior, informative priors actively shape the posterior distribution.  This is particularly useful when prior knowledge is available from previous studies, expert opinions, or theoretical considerations.  The strength of the prior's influence depends on the amount of data available – with abundant data, the likelihood often dominates, reducing the prior's impact. However, with limited data, the prior can significantly shape the posterior inference.  A well-chosen informative prior can improve the efficiency and precision of Bayesian estimates.
+
+
+### Examples of Informative Priors (Beta, Gamma, Normal)
+
+Several common probability distributions serve as informative priors, depending on the nature of the parameter being estimated:
+
+* **Beta distribution:** Often used for parameters representing probabilities (e.g., success rate in a binomial experiment). The parameters $\alpha$ and $\beta$ control the shape.  A Beta(1,1) is a uniform distribution, while other values reflect varying degrees of belief about the probability.  For example, Beta(10,2) expresses a stronger belief that the probability is closer to 1.  The probability density function (pdf) is given by:
+
+   $f(x;\alpha,\beta) = \frac{1}{B(\alpha,\beta)}x^{\alpha-1}(1-x)^{\beta-1}$ for $0 \le x \le 1$
+
+   where $B(\alpha,\beta)$ is the Beta function.
+
+* **Gamma distribution:** Suitable for positive-valued parameters, often used for rates (e.g., in Poisson or exponential distributions).  The parameters $\alpha$ (shape) and $\beta$ (rate) control the shape and scale.  
+
+   $f(x;\alpha,\beta) = \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}$ for $x \ge 0$
+
+   where $\Gamma(\alpha)$ is the Gamma function.
+
+* **Normal distribution:** A versatile choice for parameters that can take on any real value. The parameters $\mu$ (mean) and $\sigma$ (standard deviation) specify the location and spread.
+
+   $f(x;\mu,\sigma) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$ for $-\infty < x < \infty$
+
+
+### Using Expert Knowledge to Define Priors
+
+Incorporating expert knowledge is crucial in selecting an informative prior.  This might involve eliciting prior beliefs through structured interviews or surveys.  For example, asking an expert to specify a range of plausible values and quantiles for the parameter helps in determining an appropriate prior distribution and its parameters.  This subjective approach acknowledges that prior knowledge is not always based on formal data but on professional judgment.
+
+
+### Prior Elicitation Techniques
+
+Prior elicitation methods aim to systematically translate expert knowledge into a quantitative prior distribution.  Some popular techniques include:
+
+* **Quantile elicitation:** Asking the expert to specify quantiles (e.g., 5th, 50th, 95th percentiles) of the parameter's distribution. This information can be used to fit a suitable distribution.
+* **Histogram elicitation:** Requesting the expert to draw a histogram representing their belief about the parameter's distribution. This visual approach aids in better understanding their perspective.
+* **Comparative elicitation:** Presenting the expert with different options (e.g., different prior distributions or parameter values) and asking for comparative judgments about their plausibility.
+
+
+### Advantages and Disadvantages of Informative Priors
+
+**Advantages:**
+
+* **Improved efficiency:** Informative priors can lead to more precise estimates, especially with limited data.
+* **Incorporation of prior knowledge:** They allow the incorporation of valuable insights from previous studies or expert opinion.
+* **More realistic modeling:** They can lead to models that better reflect the real-world context.
+
+**Disadvantages:**
+
+* **Subjectivity:** The choice of prior can introduce subjectivity into the analysis.
+* **Sensitivity:** The posterior can be sensitive to the choice of prior, particularly with limited data.
+* **Potential bias:** Misspecified or inappropriate priors can lead to biased inferences.
+
+
+### Implementation in Python (PyMC, Stan)
+
+The following example demonstrates using informative priors in PyMC. We'll model the mean ($\mu$) of a normal distribution, using a normal prior:
+
+
+```\{python}
+#| echo: true
+import numpy as np
+import pymc as pm
+import matplotlib.pyplot as plt
+
+# Observed data
+data = np.random.normal(loc=10, scale=2, size=20)
+
+# Informative prior: Normal(mu=5, sigma=3)
+with pm.Model() as model:
+    mu = pm.Normal("mu", mu=5, sigma=3)  # Informative prior
+    sigma = pm.HalfNormal("sigma", sigma=1)
+    y = pm.Normal("y", mu=mu, sigma=sigma, observed=data)
+    trace = pm.sample(2000)
+
+pm.plot_trace(trace)
+plt.show()
+pm.summary(trace)
+```
+
+This code uses a Normal(5,3) prior for μ, reflecting a prior belief that the mean is around 5 with a standard deviation of 3. The posterior distribution, obtained after observing the data, shows how this prior influences the final inference.  Similar implementations are possible using Stan, offering greater flexibility and scalability for complex Bayesian models.  Remember to carefully assess the sensitivity of your results to the prior choice.
+
+
+
+```{mermaid}
+graph LR
+A[Prior Knowledge] --> B(Prior Distribution);
+B --> C{Bayesian Model};
+C --> D[Posterior Distribution];
+D --> E[Inferences];
+```
+This diagram highlights the flow from prior knowledge to final inferences using informative priors in a Bayesian model.
+
+
+## Non-Informative Priors
+
+### The Concept of Non-Informative Priors
+
+Non-informative priors aim to minimally influence the posterior distribution, letting the data "speak for itself."  They represent a state of maximal ignorance or uncertainty about the parameter before observing any data.  The goal is to allow the likelihood function to dominate the posterior, ensuring that the inference is primarily driven by the observed data.  However, it's crucial to understand that truly "non-informative" priors are often impossible to define; all priors carry some implicit assumptions. The term "non-informative" is therefore a relative one, meaning the prior's impact on the posterior is relatively small compared to the likelihood, especially with a substantial amount of data.
+
+### Types of Non-Informative Priors (Uniform, Jeffreys Prior)
+
+Several approaches exist for constructing non-informative priors:
+
+* **Uniform prior:**  Assigns equal probability density to all possible values of the parameter within a specified range. For a parameter θ in the interval [a, b], the uniform prior is:
+
+   $P(\theta) = \begin{cases}
+       \frac{1}{b-a} & a \le \theta \le b \\
+       0 & \text{otherwise}
+   \end{cases}$
+
+   While seemingly straightforward, the choice of the range [a, b] can introduce subjectivity and affect the results.
+
+* **Jeffreys prior:** A more sophisticated approach that aims to be invariant under reparameterization.  It's based on the Fisher information matrix, $I(\theta)$, which measures the amount of information about θ contained in the data. The Jeffreys prior is proportional to the square root of the determinant of the Fisher information matrix:
+
+   $P(\theta) \propto \sqrt{\text{det}(I(\theta))}$
+
+   This approach attempts to be less sensitive to the choice of parameterization than uniform priors.  However, it can still lead to improper priors (discussed below).
+
+
+### Limitations and Criticisms of Non-Informative Priors
+
+Despite their appeal, non-informative priors have limitations:
+
+* **Subjectivity in range selection (uniform):** The choice of the range for a uniform prior is inherently subjective and can significantly impact the results.
+* **Improper priors:**  Some non-informative priors, including some Jeffreys priors, are *improper*, meaning they don't integrate to one. While often yielding proper posteriors, this can cause problems in certain contexts.
+* **Sensitivity to transformations:**  The choice of parameterization can significantly affect the resulting posterior when using non-informative priors.
+* **Not truly non-informative:**  As mentioned before, the concept of a truly non-informative prior is often unrealistic.  Even priors intended to be non-informative impose certain assumptions about the parameter space.
+
+### Improper Priors
+
+An improper prior is a probability distribution that doesn't integrate to one (i.e., its total probability mass is not equal to 1).  This means it doesn't represent a valid probability distribution in the traditional sense.  However, improper priors can sometimes lead to proper posterior distributions, especially when combined with a likelihood function that provides sufficient information.  The use of improper priors raises some concerns, but in many applications, they do not cause any significant practical issues.
+
+
+
+### Implementation in Python (PyMC, Stan)
+
+Let's illustrate a non-informative prior (uniform) in PyMC:
+
+```\{python}
+#| echo: true
+import numpy as np
+import pymc as pm
+import matplotlib.pyplot as plt
+
+#Observed Data (Example: coin flips)
+data = np.array([1, 0, 1, 1, 0, 1, 0, 0, 1, 1]) # 1 represents heads, 0 represents tails.
+
+with pm.Model() as model:
+    p = pm.Uniform("p", lower=0, upper=1) #Non-informative prior for probability of heads
+    y = pm.Bernoulli("y", p=p, observed=data)
+    trace = pm.sample(2000)
+
+pm.plot_trace(trace)
+plt.show()
+pm.summary(trace)
+
+```
+
+This code uses a uniform prior for the probability of heads (`p`) in a sequence of coin flips. The posterior distribution for `p` will be primarily shaped by the observed data, reflecting the non-informative nature of the prior. Note that while a uniform prior might seem objective, its range (0 to 1 in this case) is implicitly chosen and represents an assumption.
+
+
+```{mermaid}
+graph LR
+A[Data] --> B(Likelihood);
+B --> C{Bayes' Theorem};
+C --> D[Posterior Distribution];
+D --> E[Inference];
+subgraph "Prior"
+    B -.-> F(Non-informative Prior);
+end
+```
+This diagram demonstrates how a non-informative prior minimally influences the posterior distribution, with the data (and likelihood) having the dominant effect.  However, even this seemingly non-informative prior implicitly assumes the probability lies within the [0,1] range.
+
+
+## Empirical Bayes
+
+### Introduction to Empirical Bayes
+
+Empirical Bayes methods offer a compromise between fully Bayesian approaches and frequentist methods.  They leverage the data to estimate the parameters of the prior distribution, rather than specifying the prior subjectively or using a non-informative prior.  This approach treats the hyperparameters of the prior distribution as unknown parameters that need to be estimated from the data.  The resulting prior is then used in Bayes' theorem to update the posterior distribution of the parameters of interest.  Empirical Bayes avoids the subjectivity inherent in choosing a prior distribution, but it also avoids the computational challenges of fully Bayesian methods in complex models.
+
+### Estimating Hyperparameters from Data
+
+The core of empirical Bayes is estimating the hyperparameters of the prior distribution.  This is typically done using maximum likelihood estimation (MLE) or maximum a posteriori (MAP) estimation.  Let's consider a simple example where we have $N$ independent observations $x_1, ..., x_N$ which are assumed to come from a normal distribution with unknown mean $\theta_i$ and known variance $\sigma^2$: $x_i \sim N(\theta_i, \sigma^2)$.  Further, we assume that the $\theta_i$ are drawn from a normal distribution with hyperparameters $\mu$ and $\tau^2$: $\theta_i \sim N(\mu, \tau^2)$. In this case, the hyperparameters $\mu$ and $\tau^2$ are estimated by maximizing the marginal likelihood:
+
+$P(x_1, ..., x_N | \mu, \tau^2) = \prod_{i=1}^N \int P(x_i | \theta_i)P(\theta_i | \mu, \tau^2) d\theta_i$
+
+This marginal likelihood is obtained by integrating out the $\theta_i$.  The maximization can be performed numerically, often using optimization algorithms.
+
+
+### Advantages and Disadvantages of Empirical Bayes
+
+**Advantages:**
+
+* **Reduced subjectivity:** Employs data to estimate the prior, reducing reliance on subjective prior specification.
+* **Improved estimation efficiency:** Can lead to more efficient estimates compared to using non-informative priors, particularly with limited data.
+* **Computationally simpler:** Often simpler to implement than fully Bayesian methods, especially for complex models.
+
+**Disadvantages:**
+
+* **Bias:** Can introduce bias in estimating the posterior distribution, particularly when the assumed prior model is misspecified.
+* **Sensitivity to model assumptions:** The validity of the results strongly depends on the correctness of the assumed prior model.
+* **Underestimation of uncertainty:**  The uncertainty in the posterior may be underestimated because the uncertainty in the hyperparameter estimation is not fully accounted for.
+
+
+### Implementation in Python (using scikit-learn)
+
+Scikit-learn provides tools for empirical Bayes methods, especially within the context of Gaussian mixture models.  Here’s a simple example using `sklearn.mixture.BayesianGaussianMixture`:
+
+```\{python}
+#| echo: true
+import numpy as np
+from sklearn.mixture import BayesianGaussianMixture
+import matplotlib.pyplot as plt
+
+# Generate sample data
+X = np.concatenate([np.random.normal(loc=-3, scale=1, size=100),
+                    np.random.normal(loc=3, scale=1, size=100)])[:, np.newaxis]
+
+# Fit Bayesian Gaussian Mixture model (Empirical Bayes)
+bgm = BayesianGaussianMixture(n_components=2, weight_concentration_prior=1e-2) # adjust weight_concentration_prior to control prior strength
+bgm.fit(X)
+
+# Get posterior means and covariances
+means = bgm.means_
+covariances = bgm.covariances_
+
+# Plot results
+plt.hist(X, bins=50, density=True)
+x = np.linspace(-8, 8, 100)[:, np.newaxis]
+for i in range(bgm.n_components):
+    plt.plot(x, bgm.predict_proba(x)[:, i])
+plt.show()
+
+print("Means:", means)
+print("Covariances:", covariances)
+```
+
+This example fits a Gaussian mixture model to data, allowing the mixture weights, means and variances to be inferred from the data, reflecting an empirical Bayes approach.
+
+
+### Applications of Empirical Bayes
+
+Empirical Bayes methods find applications in various fields:
+
+* **Meta-analysis:** Combining results from multiple studies.
+* **Shrinkage estimation:**  Shrinking noisy estimates towards a common mean.
+* **Bioinformatics:** Analyzing gene expression data.
+* **Machine learning:**  Improving the performance of classification and regression models.
+
+
+```{mermaid}
+graph LR
+A[Data] --> B(Estimate Hyperparameters);
+B --> C(Prior Distribution);
+C --> D{Bayes' Theorem};
+D --> E[Posterior Distribution];
+```
+
+This diagram shows the workflow of empirical Bayes: data is used to estimate prior hyperparameters, which are then used to define the prior distribution for Bayesian inference.
+
+
+## Prior Sensitivity Analysis
+
+### Assessing the Impact of Prior Choice
+
+Prior sensitivity analysis is crucial in Bayesian inference to evaluate how much the posterior inferences depend on the choice of prior distribution.  A robust Bayesian analysis should yield similar conclusions even with different, but reasonable, prior specifications.  If the posterior is highly sensitive to the prior choice, it indicates either limited data (where the prior's influence is strong) or a poor model specification.  This section details methods to assess and visualize prior sensitivity.
+
+
+### Methods for Sensitivity Analysis
+
+Several methods exist to assess prior sensitivity:
+
+* **Prior predictive checks:** Simulate data from the prior distribution and compare them to the observed data.  Large discrepancies suggest a mismatch between the prior and the data-generating process.
+* **Posterior sensitivity analysis:** Compare posterior distributions obtained with different priors.  Significant differences highlight sensitivity to the prior choice.  This comparison is often done qualitatively (visual inspection) and quantitatively (comparing summary statistics like means and credible intervals).
+* **Influence measures:**  Quantify the influence of each data point on the posterior distribution. This helps in identifying outliers or influential observations that might be driving prior sensitivity.
+* **Sensitivity analysis using different prior families:**  Explore a range of prior distributions with varying levels of informativeness within a given family (e.g., different parameters for a Gamma prior).
+
+
+### Visualizing Prior Sensitivity
+
+Visualizing posterior distributions obtained with different priors is essential.  Common visualization techniques include:
+
+* **Overlapping density plots:**  Plot the posterior density functions for different priors on the same graph.  This allows a visual comparison of their shapes and locations.
+* **Trace plots:** Display the posterior samples generated from different priors.  This visualizes the sampling process and helps identify differences in posterior exploration.
+* **Credible interval plots:** Show the credible intervals (e.g., 95% credible intervals) for each prior choice. This provides a quantitative comparison of uncertainty estimates.
+
+
+### Robustness of Bayesian Inference to Prior Choice
+
+A robust Bayesian analysis shows minimal changes in posterior inferences despite variations in reasonable prior choices.  Robustness generally increases with more data; as the sample size increases, the influence of the prior diminishes.  If the prior has a substantial influence even with substantial data, it suggests potential issues:
+
+* **Model misspecification:** The chosen likelihood function might not accurately reflect the data-generating process.
+* **Poor prior selection:** The priors might not be well-justified or reflect unrealistic beliefs.
+* **Insufficient data:**  More data might be needed to overcome the influence of the prior.
+
+Here's a Python example demonstrating posterior sensitivity analysis:
+
+```\{python}
+#| echo: true
+import numpy as np
+import pymc as pm
+import matplotlib.pyplot as plt
+
+# Simulated data (Example: Poisson data)
+data = np.random.poisson(lam=5, size=20)
+
+
+#Prior 1: Gamma(1,1)
+with pm.Model() as model1:
+    lam1 = pm.Gamma("lambda", alpha=1, beta=1)
+    y1 = pm.Poisson("y", mu=lam1, observed=data)
+    trace1 = pm.sample(1000)
+
+#Prior 2: Gamma(5,1)
+with pm.Model() as model2:
+    lam2 = pm.Gamma("lambda", alpha=5, beta=1)
+    y2 = pm.Poisson("y", mu=lam2, observed=data)
+    trace2 = pm.sample(1000)
+
+#Plot posterior distributions
+pm.plot_posterior(trace1, var_names=['lambda'], label="Prior 1")
+pm.plot_posterior(trace2, var_names=['lambda'], label="Prior 2")
+plt.legend()
+plt.show()
+
+#Compare Summary Statistics
+pm.summary(trace1)
+pm.summary(trace2)
+```
+
+This code compares posterior distributions for a Poisson rate parameter using two different Gamma priors.  By visualizing the posterior distributions and comparing their summary statistics, we can assess the sensitivity of the inference to the prior choice.  The degree of overlap between the posterior distributions visually represents the robustness of the inference. If the overlap is small, it implies a significant sensitivity to the prior choice.
+
+
+```{mermaid}
+graph LR
+A[Prior 1] --> B(Posterior 1);
+C[Prior 2] --> D(Posterior 2);
+B -.-> E(Compare);
+D -.-> E;
+E --> F[Robustness Assessment];
+```
+
+This diagram illustrates the process of prior sensitivity analysis: comparing posterior distributions derived from different priors to evaluate robustness.
+
+
+## Choosing the Right Prior: Best Practices
+
+### Considerations for Prior Selection
+
+Selecting an appropriate prior is a crucial step in Bayesian inference. The choice depends on several factors:
+
+* **Available prior knowledge:**  If strong prior knowledge exists (e.g., from previous studies or expert opinion), an informative prior is appropriate.  With limited or weak prior knowledge, a weakly informative or non-informative prior might be preferred.
+* **Amount of data:**  With abundant data, the likelihood dominates, and the influence of the prior is less critical. Conversely, with limited data, the prior plays a more significant role, demanding careful consideration.
+* **Model complexity:**  For complex models, selecting appropriate priors for numerous parameters can be challenging.  Hierarchical models can help manage complexity, but still require careful prior specification at each level.
+* **Computational feasibility:**  The choice of prior can affect computational efficiency.  Some priors might lead to more challenging posterior computations.
+* **Interpretability:**  The chosen prior should be easy to interpret and justify.
+
+
+### Guidelines for Selecting Appropriate Priors
+
+These guidelines help choose an appropriate prior:
+
+1. **Start with weakly informative priors:**  Unless strong prior knowledge justifies an informative prior, begin with weakly informative priors.  These balance the influence of prior beliefs and data.  Common choices include weakly informative variants of common distributions (e.g., Gamma(1,1), Normal(0,10)  for parameters with large possible ranges).
+
+2. **Check for prior sensitivity:** Perform a sensitivity analysis to assess the posterior’s dependence on the prior.  If the posterior is highly sensitive, additional data might be required, or the model specification might need revision.
+
+3. **Use conjugate priors when possible:**  Conjugate priors lead to analytically tractable posterior distributions, simplifying computations.  However, choosing a conjugate prior might necessitate compromising on realism.
+
+4. **Consider prior elicitation:** If expert knowledge is available, employ prior elicitation techniques (quantile, histogram, or comparative elicitation) to translate subjective expertise into a quantitative prior.
+
+5. **Justify the prior:** Always document and justify the choice of prior.  Transparency about prior selection helps others evaluate the robustness and validity of the analysis.
+
+6. **Avoid improper priors unless necessary and carefully considered:** While improper priors can sometimes yield proper posteriors, they can lead to difficulties in interpretation and comparison.
+
+7. **Use hierarchical models for complex scenarios:**  If your model involves many parameters, consider a hierarchical structure, which allows for borrowing strength across different levels and can lead to more stable and robust inferences.
+
+
+### Prior Selection in Different Bayesian Models
+
+Prior selection strategies vary depending on the model.  Here are a few examples:
+
+* **Linear Regression:** For regression coefficients, weakly informative normal priors (e.g., N(0, σ²)) are often used, where σ² is a large value reflecting considerable uncertainty. For the variance of the errors, an Inverse Gamma prior is common.
+
+* **Logistic Regression:**  For logistic regression coefficients, weakly informative normal priors are also often used.
+
+* **Time Series Models:**  In time series analysis, priors depend on the specific model. For instance, in ARIMA models, priors for autoregressive coefficients might be uniform distributions restricted to the stationary region.
+
+
+The Python example below demonstrates prior selection for a simple linear regression:
+
+
+```\{python}
+#| echo: true
+import numpy as np
+import pymc as pm
+import matplotlib.pyplot as plt
+
+#Simulated Data
+np.random.seed(123)
+X = np.linspace(0, 10, 50)
+true_intercept = 2
+true_slope = 0.5
+true_variance = 1
+
+y = true_intercept + true_slope * X + np.random.normal(0, np.sqrt(true_variance), 50)
+
+
+with pm.Model() as model:
+    intercept = pm.Normal("intercept", mu=0, sigma=10)  # weakly informative prior
+    slope = pm.Normal("slope", mu=0, sigma=10)       # weakly informative prior
+    variance = pm.HalfCauchy("variance", beta=5)       # weakly informative prior
+    mu = intercept + slope * X
+    y_obs = pm.Normal("y_obs", mu=mu, sigma=variance, observed=y)
+    trace = pm.sample(2000)
+
+pm.plot_trace(trace)
+plt.show()
+
+pm.summary(trace)
+
+```
+
+This code shows weakly informative priors for the intercept and slope (Normal(0,10)) and a weakly informative Half Cauchy prior for the error variance.  The choice of prior variance (10) reflects substantial initial uncertainty.  The Half-Cauchy prior is often preferred to Inverse Gamma as it’s less sensitive to the choice of hyperparameters.  Adjusting these hyperparameters demonstrates the impact of prior selection.
+
+
+```{mermaid}
+graph LR
+A[Model Type] --> B(Parameter);
+B --> C{Prior Knowledge};
+C --> D(Prior Choice);
+D --> E[Posterior Inference];
+```
+
+This diagram summarizes the interplay between model type, parameter, prior knowledge, prior choice, and final inference.  Choosing the right prior depends on all these factors.

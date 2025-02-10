@@ -1,0 +1,487 @@
+## Linear Algebra Review
+
+### Vectors: Definition and Representation
+
+A vector is a mathematical object that has both magnitude and direction.  It can be represented as an ordered list of numbers, called its components or elements.  In $n$-dimensional space, a vector $\mathbf{v}$ is often written as:
+
+$\mathbf{v} = \begin{bmatrix} v_1 \\ v_2 \\ \vdots \\ v_n \end{bmatrix}$
+
+where $v_1, v_2, \dots, v_n$ are the components of the vector.  The number of components, $n$, is the dimension of the vector.  Vectors can represent various things, such as points in space, directions, or forces.
+
+
+### Matrices: Definition and Representation
+
+A matrix is a rectangular array of numbers, symbols, or expressions, arranged in rows and columns.  An $m \times n$ matrix $A$ has $m$ rows and $n$ columns and is represented as:
+
+$A = \begin{bmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots & a_{2n} \\ \vdots & \vdots & \ddots & \vdots \\ a_{m1} & a_{m2} & \cdots & a_{mn} \end{bmatrix}$
+
+where $a_{ij}$ represents the element in the $i$-th row and $j$-th column. Matrices are fundamental in linear algebra and are used to represent linear transformations, systems of equations, and much more.
+
+
+### Special Matrices (e.g., Identity, Diagonal)
+
+Several types of matrices have special properties:
+
+* **Identity Matrix ($I$):** A square matrix ($n \times n$) with ones on the main diagonal and zeros elsewhere.  It acts as a multiplicative identity: $AI = IA = A$.
+
+  $I_3 = \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix}$
+
+* **Diagonal Matrix:** A square matrix where all off-diagonal elements are zero.  The elements $a_{ii}$ on the main diagonal can be any value.
+
+  $D = \begin{bmatrix} 2 & 0 & 0 \\ 0 & 5 & 0 \\ 0 & 0 & -1 \end{bmatrix}$
+
+* **Zero Matrix (or Null Matrix):** A matrix where all elements are zero.
+
+
+### Vector and Matrix Transpose
+
+The transpose of a matrix (or vector) is obtained by interchanging its rows and columns.  The transpose of matrix $A$ is denoted as $A^T$ (or $A'$).
+
+If $A = \begin{bmatrix} a & b \\ c & d \end{bmatrix}$, then $A^T = \begin{bmatrix} a & c \\ b & d \end{bmatrix}$.
+
+Similarly, if $\mathbf{v} = \begin{bmatrix} v_1 \\ v_2 \\ v_3 \end{bmatrix}$, then $\mathbf{v}^T = \begin{bmatrix} v_1 & v_2 & v_3 \end{bmatrix}$.
+
+
+### Vectors and Matrices in Python (NumPy)
+
+NumPy is a powerful Python library for numerical computation, providing efficient support for vectors and matrices.
+
+```\{python}
+#| echo: true
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Creating vectors
+vector_v = np.array([1, 2, 3])
+print("Vector v:\n", vector_v)
+
+# Creating matrices
+matrix_A = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+print("\nMatrix A:\n", matrix_A)
+
+# Identity matrix
+identity_matrix = np.identity(3)
+print("\nIdentity Matrix:\n", identity_matrix)
+
+# Transpose
+transpose_v = vector_v.T
+print("\nTranspose of vector v:\n", transpose_v)
+transpose_A = matrix_A.T
+print("\nTranspose of matrix A:\n", transpose_A)
+
+
+# Plotting a 2D vector (example)
+vector_2d = np.array([2, 3])
+plt.quiver(0, 0, vector_2d[0], vector_2d[1], angles='xy', scale_units='xy', scale=1)
+plt.xlim(-1, 5)
+plt.ylim(-1, 5)
+plt.xlabel("x")
+plt.ylabel("y")
+plt.title("2D Vector Representation")
+plt.grid()
+plt.show()
+
+```
+
+```{mermaid}
+graph LR
+    A[Vector] --> B(Magnitude);
+    A --> C(Direction);
+    D[Matrix] --> E(Rows);
+    D --> F(Columns);
+    G[Identity Matrix] --> H(I);
+    I --> J(1s on diagonal);
+    I --> K(0s elsewhere);
+
+```
+
+
+## Linear Algebra Review
+
+## Matrix Operations
+
+### Matrix Addition and Subtraction
+
+Matrix addition and subtraction are element-wise operations.  Two matrices can be added or subtracted only if they have the same dimensions ($m \times n$).  If $A$ and $B$ are $m \times n$ matrices, then their sum $C = A + B$ and difference $D = A - B$ are also $m \times n$ matrices, with elements:
+
+$c_{ij} = a_{ij} + b_{ij}$
+
+$d_{ij} = a_{ij} - b_{ij}$
+
+
+### Scalar Multiplication
+
+Scalar multiplication involves multiplying a matrix by a single number (scalar).  If $A$ is an $m \times n$ matrix and $k$ is a scalar, then $kA$ is an $m \times n$ matrix with elements:
+
+$(kA)_{ij} = k \cdot a_{ij}$
+
+
+### Matrix Multiplication
+
+Matrix multiplication is more complex than addition or scalar multiplication.  To multiply two matrices, the number of columns in the first matrix must equal the number of rows in the second matrix.  If $A$ is an $m \times n$ matrix and $B$ is an $n \times p$ matrix, then their product $C = AB$ is an $m \times p$ matrix with elements:
+
+$c_{ij} = \sum_{k=1}^{n} a_{ik}b_{kj}$
+
+This means each element $c_{ij}$ is the dot product of the $i$-th row of $A$ and the $j$-th column of $B$.  Matrix multiplication is not commutative ($AB \neq BA$ in general).
+
+
+### Hadamard Product
+
+The Hadamard product (also known as the element-wise product) is defined for matrices of the same dimensions. If $A$ and $B$ are both $m \times n$ matrices, their Hadamard product $C = A \odot B$ is an $m \times n$ matrix with elements:
+
+$c_{ij} = a_{ij} \cdot b_{ij}$
+
+
+### Matrix Inverse
+
+The inverse of a square matrix $A$, denoted as $A^{-1}$, is a matrix such that $AA^{-1} = A^{-1}A = I$, where $I$ is the identity matrix.  Not all square matrices have inverses; a matrix is invertible (or nonsingular) if and only if its determinant is non-zero.
+
+
+### Determinant of a Matrix
+
+The determinant of a square matrix $A$, denoted as $\det(A)$ or $|A|$, is a scalar value that can be computed from its elements.  It provides information about the matrix's properties, such as invertibility.  For a $2 \times 2$ matrix:
+
+$A = \begin{bmatrix} a & b \\ c & d \end{bmatrix}$,  $\det(A) = ad - bc$
+
+For larger matrices, the calculation is more involved (e.g., cofactor expansion).
+
+
+### Matrix Operations in Python (NumPy)
+
+```\{python}
+#| echo: true
+import numpy as np
+
+# Matrix addition and subtraction
+A = np.array([[1, 2], [3, 4]])
+B = np.array([[5, 6], [7, 8]])
+C = A + B
+D = A - B
+print("A + B:\n", C)
+print("A - B:\n", D)
+
+# Scalar multiplication
+k = 2
+kA = k * A
+print("\nkA:\n", kA)
+
+# Matrix multiplication
+E = np.array([[1, 2], [3, 4]])
+F = np.array([[5, 6], [7, 8]])
+EF = np.dot(E, F)  # or E @ F in Python 3.5+
+print("\nE x F:\n", EF)
+
+# Hadamard product
+G = np.array([[1, 2], [3, 4]])
+H = np.array([[5, 6], [7, 8]])
+GH = np.multiply(G, H) #or G * H in Python (with broadcasting considerations)
+print("\nHadamard Product (G*H):\n", GH)
+
+# Determinant
+det_A = np.linalg.det(A)
+print("\nDeterminant of A:", det_A)
+
+# Inverse (if it exists)
+try:
+    inverse_A = np.linalg.inv(A)
+    print("\nInverse of A:\n", inverse_A)
+except np.linalg.LinAlgError:
+    print("\nMatrix A is not invertible.")
+
+
+```
+
+```{mermaid}
+graph LR
+    A[Matrix Operations] --> B(Addition);
+    A --> C(Subtraction);
+    A --> D(Scalar Multiplication);
+    A --> E(Matrix Multiplication);
+    A --> F(Hadamard Product);
+    A --> G(Inverse);
+    A --> H(Determinant);
+
+```
+
+
+## Linear Algebra Review
+
+## Eigenvalues and Eigenvectors
+
+### Definition of Eigenvalues and Eigenvectors
+
+For a square matrix $A$, an eigenvector $\mathbf{v}$ is a non-zero vector that, when multiplied by $A$, only changes by a scalar factor $\lambda$. This scalar $\lambda$ is called the eigenvalue associated with the eigenvector $\mathbf{v}$.  Formally:
+
+$A\mathbf{v} = \lambda\mathbf{v}$
+
+This equation represents an eigenvalue problem.  Finding the eigenvalues and eigenvectors of a matrix is crucial in many linear algebra applications.
+
+
+### Calculating Eigenvalues and Eigenvectors
+
+To find the eigenvalues and eigenvectors, we rewrite the eigenvalue equation as:
+
+$(A - \lambda I)\mathbf{v} = \mathbf{0}$
+
+where $I$ is the identity matrix.  For a non-trivial solution ($\mathbf{v} \neq \mathbf{0}$), the determinant of the matrix $(A - \lambda I)$ must be zero:
+
+$\det(A - \lambda I) = 0$
+
+This equation is called the characteristic equation.  Solving it gives the eigenvalues $\lambda$.  For each eigenvalue, we then solve the system of linear equations $(A - \lambda I)\mathbf{v} = \mathbf{0}$ to find the corresponding eigenvector $\mathbf{v}$.
+
+
+### Eigenvalue Decomposition
+
+If a square matrix $A$ has $n$ linearly independent eigenvectors, it can be decomposed as:
+
+$A = V \Lambda V^{-1}$
+
+where:
+
+* $V$ is a matrix whose columns are the eigenvectors of $A$.
+* $\Lambda$ is a diagonal matrix whose diagonal elements are the eigenvalues of $A$.
+* $V^{-1}$ is the inverse of $V$.
+
+This decomposition is called the eigenvalue decomposition or spectral decomposition.  It's a powerful tool for understanding the properties of a matrix.
+
+
+### Applications in Linear Algebra
+
+Eigenvalues and eigenvectors have numerous applications, including:
+
+* **Principal Component Analysis (PCA):**  Used for dimensionality reduction.  Eigenvectors corresponding to the largest eigenvalues represent the principal components.
+* **Markov Chains:** Eigenvalues and eigenvectors are used to find the stationary distribution of a Markov chain.
+* **Solving differential equations:** Eigenvalues and eigenvectors simplify the solution of systems of linear differential equations.
+* **Graph theory:** Eigenvalues of the adjacency matrix of a graph provide information about the graph's structure.
+
+
+### Finding Eigenvalues and Eigenvectors in Python (NumPy/SciPy)
+
+```\{python}
+#| echo: true
+import numpy as np
+from scipy.linalg import eig
+
+# Example matrix
+A = np.array([[2, 1], [1, 2]])
+
+# Calculate eigenvalues and eigenvectors using NumPy/SciPy
+eigenvalues, eigenvectors = eig(A)
+
+print("Eigenvalues:\n", eigenvalues)
+print("\nEigenvectors:\n", eigenvectors)
+
+#Verify the eigenvalue equation (approximately due to floating point precision)
+for i in range(len(eigenvalues)):
+    print(f"\nVerification for eigenvalue {eigenvalues[i]}:")
+    print(np.dot(A,eigenvectors[:,i]))
+    print(eigenvalues[i]*eigenvectors[:,i])
+
+```
+
+```{mermaid}
+graph LR
+    A[Matrix A] --> B{Eigenvalue Problem};
+    B --> C(Eigenvalues λ);
+    B --> D(Eigenvectors v);
+    C --> E[Eigenvalue Decomposition];
+    D --> E;
+    E --> F(Applications);
+    F --> G(PCA);
+    F --> H(Markov Chains);
+
+```
+
+
+## Linear Algebra Review
+
+## Linear Transformations
+
+### Introduction to Linear Transformations
+
+A linear transformation is a function $T: \mathbb{R}^n \rightarrow \mathbb{R}^m$ that maps vectors from an $n$-dimensional space to an $m$-dimensional space, satisfying two key properties:
+
+1. **Additivity:** $T(\mathbf{u} + \mathbf{v}) = T(\mathbf{u}) + T(\mathbf{v})$ for all vectors $\mathbf{u}, \mathbf{v} \in \mathbb{R}^n$.
+2. **Homogeneity:** $T(c\mathbf{u}) = cT(\mathbf{u})$ for all vectors $\mathbf{u} \in \mathbb{R}^n$ and all scalars $c$.
+
+These properties ensure that the transformation preserves linear combinations.  Linear transformations are fundamental in linear algebra and have wide applications in various fields.
+
+
+### Representing Linear Transformations with Matrices
+
+Any linear transformation $T: \mathbb{R}^n \rightarrow \mathbb{R}^m$ can be represented by an $m \times n$ matrix $A$.  If $\mathbf{x}$ is a vector in $\mathbb{R}^n$, then the transformed vector $\mathbf{y} = T(\mathbf{x})$ in $\mathbb{R}^m$ is given by:
+
+$\mathbf{y} = A\mathbf{x}$
+
+The matrix $A$ encodes the transformation's effect on the basis vectors of $\mathbb{R}^n$.
+
+
+### Matrix Transformations in 2D and 3D Space
+
+In 2D and 3D space, matrix transformations can represent various geometric operations such as rotation, scaling, shearing, and reflection.  For example:
+
+* **Rotation in 2D:**  A rotation by an angle $\theta$ counterclockwise is represented by the matrix:
+
+$R(\theta) = \begin{bmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{bmatrix}$
+
+* **Scaling in 2D:** Scaling by factors $s_x$ and $s_y$ along the x and y axes is represented by:
+
+$S(s_x, s_y) = \begin{bmatrix} s_x & 0 \\ 0 & s_y \end{bmatrix}$
+
+
+### Linear Transformations in Python
+
+```\{python}
+#| echo: true
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Example: 2D rotation
+theta = np.pi / 4  # 45-degree rotation
+R = np.array([[np.cos(theta), -np.sin(theta)], [np.sin(theta), np.cos(theta)]])
+
+# Vector to transform
+x = np.array([1, 0])
+
+# Apply the transformation
+y = np.dot(R, x)
+
+#Plotting
+plt.figure(figsize=(6,6))
+plt.quiver([0,0],[0,0],[x[0],y[0]],[x[1],y[1]],angles='xy',scale_units='xy',scale=1,color=['blue','red'])
+plt.xlim([-1,1])
+plt.ylim([-1,1])
+plt.xlabel("x")
+plt.ylabel("y")
+plt.title("2D Rotation Transformation")
+plt.grid()
+plt.show()
+
+
+# Example: 2D scaling
+S = np.array([[2, 0], [0, 0.5]])
+x = np.array([1,1])
+y = np.dot(S,x)
+
+plt.figure(figsize=(6,6))
+plt.quiver([0,0],[0,0],[x[0],y[0]],[x[1],y[1]],angles='xy',scale_units='xy',scale=1,color=['blue','red'])
+plt.xlim([-1,3])
+plt.ylim([-1,2])
+plt.xlabel("x")
+plt.ylabel("y")
+plt.title("2D Scaling Transformation")
+plt.grid()
+plt.show()
+
+```
+
+```{mermaid}
+graph LR
+    A[Linear Transformation] --> B(Additivity);
+    A --> C(Homogeneity);
+    D[Matrix Representation] --> E(mxn matrix A);
+    E --> F(y = Ax);
+    G[2D/3D Transformations] --> H(Rotation);
+    G --> I(Scaling);
+    G --> J(Shearing);
+    G --> K(Reflection);
+
+```
+
+
+## Linear Algebra Review
+
+## Vector Spaces
+
+### Definition and Examples
+
+A vector space $V$ over a field $F$ (often the real numbers $\mathbb{R}$ or complex numbers $\mathbb{C}$) is a set of objects (vectors) that satisfy the following axioms under two operations: vector addition and scalar multiplication.
+
+**Vector Addition Axioms:**
+
+1. Closure under addition:  For all $\mathbf{u}, \mathbf{v} \in V$, $\mathbf{u} + \mathbf{v} \in V$.
+2. Commutativity: $\mathbf{u} + \mathbf{v} = \mathbf{v} + \mathbf{u}$ for all $\mathbf{u}, \mathbf{v} \in V$.
+3. Associativity: $(\mathbf{u} + \mathbf{v}) + \mathbf{w} = \mathbf{u} + (\mathbf{v} + \mathbf{w})$ for all $\mathbf{u}, \mathbf{v}, \mathbf{w} \in V$.
+4. Identity element: There exists a zero vector $\mathbf{0} \in V$ such that $\mathbf{u} + \mathbf{0} = \mathbf{u}$ for all $\mathbf{u} \in V$.
+5. Inverse element: For every $\mathbf{u} \in V$, there exists an additive inverse $-\mathbf{u} \in V$ such that $\mathbf{u} + (-\mathbf{u}) = \mathbf{0}$.
+
+**Scalar Multiplication Axioms:**
+
+1. Closure under scalar multiplication: For all $c \in F$ and $\mathbf{u} \in V$, $c\mathbf{u} \in V$.
+2. Distributivity over vector addition: $c(\mathbf{u} + \mathbf{v}) = c\mathbf{u} + c\mathbf{v}$ for all $c \in F$ and $\mathbf{u}, \mathbf{v} \in V$.
+3. Distributivity over scalar addition: $(c + d)\mathbf{u} = c\mathbf{u} + d\mathbf{u}$ for all $c, d \in F$ and $\mathbf{u} \in V$.
+4. Associativity of scalar multiplication: $c(d\mathbf{u}) = (cd)\mathbf{u}$ for all $c, d \in F$ and $\mathbf{u} \in V$.
+5. Identity element: $1\mathbf{u} = \mathbf{u}$ for all $\mathbf{u} \in V$, where $1$ is the multiplicative identity in $F$.
+
+
+**Examples:**
+
+* $\mathbb{R}^n$: The set of all $n$-dimensional vectors with real components.
+* The set of all polynomials of degree at most $n$.
+* The set of all continuous functions on an interval $[a, b]$.
+
+
+### Linear Independence and Span
+
+A set of vectors $\{\mathbf{v}_1, \mathbf{v}_2, \dots, \mathbf{v}_k\}$ in a vector space $V$ is linearly independent if the only solution to the equation:
+
+$c_1\mathbf{v}_1 + c_2\mathbf{v}_2 + \dots + c_k\mathbf{v}_k = \mathbf{0}$
+
+is the trivial solution $c_1 = c_2 = \dots = c_k = 0$. Otherwise, the vectors are linearly dependent.
+
+The span of a set of vectors $\{\mathbf{v}_1, \mathbf{v}_2, \dots, \mathbf{v}_k\}$ is the set of all possible linear combinations of these vectors:
+
+$\text{span}(\{\mathbf{v}_1, \mathbf{v}_2, \dots, \mathbf{v}_k\}) = \{c_1\mathbf{v}_1 + c_2\mathbf{v}_2 + \dots + c_k\mathbf{v}_k : c_i \in F\}$
+
+
+### Basis and Dimension
+
+A basis for a vector space $V$ is a linearly independent set of vectors that spans $V$.  The dimension of $V$ is the number of vectors in a basis.  A vector space can have multiple bases, but they all have the same number of vectors.
+
+
+### Subspaces
+
+A subspace $W$ of a vector space $V$ is a subset of $V$ that is itself a vector space under the same operations as $V$.  To verify that a subset is a subspace, it must satisfy:
+
+1. The zero vector $\mathbf{0}$ is in $W$.
+2. $W$ is closed under addition: If $\mathbf{u}, \mathbf{v} \in W$, then $\mathbf{u} + \mathbf{v} \in W$.
+3. $W$ is closed under scalar multiplication: If $c \in F$ and $\mathbf{u} \in W$, then $c\mathbf{u} \in W$.
+
+
+```\{python}
+#| echo: true
+import numpy as np
+
+# Example: checking linear independence
+v1 = np.array([1, 0])
+v2 = np.array([0, 1])
+v3 = np.array([1, 1])
+
+#Form a matrix and compute the rank
+matrix = np.vstack([v1,v2,v3])
+rank = np.linalg.matrix_rank(matrix)
+
+if rank == len([v1,v2,v3]):
+    print("Vectors are linearly independent.")
+else:
+    print("Vectors are linearly dependent.")
+
+
+```
+
+```{mermaid}
+graph LR
+    A[Vector Space V] --> B(Vectors);
+    A --> C(Operations);
+    C --> D(Addition);
+    C --> E(Scalar Multiplication);
+    F[Linear Independence] --> G(Spanning Set);
+    H[Basis] --> I(Linearly Independent);
+    H --> J(Spans V);
+    K[Subspace W] --> L(⊂ V);
+    K --> M(Closed under +);
+    K --> N(Closed under scalar multiplication);
+
+
+```
+

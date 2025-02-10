@@ -1,0 +1,489 @@
+## Introduction to Parameter Estimation
+
+Parameter estimation is a fundamental problem in statistics, aiming to determine the values of unknown parameters in a statistical model based on observed data.  This chapter explores parameter estimation through the lens of Bayes' Theorem, contrasting it with frequentist approaches. We will learn how Bayes' Theorem allows us to incorporate prior knowledge and update our beliefs about parameters as we gather more data.
+
+### Frequentist vs. Bayesian Approaches
+
+Frequentist and Bayesian approaches to parameter estimation differ fundamentally in their interpretation of probability.
+
+* **Frequentist Approach:**  Frequentists view probability as the long-run frequency of an event.  Parameter estimation focuses on point estimates (e.g., maximum likelihood estimate) and confidence intervals, which are constructed based on the sampling distribution of the estimator.  The true parameter is considered fixed, and the uncertainty is solely attributed to the variability of the data.  For example, maximum likelihood estimation (MLE) seeks to find the parameter values that maximize the likelihood function, $L(\theta|x) = P(x|\theta)$, where $x$ is the observed data and $\theta$ is the parameter.
+
+* **Bayesian Approach:** Bayesians view probability as a degree of belief.  The unknown parameter $\theta$ is treated as a random variable with a probability distribution.  The Bayesian approach uses Bayes' Theorem to update the prior distribution (our initial belief about $\theta$) based on the observed data to obtain the posterior distribution.  This posterior distribution represents our updated belief about $\theta$ after observing the data.
+
+
+### The Role of Bayes' Theorem
+
+Bayes' Theorem provides the mathematical framework for updating our beliefs about parameters in light of new data. The theorem states:
+
+$P(\theta|x) = \frac{P(x|\theta)P(\theta)}{P(x)}$
+
+where:
+
+* $P(\theta|x)$ is the posterior distribution of $\theta$ given the data $x$. This is what we want to estimate.
+* $P(x|\theta)$ is the likelihood function, representing the probability of observing the data given a specific value of $\theta$.
+* $P(\theta)$ is the prior distribution of $\theta$, representing our initial belief about the parameter before observing the data.
+* $P(x)$ is the marginal likelihood (or evidence), which acts as a normalizing constant.  It can often be calculated as: $P(x) = \int P(x|\theta)P(\theta)d\theta$.
+
+In practice, we often work with the proportional relationship:
+
+$P(\theta|x) \propto P(x|\theta)P(\theta)$
+
+This means that the posterior distribution is proportional to the product of the likelihood and the prior.
+
+
+### Prior and Posterior Distributions
+
+The choice of prior distribution reflects our prior knowledge or beliefs about the parameter.  A non-informative prior expresses a lack of strong prior knowledge, while an informative prior incorporates existing information. The posterior distribution is then obtained by combining the prior and the likelihood.
+
+Let's illustrate this with a simple example using Python.  Suppose we are estimating the mean $\mu$ of a normal distribution with known variance $\sigma^2$.  We'll assume a normal prior for $\mu$:
+
+$\mu \sim N(\mu_0, \sigma_0^2)$
+
+and observe data $x_1, x_2, ..., x_n$ which are i.i.d. from $N(\mu, \sigma^2)$. The likelihood is:
+
+$P(x|\mu) = \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}}exp(-\frac{(x_i-\mu)^2}{2\sigma^2})$
+
+
+```\{python}
+#| echo: true
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import norm
+
+# Prior parameters
+mu_0 = 0  
+sigma_0 = 1
+
+# Likelihood parameters
+sigma = 1
+data = np.random.normal(loc=2, scale=sigma, size=10) # Observed data, generating from a distribution with mean 2
+
+# Calculate posterior parameters
+n = len(data)
+mu_n = (mu_0 / sigma_0**2 + np.sum(data) / sigma**2) / (1 / sigma_0**2 + n / sigma**2)
+sigma_n = np.sqrt(1 / (1 / sigma_0**2 + n / sigma**2))
+
+# Plot prior and posterior
+x = np.linspace(-5, 5, 100)
+plt.plot(x, norm.pdf(x, mu_0, sigma_0), label='Prior')
+plt.plot(x, norm.pdf(x, mu_n, sigma_n), label='Posterior')
+plt.xlabel('μ')
+plt.ylabel('Density')
+plt.legend()
+plt.title('Prior and Posterior Distributions of μ')
+plt.show()
+
+```
+
+This code generates a plot showing how the prior distribution is updated to the posterior distribution after observing the data.  Note that the posterior is a compromise between the prior and the information from the data.  As we observe more data, the influence of the prior diminishes, and the posterior becomes increasingly dominated by the data likelihood.
+
+
+```{mermaid}
+graph LR
+A[Prior Distribution] --> B(Bayes' Theorem);
+C[Likelihood Function] --> B;
+B --> D[Posterior Distribution];
+```
+
+This diagram illustrates how Bayes' Theorem combines the prior and likelihood to produce the posterior distribution.
+
+
+## Point Estimation
+
+Point estimation aims to provide a single best guess for the unknown parameter(s) of a statistical model.  In the Bayesian framework, this is often done by summarizing the posterior distribution.  We'll explore two common approaches: Maximum Likelihood Estimation (MLE) and Maximum A Posteriori (MAP) estimation.
+
+### Maximum Likelihood Estimation (MLE)
+
+Maximum Likelihood Estimation (MLE) is a frequentist approach.  It finds the parameter value that maximizes the likelihood function, which is the probability of observing the data given the parameter value.  Formally, we want to find $\hat{\theta}_{MLE}$ such that:
+
+$\hat{\theta}_{MLE} = \arg \max_{\theta} L(\theta|x) = \arg \max_{\theta} P(x|\theta)$
+
+where $L(\theta|x)$ is the likelihood function, $x$ represents the observed data, and $\theta$ is the parameter we are estimating.  Often, it's easier to work with the log-likelihood, $\log L(\theta|x)$, since it simplifies calculations and doesn't change the location of the maximum.
+
+
+### Maximum A Posteriori (MAP) Estimation
+
+Maximum A Posteriori (MAP) estimation is a Bayesian approach.  It finds the mode of the posterior distribution, i.e., the parameter value that maximizes the posterior probability.  Formally, we want to find $\hat{\theta}_{MAP}$ such that:
+
+$\hat{\theta}_{MAP} = \arg \max_{\theta} P(\theta|x) = \arg \max_{\theta} \frac{P(x|\theta)P(\theta)}{P(x)} = \arg \max_{\theta} P(x|\theta)P(\theta)$
+
+Since $P(x)$ is independent of $\theta$, we can ignore it in the maximization.  Therefore, the MAP estimate is the parameter value that maximizes the product of the likelihood and the prior.
+
+
+### Comparing MLE and MAP
+
+| Feature        | MLE                               | MAP                                   |
+|----------------|------------------------------------|----------------------------------------|
+| Approach       | Frequentist                       | Bayesian                              |
+| Goal           | Maximize likelihood               | Maximize posterior probability          |
+| Prior          | Implicitly assumes uniform prior   | Explicitly uses a prior distribution   |
+| Computation    | Often simpler                     | Can be more complex, depending on prior |
+| Interpretation | Point estimate, no uncertainty     | Point estimate, reflects prior belief |
+
+
+As the number of data points increases, the influence of the prior diminishes, and the MAP estimate often converges to the MLE estimate.  However, with limited data, the prior can significantly affect the MAP estimate.
+
+
+### Python Implementation of MLE and MAP
+
+Let's revisit the example of estimating the mean ($\mu$) of a normal distribution with known variance ($\sigma^2$). We'll assume a normal prior for $\mu$.
+
+```\{python}
+#| echo: true
+import numpy as np
+from scipy.stats import norm
+import matplotlib.pyplot as plt
+
+# Data
+data = np.array([1.5, 2.1, 1.8, 2.3, 1.9])
+sigma = 0.5  # Known variance
+
+# MLE
+mle = np.mean(data)
+
+# MAP (assuming a normal prior)
+mu_0 = 2   # Prior mean
+sigma_0 = 1 # Prior standard deviation
+mu_map = (np.sum(data) / (sigma**2) + mu_0 / (sigma_0**2)) / (len(data) / (sigma**2) + 1 / (sigma_0**2))
+
+# Plotting
+x = np.linspace(0, 3, 100)
+plt.hist(data, density=True, alpha=0.6, label='Data Histogram')
+plt.plot(x, norm.pdf(x, mle, sigma/np.sqrt(len(data))), label='MLE')
+plt.plot(x, norm.pdf(x, mu_map, np.sqrt(1/(len(data)/sigma**2 + 1/sigma_0**2))), label='MAP')
+plt.xlabel('μ')
+plt.ylabel('Density')
+plt.legend()
+plt.show()
+
+print(f"MLE: {mle}")
+print(f"MAP: {mu_map}")
+```
+
+This code calculates both the MLE and MAP estimates for $\mu$ and visualizes them against a histogram of the data. You can observe how MLE and MAP might differ when the prior has an effect, especially with a small sample size. As the sample size increases the MLE and MAP estimators should converge.
+
+
+```{mermaid}
+graph LR
+A[Data] --> B(Likelihood Function);
+C[Prior Distribution] --> D(Bayes Theorem);
+B --> D;
+D --> E[Posterior Distribution];
+F[MAP: mode of Posterior] --> E;
+G[MLE: maximum of Likelihood] --> B;
+```
+
+This diagram shows how both MLE and MAP approaches relate to the likelihood function and, in the case of MAP, the prior and posterior distributions.
+
+
+## Credible Intervals
+
+While point estimates provide a single value for an unknown parameter, credible intervals offer a range of plausible values, reflecting the uncertainty in the estimate.  Credible intervals are a key feature of Bayesian inference.
+
+### Definition and Interpretation
+
+A $100(1-\alpha)\%$ credible interval for a parameter $\theta$ is an interval $[a, b]$ such that:
+
+$P(a \le \theta \le b | x) = 1 - \alpha$
+
+where $x$ represents the observed data.  This means that the probability that the true value of $\theta$ lies within the interval $[a, b]$, given the observed data, is $1-\alpha$.  The interpretation is fundamentally probabilistic: there's a $1-\alpha$ probability that the true parameter value is within the credible interval.  This is different from the frequentist confidence interval, which has a frequentist interpretation about the procedure rather than a statement about a single interval.
+
+### Calculating Credible Intervals
+
+Calculating credible intervals depends on the form of the posterior distribution.  If the posterior is easily integrable, we can find the interval directly. If not, we can use numerical methods such as Markov Chain Monte Carlo (MCMC) sampling techniques (covered in later chapters) to obtain samples from the posterior and estimate the credible interval from these samples.
+
+For simple cases, if we have the cumulative distribution function (CDF) of the posterior distribution, $F(\theta|x)$, we can find the credible interval $[a, b]$ by solving:
+
+$F(a|x) = \frac{\alpha}{2}$  and  $F(b|x) = 1 - \frac{\alpha}{2}$
+
+
+### Equal-tailed vs. Highest Posterior Density (HPD) Intervals
+
+There are different ways to construct credible intervals:
+
+* **Equal-tailed intervals:** These intervals are defined by the equations above. They are simple to calculate but might not be the shortest interval containing $1-\alpha$ probability mass.
+
+* **Highest Posterior Density (HPD) intervals:** These intervals contain the values of $\theta$ with the highest posterior density.  They are always the shortest intervals containing $1-\alpha$ probability mass.  Finding HPD intervals often requires numerical optimization techniques.
+
+
+### Python Implementation of Credible Intervals
+
+Let's demonstrate calculating equal-tailed credible intervals using the previous example of estimating the mean of a normal distribution.
+
+```\{python}
+#| echo: true
+import numpy as np
+from scipy.stats import norm
+import matplotlib.pyplot as plt
+
+# Posterior parameters (from previous example, assuming we have posterior distribution)
+mu_n = 2.0  #Posterior mean
+sigma_n = 0.2 #Posterior standard deviation
+alpha = 0.05 # 95% Credible Interval
+
+#Calculate quantiles
+lower_bound = norm.ppf(alpha/2, loc=mu_n, scale=sigma_n)
+upper_bound = norm.ppf(1 - alpha/2, loc=mu_n, scale=sigma_n)
+
+# Plotting
+x = np.linspace(mu_n - 3*sigma_n, mu_n + 3*sigma_n, 100)
+plt.plot(x, norm.pdf(x, mu_n, sigma_n), label='Posterior Distribution')
+plt.fill_between(x, 0, norm.pdf(x, mu_n, sigma_n), where=(x >= lower_bound) & (x <= upper_bound), color='skyblue', alpha=0.5, label=f'{1-alpha:.0%} Credible Interval')
+plt.xlabel('μ')
+plt.ylabel('Density')
+plt.legend()
+plt.title('Credible Interval')
+plt.show()
+
+print(f"95% Credible Interval: [{lower_bound:.2f}, {upper_bound:.2f}]")
+
+```
+
+This code calculates and plots a 95% equal-tailed credible interval for the posterior distribution of $\mu$.
+
+
+### Choosing the Credible Interval Level
+
+The choice of the credible interval level (e.g., 95%, 99%) depends on the context and the desired level of certainty.  A higher credible interval level implies a wider interval, reflecting greater uncertainty. A 95% credible interval is commonly used, but other levels might be appropriate depending on the application's risk tolerance.  There isn't a universally optimal level.
+
+```{mermaid}
+graph LR
+A[Posterior Distribution] --> B(CDF);
+B --> C{Find quantiles};
+C --> D[Credible Interval];
+```
+This diagram shows how to obtain a credible interval from the posterior distribution via the CDF.
+
+
+## Advanced Topics in Parameter Estimation
+
+This section briefly introduces some more advanced topics in Bayesian parameter estimation, providing a foundation for further exploration.
+
+### Bayesian Model Comparison
+
+Often, we have multiple competing models to explain the same data.  Bayesian model comparison provides a formal framework for selecting the best model.  The key concept is the *Bayes factor*, which is the ratio of the marginal likelihoods of two models:
+
+$B_{12} = \frac{P(x|M_1)}{P(x|M_2)}$
+
+where $P(x|M_i)$ is the marginal likelihood of model $M_i$. A Bayes factor greater than 1 favors model $M_1$, while a Bayes factor less than 1 favors model $M_2$.  The marginal likelihood is often difficult to calculate analytically, requiring numerical methods like MCMC.  Another approach is to use model evidence.  The model with the higher model evidence is favored.  Model evidence is calculated by integrating the likelihood over the prior:
+
+$P(x|M) = \int P(x|\theta, M) P(\theta|M) d\theta$
+
+Where $M$ denotes the model.
+
+
+### Hierarchical Models
+
+Hierarchical models are useful when dealing with data from multiple related sources or groups.  They introduce parameters at different levels, allowing for sharing of information across groups.  For example, we might model the performance of students in different schools, allowing for school-specific effects while also borrowing strength across schools to estimate overall effects.  This can be represented by multi-level models.  A simple hierarchical model might look like:
+
+$\theta_i \sim N(\mu, \tau^2)$ (group-level parameters)
+$x_i \sim N(\theta_i, \sigma^2)$ (individual observations)
+
+Here, $\theta_i$ are group-level parameters,  $\mu$ and $\tau^2$ represent the hyperparameters for the group-level distribution, and $\sigma^2$ is the variance of individual observations.
+
+
+### Dealing with High-Dimensional Data
+
+High-dimensional data (many parameters relative to the number of data points) pose challenges for Bayesian estimation.  Techniques like regularization (e.g., adding priors that shrink parameters towards zero) or dimensionality reduction are crucial to avoid overfitting and ensure stable posterior estimates.  Prior selection plays a critical role in high-dimensional settings.  Sparsity-inducing priors, like Laplace or horseshoe priors, are particularly useful in shrinking many parameters to exactly zero, effectively performing variable selection.
+
+
+### Computational Methods (MCMC)
+
+For complex models, analytical solutions are often intractable. Markov Chain Monte Carlo (MCMC) methods provide a powerful approach to approximate the posterior distribution by generating a sample from it.   MCMC algorithms, such as Metropolis-Hastings and Gibbs sampling, construct a Markov chain whose stationary distribution is the target posterior.  By running the chain for a sufficient number of iterations, we can obtain a sample that accurately represents the posterior.  Libraries like PyMC3 provide tools for implementing MCMC in Python.
+
+```\{python}
+#| echo: true
+import pymc3 as pm
+import numpy as np
+
+# Example: Simple linear regression with PyMC3
+
+# Data
+X = np.array([1, 2, 3, 4, 5])
+y = np.array([2.1, 3.9, 6.2, 7.8, 10.1])
+
+with pm.Model() as model:
+    # Priors
+    intercept = pm.Normal("intercept", mu=0, sigma=10)
+    slope = pm.Normal("slope", mu=0, sigma=10)
+    sigma = pm.HalfNormal("sigma", sigma=5)
+
+    # Likelihood
+    mu = intercept + slope * X
+    y_obs = pm.Normal("y_obs", mu=mu, sigma=sigma, observed=y)
+
+    # Posterior sampling using MCMC
+    trace = pm.sample(1000, tune=1000) #tune helps the algorithm to converge faster
+
+pm.traceplot(trace)
+plt.show()
+
+pm.summary(trace)
+```
+
+
+This code performs a simple linear regression using PyMC3, demonstrating MCMC sampling to obtain posterior estimates of the model parameters.  Note that `tune` is added to allow the sampler to find a good starting point for the MCMC chain. The trace plot visualizes the MCMC samples and helps assess convergence.  The summary provides statistics like the mean, standard deviation, and credible intervals for each parameter.  The use of priors such as `HalfNormal` helps to guide and constrain the MCMC algorithm.
+
+```{mermaid}
+graph LR
+A[Prior] --> B(Likelihood);
+B --> C[Posterior];
+C --> D[MCMC Sampling];
+D --> E[Posterior Sample];
+```
+
+This diagram illustrates the role of MCMC in approximating the posterior distribution.  The algorithm iteratively samples from the posterior distribution until the samples accurately represent the target distribution.
+
+
+## Case Studies
+
+This section presents practical examples of Bayesian parameter estimation using Python.
+
+### Example: Estimating the Mean of a Normal Distribution
+
+Let's revisit the problem of estimating the mean ($\mu$) of a normal distribution with known variance ($\sigma^2$) from a sample of data $x_1, x_2, \dots, x_n$. We assume a normal prior for $\mu$:
+
+$\mu \sim N(\mu_0, \sigma_0^2)$
+
+The likelihood is given by:
+
+$P(x|\mu) = \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x_i - \mu)^2}{2\sigma^2}\right)$
+
+The posterior distribution, using Bayes' Theorem, is also a normal distribution:
+
+$\mu | x \sim N(\mu_n, \sigma_n^2)$
+
+where:
+
+$\mu_n = \frac{\frac{\mu_0}{\sigma_0^2} + \frac{\sum_{i=1}^n x_i}{\sigma^2}}{\frac{1}{\sigma_0^2} + \frac{n}{\sigma^2}}$
+
+$\sigma_n^2 = \frac{1}{\frac{1}{\sigma_0^2} + \frac{n}{\sigma^2}}$
+
+```\{python}
+#| echo: true
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import norm
+
+# Prior parameters
+mu_0 = 0
+sigma_0 = 1
+
+# Likelihood parameters (assuming known sigma)
+sigma = 1
+
+# Data
+data = np.random.normal(loc=2, scale=sigma, size=10)
+
+# Posterior parameters
+n = len(data)
+mu_n = (mu_0 / sigma_0**2 + np.sum(data) / sigma**2) / (1 / sigma_0**2 + n / sigma**2)
+sigma_n = np.sqrt(1 / (1 / sigma_0**2 + n / sigma**2))
+
+# Plotting
+x = np.linspace(-1, 5, 100)
+plt.plot(x, norm.pdf(x, mu_0, sigma_0), label='Prior')
+plt.plot(x, norm.pdf(x, mu_n, sigma_n), label='Posterior')
+plt.hist(data, density=True, alpha=0.5, label='Data Histogram')
+plt.xlabel('μ')
+plt.ylabel('Density')
+plt.legend()
+plt.show()
+print(f"Posterior Mean: {mu_n:.2f}")
+print(f"Posterior Standard Deviation: {sigma_n:.2f}")
+
+```
+
+This code generates a plot showing the prior, posterior, and data histogram.
+
+
+### Example: Estimating the Parameter of a Binomial Distribution
+
+Let's estimate the success probability ($\theta$) of a binomial distribution. We observe $k$ successes in $n$ trials.  We assume a Beta prior for $\theta$:
+
+$\theta \sim Beta(\alpha, \beta)$
+
+The likelihood is:
+
+$P(k|\theta) = \binom{n}{k} \theta^k (1-\theta)^{n-k}$
+
+The posterior distribution is also a Beta distribution:
+
+$\theta | k \sim Beta(\alpha + k, \beta + n - k)$
+
+```\{python}
+#| echo: true
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import beta
+
+# Prior parameters
+alpha = 1
+beta = 1  #Uniform prior
+
+# Data
+n = 10
+k = 6
+
+# Posterior parameters
+alpha_post = alpha + k
+beta_post = beta + n - k
+
+# Plotting
+x = np.linspace(0, 1, 100)
+plt.plot(x, beta.pdf(x, alpha, beta), label='Prior')
+plt.plot(x, beta.pdf(x, alpha_post, beta_post), label='Posterior')
+plt.xlabel('θ')
+plt.ylabel('Density')
+plt.legend()
+plt.show()
+
+```
+
+This code shows how the prior Beta distribution is updated to the posterior Beta distribution after observing the binomial data.
+
+
+### Example: Bayesian Linear Regression
+
+Bayesian linear regression models the relationship between a dependent variable $y$ and independent variables $X$ as:
+
+$y_i = X_i \beta + \epsilon_i$
+
+where $\epsilon_i \sim N(0, \sigma^2)$.  We can assign priors to $\beta$ and $\sigma^2$ (e.g., normal and inverse gamma, respectively).  Inference is performed using MCMC sampling.
+
+```\{python}
+#| echo: true
+import numpy as np
+import pymc3 as pm
+import matplotlib.pyplot as plt
+
+#Simulate some data
+np.random.seed(42)
+X = np.linspace(0,10,100)
+true_slope = 2.5
+true_intercept = 1
+y_true = true_slope * X + true_intercept
+y = y_true + np.random.normal(0,1,100)
+
+with pm.Model() as model:
+    #Priors
+    intercept = pm.Normal("intercept", mu=0, sigma=10)
+    slope = pm.Normal("slope", mu=0, sigma=10)
+    sigma = pm.HalfNormal("sigma", sigma=10)
+    
+    #Likelihood
+    mu = intercept + slope * X
+    y_obs = pm.Normal("y_obs", mu=mu, sigma=sigma, observed=y)
+    
+    #MCMC
+    trace = pm.sample(2000, tune=1000)
+    
+pm.traceplot(trace)
+plt.show()
+pm.summary(trace)
+```
+
+This uses PyMC3 to perform Bayesian linear regression, illustrating the use of MCMC for posterior inference. The trace plot visualizes the samples.  The summary shows the posterior means, standard deviations, and credible intervals for the intercept and slope.
+
+
+

@@ -1,0 +1,130 @@
+project:
+  type: book
+
+jupyter:
+  kernelspec:
+    display_name: Python 3
+    language: python
+    name: python3
+
+book:
+  title: "bayes-theorem-book"
+  author: "Muthukrishnan"
+  date: "9/2/2025"
+  downloads: [pdf]
+
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - part: parts/introduction-to-bayesian-thinking/intro.qmd
+      chapters:
+        - parts/introduction-to-bayesian-thinking/understanding-probability.qmd
+        - parts/introduction-to-bayesian-thinking/bayes-theorem-fundamentals.qmd
+        - parts/introduction-to-bayesian-thinking/setting-up-python-environment.qmd
+    - part: parts/mathematical-foundations/intro.qmd
+      chapters:
+        - parts/mathematical-foundations/probability-theory-essentials.qmd
+        - parts/mathematical-foundations/statistical-concepts.qmd
+        - parts/mathematical-foundations/linear-algebra-review.qmd
+    - part: parts/implementing-bayes-theorem/intro.qmd
+      chapters:
+        - parts/implementing-bayes-theorem/basic-implementation.qmd
+        - parts/implementing-bayes-theorem/working-with-continuous-distributions.qmd
+        - parts/implementing-bayes-theorem/discrete-probability-examples.qmd
+    - part: parts/bayesian-inference/intro.qmd
+      chapters:
+        - parts/bayesian-inference/parameter-estimation.qmd
+        - parts/bayesian-inference/conjugate-priors.qmd
+        - parts/bayesian-inference/prior-selection.qmd
+    - part: parts/markov-chain-monte-carlo-mcmc/intro.qmd
+      chapters:
+        - parts/markov-chain-monte-carlo-mcmc/introduction-to-mcmc.qmd
+        - parts/markov-chain-monte-carlo-mcmc/mcmc-algorithms.qmd
+        - parts/markov-chain-monte-carlo-mcmc/implementation-with-pymc3.qmd
+    - part: parts/practical-applications/intro.qmd
+      chapters:
+        - parts/practical-applications/ab-testing.qmd
+        - parts/practical-applications/text-classification.qmd
+        - parts/practical-applications/medical-diagnosis.qmd
+    - part: parts/advanced-topics/intro.qmd
+      chapters:
+        - parts/advanced-topics/hierarchical-bayesian-models.qmd
+        - parts/advanced-topics/bayesian-neural-networks.qmd
+        - parts/advanced-topics/gaussian-processes.qmd
+    - part: parts/real-world-applications/intro.qmd
+      chapters:
+        - parts/real-world-applications/finance.qmd
+        - parts/real-world-applications/marketing.qmd
+        - parts/real-world-applications/scientific-applications.qmd
+    - part: parts/best-practices-and-advanced-tools/intro.qmd
+      chapters:
+        - parts/best-practices-and-advanced-tools/code-organization.qmd
+        - parts/best-practices-and-advanced-tools/performance-optimization.qmd
+        - parts/best-practices-and-advanced-tools/modern-bayesian-libraries.qmd
+    - summary.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    html-math-method:
+      method: mathjax
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+  pdf:
+    documentclass: scrreprt
+    highlight-style: printing
+    pdf-engine: lualatex
+    freeze: true
+    lof: false
+    lot: false
+    toc: true
+    float: true
+    toc-depth: 2
+    classoption: "paper=6in:9in,pagesize=pdftex,footinclude=on,11pt"
+    fig-cap-location: top
+    urlcolor: "blue"
+    linkcolor: "black"
+    biblio-style: apalike
+    keep-tex: true
+    code-block-bg: "#f0f0f0"
+    code-block-border-left: "#000000"
+    mermaid:
+      theme: neutral
+    include-in-header:
+      text: |
+        \usepackage{geometry}
+        \usepackage{wrapfig}
+        \usepackage{fvextra}
+        \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+        \geometry{
+            paperwidth=6in,
+            paperheight=9in,
+            textwidth=4.5in, % Adjust this to your preferred text width
+            textheight=6.5in,  % Adjust this to your preferred text height
+            inner=0.75in,    % Adjust margins as needed
+            outer=0.75in,
+            top=0.75in,
+            bottom=1in
+        }
+        \usepackage{makeidx}
+        \usepackage{tabularx}
+        \usepackage{float}
+        \usepackage{graphicx}
+        \usepackage{array}
+        \graphicspath{{diagrams/}}
+        \makeindex
+    include-after-body: 
+      text: |
+        \printindex
+    fontfamily: libertinus
+    monofont: Consolas
+    monofontoptions: 
+      - Scale=0.7
+    template-partials:
+      - before-body.tex
+    indent: true
+
+

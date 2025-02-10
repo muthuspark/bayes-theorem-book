@@ -1,0 +1,634 @@
+## Implementation with PyMC3
+
+This chapter demonstrates how to implement Bayesian inference using PyMC3, a powerful probabilistic programming library in Python. We will walk through a concrete example, illustrating each step of the process.  Assume we are trying to model the relationship between advertising expenditure ($X$) and sales ($Y$).
+
+
+### Defining Variables and Distributions
+
+First, we need to define the variables in our model. We'll assume a linear relationship between advertising expenditure and sales, with normally distributed noise.  In PyMC3, this is achieved by defining stochastic variables representing our model parameters and data.
+
+
+```\{python}
+#| echo: true
+import pymc3 as pm
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Sample data (replace with your actual data)
+np.random.seed(42)
+X = np.linspace(0, 10, 20)
+true_slope = 2.5
+true_intercept = 5
+Y = true_slope * X + true_intercept + np.random.normal(0, 2, 20)
+
+# Plotting the data
+sns.set_style("whitegrid")
+plt.figure(figsize=(8,6))
+plt.scatter(X, Y, label='Observed Data')
+plt.xlabel('Advertising Expenditure (X)')
+plt.ylabel('Sales (Y)')
+plt.title('Observed Data Points')
+plt.legend()
+plt.show()
+
+with pm.Model() as model:
+    # Priors for the slope and intercept
+    slope = pm.Normal("slope", mu=0, sigma=10)  
+    intercept = pm.Normal("intercept", mu=0, sigma=10)
+
+    # Likelihood
+    sigma = pm.HalfNormal("sigma", sigma=5) # Prior for the standard deviation
+    mu = slope * X + intercept
+    y_obs = pm.Normal("y_obs", mu=mu, sigma=sigma, observed=Y)
+```
+
+Here, `slope` and `intercept` are our model parameters. We've assigned them normal prior distributions with mean 0 and standard deviation 10, reflecting our initial uncertainty.  `sigma` represents the standard deviation of the noise in our model, and is given a HalfNormal prior to ensure it's positive. `y_obs` represents the observed data, and is assigned a normal likelihood distribution. The `observed=Y` argument links the model to our data.
+
+
+### Specifying Prior Distributions
+
+The choice of prior distributions is crucial.  Above, we used normal priors for the slope and intercept. The choice reflects our belief that the true values are centered around zero, with a relatively large uncertainty (sigma = 10). The HalfNormal prior for sigma ensures a positive standard deviation. The selection of prior distributions often relies on prior knowledge, or may employ uninformative (weakly informative) priors if prior knowledge is lacking.  For example, more informative priors might be:
+
+* **Slope:**  `pm.Normal("slope", mu=2, sigma=2)` (if we suspect a positive slope around 2)
+* **Intercept:** `pm.Normal("intercept", mu=5, sigma=1)` (if we expect an intercept around 5)
+
+
+### Building the Likelihood Function
+
+The likelihood function specifies how likely our observed data is, given the model parameters.  In our linear regression example, we assume the data follows a normal distribution:
+
+$p(Y|X, \text{slope}, \text{intercept}, \sigma) = \mathcal{N}(Y | \text{slope} \cdot X + \text{intercept}, \sigma)$
+
+This is represented in the PyMC3 code above by the line `y_obs = pm.Normal("y_obs", mu=mu, sigma=sigma, observed=Y)`.  The `observed=Y` argument connects the likelihood function to our actual data.
+
+
+### Deterministic Transformations
+
+Sometimes, we might need to define deterministic transformations of our variables.  For instance, we could calculate the $R^2$ value as a deterministic function of the model parameters:
+
+```\{python}
+#| echo: true
+with model:
+    y_pred = slope * X + intercept
+    residuals = Y - y_pred
+    ss_res = np.sum(residuals**2)
+    ss_tot = np.sum((Y-np.mean(Y))**2)
+    R2 = pm.Deterministic("R2", 1 - (ss_res / ss_tot))
+```
+
+This adds a new deterministic variable `R2` to our model.
+
+
+### Model Compilation and Summary
+
+Finally, we compile the model and draw samples using Markov Chain Monte Carlo (MCMC):
+
+
+```\{python}
+#| echo: true
+with model:
+    trace = pm.sample(draws=4000, tune=1000, cores=1) #Adjust cores based on your system
+
+pm.summary(trace)
+pm.traceplot(trace)
+plt.show()
+```
+
+`pm.sample` performs the MCMC sampling.  `draws` specifies the number of samples to generate, and `tune` represents the number of tuning samples (used to adapt the sampler). `pm.summary` provides a summary of the posterior distributions, and `pm.traceplot` visualizes the MCMC chains.
+
+The `pm.summary` output shows the mean, standard deviation, credible intervals, and other statistics for the posterior distributions of our model parameters. The `pm.traceplot` shows the trace plots of the sampled parameters, allowing for visual assessment of convergence.  If the chains appear well-mixed and have converged, the results are reliable.  Note that you might need to adjust the number of draws and tune samples based on the complexity of your model and data.
+
+```{mermaid}
+graph LR
+A[Prior Distributions] --> B(Model Specification);
+C[Data] --> B;
+B --> D{MCMC Sampling};
+D --> E[Posterior Distributions];
+E --> F[Inference & Prediction];
+```
+
+
+## Implementation with PyMC3
+
+This chapter delves into the sampling methods employed by PyMC3 to perform Bayesian inference.  Understanding these methods is crucial for effectively using PyMC3 and interpreting its results.
+
+
+### Introduction to Markov Chain Monte Carlo (MCMC)
+
+Bayesian inference aims to obtain the posterior distribution $p(\theta|D)$, where $\theta$ represents the model parameters and $D$ is the observed data.  Often, this posterior is intractable analytically.  Markov Chain Monte Carlo (MCMC) methods provide a computational solution by constructing a Markov chain whose stationary distribution is the target posterior distribution.  By simulating this chain for a sufficiently long time, we can obtain samples that approximate the posterior.  These samples then allow us to estimate posterior quantities of interest, such as means, credible intervals, and other summary statistics.
+
+
+### Metropolis-Hastings Algorithm
+
+The Metropolis-Hastings algorithm is a fundamental MCMC method. It works by iteratively proposing new parameter values and accepting or rejecting them based on a probability that depends on the ratio of the posterior density at the proposed and current values.
+
+The algorithm proceeds as follows:
+
+1. **Initialization:** Start with an initial guess for the parameters $\theta^{(0)}$.
+
+2. **Proposal:** Generate a proposed state $\theta^*$ from a proposal distribution $q(\theta^* | \theta^{(t)})$, where $\theta^{(t)}$ is the current state. Common choices for $q$ include Gaussian distributions.
+
+3. **Acceptance:** Calculate the acceptance probability:
+
+   $\alpha = \min\left(1, \frac{p(\theta^*|D)q(\theta^{(t)}|\theta^*)}{p(\theta^{(t)}|D)q(\theta^*|\theta^{(t)})}\right)$
+
+   where $p(\theta|D)$ is the target posterior distribution.
+
+4. **Update:** Generate a uniform random number $u \sim U(0, 1)$.
+   * If $u < \alpha$, accept the proposal and set $\theta^{(t+1)} = \theta^*$.
+   * Otherwise, reject the proposal and set $\theta^{(t+1)} = \theta^{(t)}$.
+
+5. **Iteration:** Repeat steps 2-4 for a large number of iterations. The samples $\theta^{(t)}$ after a burn-in period (initial iterations discarded) approximate the target posterior.
+
+
+### Hamiltonian Monte Carlo (HMC)
+
+HMC is a more advanced MCMC method that leverages Hamiltonian dynamics to efficiently explore the target posterior distribution.  It's particularly useful for high-dimensional problems where simple methods like Metropolis-Hastings can struggle. HMC introduces auxiliary momentum variables and simulates the Hamiltonian dynamics of the system to generate proposals that are more likely to be accepted and explore the parameter space more effectively. The details of the Hamiltonian dynamics are beyond the scope of this brief introduction, but it essentially utilizes the gradient of the log-posterior to guide the sampling process.
+
+
+### No-U-Turn Sampler (NUTS)
+
+NUTS is an extension of HMC that automatically tunes the parameters of HMC, making it very robust and widely applicable.  It avoids the manual tuning of HMC's parameters (like step size and number of steps) by adaptively determining the appropriate trajectory length in the Hamiltonian dynamics. This adaptive nature makes NUTS a popular and often default choice in PyMC3.
+
+
+### Choosing an Appropriate Sampler
+
+PyMC3 offers several samplers.  NUTS is a good default choice for many problems due to its automatic tuning.  However, for simpler models or when specific properties are needed, other samplers might be more suitable.
+
+
+### Sampling Strategies and Tuning Parameters
+
+Effective MCMC requires careful consideration of sampling strategies and tuning parameters.  Here are some key aspects:
+
+* **Burn-in:**  Discard initial samples (burn-in period) to allow the Markov chain to converge to the stationary distribution.  PyMC3 handles this automatically but inspecting the traceplots is crucial to ensure sufficient burn-in.
+
+* **Number of Samples:**  The number of samples directly impacts accuracy.  More samples generally improve accuracy, but increase computation time.
+
+* **Thinning:**  To reduce autocorrelation between samples, thinning is sometimes employed. This involves selecting only every *k*th sample from the chain.  PyMC3 can handle this automatically based on effective sample size calculations.
+
+* **Parallel Sampling:**  PyMC3 can leverage multiple cores to run multiple chains in parallel.  This speeds up sampling, especially for complex models.
+
+* **Diagnostics:** Monitor convergence using traceplots (visual inspection for convergence and mixing) and Gelman-Rubin statistics (for comparing multiple chains).
+
+```\{python}
+#| echo: true
+import pymc3 as pm
+import numpy as np
+
+# Example: Simple Bayesian linear regression using NUTS
+np.random.seed(42)
+X = np.linspace(0,10, 20)
+Y = 2*X + 1 + np.random.normal(0,1,20)
+
+with pm.Model() as model:
+    slope = pm.Normal("slope", mu=0, sigma=10)
+    intercept = pm.Normal("intercept", mu=0, sigma=10)
+    sigma = pm.HalfNormal("sigma", sigma=5)
+    mu = slope * X + intercept
+    y_obs = pm.Normal("y_obs", mu=mu, sigma=sigma, observed=Y)
+    
+    trace = pm.sample(draws=2000, tune=1000, cores=1, target_accept=0.95)  #NUTS is default
+
+pm.traceplot(trace)
+pm.summary(trace)
+plt.show()
+```
+
+The `target_accept` parameter in `pm.sample` influences the acceptance rate of the NUTS sampler; values around 0.8-0.95 are usually good.  Experimentation and careful diagnostic checking are key to achieving reliable results.
+
+
+```{mermaid}
+graph LR
+A[Problem Definition] --> B(Model Specification);
+B --> C[Sampler Selection];
+C --> D{MCMC Sampling (NUTS, HMC, etc.)};
+D --> E[Convergence Diagnostics];
+E -- Converged --> F[Posterior Inference];
+E -- Not Converged --> G[Adjust Parameters/Sampler];
+G --> D;
+```
+
+
+## Implementation with PyMC3
+
+This chapter focuses on analyzing the results of PyMC3's MCMC sampling and assessing the quality of the generated samples.
+
+
+### Convergence Diagnostics
+
+Before making any inferences based on the posterior samples, it is crucial to ensure that the Markov chains have converged to the target distribution.  Convergence diagnostics help assess whether the sampler has adequately explored the posterior and whether the samples are representative of the true posterior distribution.  Failure to check convergence can lead to inaccurate and misleading conclusions.
+
+
+### Trace Plots and Autocorrelation
+
+Trace plots visualize the sampled values of each parameter over the iterations of the MCMC algorithm. They show the evolution of the Markov chain.  Ideally, the trace should appear as a "fuzzy caterpillar," indicating that the chain has explored the entire parameter space and not stuck in a particular region.  Autocorrelation plots show the correlation between samples separated by different lags (time differences).  High autocorrelation indicates that consecutive samples are strongly dependent, suggesting slow mixing and potentially insufficient exploration of the posterior.
+
+
+```\{python}
+#| echo: true
+import pymc3 as pm
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Example data (replace with your own)
+np.random.seed(42)
+data = np.random.normal(loc=5, scale=2, size=100)
+
+with pm.Model() as model:
+    mu = pm.Normal('mu', mu=0, sigma=10)
+    sigma = pm.HalfNormal('sigma', sigma=5)
+    y = pm.Normal('y', mu=mu, sigma=sigma, observed=data)
+    trace = pm.sample(1000, tune=1000)
+
+pm.traceplot(trace);
+plt.show()
+
+pm.autocorrplot(trace);
+plt.show()
+```
+
+
+### Gelman-Rubin Statistic (R-hat)
+
+The Gelman-Rubin statistic ($\hat{R}$) is a powerful convergence diagnostic that compares the variance within multiple Markov chains to the variance between them.  The statistic is calculated as:
+
+$\hat{R} = \frac{\hat{Var}(\theta)}{W}$
+
+where $\hat{Var}(\theta)$ is the estimated variance of the posterior distribution, and $W$ is the average of the within-chain variances.  A value of $\hat{R}$ close to 1 (typically less than 1.1) indicates good convergence, suggesting that the chains have reached a similar distribution.  Values significantly greater than 1 suggest that the chains haven't converged and further sampling is needed.
+
+
+```\{python}
+#| echo: true
+pm.summary(trace) # R-hat is included in the summary
+```
+
+The PyMC3 `pm.summary` function automatically calculates and reports $\hat{R}$ for each parameter.
+
+
+### Effective Sample Size (ESS)
+
+The effective sample size (ESS) measures the number of independent samples effectively obtained from the MCMC run, considering autocorrelation between samples.  A low ESS relative to the total number of samples indicates high autocorrelation and potentially poor mixing.  Ideally, we want a high ESS, indicating that the samples provide a good representation of the posterior distribution despite the correlation between samples.
+
+
+```\{python}
+#| echo: true
+pm.summary(trace) # ESS is included in the summary
+```
+
+PyMC3's `pm.summary` also reports the ESS for each parameter.
+
+
+### Assessing Mixing and Stationarity
+
+Mixing refers to how well the MCMC chain explores the entire parameter space. Good mixing is characterized by rapid transitions between different regions of the posterior distribution.  Stationarity means that the Markov chain has reached its stationary distribution – the target posterior distribution – and is no longer changing significantly.  We assess mixing visually through trace plots and autocorrelation plots.  Stationarity is assessed using $\hat{R}$ and by checking whether the trace plots show stability and lack of long-term trends.  A combination of visual inspection and quantitative diagnostics like $\hat{R}$ and ESS is crucial for a complete assessment of convergence.
+
+
+
+```{mermaid}
+graph LR
+A[MCMC Sampling] --> B(Trace Plots);
+A --> C(Autocorrelation Plots);
+B --> D[Gelman-Rubin Statistic (R-hat)];
+C --> D;
+B --> E(Effective Sample Size (ESS));
+C --> E;
+D -- R-hat ≈ 1 & ESS high --> F[Convergence Achieved];
+D -- R-hat > 1.1 or ESS low --> G[Sampling Issues];
+G --> H[Increase Samples/Tune Parameters];
+H --> A;
+```
+
+
+
+## Implementation with PyMC3
+
+This chapter demonstrates how to visualize and interpret the posterior distributions obtained using PyMC3, allowing for meaningful conclusions based on the Bayesian analysis.
+
+
+### Visualizing Posterior Distributions
+
+Visualizing the posterior distributions is crucial for understanding the uncertainty associated with the model parameters.  PyMC3 offers tools to create various plots that aid in this visualization.
+
+
+### Histograms and Density Plots
+
+Histograms and kernel density estimates (KDEs) provide a visual representation of the marginal posterior distributions for each parameter.  Histograms show the frequency of samples within specified bins, while KDEs provide a smoother estimate of the probability density function.
+
+```\{python}
+#| echo: true
+import pymc3 as pm
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Example data (replace with your own)
+np.random.seed(42)
+data = np.random.normal(loc=5, scale=2, size=100)
+
+with pm.Model() as model:
+    mu = pm.Normal('mu', mu=0, sigma=10)
+    sigma = pm.HalfNormal('sigma', sigma=5)
+    y = pm.Normal('y', mu=mu, sigma=sigma, observed=data)
+    trace = pm.sample(1000, tune=1000)
+
+pm.plot_posterior(trace, credible_interval=0.95);
+plt.show()
+
+#Alternative using seaborn
+sns.displot(trace['mu'], kind='kde', fill=True);
+plt.title("Posterior Density of Mu");
+plt.show()
+
+sns.histplot(trace['mu'], kde=True);
+plt.title('Posterior Histogram of Mu');
+plt.show()
+```
+
+
+### Credible Intervals
+
+Credible intervals represent the range of values within which a parameter is likely to fall with a specified probability.  For example, a 95% credible interval means that there is a 95% probability that the true parameter value lies within that interval.  PyMC3's `pm.summary` function provides credible intervals by default.
+
+
+```\{python}
+#| echo: true
+pm.summary(trace)
+```
+
+
+
+### Posterior Predictive Checks
+
+Posterior predictive checks assess the goodness of fit of the model.  They involve generating new data from the posterior predictive distribution, $p(\tilde{y}|y)$, and comparing these simulated data to the observed data. Discrepancies might indicate that the model is not adequately capturing some aspect of the data-generating process.
+
+
+```\{python}
+#| echo: true
+with model:
+    ppc = pm.sample_posterior_predictive(trace)
+
+plt.figure(figsize=(10, 5))
+sns.kdeplot(data, label='Observed Data')
+sns.kdeplot(ppc['y'].mean(axis=0), label='Posterior Predictive')
+plt.legend()
+plt.title("Posterior Predictive Check")
+plt.show()
+
+```
+
+The above generates simulated data from the posterior and plots its distribution along with the observed data distribution, allowing for visual comparison.
+
+
+### Interpreting Posterior Samples
+
+The posterior samples provide a comprehensive picture of the uncertainty associated with the model parameters.  We can summarize these samples by calculating their mean, median, standard deviation, and credible intervals. These provide point estimates and measures of uncertainty.
+
+
+### Model Comparison and Selection
+
+When multiple models are considered, model comparison techniques are necessary to select the best-fitting model.  Common approaches include:
+
+* **Log-pointwise predictive density (LPPD):** This measures the average log-likelihood of the observed data under the posterior predictive distribution.  Higher LPPD values indicate better model fit.
+* **Watanabe-Akaike Information Criterion (WAIC):**  WAIC is a model selection criterion that accounts for model complexity and data fit.  Lower WAIC values suggest better models.
+* **Leave-one-out cross-validation (LOO-CV):**  LOO-CV assesses the predictive performance by iteratively leaving out one data point and predicting its value based on the remaining data.  Lower LOO-CV scores imply better predictive accuracy.
+
+
+PyMC3 provides functions (`pm.waic`, `pm.loo`) to calculate WAIC and LOO-CV scores.  Model comparison involves calculating these scores for competing models and selecting the model with the highest LPPD or the lowest WAIC/LOO-CV score.
+
+
+```{mermaid}
+graph LR
+A[Posterior Samples] --> B(Summary Statistics);
+A --> C(Histograms/Density Plots);
+A --> D(Credible Intervals);
+A --> E(Posterior Predictive Checks);
+F[Multiple Models] --> G(Model Comparison Metrics);
+G --> H[Model Selection];
+```
+
+
+
+## Implementation with PyMC3
+
+This chapter explores more advanced topics and capabilities within the PyMC3 framework, expanding its application beyond the basic examples.
+
+
+### Handling Missing Data
+
+Bayesian methods are particularly well-suited for handling missing data.  Instead of discarding observations with missing values or using imputation techniques, we can directly incorporate the missing data mechanism into the model.  In PyMC3, this is done by treating the missing values as latent variables with appropriate prior distributions. The model then jointly estimates the model parameters and the missing data points.  The choice of prior distribution for the missing data often depends on the nature of the data and the assumed missing data mechanism.  For example, if the missing data is assumed to be Missing At Random (MAR), a suitable prior can be chosen based on the observed data.
+
+```\{python}
+#| echo: true
+import pymc3 as pm
+import numpy as np
+
+# Example with missing data
+np.random.seed(42)
+X = np.linspace(0, 10, 20)
+true_slope = 2.5
+true_intercept = 5
+Y = true_slope * X + true_intercept + np.random.normal(0, 2, 20)
+
+# Introduce some missing data
+Y[::3] = np.nan
+
+with pm.Model() as model:
+    slope = pm.Normal("slope", mu=0, sigma=10)
+    intercept = pm.Normal("intercept", mu=0, sigma=10)
+    sigma = pm.HalfNormal("sigma", sigma=5)
+    mu = slope * X + intercept
+    y_obs = pm.Normal("y_obs", mu=mu, sigma=sigma, observed=Y)
+    trace = pm.sample(draws=4000, tune=1000)
+
+pm.summary(trace)
+```
+
+
+### Hierarchical Models
+
+Hierarchical models are powerful tools for analyzing data with a nested structure, such as data collected from multiple groups or individuals. They allow for sharing of information across groups, improving estimation efficiency and reducing uncertainty, especially when data for individual groups is limited. These models posit that parameters at a lower level (e.g., individual-level parameters) are drawn from a higher-level distribution (e.g., group-level distribution).  The higher-level distribution encapsulates the variation between groups.
+
+```\{python}
+#| echo: true
+import pymc3 as pm
+import numpy as np
+
+# Example: Hierarchical model for multiple groups
+J = 4  # Number of groups
+N = 10 # Observations per group
+
+#Simulate Data
+group_means = np.random.normal(0, 2, J)
+data = [np.random.normal(mu, 1, N) for mu in group_means]
+
+with pm.Model() as hierarchical_model:
+    mu_global = pm.Normal("mu_global", mu=0, sigma=10) #Global mean (hyperparameter)
+    sigma_global = pm.HalfNormal("sigma_global", sigma=5) # Global deviation (hyperparameter)
+    group_means = pm.Normal("group_means", mu=mu_global, sigma=sigma_global, shape=J)
+    obs = pm.Normal("obs", mu=group_means[None,:], sigma=1, observed=data, shape=(J,N))
+    trace_hierarchical = pm.sample(draws=4000, tune=1000)
+
+pm.summary(trace_hierarchical)
+```
+
+
+### Model Extensions and Custom Distributions
+
+PyMC3 allows for flexibility in specifying custom distributions and extending the model beyond built-in functionalities. This is useful when dealing with data that doesn’t fit standard distributions or when incorporating domain-specific knowledge into the model.  You can define custom distributions by extending the `pm.Distribution` class.
+
+```\{python}
+#| echo: true
+import pymc3 as pm
+import numpy as np
+import scipy.stats as stats
+
+# Example custom distribution
+class MyCustomDist(pm.Distribution):
+    def __init__(self, alpha, beta, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.alpha = alpha
+        self.beta = beta
+
+    def logp(self, x):
+        return stats.beta.logpdf(x, self.alpha, self.beta)
+
+with pm.Model() as model:
+    custom_param = MyCustomDist('custom_param', alpha=2, beta=5)
+    trace = pm.sample(1000, tune=1000)
+
+pm.summary(trace)
+```
+
+
+### PyMC3 and External Libraries
+
+PyMC3 can be integrated with other libraries to enhance its capabilities.  For example:
+* **Theano:** PyMC3 uses Theano (or Aesara) for symbolic differentiation and optimized computation, enabling efficient sampling even for complex models.
+* **NumPy:** NumPy is used for numerical computation throughout PyMC3.
+* **SciPy:** SciPy's special functions and statistical distributions are often integrated within custom distributions.
+* **ArviZ:** ArviZ is a powerful library for visualizing and analyzing Bayesian inference results, complementing PyMC3's output.
+
+
+```{mermaid}
+graph LR
+A[Data] --> B(PyMC3 Model);
+B --> C[Sampling (NUTS, HMC)];
+C --> D[Posterior Analysis (ArviZ)];
+E[External Libraries (NumPy, SciPy, Theano)] --> B;
+B --> F[Predictions/Inferences];
+```
+
+
+
+
+## Implementation with PyMC3
+
+This chapter presents several case studies to illustrate the practical application of PyMC3 in various scenarios.
+
+
+### Example 1: Simple Linear Regression
+
+We revisit the simple linear regression example, focusing on the Bayesian approach using PyMC3.  We assume a linear relationship between an independent variable $X$ and a dependent variable $Y$, with additive Gaussian noise.  The model can be written as:
+
+$Y_i = \alpha + \beta X_i + \epsilon_i$, where $\epsilon_i \sim \mathcal{N}(0, \sigma)$
+
+Here, $\alpha$ is the intercept, $\beta$ is the slope, and $\sigma$ is the standard deviation of the noise.  We'll use weakly informative priors for these parameters.
+
+```\{python}
+#| echo: true
+import pymc3 as pm
+import numpy as np
+import matplotlib.pyplot as plt
+import arviz as az
+
+# Sample data
+np.random.seed(42)
+X = np.linspace(0, 10, 20)
+Y = 2*X + 1 + np.random.normal(0, 1, 20)
+
+with pm.Model() as model:
+    alpha = pm.Normal("alpha", mu=0, sigma=10)
+    beta = pm.Normal("beta", mu=0, sigma=10)
+    sigma = pm.HalfNormal("sigma", sigma=5)
+    mu = alpha + beta * X
+    Y_obs = pm.Normal("Y_obs", mu=mu, sigma=sigma, observed=Y)
+    trace = pm.sample(2000, tune=1000, return_inferencedata=True)
+
+az.plot_trace(trace);
+plt.show()
+az.summary(trace)
+```
+
+The code defines the model, samples from the posterior, and visualizes the results using `arviz`.  The summary shows the posterior estimates for α, β, and σ, along with their credible intervals.
+
+
+### Example 2: Bayesian A/B Testing
+
+A/B testing compares two versions (A and B) of something (e.g., a website, an ad) to determine which performs better. In a Bayesian framework, we model the conversion rates (success probabilities) for each version as independent Beta distributions. We then update these distributions using the observed data (number of successes and failures for each version).
+
+```\{python}
+#| echo: true
+import pymc3 as pm
+import numpy as np
+import arviz as az
+
+# Observed data (number of successes and failures)
+successes_A = 50
+failures_A = 50
+successes_B = 60
+failures_B = 40
+
+with pm.Model() as model:
+    p_A = pm.Beta("p_A", alpha=1, beta=1) #Prior for conversion rate of A
+    p_B = pm.Beta("p_B", alpha=1, beta=1) #Prior for conversion rate of B
+    obs_A = pm.Binomial("obs_A", p=p_A, n=successes_A + failures_A, observed=successes_A)
+    obs_B = pm.Binomial("obs_B", p=p_B, n=successes_B + failures_B, observed=successes_B)
+    diff_of_means = pm.Deterministic("diff_of_means", p_B - p_A)
+    trace = pm.sample(2000, tune=1000, return_inferencedata=True)
+
+az.plot_posterior(trace, var_names=['p_A', 'p_B', 'diff_of_means'], hdi_prob=0.95);
+plt.show()
+az.summary(trace)
+```
+
+The code defines the prior and likelihood for each group, samples the posterior, and visualizes the posterior distributions of the conversion rates for A and B, as well as their difference.
+
+
+### Example 3: Time Series Analysis
+
+Bayesian methods are also applicable to time series analysis.  Here, we'll consider a simple autoregressive model of order 1 (AR(1)) to model a time series with temporal dependence.  The model is defined as:
+
+$y_t = \phi y_{t-1} + \epsilon_t$, where $\epsilon_t \sim \mathcal{N}(0, \sigma)$
+
+Here, $y_t$ is the value of the time series at time t, and $\phi$ is the autoregressive coefficient.
+
+```\{python}
+#| echo: true
+import pymc3 as pm
+import numpy as np
+import matplotlib.pyplot as plt
+import arviz as az
+
+# Simulate AR(1) time series
+np.random.seed(42)
+phi_true = 0.7
+sigma_true = 1
+T = 100
+y = np.zeros(T)
+for i in range(1, T):
+    y[i] = phi_true * y[i-1] + np.random.normal(0, sigma_true)
+
+with pm.Model() as model:
+    phi = pm.Uniform("phi", lower=-1, upper=1)
+    sigma = pm.HalfNormal("sigma", sigma=5)
+    y_ = pm.AR1("y_", k=1, rho=phi, sigma=sigma, observed=y) # AR1 model in PyMC3
+    trace = pm.sample(2000, tune=1000, return_inferencedata=True)
+
+az.plot_trace(trace); plt.show()
+az.summary(trace)
+```
+
+This code simulates an AR(1) process, fits a Bayesian AR(1) model using PyMC3, and visualizes the posterior distribution of the parameters.  The posterior distribution of `phi` provides information on the strength of the temporal dependence in the data.
+
+

@@ -1,0 +1,122 @@
+{
+  "index.qmd": {
+    "index.html": "2b6a981e"
+  },
+  "intro.qmd": {
+    "intro.html": "7afb068f"
+  },
+  "parts/introduction-to-bayesian-thinking/intro.qmd": {
+    "intro.html": "2fa7c911"
+  },
+  "parts/introduction-to-bayesian-thinking/understanding-probability.qmd": {
+    "understanding-probability.html": "5718c288"
+  },
+  "parts/introduction-to-bayesian-thinking/bayes-theorem-fundamentals.qmd": {
+    "bayes-theorem-fundamentals.html": "269e5d27"
+  },
+  "parts/introduction-to-bayesian-thinking/setting-up-python-environment.qmd": {
+    "setting-up-python-environment.html": "94de89a2"
+  },
+  "parts/mathematical-foundations/intro.qmd": {
+    "intro.html": "4deea82a"
+  },
+  "parts/mathematical-foundations/probability-theory-essentials.qmd": {
+    "probability-theory-essentials.html": "85dffe61"
+  },
+  "parts/mathematical-foundations/statistical-concepts.qmd": {
+    "statistical-concepts.html": "55ee3858"
+  },
+  "parts/mathematical-foundations/linear-algebra-review.qmd": {
+    "linear-algebra-review.html": "c95b8720"
+  },
+  "parts/implementing-bayes-theorem/intro.qmd": {
+    "intro.html": "f5c8be06"
+  },
+  "parts/implementing-bayes-theorem/basic-implementation.qmd": {
+    "basic-implementation.html": "b339e3b9"
+  },
+  "parts/implementing-bayes-theorem/working-with-continuous-distributions.qmd": {
+    "working-with-continuous-distributions.html": "5c4f9c0e"
+  },
+  "parts/implementing-bayes-theorem/discrete-probability-examples.qmd": {
+    "discrete-probability-examples.html": "fc8ba0db"
+  },
+  "parts/bayesian-inference/intro.qmd": {
+    "intro.html": "3eb688d8"
+  },
+  "parts/bayesian-inference/parameter-estimation.qmd": {
+    "parameter-estimation.html": "921d5cdf"
+  },
+  "parts/bayesian-inference/conjugate-priors.qmd": {
+    "conjugate-priors.html": "03b1ccb3"
+  },
+  "parts/bayesian-inference/prior-selection.qmd": {
+    "prior-selection.html": "6414abf7"
+  },
+  "parts/markov-chain-monte-carlo-mcmc/intro.qmd": {
+    "intro.html": "7502ab8d"
+  },
+  "parts/markov-chain-monte-carlo-mcmc/introduction-to-mcmc.qmd": {
+    "introduction-to-mcmc.html": "6bf9d574"
+  },
+  "parts/markov-chain-monte-carlo-mcmc/mcmc-algorithms.qmd": {
+    "mcmc-algorithms.html": "fbc4a1ec"
+  },
+  "parts/markov-chain-monte-carlo-mcmc/implementation-with-pymc3.qmd": {
+    "implementation-with-pymc3.html": "f6dcb16a"
+  },
+  "parts/practical-applications/intro.qmd": {
+    "intro.html": "7a9ebab6"
+  },
+  "parts/practical-applications/ab-testing.qmd": {
+    "ab-testing.html": "7b69eb4c"
+  },
+  "parts/practical-applications/text-classification.qmd": {
+    "text-classification.html": "0822a958"
+  },
+  "parts/practical-applications/medical-diagnosis.qmd": {
+    "medical-diagnosis.html": "9a052b7e"
+  },
+  "parts/advanced-topics/intro.qmd": {
+    "intro.html": "a69e922d"
+  },
+  "parts/advanced-topics/hierarchical-bayesian-models.qmd": {
+    "hierarchical-bayesian-models.html": "45dbc32d"
+  },
+  "parts/advanced-topics/bayesian-neural-networks.qmd": {
+    "bayesian-neural-networks.html": "42356565"
+  },
+  "parts/advanced-topics/gaussian-processes.qmd": {
+    "gaussian-processes.html": "b7f8c1a9"
+  },
+  "parts/real-world-applications/intro.qmd": {
+    "intro.html": "c9d2eff8"
+  },
+  "parts/real-world-applications/finance.qmd": {
+    "finance.html": "fa332201"
+  },
+  "parts/real-world-applications/marketing.qmd": {
+    "marketing.html": "56c76b91"
+  },
+  "parts/real-world-applications/scientific-applications.qmd": {
+    "scientific-applications.html": "6d6fae09"
+  },
+  "parts/best-practices-and-advanced-tools/intro.qmd": {
+    "intro.html": "7376fcc1"
+  },
+  "parts/best-practices-and-advanced-tools/code-organization.qmd": {
+    "code-organization.html": "eb0d6a9d"
+  },
+  "parts/best-practices-and-advanced-tools/performance-optimization.qmd": {
+    "performance-optimization.html": "7be1c507"
+  },
+  "parts/best-practices-and-advanced-tools/modern-bayesian-libraries.qmd": {
+    "modern-bayesian-libraries.html": "d00b11ca"
+  },
+  "summary.qmd": {
+    "summary.html": "b2eb75a0"
+  },
+  "references.qmd": {
+    "references.html": "1659f977"
+  }
+}

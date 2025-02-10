@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>3&nbsp; Bayes’ Theorem Fundamentals – bayes-theorem-book</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../parts/introduction-to-bayesian-thinking/setting-up-python-environment.html" rel="next">
+<link href="../../parts/introduction-to-bayesian-thinking/understanding-probability.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-a2a08d6480f1a07d2e84f5b3bded3372.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../parts/introduction-to-bayesian-thinking/intro.html">Introduction to Bayesian Thinking</a></li><li class="breadcrumb-item"><a href="../../parts/introduction-to-bayesian-thinking/bayes-theorem-fundamentals.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bayes’ Theorem Fundamentals</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">bayes-theorem-book</a> 
+        <div class="sidebar-tools-main">
+    <a href="../../bayes-theorem-book.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../parts/introduction-to-bayesian-thinking/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Bayesian Thinking</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/introduction-to-bayesian-thinking/understanding-probability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Probability</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/introduction-to-bayesian-thinking/bayes-theorem-fundamentals.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bayes’ Theorem Fundamentals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/introduction-to-bayesian-thinking/setting-up-python-environment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Setting Up Python Environment</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../parts/mathematical-foundations/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mathematical Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/mathematical-foundations/probability-theory-essentials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introduction to Probability</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/mathematical-foundations/statistical-concepts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Basic Probability Concepts</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/mathematical-foundations/linear-algebra-review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Linear Algebra Review</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../parts/implementing-bayes-theorem/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Implementing Bayes' Theorem</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/implementing-bayes-theorem/basic-implementation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Basic Implementation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/implementing-bayes-theorem/working-with-continuous-distributions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introduction to Continuous Probability Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/implementing-bayes-theorem/discrete-probability-examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduction to Discrete Probability</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../parts/bayesian-inference/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bayesian Inference</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/bayesian-inference/parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introduction to Parameter Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/bayesian-inference/conjugate-priors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Conjugate Priors</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/bayesian-inference/prior-selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Prior Selection</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../parts/markov-chain-monte-carlo-mcmc/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Markov Chain Monte Carlo (MCMC)</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/markov-chain-monte-carlo-mcmc/introduction-to-mcmc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Monte Carlo Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/markov-chain-monte-carlo-mcmc/mcmc-algorithms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Introduction to MCMC</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/markov-chain-monte-carlo-mcmc/implementation-with-pymc3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Implementation with PyMC3</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../parts/practical-applications/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Practical Applications</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/practical-applications/ab-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Introduction to A/B Testing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/practical-applications/text-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Introduction to Text Classification</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/practical-applications/medical-diagnosis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Disease Testing with Bayes’ Theorem</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../parts/advanced-topics/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advanced Topics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/advanced-topics/hierarchical-bayesian-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Hierarchical Bayesian Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/advanced-topics/bayesian-neural-networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Introduction to Bayesian Neural Networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/advanced-topics/gaussian-processes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Gaussian Processes</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../parts/real-world-applications/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Real-World Applications</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/real-world-applications/finance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Finance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/real-world-applications/marketing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Bayesian Methods in Customer Segmentation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/real-world-applications/scientific-applications.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Scientific Applications</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../parts/best-practices-and-advanced-tools/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Best Practices and Advanced Tools</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/best-practices-and-advanced-tools/code-organization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Code Organization</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/best-practices-and-advanced-tools/performance-optimization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Understanding Performance Bottlenecks in Bayesian Computations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/best-practices-and-advanced-tools/modern-bayesian-libraries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Modern Bayesian Libraries</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#bayes-life-and-work" id="toc-bayes-life-and-work" class="nav-link active" data-scroll-target="#bayes-life-and-work"><span class="header-section-number">3.0.1</span> Bayes’ Life and Work</a></li>
+  <li><a href="#early-applications-of-bayes-theorem" id="toc-early-applications-of-bayes-theorem" class="nav-link" data-scroll-target="#early-applications-of-bayes-theorem"><span class="header-section-number">3.0.2</span> Early Applications of Bayes’ Theorem</a></li>
+  <li><a href="#the-rise-of-bayesian-statistics" id="toc-the-rise-of-bayesian-statistics" class="nav-link" data-scroll-target="#the-rise-of-bayesian-statistics"><span class="header-section-number">3.0.3</span> The Rise of Bayesian Statistics</a></li>
+  <li><a href="#bayes-theorem-in-the-modern-era" id="toc-bayes-theorem-in-the-modern-era" class="nav-link" data-scroll-target="#bayes-theorem-in-the-modern-era"><span class="header-section-number">3.0.4</span> Bayes’ Theorem in the Modern Era</a></li>
+  <li><a href="#the-formula-and-its-components" id="toc-the-formula-and-its-components" class="nav-link" data-scroll-target="#the-formula-and-its-components"><span class="header-section-number">3.1</span> The Formula and its Components</a>
+  <ul class="collapse">
+  <li><a href="#introducing-bayes-theorem" id="toc-introducing-bayes-theorem" class="nav-link" data-scroll-target="#introducing-bayes-theorem"><span class="header-section-number">3.1.1</span> Introducing Bayes’ Theorem</a></li>
+  <li><a href="#understanding-conditional-probability" id="toc-understanding-conditional-probability" class="nav-link" data-scroll-target="#understanding-conditional-probability"><span class="header-section-number">3.1.2</span> Understanding Conditional Probability</a></li>
+  <li><a href="#breakdown-of-the-formula-pab-pba-pa-pb" id="toc-breakdown-of-the-formula-pab-pba-pa-pb" class="nav-link" data-scroll-target="#breakdown-of-the-formula-pab-pba-pa-pb"><span class="header-section-number">3.1.3</span> Breakdown of the Formula: P(A|B), P(B|A), P(A), P(B)</a></li>
+  <li><a href="#visualizing-bayes-theorem-with-venn-diagrams" id="toc-visualizing-bayes-theorem-with-venn-diagrams" class="nav-link" data-scroll-target="#visualizing-bayes-theorem-with-venn-diagrams"><span class="header-section-number">3.1.4</span> Visualizing Bayes’ Theorem with Venn Diagrams</a></li>
+  <li><a href="#illustrative-examples-with-simple-probabilities" id="toc-illustrative-examples-with-simple-probabilities" class="nav-link" data-scroll-target="#illustrative-examples-with-simple-probabilities"><span class="header-section-number">3.1.5</span> Illustrative Examples with Simple Probabilities</a></li>
+  </ul></li>
+  <li><a href="#prior-probability" id="toc-prior-probability" class="nav-link" data-scroll-target="#prior-probability"><span class="header-section-number">3.2</span> Prior Probability</a>
+  <ul class="collapse">
+  <li><a href="#defining-prior-probability" id="toc-defining-prior-probability" class="nav-link" data-scroll-target="#defining-prior-probability"><span class="header-section-number">3.2.1</span> Defining Prior Probability</a></li>
+  <li><a href="#choosing-appropriate-priors" id="toc-choosing-appropriate-priors" class="nav-link" data-scroll-target="#choosing-appropriate-priors"><span class="header-section-number">3.2.2</span> Choosing Appropriate Priors</a></li>
+  <li><a href="#types-of-priors-uniform-informative-non-informative" id="toc-types-of-priors-uniform-informative-non-informative" class="nav-link" data-scroll-target="#types-of-priors-uniform-informative-non-informative"><span class="header-section-number">3.2.3</span> Types of Priors: Uniform, Informative, Non-informative</a></li>
+  <li><a href="#impact-of-prior-selection-on-posterior" id="toc-impact-of-prior-selection-on-posterior" class="nav-link" data-scroll-target="#impact-of-prior-selection-on-posterior"><span class="header-section-number">3.2.4</span> Impact of Prior Selection on Posterior</a></li>
+  </ul></li>
+  <li><a href="#likelihood" id="toc-likelihood" class="nav-link" data-scroll-target="#likelihood"><span class="header-section-number">3.3</span> Likelihood</a>
+  <ul class="collapse">
+  <li><a href="#defining-likelihood" id="toc-defining-likelihood" class="nav-link" data-scroll-target="#defining-likelihood"><span class="header-section-number">3.3.1</span> Defining Likelihood</a></li>
+  <li><a href="#likelihood-functions" id="toc-likelihood-functions" class="nav-link" data-scroll-target="#likelihood-functions"><span class="header-section-number">3.3.2</span> Likelihood Functions</a></li>
+  <li><a href="#interpreting-likelihood-values" id="toc-interpreting-likelihood-values" class="nav-link" data-scroll-target="#interpreting-likelihood-values"><span class="header-section-number">3.3.3</span> Interpreting Likelihood Values</a></li>
+  <li><a href="#relationship-between-likelihood-and-data" id="toc-relationship-between-likelihood-and-data" class="nav-link" data-scroll-target="#relationship-between-likelihood-and-data"><span class="header-section-number">3.3.4</span> Relationship between Likelihood and Data</a></li>
+  </ul></li>
+  <li><a href="#posterior-probability" id="toc-posterior-probability" class="nav-link" data-scroll-target="#posterior-probability"><span class="header-section-number">3.4</span> Posterior Probability</a>
+  <ul class="collapse">
+  <li><a href="#defining-posterior-probability" id="toc-defining-posterior-probability" class="nav-link" data-scroll-target="#defining-posterior-probability"><span class="header-section-number">3.4.1</span> Defining Posterior Probability</a></li>
+  <li><a href="#interpreting-posterior-probabilities" id="toc-interpreting-posterior-probabilities" class="nav-link" data-scroll-target="#interpreting-posterior-probabilities"><span class="header-section-number">3.4.2</span> Interpreting Posterior Probabilities</a></li>
+  <li><a href="#updating-beliefs-with-bayes-theorem" id="toc-updating-beliefs-with-bayes-theorem" class="nav-link" data-scroll-target="#updating-beliefs-with-bayes-theorem"><span class="header-section-number">3.4.3</span> Updating Beliefs with Bayes’ Theorem</a></li>
+  <li><a href="#posterior-distribution-visualization" id="toc-posterior-distribution-visualization" class="nav-link" data-scroll-target="#posterior-distribution-visualization"><span class="header-section-number">3.4.4</span> Posterior Distribution Visualization</a></li>
+  </ul></li>
+  <li><a href="#practical-applications-and-examples" id="toc-practical-applications-and-examples" class="nav-link" data-scroll-target="#practical-applications-and-examples"><span class="header-section-number">3.5</span> Practical Applications and Examples</a>
+  <ul class="collapse">
+  <li><a href="#example-1-medical-diagnosis" id="toc-example-1-medical-diagnosis" class="nav-link" data-scroll-target="#example-1-medical-diagnosis"><span class="header-section-number">3.5.1</span> Example 1: Medical Diagnosis</a></li>
+  <li><a href="#example-2-spam-filtering" id="toc-example-2-spam-filtering" class="nav-link" data-scroll-target="#example-2-spam-filtering"><span class="header-section-number">3.5.2</span> Example 2: Spam Filtering</a></li>
+  <li><a href="#example-3-weather-forecasting" id="toc-example-3-weather-forecasting" class="nav-link" data-scroll-target="#example-3-weather-forecasting"><span class="header-section-number">3.5.3</span> Example 3: Weather Forecasting</a></li>
+  <li><a href="#further-examples-across-diverse-fields" id="toc-further-examples-across-diverse-fields" class="nav-link" data-scroll-target="#further-examples-across-diverse-fields"><span class="header-section-number">3.5.4</span> Further Examples Across Diverse Fields</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../parts/introduction-to-bayesian-thinking/intro.html">Introduction to Bayesian Thinking</a></li><li class="breadcrumb-item"><a href="../../parts/introduction-to-bayesian-thinking/bayes-theorem-fundamentals.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bayes’ Theorem Fundamentals</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bayes’ Theorem Fundamentals</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="bayes-life-and-work" class="level3" data-number="3.0.1">
+<h3 data-number="3.0.1" class="anchored" data-anchor-id="bayes-life-and-work"><span class="header-section-number">3.0.1</span> Bayes’ Life and Work</h3>
+<p>Reverend Thomas Bayes (c.&nbsp;1701 – 1761) was an English statistician, philosopher, and Presbyterian minister. While his life remains relatively obscure compared to the impact of his work, we know he was a significant figure in the development of probability theory. His most famous contribution, which was published posthumously in 1763 by Richard Price, is an essay titled “An Essay towards solving a Problem in the Doctrine of Chances.” This essay contains the theorem that bears his name, a result that would fundamentally reshape statistical thinking centuries later. Bayes’s work was initially not widely recognized, partly due to the limited computational tools available at the time and a prevailing preference for frequentist approaches to statistics. He was a member of a group of esteemed mathematicians and scientists, and his contributions extended beyond the now-celebrated theorem, encompassing broader aspects of probability and mathematical reasoning.</p>
+</section>
+<section id="early-applications-of-bayes-theorem" class="level3" data-number="3.0.2">
+<h3 data-number="3.0.2" class="anchored" data-anchor-id="early-applications-of-bayes-theorem"><span class="header-section-number">3.0.2</span> Early Applications of Bayes’ Theorem</h3>
+<p>Despite its late recognition, Bayes’ theorem found early, albeit limited, applications. Initially, its practical use was hampered by the computational challenges of calculating probabilities, particularly with complex problems. Early applications often involved relatively simple scenarios. For instance, the theorem might have been used to refine estimates of astronomical parameters based on observational data, or in evaluating the credibility of witness testimonies. However, widespread adoption didn’t occur until the advent of more powerful computational tools. The lack of readily available computational power meant applications were confined to problems where probabilities could be reasonably estimated and calculations managed manually. The theoretical significance of the theorem was appreciated by some, but its practical utility remained somewhat unexplored until the latter half of the 20th century.</p>
+</section>
+<section id="the-rise-of-bayesian-statistics" class="level3" data-number="3.0.3">
+<h3 data-number="3.0.3" class="anchored" data-anchor-id="the-rise-of-bayesian-statistics"><span class="header-section-number">3.0.3</span> The Rise of Bayesian Statistics</h3>
+<p>The rise of Bayesian statistics is largely attributed to two significant factors: the development of powerful computers and the introduction of advanced computational techniques such as Markov Chain Monte Carlo (MCMC) methods. MCMC algorithms provided the computational muscle to address the previously intractable challenges associated with Bayesian calculations, even for complex models with numerous parameters. This allowed for the application of Bayes’ theorem to a far wider range of problems.</p>
+<p>Furthermore, the philosophical appeal of the Bayesian approach, its ability to incorporate prior knowledge into analysis, and its intuitive interpretation of probabilities, contributed significantly to its growth. Bayesian statistics provided a natural framework for addressing many problems involving uncertainty, allowing the integration of both data and prior beliefs into a coherent framework. The development of specialized software packages designed to implement Bayesian methods further accelerated its adoption.</p>
+</section>
+<section id="bayes-theorem-in-the-modern-era" class="level3" data-number="3.0.4">
+<h3 data-number="3.0.4" class="anchored" data-anchor-id="bayes-theorem-in-the-modern-era"><span class="header-section-number">3.0.4</span> Bayes’ Theorem in the Modern Era</h3>
+<p>Today, Bayes’ theorem is a cornerstone of numerous fields, including machine learning, medical diagnosis, finance, and natural language processing. Its flexibility and ability to handle uncertainty make it an invaluable tool in various applications. Here’s a simple Python example demonstrating its application:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior probability of having a disease</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>prior_prob <span class="op">=</span> <span class="fl">0.01</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Test sensitivity (probability of positive test given disease)</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>sensitivity <span class="op">=</span> <span class="fl">0.9</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Test specificity (probability of negative test given no disease)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>specificity <span class="op">=</span> <span class="fl">0.95</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the probability of having the disease given a positive test</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bayes_theorem(prior, sensitivity, specificity):</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    p_disease_given_positive <span class="op">=</span> (prior <span class="op">*</span> sensitivity) <span class="op">/</span> ((prior <span class="op">*</span> sensitivity) <span class="op">+</span> ((<span class="dv">1</span> <span class="op">-</span> prior) <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> specificity)))</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> p_disease_given_positive</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>posterior_prob <span class="op">=</span> bayes_theorem(prior_prob, sensitivity, specificity)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Prior probability of having the disease: </span><span class="sc">{</span>prior_prob<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Posterior probability of having the disease given a positive test: </span><span class="sc">{</span>posterior_prob<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizing with Matplotlib</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [<span class="st">'Prior'</span>, <span class="st">'Posterior'</span>]</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>probs <span class="op">=</span> [prior_prob, posterior_prob]</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>plt.bar(labels, probs, color<span class="op">=</span>[<span class="st">'skyblue'</span>, <span class="st">'coral'</span>])</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Probability'</span>)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Prior vs. Posterior Probability of Disease'</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This code demonstrates how a prior probability of having a disease is updated given a positive test result, using Bayes’ theorem. The resulting posterior probability reflects the impact of the test evidence on our belief about the disease. The chart displays the shift from prior to posterior probability.</p>
+<pre class="mermaid"><code>graph LR
+    A[Prior Probability] --&gt; B(Positive Test Result);
+    B --&gt; C[Posterior Probability];
+    style C fill:#f9f,stroke:#333,stroke-width:2px
+    A --&gt; D[Bayes' Theorem];
+    D --&gt; C;</code></pre>
+<p>This diagram visually represents the flow of information in the Bayesian update process. The use of Bayes’ Theorem takes the prior and the evidence to update the belief to the posterior probability. Modern applications go far beyond this simple example, using sophisticated Bayesian models for complex problems, but the fundamental principle remains the same: updating beliefs based on new evidence.</p>
+</section>
+<section id="the-formula-and-its-components" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="the-formula-and-its-components"><span class="header-section-number">3.1</span> The Formula and its Components</h2>
+<section id="introducing-bayes-theorem" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="introducing-bayes-theorem"><span class="header-section-number">3.1.1</span> Introducing Bayes’ Theorem</h3>
+<p>Bayes’ Theorem is a fundamental concept in probability theory that describes how to update the probability of a hypothesis based on new evidence. It’s a mathematical formula that allows us to revise our beliefs in light of observed data. Instead of simply focusing on the probability of an event occurring, Bayes’ Theorem lets us calculate the probability of an event <em>given</em> that another event has already occurred. This is crucial in many real-world scenarios where we need to make decisions under uncertainty, incorporating prior knowledge and new observations. The theorem is incredibly versatile and forms the basis of many machine learning algorithms and statistical methods.</p>
+</section>
+<section id="understanding-conditional-probability" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="understanding-conditional-probability"><span class="header-section-number">3.1.2</span> Understanding Conditional Probability</h3>
+<p>Before diving into Bayes’ Theorem itself, understanding conditional probability is vital. Conditional probability is the probability of an event occurring given that another event has already occurred. It’s denoted as P(A|B), which reads as “the probability of A given B.” This means we’re interested in the probability of event A happening, <em>only considering the cases where event B has already happened</em>. For example, the probability of it raining today (A) given that it rained yesterday (B), P(A|B), might be higher than the overall probability of rain today P(A) because yesterday’s rain might indicate a higher chance of rain today.</p>
+</section>
+<section id="breakdown-of-the-formula-pab-pba-pa-pb" class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="breakdown-of-the-formula-pab-pba-pa-pb"><span class="header-section-number">3.1.3</span> Breakdown of the Formula: P(A|B), P(B|A), P(A), P(B)</h3>
+<p>Bayes’ Theorem is expressed mathematically as:</p>
+<p>P(A|B) = [P(B|A) * P(A)] / P(B)</p>
+<p>Let’s break down each component:</p>
+<ul>
+<li><p><strong>P(A|B):</strong> The posterior probability. This is what we want to calculate – the probability of event A happening <em>after</em> observing event B. It’s our updated belief about A after considering the evidence B.</p></li>
+<li><p><strong>P(B|A):</strong> The likelihood. This is the probability of event B happening <em>given</em> that event A has already happened.</p></li>
+<li><p><strong>P(A):</strong> The prior probability. This is our initial belief about the probability of event A happening <em>before</em> considering any new evidence (event B).</p></li>
+<li><p><strong>P(B):</strong> The marginal likelihood (or evidence). This is the overall probability of event B happening, regardless of whether A happened or not. It acts as a normalizing constant, ensuring the posterior probability is a valid probability (between 0 and 1). It can often be calculated using the law of total probability: P(B) = P(B|A)P(A) + P(B|¬A)P(¬A), where ¬A represents the complement of A (A not happening).</p></li>
+</ul>
+</section>
+<section id="visualizing-bayes-theorem-with-venn-diagrams" class="level3" data-number="3.1.4">
+<h3 data-number="3.1.4" class="anchored" data-anchor-id="visualizing-bayes-theorem-with-venn-diagrams"><span class="header-section-number">3.1.4</span> Visualizing Bayes’ Theorem with Venn Diagrams</h3>
+<p>A Venn diagram can help visualize conditional probability and Bayes’ Theorem. Consider two overlapping circles representing events A and B. The area of overlap represents the cases where both A and B occur.</p>
+<pre class="mermaid"><code>graph LR
+    A[Event A]
+    B[Event B]
+    subgraph ""
+        A --- B
+    end
+    AB((A and B))</code></pre>
+<p>P(A|B) is the ratio of the area of the overlap (A and B) to the area of circle B. Bayes’ Theorem helps us calculate this ratio using the probabilities of A, B, and the probability of B given A.</p>
+</section>
+<section id="illustrative-examples-with-simple-probabilities" class="level3" data-number="3.1.5">
+<h3 data-number="3.1.5" class="anchored" data-anchor-id="illustrative-examples-with-simple-probabilities"><span class="header-section-number">3.1.5</span> Illustrative Examples with Simple Probabilities</h3>
+<p>Let’s say we have a test for a disease.</p>
+<ul>
+<li>P(Disease) = 0.01 (Prior probability: 1% of the population has the disease)</li>
+<li>P(+ve Test | Disease) = 0.9 (Sensitivity: 90% chance of a positive test if you have the disease)</li>
+<li>P(+ve Test | No Disease) = 0.05 (False positive rate: 5% chance of a positive test if you don’t have the disease)</li>
+</ul>
+<p>We want to find P(Disease | +ve Test): the probability of having the disease given a positive test result.</p>
+<p>First, we calculate P(+ve Test): P(+ve Test) = P(+ve Test | Disease)P(Disease) + P(+ve Test | No Disease)P(No Disease) = (0.9 * 0.01) + (0.05 * 0.99) = 0.0585</p>
+<p>Now, we apply Bayes’ Theorem:</p>
+<p>P(Disease | +ve Test) = [P(+ve Test | Disease) * P(Disease)] / P(+ve Test) = (0.9 * 0.01) / 0.0585 ≈ 0.1538</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>prior <span class="op">=</span> <span class="fl">0.01</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>sensitivity <span class="op">=</span> <span class="fl">0.9</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>false_positive_rate <span class="op">=</span> <span class="fl">0.05</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>p_positive_test <span class="op">=</span> (sensitivity <span class="op">*</span> prior) <span class="op">+</span> (false_positive_rate <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> prior))</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>posterior <span class="op">=</span> (sensitivity <span class="op">*</span> prior) <span class="op">/</span> p_positive_test</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Prior probability of disease: </span><span class="sc">{</span>prior<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Posterior probability of disease given positive test: </span><span class="sc">{</span>posterior<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [<span class="st">'Prior'</span>, <span class="st">'Posterior'</span>]</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>probs <span class="op">=</span> [prior, posterior]</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>plt.bar(labels, probs, color<span class="op">=</span>[<span class="st">'skyblue'</span>, <span class="st">'coral'</span>])</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Probability'</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Prior vs. Posterior Probability of Disease'</span>)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This Python code calculates and visualizes the prior and posterior probabilities, showing how Bayes’ Theorem updates our belief about the probability of having the disease after a positive test. The chart clearly shows the increase in probability from prior to posterior.</p>
+</section>
+</section>
+<section id="prior-probability" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="prior-probability"><span class="header-section-number">3.2</span> Prior Probability</h2>
+<section id="defining-prior-probability" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="defining-prior-probability"><span class="header-section-number">3.2.1</span> Defining Prior Probability</h3>
+<p>In the context of Bayes’ Theorem, the prior probability, often denoted as P(A), represents our initial belief or knowledge about the probability of an event A occurring <em>before</em> we consider any new evidence. This prior belief might be based on previous experience, expert opinion, theoretical considerations, or simply a best guess in the absence of strong evidence. It’s a crucial ingredient in the Bayesian framework, providing a starting point for updating our beliefs. The key is that the prior probability reflects our understanding <em>before</em> observing new data.</p>
+</section>
+<section id="choosing-appropriate-priors" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="choosing-appropriate-priors"><span class="header-section-number">3.2.2</span> Choosing Appropriate Priors</h3>
+<p>Selecting an appropriate prior is a critical step in Bayesian analysis. The choice of prior can significantly influence the posterior probability, the updated belief after considering the data. A poorly chosen prior can lead to inaccurate or misleading conclusions. Therefore, careful consideration is crucial. The selection process often involves balancing available prior information with the desire to avoid unduly biasing the results. A good prior should reflect available knowledge while remaining flexible enough to be updated by the data.</p>
+</section>
+<section id="types-of-priors-uniform-informative-non-informative" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="types-of-priors-uniform-informative-non-informative"><span class="header-section-number">3.2.3</span> Types of Priors: Uniform, Informative, Non-informative</h3>
+<p>Priors can be broadly categorized into three types:</p>
+<ul>
+<li><p><strong>Uniform Prior:</strong> A uniform prior assigns equal probability to all possible values of a parameter. This reflects a complete lack of prior knowledge or a belief that all values are equally likely. For example, if we’re estimating the probability of a coin landing heads, a uniform prior would assign a probability of 0.5 to heads and 0.5 to tails before any coin flips are observed.</p></li>
+<li><p><strong>Informative Prior:</strong> An informative prior incorporates prior knowledge about the parameter. This prior reflects a strong belief about the likely range or distribution of the parameter. For instance, if we’re estimating the average height of adult women, we might use an informative prior centered around the known average height for women.</p></li>
+<li><p><strong>Non-informative Prior:</strong> A non-informative prior aims to minimally influence the posterior distribution. It is designed to let the data speak for itself as much as possible, though truly non-informative priors are often difficult to define. These priors are often used when there is very limited prior information. However, even these can implicitly include assumptions that might subtly influence results.</p></li>
+</ul>
+</section>
+<section id="impact-of-prior-selection-on-posterior" class="level3" data-number="3.2.4">
+<h3 data-number="3.2.4" class="anchored" data-anchor-id="impact-of-prior-selection-on-posterior"><span class="header-section-number">3.2.4</span> Impact of Prior Selection on Posterior</h3>
+<p>The choice of prior significantly impacts the posterior distribution. A strong informative prior will exert considerable influence on the posterior, even with substantial data. Conversely, a weak or non-informative prior will allow the data to dominate the posterior distribution.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pymc <span class="im">as</span> pm</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate some data</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>true_theta <span class="op">=</span> <span class="fl">0.7</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.binomial(<span class="dv">1</span>, true_theta, size<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Different priors</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>priors <span class="op">=</span> [pm.Beta(<span class="st">"theta"</span>, alpha<span class="op">=</span><span class="dv">1</span>, beta<span class="op">=</span><span class="dv">1</span>),  <span class="co"># Uniform</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>          pm.Beta(<span class="st">"theta"</span>, alpha<span class="op">=</span><span class="dv">10</span>, beta<span class="op">=</span><span class="dv">2</span>), <span class="co"># Informative</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>          pm.Beta(<span class="st">"theta"</span>, alpha<span class="op">=</span><span class="dv">1</span>, beta<span class="op">=</span><span class="dv">10</span>)] <span class="co"># Informative</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the model for different priors</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>posterior_samples <span class="op">=</span> []</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> prior <span class="kw">in</span> priors:</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> pm.Model() <span class="im">as</span> model:</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        theta <span class="op">=</span> prior</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        obs <span class="op">=</span> pm.Bernoulli(<span class="st">"obs"</span>, p<span class="op">=</span>theta, observed<span class="op">=</span>data)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        trace <span class="op">=</span> pm.sample(<span class="dv">1000</span>, tune<span class="op">=</span><span class="dv">1000</span>, return_inferencedata<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        posterior_samples.append(trace.posterior[<span class="st">"theta"</span>])</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the posteriors</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, prior_type <span class="kw">in</span> <span class="bu">enumerate</span>([<span class="st">"Uniform"</span>, <span class="st">"Informative (towards 0.8)"</span>, <span class="st">"Informative (towards 0.2)"</span>]):</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    plt.hist(posterior_samples[i].values.flatten(), alpha<span class="op">=</span><span class="fl">0.7</span>, label<span class="op">=</span>prior_type)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Theta"</span>)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Frequency"</span>)</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Posterior Distributions for Different Priors"</span>)</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This Python code uses PyMC to demonstrate how different prior distributions (uniform and two informative Beta priors) affect the posterior distribution of a Bernoulli parameter when estimating from binomial data. The resulting plot visually illustrates how the prior shapes the posterior, highlighting the sensitivity of Bayesian inference to the choice of prior. In cases with limited data, the prior plays a more significant role in the final result.</p>
+<pre class="mermaid"><code>graph LR
+    A[Prior] --&gt; B(Data);
+    B --&gt; C[Bayes' Theorem];
+    C --&gt; D[Posterior];
+    style A fill:#ccf,stroke:#333,stroke-width:2px
+    style D fill:#fcf,stroke:#333,stroke-width:2px</code></pre>
+<p>This diagram shows the core steps of Bayesian inference: the prior belief is combined with observed data using Bayes’ Theorem to arrive at the updated posterior belief. The strength of the prior significantly influences how much the posterior differs from the prior.</p>
+</section>
+</section>
+<section id="likelihood" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="likelihood"><span class="header-section-number">3.3</span> Likelihood</h2>
+<section id="defining-likelihood" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="defining-likelihood"><span class="header-section-number">3.3.1</span> Defining Likelihood</h3>
+<p>In the context of Bayes’ Theorem, the likelihood, often denoted as P(B|A), represents the probability of observing the data (evidence) B, given a specific hypothesis A. Unlike probability, which considers the probability of an event, likelihood considers the plausibility of a hypothesis given observed data. It quantifies how well the observed data supports a particular hypothesis. The likelihood is a function of the hypothesis, with the data treated as fixed. It’s crucial to remember that the likelihood is <em>not</em> a probability distribution over the hypotheses; it’s a function that tells us how likely the observed data is for different values of the hypothesis.</p>
+</section>
+<section id="likelihood-functions" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="likelihood-functions"><span class="header-section-number">3.3.2</span> Likelihood Functions</h3>
+<p>A likelihood function is a function that maps different values of a hypothesis to the probability of observing the data under that hypothesis. It’s expressed as L(A|B) = P(B|A), where:</p>
+<ul>
+<li>L(A|B) is the likelihood function of hypothesis A given the data B.</li>
+<li>A is the hypothesis (e.g., the value of a parameter in a statistical model).</li>
+<li>B is the observed data.</li>
+</ul>
+<p>The likelihood function is central to Bayesian inference because it provides the information from the data to update the prior probability into a posterior probability. Different statistical models have different likelihood functions, depending on the type of data and the assumptions of the model. For example, for Bernoulli trials (like coin flips), the likelihood function is the binomial distribution. For continuous data, it might be the normal distribution.</p>
+</section>
+<section id="interpreting-likelihood-values" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="interpreting-likelihood-values"><span class="header-section-number">3.3.3</span> Interpreting Likelihood Values</h3>
+<p>Likelihood values are interpreted relatively, not absolutely. A higher likelihood value for one hypothesis compared to another indicates that the data is more likely under the first hypothesis. The absolute value of the likelihood itself doesn’t have a direct probabilistic interpretation; instead, it’s the <em>ratio</em> of likelihoods for different hypotheses that matters in Bayesian inference. For example, if the likelihood of hypothesis A is twice that of hypothesis B, given the observed data, it suggests that the data is twice as likely under hypothesis A as under hypothesis B. This ratio is used in Bayes’ Theorem to update our belief about the hypotheses.</p>
+</section>
+<section id="relationship-between-likelihood-and-data" class="level3" data-number="3.3.4">
+<h3 data-number="3.3.4" class="anchored" data-anchor-id="relationship-between-likelihood-and-data"><span class="header-section-number">3.3.4</span> Relationship between Likelihood and Data</h3>
+<p>The likelihood function directly reflects the relationship between the data and the hypothesis. It summarizes how well the hypothesis explains the observed data. A good fit between the hypothesis and the data results in a high likelihood. Conversely, a poor fit results in a low likelihood. The data itself is considered fixed when evaluating the likelihood function; it’s the hypothesis that is variable.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate some data</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.normal(loc<span class="op">=</span><span class="dv">2</span>, scale<span class="op">=</span><span class="dv">1</span>, size<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a range of possible means</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>means <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">100</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the likelihood for each mean</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>likelihoods <span class="op">=</span> [np.prod(norm.pdf(data, loc<span class="op">=</span>mean, scale<span class="op">=</span><span class="dv">1</span>)) <span class="cf">for</span> mean <span class="kw">in</span> means]</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the likelihood function</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>plt.plot(means, likelihoods)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Mean (mu)"</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Likelihood"</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Likelihood Function for Normal Distribution"</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This Python code simulates data from a normal distribution and then calculates the likelihood function for different possible means of that distribution. The plot shows how the likelihood is maximized at the true mean used to generate the data, illustrating how the likelihood function reflects the compatibility between the hypothesis (mean) and the data.</p>
+<pre class="mermaid"><code>graph LR
+    A[Data] --&gt; B(Likelihood Function);
+    B --&gt; C[Hypothesis];
+    style B fill:#ccf,stroke:#333,stroke-width:2px</code></pre>
+<p>This diagram visually represents the relationship: the data informs the likelihood function, which in turn helps evaluate the plausibility of different hypotheses. The likelihood function acts as a bridge between the observed data and our assessment of different hypotheses.</p>
+</section>
+</section>
+<section id="posterior-probability" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="posterior-probability"><span class="header-section-number">3.4</span> Posterior Probability</h2>
+<section id="defining-posterior-probability" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="defining-posterior-probability"><span class="header-section-number">3.4.1</span> Defining Posterior Probability</h3>
+<p>In Bayesian inference, the posterior probability, often denoted as P(A|B), represents the updated probability of a hypothesis A after considering the observed data B. It’s the result of combining our prior belief about the hypothesis (prior probability, P(A)) with the evidence provided by the data (likelihood, P(B|A)), using Bayes’ Theorem. The posterior probability reflects our refined belief about the hypothesis after incorporating the new information. It’s the central output of a Bayesian analysis, providing a probability distribution over the possible hypotheses, weighted by the evidence.</p>
+</section>
+<section id="interpreting-posterior-probabilities" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="interpreting-posterior-probabilities"><span class="header-section-number">3.4.2</span> Interpreting Posterior Probabilities</h3>
+<p>Posterior probabilities are interpreted as probabilities. A higher posterior probability for a given hypothesis indicates stronger support for that hypothesis based on the combined evidence of the prior belief and the observed data. The posterior probability is a probability distribution; it assigns a probability to each possible value of the hypothesis. The area under the posterior probability distribution within a certain interval gives the probability that the true value of the hypothesis lies within that interval. It’s crucial to remember that posterior probabilities are conditional on the chosen prior and the observed data; changing either will alter the posterior.</p>
+</section>
+<section id="updating-beliefs-with-bayes-theorem" class="level3" data-number="3.4.3">
+<h3 data-number="3.4.3" class="anchored" data-anchor-id="updating-beliefs-with-bayes-theorem"><span class="header-section-number">3.4.3</span> Updating Beliefs with Bayes’ Theorem</h3>
+<p>Bayes’ Theorem provides the mechanism for calculating the posterior probability:</p>
+<p>P(A|B) = [P(B|A) * P(A)] / P(B)</p>
+<p>where:</p>
+<ul>
+<li>P(A|B) is the posterior probability of hypothesis A given data B.</li>
+<li>P(B|A) is the likelihood of observing data B given hypothesis A.</li>
+<li>P(A) is the prior probability of hypothesis A.</li>
+<li>P(B) is the marginal likelihood (evidence), which acts as a normalizing constant. Often, we don’t directly calculate P(B); instead, we calculate the posterior probability up to a proportionality constant and then normalize it to ensure the probabilities sum to 1.</li>
+</ul>
+<p>The theorem shows how our initial belief (prior) is updated by the data (likelihood) to produce a revised belief (posterior). This iterative process allows us to refine our understanding as new evidence becomes available.</p>
+</section>
+<section id="posterior-distribution-visualization" class="level3" data-number="3.4.4">
+<h3 data-number="3.4.4" class="anchored" data-anchor-id="posterior-distribution-visualization"><span class="header-section-number">3.4.4</span> Posterior Distribution Visualization</h3>
+<p>Visualizing the posterior distribution provides valuable insights into the results of a Bayesian analysis. Different methods can be used depending on the type of hypothesis and the form of the posterior distribution. Common methods include histograms, kernel density estimates, and credible intervals.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pymc <span class="im">as</span> pm</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate some data (example: coin flips)</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.binomial(<span class="dv">10</span>, <span class="fl">0.6</span>, size<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> model:</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Prior distribution (Beta distribution is conjugate for Bernoulli)</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> pm.Beta(<span class="st">"p"</span>, alpha<span class="op">=</span><span class="dv">2</span>, beta<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Likelihood (Bernoulli distribution)</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    obs <span class="op">=</span> pm.Bernoulli(<span class="st">"obs"</span>, p<span class="op">=</span>p, observed<span class="op">=</span>data)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Posterior sampling</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    trace <span class="op">=</span> pm.sample(<span class="dv">1000</span>, tune<span class="op">=</span><span class="dv">1000</span>, return_inferencedata<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the posterior</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>plt.hist(trace.posterior[<span class="st">"p"</span>].values.flatten(), bins<span class="op">=</span><span class="dv">30</span>, density<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Probability of Heads (p)"</span>)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Density"</span>)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Posterior Distribution of p"</span>)</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This Python code uses PyMC to perform Bayesian inference on a Bernoulli parameter (probability of heads in a coin flip). The resulting histogram shows the posterior distribution of this parameter after considering the simulated data. The shape of the histogram shows our updated belief about the probability of heads after observing the data, indicating a higher probability near the true value used to generate the data.</p>
+<pre class="mermaid"><code>graph LR
+    A[Prior Distribution] --&gt; B(Data &amp; Likelihood);
+    B --&gt; C[Bayes' Theorem];
+    C --&gt; D[Posterior Distribution];
+    style D fill:#fcf,stroke:#333,stroke-width:2px</code></pre>
+<p>This diagram illustrates the process: The prior distribution, combined with the data through Bayes’ theorem and the likelihood, yields the posterior distribution, our updated belief. The visualization helps us understand this updated belief.</p>
+</section>
+</section>
+<section id="practical-applications-and-examples" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="practical-applications-and-examples"><span class="header-section-number">3.5</span> Practical Applications and Examples</h2>
+<section id="example-1-medical-diagnosis" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="example-1-medical-diagnosis"><span class="header-section-number">3.5.1</span> Example 1: Medical Diagnosis</h3>
+<p>Bayes’ Theorem is fundamental to medical diagnosis. Consider a test for a disease with the following characteristics:</p>
+<ul>
+<li><strong>Prior probability (P(D)):</strong> The prevalence of the disease in the population (e.g., 1%).</li>
+<li><strong>Sensitivity (P(+|D)):</strong> The probability of a positive test result given the person has the disease (e.g., 90%).</li>
+<li><strong>Specificity (P(-|¬D)):</strong> The probability of a negative test result given the person does not have the disease (e.g., 95%).</li>
+</ul>
+<p>If a person tests positive, what’s the probability they actually have the disease (P(D|+))? We need to calculate the positive predictive value. We can use Bayes’ Theorem, but we first need to calculate the probability of a positive test:</p>
+<p>P(+) = P(+|D)P(D) + P(+|¬D)P(¬D) = (0.9 * 0.01) + (0.05 * 0.99) = 0.0585</p>
+<p>Then, applying Bayes’ Theorem:</p>
+<p>P(D|+) = [P(+|D)P(D)] / P(+) = (0.9 * 0.01) / 0.0585 ≈ 0.15</p>
+<p>This shows that even with a seemingly accurate test, the probability of actually having the disease given a positive result is only about 15%, highlighting the importance of considering prior probabilities.</p>
+</section>
+<section id="example-2-spam-filtering" class="level3" data-number="3.5.2">
+<h3 data-number="3.5.2" class="anchored" data-anchor-id="example-2-spam-filtering"><span class="header-section-number">3.5.2</span> Example 2: Spam Filtering</h3>
+<p>Bayes’ Theorem is a cornerstone of spam filtering algorithms. Each email is classified as spam or not spam based on the presence or absence of certain keywords or features.</p>
+<ul>
+<li><strong>Prior probability (P(Spam)):</strong> The overall probability an email is spam (e.g., 20%).</li>
+<li><strong>Likelihood (P(Keywords|Spam)):</strong> Probability of specific keywords appearing in a spam email.</li>
+<li><strong>Likelihood (P(Keywords|¬Spam)):</strong> Probability of those same keywords appearing in a non-spam email.</li>
+</ul>
+<p>The Bayesian filter calculates the posterior probability P(Spam|Keywords) to determine whether an email is likely spam. The filter learns over time, updating the prior and likelihoods based on user feedback (marking emails as spam or not spam).</p>
+</section>
+<section id="example-3-weather-forecasting" class="level3" data-number="3.5.3">
+<h3 data-number="3.5.3" class="anchored" data-anchor-id="example-3-weather-forecasting"><span class="header-section-number">3.5.3</span> Example 3: Weather Forecasting</h3>
+<p>Weather forecasting utilizes Bayes’ Theorem to incorporate various data sources, such as satellite imagery, radar data, and historical weather patterns, to predict the probability of certain weather events (e.g., rain).</p>
+<ul>
+<li><strong>Prior probability (P(Rain)):</strong> The historical probability of rain on a given day of the year or in a specific location.</li>
+<li><strong>Likelihood (P(Data|Rain)):</strong> The probability of observing the current weather data (temperature, pressure, cloud cover) given that it will rain.</li>
+</ul>
+<p>The posterior probability P(Rain|Data) represents the updated probability of rain given the current weather observations. More sophisticated models use complex likelihood functions and incorporate multiple data sources for better predictions.</p>
+</section>
+<section id="further-examples-across-diverse-fields" class="level3" data-number="3.5.4">
+<h3 data-number="3.5.4" class="anchored" data-anchor-id="further-examples-across-diverse-fields"><span class="header-section-number">3.5.4</span> Further Examples Across Diverse Fields</h3>
+<p>Bayes’ Theorem finds applications in a vast range of fields:</p>
+<ul>
+<li><strong>Finance:</strong> Credit risk assessment, stock price prediction.</li>
+<li><strong>Machine Learning:</strong> Bayesian networks, naive Bayes classifiers, Bayesian neural networks.</li>
+<li><strong>Image Processing:</strong> Image segmentation, object recognition.</li>
+<li><strong>Natural Language Processing:</strong> Sentiment analysis, text classification.</li>
+</ul>
+<p>The core principle remains consistent: updating beliefs about a hypothesis based on new evidence using Bayes’ Theorem. The specific implementation varies based on the problem at hand and the nature of the available data and prior information. The flexibility and power of this approach make it a fundamental tool for reasoning under uncertainty in many domains.</p>
+<p><strong>(Note:</strong> Python code for examples 2 and 3 would be considerably more involved and require libraries like scikit-learn or dedicated Bayesian packages. The examples above focus on the conceptual application of Bayes’ Theorem.)</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../parts/introduction-to-bayesian-thinking/understanding-probability.html" class="pagination-link" aria-label="Introduction to Probability">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Probability</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../parts/introduction-to-bayesian-thinking/setting-up-python-environment.html" class="pagination-link" aria-label="Setting Up Python Environment">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Setting Up Python Environment</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

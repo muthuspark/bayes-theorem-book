@@ -1,0 +1,496 @@
+## Introduction to A/B Testing
+
+### What is A/B Testing?
+
+A/B testing, also known as split testing, is a randomized experiment used to compare two versions of a variable (e.g., a webpage, an email subject line, an app feature) to determine which performs better.  Version A is the control, representing the current state, while version B is the variant, representing a proposed change.  Users are randomly assigned to either group A or group B, and their interactions are tracked to measure key metrics (e.g., click-through rate, conversion rate, time spent on page).  By analyzing the results, one can determine whether the variant (B) significantly outperforms the control (A).
+
+### Why Use A/B Testing?
+
+A/B testing offers a data-driven approach to making decisions about product improvements and marketing campaigns.  Its benefits include:
+
+* **Data-driven decision making:**  Relies on empirical evidence rather than intuition or guesswork.
+* **Reduced risk:**  Allows testing changes in a controlled environment before deploying them to the entire user base.
+* **Improved performance:** Identifies changes that lead to measurable improvements in key metrics.
+* **Iterative improvement:** Enables continuous optimization and refinement of products and marketing materials.
+* **Objective comparison:** Provides a quantitative assessment of the impact of different versions.
+
+
+### A/B Testing in the Context of Bayes' Theorem
+
+While frequentist methods are often used in A/B testing (e.g., calculating p-values), Bayesian methods offer several advantages, particularly when dealing with smaller sample sizes or prior knowledge about the variables involved.  Bayes' theorem allows us to update our beliefs about the probability of each version being superior based on the observed data.
+
+Let's consider a simple example:  We are A/B testing two website headlines.  Let $θ_A$ be the true conversion rate of headline A and $θ_B$ be the true conversion rate of headline B. We'll assume prior distributions for $θ_A$ and $θ_B$ are Beta distributions, which are conjugate priors for the binomial likelihood.  This means the posterior distribution will also be a Beta distribution, making calculations easier.
+
+Let's assume our prior beliefs are represented by Beta(1,1) distributions for both headlines, representing a uniform prior.  We observe $n_A$ conversions out of $N_A$ trials for headline A and $n_B$ conversions out of $N_B$ trials for headline B.  The likelihood function for each headline is a binomial distribution.  Using Bayes' theorem, the posterior distributions for $θ_A$ and $θ_B$ are:
+
+$P(θ_A | n_A, N_A) \propto Beta(1 + n_A, 1 + N_A - n_A)$
+
+$P(θ_B | n_B, N_B) \propto Beta(1 + n_B, 1 + N_B - n_B)$
+
+
+We can then compare the posterior distributions to assess which headline is more likely to have a higher conversion rate.  For example, we can calculate the probability that $θ_B > θ_A$.
+
+```\{python}
+#| echo: true
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import beta
+
+# Prior parameters (uniform prior)
+alpha_prior = 1
+beta_prior = 1
+
+# Observed data
+nA = 10  # Conversions for headline A
+NA = 100 # Trials for headline A
+nB = 15  # Conversions for headline B
+NB = 100 # Trials for headline B
+
+# Posterior parameters
+alphaA_post = alpha_prior + nA
+betaA_post = beta_prior + NA - nA
+alphaB_post = alpha_prior + nB
+betaB_post = beta_prior + NB - nB
+
+# Generate samples from posterior distributions
+samplesA = beta.rvs(alphaA_post, betaA_post, size=10000)
+samplesB = beta.rvs(alphaB_post, betaB_post, size=10000)
+
+# Probability that θB > θA
+prob_B_better = np.mean(samplesB > samplesA)
+print(f"Probability that headline B has a higher conversion rate: {prob_B_better:.3f}")
+
+# Plot posterior distributions
+plt.figure(figsize=(10, 6))
+plt.hist(samplesA, bins=50, alpha=0.5, label='Headline A', density=True)
+plt.hist(samplesB, bins=50, alpha=0.5, label='Headline B', density=True)
+plt.xlabel('Conversion Rate')
+plt.ylabel('Density')
+plt.title('Posterior Distributions of Conversion Rates')
+plt.legend()
+plt.show()
+
+```
+
+This Python code simulates the posterior distributions and calculates the probability that headline B is superior. The plot visually represents the comparison of the posterior distributions.  By using Bayesian methods, we obtain a probability estimate rather than just a p-value, offering a more intuitive and informative result.  Note that the choice of prior is crucial, and informative priors can be incorporated if prior knowledge exists.
+
+
+## Bayesian vs. Frequentist A/B Testing
+
+### Frequentist Approach: p-values and Hypothesis Testing
+
+The frequentist approach to A/B testing relies on hypothesis testing.  We formulate a null hypothesis ($H_0$) that there is no difference between the two versions (e.g., $θ_A = θ_B$), and an alternative hypothesis ($H_1$) that there is a difference (e.g., $θ_A \neq θ_B$).  We then collect data and calculate a p-value, which represents the probability of observing the data (or more extreme data) if the null hypothesis were true.  If the p-value is below a pre-determined significance level (e.g., 0.05), we reject the null hypothesis and conclude that there is a statistically significant difference between the two versions.
+
+The frequentist approach often employs methods like z-tests or chi-squared tests for comparing proportions.  For example, a z-test for comparing two proportions would involve calculating a z-statistic:
+
+
+$z = \frac{(\hat{p}_A - \hat{p}_B)}{\sqrt{\hat{p}(1-\hat{p})(\frac{1}{n_A} + \frac{1}{n_B})}}$
+
+where $\hat{p}_A$ and $\hat{p}_B$ are the sample proportions for groups A and B, $n_A$ and $n_B$ are the sample sizes, and $\hat{p}$ is the pooled sample proportion:
+
+$\hat{p} = \frac{n_A\hat{p}_A + n_B\hat{p}_B}{n_A + n_B}$
+
+
+The p-value is then obtained from the standard normal distribution.
+
+
+### Bayesian Approach: Prior and Posterior Distributions
+
+The Bayesian approach models the parameters of interest ($θ_A$ and $θ_B$) as random variables with probability distributions.  We start with prior distributions that represent our initial beliefs about these parameters.  Then, we update these priors based on the observed data using Bayes' theorem to obtain posterior distributions.  These posterior distributions provide a complete representation of our updated beliefs about the parameters after considering the data.
+
+For A/B testing with binary outcomes (e.g., conversions), Beta distributions are often used as conjugate priors for binomial likelihoods.  As shown previously, the posterior distributions are also Beta distributions, making calculations relatively straightforward.  We can then compare the posterior distributions to quantify the evidence for one version being superior to the other. For example, we can calculate the probability that $P(θ_B > θ_A)$.
+
+
+### Comparing the Two Approaches: Advantages and Disadvantages
+
+| Feature          | Frequentist Approach                                     | Bayesian Approach                                          |
+|-----------------|---------------------------------------------------------|-------------------------------------------------------------|
+| **Interpretation** | P-values; significance levels; hypothesis rejection    | Probability distributions; credible intervals; posterior probabilities |
+| **Prior Information** | Does not incorporate prior knowledge                    | Incorporates prior knowledge naturally                        |
+| **Sample Size**   | Can be problematic with small sample sizes              | Performs well even with small sample sizes                   |
+| **Uncertainty**    | Provides point estimates; ignores uncertainty in estimates | Quantifies uncertainty explicitly through posterior distributions |
+| **Computational Complexity** | Often simpler computationally                          | Can be more computationally intensive for complex models      |
+
+
+### Illustrative Example: Comparing Conversion Rates
+
+Let's consider an A/B test comparing two website designs.  We use a Bayesian approach.
+
+```\{python}
+#| echo: true
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import beta
+
+# Prior parameters (weakly informative priors)
+alpha_prior = 10
+beta_prior = 10
+
+# Observed data
+nA = 50  # Conversions for design A
+NA = 500 # Trials for design A
+nB = 70  # Conversions for design B
+NB = 500 # Trials for design B
+
+# Posterior parameters
+alphaA_post = alpha_prior + nA
+betaA_post = beta_prior + NA - nA
+alphaB_post = alpha_prior + nB
+betaB_post = beta_prior + NB - nB
+
+
+# Generate samples from posterior distributions
+samplesA = beta.rvs(alphaA_post, betaA_post, size=10000)
+samplesB = beta.rvs(alphaB_post, betaB_post, size=10000)
+
+# Probability that θB > θA
+prob_B_better = np.mean(samplesB > samplesA)
+print(f"Probability that design B has a higher conversion rate: {prob_B_better:.3f}")
+
+#Plot Posterior Distributions
+plt.figure(figsize=(10,6))
+plt.hist(samplesA, bins=50, alpha=0.5, label='Design A', density=True)
+plt.hist(samplesB, bins=50, alpha=0.5, label='Design B', density=True)
+plt.xlabel('Conversion Rate')
+plt.ylabel('Density')
+plt.title('Posterior Distributions of Conversion Rates')
+plt.legend()
+plt.show()
+
+```
+
+This example demonstrates how the Bayesian approach provides a probability that design B has a higher conversion rate, offering a more nuanced understanding compared to a simple p-value from a frequentist test.  The plot visually displays the posterior distributions, highlighting the uncertainty in the estimates.  The choice of prior (here a weakly informative prior) impacts the results,  but even with weakly informative priors, the Bayesian method often provides more intuitive results, especially with limited data.
+
+
+## Bayesian A/B Testing with Python
+
+### Setting up the Problem: Defining Priors
+
+Before implementing a Bayesian A/B test, we need to define prior distributions for the conversion rates of our two versions (A and B).  The choice of prior depends on our prior knowledge. If we have no prior knowledge, we can use a non-informative prior, such as a Beta(1,1) distribution (uniform prior), which assigns equal probability to all conversion rates between 0 and 1. If we have some prior belief about the conversion rates (e.g., based on previous A/B tests or domain expertise), we can use a more informative prior.  For example, a Beta(α, β) prior with α > 1 and β > 1 would represent a prior belief that the conversion rate is likely to be closer to α/(α+β).  It is crucial to carefully consider the choice of prior, as it can influence the posterior results.
+
+
+### Implementing Bayesian A/B Testing using PyMC3 or similar libraries
+
+We'll use PyMC3 to perform Bayesian A/B testing. PyMC3 is a powerful probabilistic programming library that allows for flexible model specification and efficient posterior inference using Markov Chain Monte Carlo (MCMC) methods.
+
+```\{python}
+#| echo: true
+import pymc3 as pm
+import numpy as np
+import matplotlib.pyplot as plt
+import arviz as az
+
+# Observed data
+nA = 50  # Conversions for version A
+NA = 500 # Trials for version A
+nB = 70  # Conversions for version B
+NB = 500 # Trials for version B
+
+with pm.Model() as model:
+    # Priors (weakly informative priors)
+    theta_A = pm.Beta("theta_A", alpha=10, beta=10)
+    theta_B = pm.Beta("theta_B", alpha=10, beta=10)
+
+    # Likelihoods
+    obs_A = pm.Binomial("obs_A", p=theta_A, n=NA, observed=nA)
+    obs_B = pm.Binomial("obs_B", p=theta_B, n=NB, observed=nB)
+
+    # Difference in conversion rates
+    delta = pm.Deterministic("delta", theta_B - theta_A)
+
+    # Posterior sampling
+    trace = pm.sample(2000, tune=1000, cores=1) #adjust cores as needed
+
+az.plot_posterior(trace, var_names=['theta_A', 'theta_B', 'delta'])
+plt.show()
+
+#Probability that theta_B > theta_A
+prob_B_better = np.mean(trace.posterior["delta"] > 0)
+print(f"Probability that version B is better: {prob_B_better:.3f}")
+
+```
+
+This code defines a Bayesian model with Beta priors for the conversion rates and Binomial likelihoods for the observed data.  PyMC3's `pm.sample()` function performs posterior inference using an MCMC algorithm (here NUTS).
+
+
+### Interpreting Posterior Distributions: Credible Intervals and Bayes Factors
+
+The output of the PyMC3 model is a set of posterior samples for each parameter.  We can analyze these samples to obtain:
+
+* **Credible Intervals:**  These represent the range of values within which we are confident (e.g., 95% credible interval) the true parameter lies.  A 95% credible interval means there's a 95% probability that the true parameter value falls within that interval.
+
+* **Bayes Factors:**  These quantify the evidence for one hypothesis (e.g., $θ_B > θ_A$) against another (e.g., $θ_B ≤ θ_A$). A Bayes factor greater than 1 supports the first hypothesis.
+
+
+The `az.plot_posterior` function displays the posterior distributions, including credible intervals. The probability that version B is better is calculated directly from the posterior samples of the difference in conversion rates (delta).
+
+
+### Visualizing Results
+
+The `az.plot_posterior` function provides a basic visualization.  More sophisticated visualizations can be created to explore the posterior distributions, such as:
+
+* **Histograms:** Show the distribution of posterior samples.
+* **Density Plots:** Smoother representation of the posterior distributions.
+* **Trace Plots:** Show the MCMC chains to assess convergence.
+* **Pair Plots:** Visualize correlations between parameters.
+
+These visualizations help us understand the uncertainty associated with the estimated parameters and make informed decisions based on the Bayesian analysis.  For example, we might generate a plot showing the posterior distributions for both `theta_A` and `theta_B` alongside their 95% credible intervals, providing a visual comparison of their likely conversion rates.  A plot of the posterior distribution of `delta` helps us understand the probability of one version being superior to the other.
+
+
+## Sequential A/B Testing
+
+### Introduction to Sequential Testing
+
+Sequential A/B testing allows for the analysis of results as data are collected, rather than waiting until the end of a pre-determined experiment duration or sample size.  This approach offers several advantages, particularly in situations where conducting a lengthy A/B test is costly or time-consuming.  In sequential testing, we continuously update our belief about the relative performance of the variants as new data arrive. The test can be stopped early if the evidence strongly favors one variant, saving time and resources.
+
+### Benefits of Sequential Testing
+
+* **Faster decision-making:**  Results can be analyzed and decisions made much sooner than with traditional A/B testing.
+* **Resource efficiency:**  Avoids unnecessary data collection if a clear winner emerges early.
+* **Adaptability:**  Allows for adjusting the experiment based on interim results (though this requires careful consideration to avoid bias).
+* **Reduced risk of Type I and Type II errors:**  Appropriate stopping rules can reduce both false positives (Type I errors) and false negatives (Type II errors).
+
+
+### Implementing Sequential Bayesian A/B Testing
+
+Implementing sequential Bayesian A/B testing involves continuously updating the posterior distributions of the parameters of interest as new data are observed.  We can use the same Bayesian model as before (e.g., using Beta priors and Binomial likelihoods), but instead of running the MCMC sampling only once at the end, we'll do it iteratively as new data come in.  We'll then monitor the posterior distribution of the difference between the conversion rates and use stopping rules to decide when to stop the test.
+
+
+```\{python}
+#| echo: true
+import pymc3 as pm
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Initialize data
+nA = 0
+NA = 0
+nB = 0
+NB = 0
+
+# Prior parameters
+alpha_prior = 10
+beta_prior = 10
+
+# Sequential data arrival (simulated)
+new_data = [(10, 100, 15, 100), (12, 100, 18, 100), (15, 100, 20, 100), (20,100,25,100)] #Simulate batches of data
+
+# Boundaries for stopping rules (example)
+upper_boundary = 1.5
+lower_boundary = -1.5
+
+
+results = []
+for i, batch in enumerate(new_data):
+    nA += batch[0]
+    NA += batch[1]
+    nB += batch[2]
+    NB += batch[3]
+
+    with pm.Model() as model:
+        theta_A = pm.Beta("theta_A", alpha=alpha_prior+nA, beta=beta_prior+NA-nA)
+        theta_B = pm.Beta("theta_B", alpha=alpha_prior+nB, beta=beta_prior+NB-nB)
+        delta = pm.Deterministic("delta", theta_B - theta_A)
+        trace = pm.sample(1000, tune=500, cores=1)
+        posterior_mean = np.mean(trace.posterior['delta'])
+        results.append(posterior_mean)
+
+    print(f"Batch {i+1}: Posterior mean of delta = {posterior_mean}")
+
+    # Check stopping rule
+    if posterior_mean > upper_boundary or posterior_mean < lower_boundary:
+        print(f"Stopping rule met after batch {i+1}")
+        break
+
+
+plt.plot(results)
+plt.axhline(y=upper_boundary, color='r', linestyle='--', label='Upper Boundary')
+plt.axhline(y=lower_boundary, color='r', linestyle='--', label='Lower Boundary')
+plt.xlabel("Batch Number")
+plt.ylabel("Posterior Mean of Delta (θB - θA)")
+plt.title("Sequential Bayesian A/B Testing")
+plt.legend()
+plt.show()
+```
+
+This code simulates sequential data arrival and updates the posterior after each batch.  The key is setting appropriate stopping rules.
+
+
+### Stopping Rules and Boundaries
+
+Various stopping rules can be implemented based on the posterior distribution of the difference between the parameters. Common methods include:
+
+* **Boundary-based rules:**  Define upper and lower boundaries for the posterior mean or credible intervals of the difference in parameters.  If the posterior mean crosses either boundary, the test is stopped.
+* **Bayesian posterior predictive p-values:** These quantify the probability that the observed data would occur if the two variants were identical.
+* **Expected Loss:**  Frame the decision as minimizing expected loss (e.g., cost of choosing the wrong variant).
+
+The choice of stopping rules and boundaries is crucial, influencing the power and error rates of the test.  Tight boundaries lead to early stopping but risk making premature conclusions, whereas loose boundaries increase testing duration.   The appropriate boundaries depend on the costs associated with Type I and Type II errors.  Careful design of the stopping rules is vital to ensure the validity and efficiency of the sequential Bayesian A/B test.  The boundaries should be established before the start of the experiment to avoid biases.
+
+
+## Decision Making with Bayesian A/B Testing
+
+### Defining Success Metrics
+
+Before conducting a Bayesian A/B test, it's crucial to define clear success metrics.  These metrics quantify what constitutes a "better" variant. Common metrics include:
+
+* **Conversion rate:** The percentage of users who complete a desired action (e.g., purchase, signup).
+* **Click-through rate (CTR):** The percentage of users who click on a link or button.
+* **Average revenue per user (ARPU):** The average revenue generated per user.
+* **Customer lifetime value (CLTV):** The predicted total revenue generated by a customer over their entire relationship with the company.
+* **Customer churn rate:** The percentage of customers who stop using a product or service.
+
+The choice of metric depends on the specific goals of the A/B test.  It's essential to choose a metric that directly reflects the business objectives.
+
+
+### Calculating Expected Values
+
+Once the posterior distributions for the parameters of interest are obtained, we can calculate expected values for the success metrics under each variant.  For example, if the success metric is conversion rate, we can compute the expected conversion rate for each variant by averaging the posterior samples of the conversion rate parameters:
+
+$E[θ_A] = \frac{1}{N_{samples}} \sum_{i=1}^{N_{samples}} θ_{A,i}$
+
+$E[θ_B] = \frac{1}{N_{samples}} \sum_{i=1}^{N_{samples}} θ_{B,i}$
+
+where $θ_{A,i}$ and $θ_{B,i}$ are the $i$-th posterior samples for the conversion rates of variants A and B, respectively, and $N_{samples}$ is the total number of posterior samples.
+
+
+Similarly, we can calculate expected values for other success metrics based on their posterior distributions.
+
+```\{python}
+#| echo: true
+import pymc3 as pm
+import numpy as np
+
+# ... (previous code to obtain posterior samples) ...
+
+#Calculate expected values
+expected_theta_A = np.mean(trace.posterior["theta_A"])
+expected_theta_B = np.mean(trace.posterior["theta_B"])
+
+print(f"Expected conversion rate for variant A: {expected_theta_A:.3f}")
+print(f"Expected conversion rate for variant B: {expected_theta_B:.3f}")
+```
+
+
+### Making Decisions based on Posterior Distributions
+
+The decision of which variant to choose can be based on several criteria:
+
+* **Expected Value:** Choose the variant with the higher expected value for the chosen success metric.
+* **Probability of Superiority:** Choose the variant that has a higher probability of having a superior value for the chosen metric (e.g.,  $P(θ_B > θ_A)$).
+* **Credible Intervals:** If the credible intervals for the two variants do not overlap significantly,  we can have more confidence in choosing the variant with the higher expected value.  Overlapping intervals suggest more uncertainty.
+
+
+### Incorporating Costs and Risks
+
+In real-world scenarios, decisions should consider costs and risks associated with different choices:
+
+* **Cost of implementation:** The cost of deploying and maintaining each variant.
+* **Risk of failure:** The potential negative consequences of choosing the wrong variant.
+* **Opportunity cost:** The potential benefits lost by not choosing the optimal variant.
+
+We can incorporate these factors by defining a utility function that combines the expected value of the success metric with the costs and risks.  A decision can then be made by maximizing the expected utility.
+
+
+```\{python}
+#| echo: true
+#Example incorporating costs:
+
+#Assume cost of implementing variant B is higher than A
+cost_A = 0
+cost_B = 100
+
+#Expected utility calculation
+expected_utility_A = expected_theta_A - cost_A
+expected_utility_B = expected_theta_B - cost_B
+
+print(f"Expected utility for variant A: {expected_utility_A:.3f}")
+print(f"Expected utility for variant B: {expected_utility_B:.3f}")
+
+if expected_utility_B > expected_utility_A:
+    print("Choose variant B despite higher cost due to higher expected utility")
+else:
+    print("Choose variant A")
+
+```
+
+This example demonstrates a simple utility function. More complex scenarios might involve more sophisticated functions and potentially require simulation techniques to assess risks and incorporate uncertainty more thoroughly.  The key is to ensure that the decision-making process is transparent, data-driven, and accounts for all relevant factors, including uncertainties.
+
+
+## Advanced Topics and Considerations
+
+### Dealing with Multiple Variants
+
+While the previous examples focused on comparing two variants (A/B testing), many situations involve comparing more than two.  This is often referred to as A/B/n testing.  Extending Bayesian methods to this scenario is straightforward conceptually, but increases computational complexity.  We can model each variant's conversion rate with its own Beta prior and likelihood, and then compare their posterior distributions.
+
+One approach is to calculate the probability that each variant has the highest conversion rate among all variants.  Another approach is to use a hierarchical model, which assumes that the conversion rates of the different variants are drawn from a common underlying distribution. This allows for sharing information across variants and improves estimation efficiency, particularly when some variants have fewer observations.
+
+
+### Handling Non-Stationary Data
+
+The assumption of stationary data (i.e., the conversion rates remain constant over time) is often violated in practice.  For instance, external factors like seasonality, marketing campaigns, or changes in the overall market can affect the conversion rates.  Ignoring non-stationarity can lead to inaccurate results.
+
+To address this, we can incorporate time-dependent models. One approach is to model the conversion rates as functions of time, such as using time series models within the Bayesian framework. This allows for capturing temporal trends and estimating how conversion rates change over time. This can also help in detecting if a variant is affected differently by external changes.  Alternatively, we could segment the data by time periods and perform separate A/B tests for each period, assuming stationarity within each segment.
+
+
+### Ethical Considerations in A/B Testing
+
+Ethical considerations are critical in A/B testing.  It's important to ensure:
+
+* **Fairness:**  All variants should present a reasonable user experience. Avoiding variants that are deliberately poor to highlight the positive performance of another is unethical.
+* **Transparency:**  Users should be informed about the A/B test, at least in cases where data privacy is not a major concern.
+* **Data Privacy:**  User data should be collected and used responsibly, complying with relevant regulations and privacy policies.
+* **Bias Avoidance:** Carefully design the experiment to avoid biases in user assignment and data collection.
+* **Harmful Variants:**  Variants with the potential to cause harm (e.g., misleading information, impaired usability) should be excluded from testing.
+
+These ethical considerations should guide the entire A/B testing process, from design to interpretation and reporting of results.
+
+
+### Beyond A/B Testing: Multi-Armed Bandit Problems
+
+A/B testing involves assigning users to variants randomly. Multi-armed bandit (MAB) problems offer a more sophisticated approach.  In MAB, the goal is to maximize the cumulative reward (e.g., total conversions) over time by dynamically allocating more users to the better-performing variants.  Unlike A/B testing, which aims to estimate the relative performance of different variants, MAB aims to find the optimal variant *during* the experiment.
+
+Many algorithms exist for solving MAB problems, including:
+
+* **Epsilon-greedy:** Exploits the currently best-performing variant most of the time, but occasionally explores other variants.
+* **Upper Confidence Bound (UCB):**  Balances exploration and exploitation by selecting variants with high uncertainty (high upper confidence bound).
+* **Thompson Sampling:**  Maintains a probability distribution for each variant's reward and samples from these distributions to choose which variant to allocate the next user to.
+
+Bayesian methods are particularly well-suited for MAB problems as they naturally incorporate uncertainty.  For example, Thompson sampling maintains a posterior distribution for each variant's reward, updated as new data arrive.
+
+
+```\{python}
+#| echo: true
+#Illustrative example of Thompson Sampling (simplified):
+import random
+
+class Bandit:
+    def __init__(self, true_win_rate):
+        self.true_win_rate = true_win_rate
+        self.alpha = 1 #Prior parameters for beta distribution
+        self.beta = 1
+
+    def pull(self):
+        return 1 if random.random() < self.true_win_rate else 0
+
+    def sample(self):
+        return np.random.beta(self.alpha, self.beta)
+
+    def update(self, x):
+        self.alpha += x
+        self.beta += 1 -x
+
+
+bandits = [Bandit(0.2), Bandit(0.5), Bandit(0.7)] #Three bandits with different win rates
+num_trials = 1000
+
+results = []
+for i in range(num_trials):
+    best_bandit = max(bandits, key=lambda b: b.sample())
+    reward = best_bandit.pull()
+    best_bandit.update(reward)
+    results.append((i, reward))
+
+#Analysis of results (Further analysis required for more robust results in real-world applications)
+```
+
+This simple example demonstrates the core idea of Thompson sampling. In a real-world application, more sophisticated methods and more thorough analysis would be necessary.  MAB methods offer a powerful alternative to traditional A/B testing when the focus is on maximizing cumulative reward rather than solely estimating variant performance.

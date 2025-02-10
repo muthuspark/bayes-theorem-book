@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2&nbsp; Introduction to Probability – bayes-theorem-book</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../parts/introduction-to-bayesian-thinking/bayes-theorem-fundamentals.html" rel="next">
+<link href="../../parts/introduction-to-bayesian-thinking/intro.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-a2a08d6480f1a07d2e84f5b3bded3372.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../parts/introduction-to-bayesian-thinking/intro.html">Introduction to Bayesian Thinking</a></li><li class="breadcrumb-item"><a href="../../parts/introduction-to-bayesian-thinking/understanding-probability.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Probability</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">bayes-theorem-book</a> 
+        <div class="sidebar-tools-main">
+    <a href="../../bayes-theorem-book.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../parts/introduction-to-bayesian-thinking/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Bayesian Thinking</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/introduction-to-bayesian-thinking/understanding-probability.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Probability</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/introduction-to-bayesian-thinking/bayes-theorem-fundamentals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bayes’ Theorem Fundamentals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/introduction-to-bayesian-thinking/setting-up-python-environment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Setting Up Python Environment</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../parts/mathematical-foundations/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mathematical Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/mathematical-foundations/probability-theory-essentials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Probability Theory Essentials</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/mathematical-foundations/statistical-concepts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Statistical Concepts</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/mathematical-foundations/linear-algebra-review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Linear Algebra Review</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../parts/implementing-bayes-theorem/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Implementing Bayes' Theorem</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/implementing-bayes-theorem/basic-implementation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Basic Implementation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/implementing-bayes-theorem/working-with-continuous-distributions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Working with Continuous Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/implementing-bayes-theorem/discrete-probability-examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Discrete Probability Examples</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../parts/bayesian-inference/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bayesian Inference</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/bayesian-inference/parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Parameter Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/bayesian-inference/conjugate-priors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Conjugate Priors</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/bayesian-inference/prior-selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Prior Selection</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../parts/markov-chain-monte-carlo-mcmc/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Markov Chain Monte Carlo (MCMC)</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/markov-chain-monte-carlo-mcmc/introduction-to-mcmc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Introduction to MCMC</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/markov-chain-monte-carlo-mcmc/mcmc-algorithms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">MCMC Algorithms</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/markov-chain-monte-carlo-mcmc/implementation-with-pymc3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Implementation with PyMC3</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../parts/practical-applications/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Practical Applications</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/practical-applications/ab-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">A/B Testing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/practical-applications/text-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Text Classification</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/practical-applications/medical-diagnosis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Medical Diagnosis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../parts/advanced-topics/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advanced Topics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/advanced-topics/hierarchical-bayesian-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Hierarchical Bayesian Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/advanced-topics/bayesian-neural-networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Bayesian Neural Networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/advanced-topics/gaussian-processes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Gaussian Processes</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../parts/real-world-applications/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Real-World Applications</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/real-world-applications/finance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Finance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/real-world-applications/marketing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Marketing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/real-world-applications/scientific-applications.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Scientific Applications</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../parts/best-practices-and-advanced-tools/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Best Practices and Advanced Tools</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/best-practices-and-advanced-tools/code-organization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Code Organization</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/best-practices-and-advanced-tools/performance-optimization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Performance Optimization</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/best-practices-and-advanced-tools/modern-bayesian-libraries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Modern Bayesian Libraries</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#what-is-probability" id="toc-what-is-probability" class="nav-link active" data-scroll-target="#what-is-probability"><span class="header-section-number">2.0.1</span> What is Probability?</a></li>
+  <li><a href="#types-of-probability" id="toc-types-of-probability" class="nav-link" data-scroll-target="#types-of-probability"><span class="header-section-number">2.0.2</span> Types of Probability</a></li>
+  <li><a href="#frequentist-vs.-bayesian-approaches" id="toc-frequentist-vs.-bayesian-approaches" class="nav-link" data-scroll-target="#frequentist-vs.-bayesian-approaches"><span class="header-section-number">2.1</span> Frequentist vs.&nbsp;Bayesian Approaches</a>
+  <ul class="collapse">
+  <li><a href="#frequentist-interpretation-of-probability" id="toc-frequentist-interpretation-of-probability" class="nav-link" data-scroll-target="#frequentist-interpretation-of-probability"><span class="header-section-number">2.1.1</span> Frequentist Interpretation of Probability</a></li>
+  <li><a href="#bayesian-interpretation-of-probability" id="toc-bayesian-interpretation-of-probability" class="nav-link" data-scroll-target="#bayesian-interpretation-of-probability"><span class="header-section-number">2.1.2</span> Bayesian Interpretation of Probability</a></li>
+  <li><a href="#key-differences-and-when-to-use-each-approach" id="toc-key-differences-and-when-to-use-each-approach" class="nav-link" data-scroll-target="#key-differences-and-when-to-use-each-approach"><span class="header-section-number">2.1.3</span> Key Differences and When to Use Each Approach</a></li>
+  <li><a href="#illustrative-examples" id="toc-illustrative-examples" class="nav-link" data-scroll-target="#illustrative-examples"><span class="header-section-number">2.1.4</span> Illustrative Examples</a></li>
+  </ul></li>
+  <li><a href="#probability-axioms-and-rules" id="toc-probability-axioms-and-rules" class="nav-link" data-scroll-target="#probability-axioms-and-rules"><span class="header-section-number">2.2</span> Probability Axioms and Rules</a>
+  <ul class="collapse">
+  <li><a href="#kolmogorovs-axioms" id="toc-kolmogorovs-axioms" class="nav-link" data-scroll-target="#kolmogorovs-axioms"><span class="header-section-number">2.2.1</span> Kolmogorov’s Axioms</a></li>
+  <li><a href="#addition-rule" id="toc-addition-rule" class="nav-link" data-scroll-target="#addition-rule"><span class="header-section-number">2.2.2</span> Addition Rule</a></li>
+  <li><a href="#multiplication-rule" id="toc-multiplication-rule" class="nav-link" data-scroll-target="#multiplication-rule"><span class="header-section-number">2.2.3</span> Multiplication Rule</a></li>
+  <li><a href="#conditional-probability" id="toc-conditional-probability" class="nav-link" data-scroll-target="#conditional-probability"><span class="header-section-number">2.2.4</span> Conditional Probability</a></li>
+  <li><a href="#law-of-total-probability" id="toc-law-of-total-probability" class="nav-link" data-scroll-target="#law-of-total-probability"><span class="header-section-number">2.2.5</span> Law of Total Probability</a></li>
+  </ul></li>
+  <li><a href="#conditional-probability-and-bayes-theorem-preview" id="toc-conditional-probability-and-bayes-theorem-preview" class="nav-link" data-scroll-target="#conditional-probability-and-bayes-theorem-preview"><span class="header-section-number">2.3</span> Conditional Probability and Bayes’ Theorem (Preview)</a>
+  <ul class="collapse">
+  <li><a href="#defining-conditional-probability" id="toc-defining-conditional-probability" class="nav-link" data-scroll-target="#defining-conditional-probability"><span class="header-section-number">2.3.1</span> Defining Conditional Probability</a></li>
+  <li><a href="#understanding-conditional-probability-with-examples" id="toc-understanding-conditional-probability-with-examples" class="nav-link" data-scroll-target="#understanding-conditional-probability-with-examples"><span class="header-section-number">2.3.2</span> Understanding Conditional Probability with Examples</a></li>
+  <li><a href="#introduction-to-bayes-theorem" id="toc-introduction-to-bayes-theorem" class="nav-link" data-scroll-target="#introduction-to-bayes-theorem"><span class="header-section-number">2.3.3</span> Introduction to Bayes’ Theorem</a></li>
+  <li><a href="#intuition-behind-bayes-theorem" id="toc-intuition-behind-bayes-theorem" class="nav-link" data-scroll-target="#intuition-behind-bayes-theorem"><span class="header-section-number">2.3.4</span> Intuition Behind Bayes’ Theorem</a></li>
+  </ul></li>
+  <li><a href="#common-probability-distributions-preview" id="toc-common-probability-distributions-preview" class="nav-link" data-scroll-target="#common-probability-distributions-preview"><span class="header-section-number">2.4</span> Common Probability Distributions (Preview)</a>
+  <ul class="collapse">
+  <li><a href="#discrete-vs.-continuous-distributions" id="toc-discrete-vs.-continuous-distributions" class="nav-link" data-scroll-target="#discrete-vs.-continuous-distributions"><span class="header-section-number">2.4.1</span> Discrete vs.&nbsp;Continuous Distributions</a></li>
+  <li><a href="#bernoulli-distribution" id="toc-bernoulli-distribution" class="nav-link" data-scroll-target="#bernoulli-distribution"><span class="header-section-number">2.4.2</span> Bernoulli Distribution</a></li>
+  <li><a href="#binomial-distribution" id="toc-binomial-distribution" class="nav-link" data-scroll-target="#binomial-distribution"><span class="header-section-number">2.4.3</span> Binomial Distribution</a></li>
+  <li><a href="#normal-distribution" id="toc-normal-distribution" class="nav-link" data-scroll-target="#normal-distribution"><span class="header-section-number">2.4.4</span> Normal Distribution</a></li>
+  <li><a href="#uniform-distribution" id="toc-uniform-distribution" class="nav-link" data-scroll-target="#uniform-distribution"><span class="header-section-number">2.4.5</span> Uniform Distribution</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../parts/introduction-to-bayesian-thinking/intro.html">Introduction to Bayesian Thinking</a></li><li class="breadcrumb-item"><a href="../../parts/introduction-to-bayesian-thinking/understanding-probability.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Probability</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Probability</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="what-is-probability" class="level3" data-number="2.0.1">
+<h3 data-number="2.0.1" class="anchored" data-anchor-id="what-is-probability"><span class="header-section-number">2.0.1</span> What is Probability?</h3>
+<p>Probability is a branch of mathematics that deals with the likelihood of occurrence of events. It quantifies uncertainty. An event is a particular outcome or a set of outcomes of a random phenomenon. The probability of an event is a number between 0 and 1, inclusive. A probability of 0 indicates that the event is impossible, while a probability of 1 indicates that the event is certain. Probabilities are often expressed as fractions, decimals, or percentages.</p>
+<p>For example, if we flip a fair coin, the probability of getting heads is 1/2, or 0.5, or 50%. This means that if we flip the coin many times, we expect heads to appear approximately half the time. The foundation of probability lies in understanding the sample space (all possible outcomes) and the events within that space.</p>
+</section>
+<section id="types-of-probability" class="level3" data-number="2.0.2">
+<h3 data-number="2.0.2" class="anchored" data-anchor-id="types-of-probability"><span class="header-section-number">2.0.2</span> Types of Probability</h3>
+<p>There are several ways to interpret and calculate probabilities. Three common types are:</p>
+<ul>
+<li><p><strong>Classical Probability:</strong> This approach assumes that all outcomes in the sample space are equally likely. The probability of an event is calculated as the ratio of the number of favorable outcomes to the total number of possible outcomes.</p>
+<p>For example, the probability of rolling a 3 on a six-sided die is 1/6 because there is one favorable outcome (rolling a 3) out of six possible outcomes (rolling 1, 2, 3, 4, 5, or 6).</p></li>
+<li><p><strong>Empirical Probability (or Frequentist Probability):</strong> This approach is based on observing the frequency of an event in a large number of trials. The probability is estimated as the ratio of the number of times the event occurred to the total number of trials.</p></li>
+</ul>
+<div id="61a8f8a4" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate coin tosses</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>num_tosses <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>heads <span class="op">=</span> <span class="bu">sum</span>(random.random() <span class="op">&lt;</span> <span class="fl">0.5</span> <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(num_tosses))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>tails <span class="op">=</span> num_tosses <span class="op">-</span> heads</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate empirical probabilities</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>prob_heads <span class="op">=</span> heads <span class="op">/</span> num_tosses</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>prob_tails <span class="op">=</span> tails <span class="op">/</span> num_tosses</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot results</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> <span class="st">'Heads'</span>, <span class="st">'Tails'</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>sizes <span class="op">=</span> [prob_heads, prob_tails]</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>plt.pie(sizes, labels<span class="op">=</span>labels, autopct<span class="op">=</span><span class="st">'</span><span class="sc">%1.1f%%</span><span class="st">'</span>, startangle<span class="op">=</span><span class="dv">90</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">'equal'</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Empirical Probabilities of Coin Tosses'</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Empirical probability of heads: </span><span class="sc">{</span>prob_heads<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Empirical probability of tails: </span><span class="sc">{</span>prob_tails<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="understanding-probability_files/figure-html/cell-2-output-1.png" width="540" height="409" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Empirical probability of heads: 0.4900
+Empirical probability of tails: 0.5100</code></pre>
+</div>
+</div>
+<ul>
+<li><strong>Subjective Probability:</strong> This approach relies on an individual’s judgment or belief about the likelihood of an event. It is often used when there is limited data or when events are unique and not easily repeatable. For example, the probability of a particular company’s stock price increasing next week might be based on an analyst’s subjective assessment.</li>
+</ul>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A[Probability] --&gt; B(Classical);
+    A --&gt; C(Empirical);
+    A --&gt; D(Subjective);
+    B --&gt; E{Equally Likely Outcomes};
+    C --&gt; F{Observed Frequency};
+    D --&gt; G{Expert Judgment/Belief};
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="frequentist-vs.-bayesian-approaches" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="frequentist-vs.-bayesian-approaches"><span class="header-section-number">2.1</span> Frequentist vs.&nbsp;Bayesian Approaches</h2>
+<section id="frequentist-interpretation-of-probability" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="frequentist-interpretation-of-probability"><span class="header-section-number">2.1.1</span> Frequentist Interpretation of Probability</h3>
+<p>The frequentist interpretation defines probability as the long-run frequency of an event. It’s based on the idea of repeating an experiment many times under identical conditions. The probability of an event is the limit of its relative frequency as the number of trials approaches infinity. Frequentists focus on objective evidence obtained from data. They don’t assign probabilities to hypotheses; instead, they assess hypotheses based on the observed data and the likelihood of observing that data given the hypothesis. Frequentist methods often rely on p-values and confidence intervals to make inferences.</p>
+<p>For example, a frequentist would estimate the probability of getting heads when flipping a coin by flipping the coin many times and calculating the proportion of heads obtained. The more flips, the better the estimate of the true probability (assuming a fair coin). There’s no inherent prior belief about the fairness of the coin; the probability is derived solely from the observed data.</p>
+</section>
+<section id="bayesian-interpretation-of-probability" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="bayesian-interpretation-of-probability"><span class="header-section-number">2.1.2</span> Bayesian Interpretation of Probability</h3>
+<p>The Bayesian interpretation views probability as a degree of belief or uncertainty about an event. This belief is updated as new evidence becomes available. Bayesian methods incorporate prior knowledge or beliefs (prior probabilities) about the event. When new data is observed, Bayes’ theorem is used to update the prior probability, resulting in a posterior probability. This posterior probability reflects the updated belief about the event after considering the new evidence. Bayesian methods allow for quantifying uncertainty in parameters and predictions.</p>
+</section>
+<section id="key-differences-and-when-to-use-each-approach" class="level3" data-number="2.1.3">
+<h3 data-number="2.1.3" class="anchored" data-anchor-id="key-differences-and-when-to-use-each-approach"><span class="header-section-number">2.1.3</span> Key Differences and When to Use Each Approach</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 40%">
+<col style="width: 42%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th>Frequentist</th>
+<th>Bayesian</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Probability</strong></td>
+<td>Long-run frequency</td>
+<td>Degree of belief</td>
+</tr>
+<tr class="even">
+<td><strong>Prior Knowledge</strong></td>
+<td>Not incorporated</td>
+<td>Explicitly incorporated (prior probability)</td>
+</tr>
+<tr class="odd">
+<td><strong>Inference</strong></td>
+<td>Based on data frequency; p-values, confidence intervals</td>
+<td>Based on updating prior beliefs with data; posterior probability</td>
+</tr>
+<tr class="even">
+<td><strong>Parameters</strong></td>
+<td>Treated as fixed, unknown values</td>
+<td>Treated as random variables with probability distributions</td>
+</tr>
+<tr class="odd">
+<td><strong>Uncertainty</strong></td>
+<td>Measured by confidence intervals</td>
+<td>Measured by probability distributions</td>
+</tr>
+</tbody>
+</table>
+<p><strong>When to use which approach:</strong></p>
+<ul>
+<li><p><strong>Frequentist:</strong> Suitable when you have a large amount of data and the goal is to make objective inferences based on the data alone. Useful for hypothesis testing, estimating population parameters, and establishing confidence intervals.</p></li>
+<li><p><strong>Bayesian:</strong> Suitable when you have limited data, prior knowledge is available, or the goal is to quantify uncertainty about parameters or predictions. Useful for modeling complex systems, incorporating expert opinion, and making predictions with uncertainty quantification.</p></li>
+</ul>
+</section>
+<section id="illustrative-examples" class="level3" data-number="2.1.4">
+<h3 data-number="2.1.4" class="anchored" data-anchor-id="illustrative-examples"><span class="header-section-number">2.1.4</span> Illustrative Examples</h3>
+<p>Let’s consider a simple example of testing whether a coin is fair.</p>
+<p><strong>Frequentist approach:</strong></p>
+<p>We flip the coin 10 times and observe 7 heads. A frequentist might conduct a hypothesis test to determine if the proportion of heads is significantly different from 0.5 (the expected proportion for a fair coin).</p>
+<p><strong>Bayesian approach:</strong></p>
+<p>We start with a prior belief about the probability of heads (e.g., a uniform prior between 0 and 1, reflecting no strong prior belief). We then update this prior using Bayes’ theorem after observing 7 heads in 10 flips to obtain a posterior probability distribution for the probability of heads. This posterior distribution will reflect our updated belief, taking into account both the prior belief and the observed data.</p>
+<div id="44b66850" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.stats <span class="im">as</span> stats</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Bayesian approach example (simplified)</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior (uniform distribution)</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>prior <span class="op">=</span> stats.uniform(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Likelihood (Binomial distribution)</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>likelihood <span class="op">=</span> stats.binom(<span class="dv">10</span>, <span class="fl">0.7</span>) <span class="co"># Observed 7 heads in 10 tosses</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior (proportional to prior * likelihood)</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Numerical integration is needed to get exact posterior</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># We'll use sampling for approximation here.</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>num_samples <span class="op">=</span> <span class="dv">10000</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>samples <span class="op">=</span> prior.rvs(num_samples)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>posterior_probs <span class="op">=</span> likelihood.pmf(<span class="dv">7</span>) <span class="op">*</span> stats.beta(<span class="dv">8</span>, <span class="dv">4</span>).pdf(samples)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>posterior_probs <span class="op">=</span> posterior_probs <span class="op">/</span> np.<span class="bu">sum</span>(posterior_probs) <span class="co">#Normalize to get probability distribution</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>plt.hist(samples[posterior_probs <span class="op">&gt;</span> <span class="dv">0</span>], weights<span class="op">=</span>posterior_probs[posterior_probs <span class="op">&gt;</span> <span class="dv">0</span>], bins<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Posterior Distribution for Probability of Heads'</span>)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Probability of Heads'</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Density'</span>)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="understanding-probability_files/figure-html/cell-3-output-1.png" width="597" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This Python code demonstrates a simplified Bayesian approach using sampling to approximate the posterior distribution. A more accurate approach would involve numerical integration or Markov Chain Monte Carlo (MCMC) methods, which are beyond the scope of this introductory section. The plot shows the posterior distribution of the probability of heads after observing the data. We can see that the posterior distribution is shifted towards higher probabilities of heads compared to the uniform prior, reflecting the observed data.</p>
+</section>
+</section>
+<section id="probability-axioms-and-rules" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="probability-axioms-and-rules"><span class="header-section-number">2.2</span> Probability Axioms and Rules</h2>
+<section id="kolmogorovs-axioms" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="kolmogorovs-axioms"><span class="header-section-number">2.2.1</span> Kolmogorov’s Axioms</h3>
+<p>Andrey Kolmogorov formalized the foundations of probability theory with his three axioms:</p>
+<ol type="1">
+<li><p><strong>Non-negativity:</strong> The probability of any event A is non-negative: <span class="math inline">\(P(A) \geq 0\)</span>.</p></li>
+<li><p><strong>Normalization:</strong> The probability of the sample space (the set of all possible outcomes) is 1: <span class="math inline">\(P(\Omega) = 1\)</span>.</p></li>
+<li><p><strong>Additivity:</strong> For any countable sequence of mutually exclusive events <span class="math inline">\(A_1, A_2, A_3,...\)</span>, the probability of their union is the sum of their individual probabilities: <span class="math inline">\(P(\cup_i A_i) = \sum_i P(A_i)\)</span>. Mutually exclusive means that no two events can occur simultaneously.</p></li>
+</ol>
+<p>These axioms provide a rigorous mathematical framework for defining and manipulating probabilities. 3. <strong>Additivity:</strong> For any countable sequence of mutually exclusive events A₁, A₂, A₃,…, the probability of their union is the sum of their individual probabilities: P(∪ᵢAᵢ) = ΣᵢP(Aᵢ). Mutually exclusive means that no two events can occur simultaneously. 3. <strong>Additivity:</strong> For any countable sequence of mutually exclusive events <span class="math inline">\(A_1, A_2, A_3,...\)</span>, the probability of their union is the sum of their individual probabilities: <span class="math inline">\(P(\cup_i A_i) = \sum_i P(A_i)\)</span>. Mutually exclusive means that no two events can occur simultaneously.</p>
+<p>These axioms provide a rigorous mathematical framework for defining and manipulating probabilities.</p>
+</section>
+<section id="addition-rule" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="addition-rule"><span class="header-section-number">2.2.2</span> Addition Rule</h3>
+<p>The addition rule describes the probability of the union of two events.</p>
+<ul>
+<li><p><strong>For any two events A and B:</strong> <span class="math inline">\(P(A \cup B) = P(A) + P(B) - P(A \cap B)\)</span>. The term <span class="math inline">\(P(A \cap B)\)</span> (the probability of both A and B occurring) is subtracted to avoid double-counting the overlap between A and B.</p></li>
+<li><p><strong>If A and B are mutually exclusive (disjoint), then <span class="math inline">\(P(A \cap B) = 0\)</span>,</strong> simplifying the addition rule to: <span class="math inline">\(P(A \cup B) = P(A) + P(B)\)</span>.</p></li>
+<li><p><strong>If A and B are mutually exclusive (disjoint), then <span class="math inline">\(P(A \cap B) = 0\)</span>,</strong> simplifying the addition rule to: <span class="math inline">\(P(A \cup B) = P(A) + P(B)\)</span>.</p></li>
+<li><p><strong>If A and B are mutually exclusive (disjoint), then <span class="math inline">\(P(A \cap B) = 0\)</span>,</strong> simplifying the addition rule to: <span class="math inline">\(P(A \cup B) = P(A) + P(B)\)</span>.</p></li>
+</ul>
+</section>
+<section id="multiplication-rule" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="multiplication-rule"><span class="header-section-number">2.2.3</span> Multiplication Rule</h3>
+<p>The multiplication rule describes the probability of the intersection of two events.</p>
+<ul>
+<li><p><strong>For any two events A and B:</strong> <span class="math inline">\(P(A \cap B) = P(A | B) * P(B)  = P(B | A) * P(A)\)</span>. This states that the probability of both A and B occurring is equal to the probability of A given B (conditional probability), multiplied by the probability of B. The same holds true if we reverse A and B.</p></li>
+<li><p><strong>If A and B are independent,</strong> meaning that the occurrence of one event doesn’t affect the probability of the other, then <span class="math inline">\(P(A | B) = P(A)\)</span> and <span class="math inline">\(P(B | A) = P(B)\)</span>. This simplifies the multiplication rule to: <span class="math inline">\(P(A \cap B) = P(A) * P(B)\)</span>.</p></li>
+</ul>
+</section>
+<section id="conditional-probability" class="level3" data-number="2.2.4">
+<h3 data-number="2.2.4" class="anchored" data-anchor-id="conditional-probability"><span class="header-section-number">2.2.4</span> Conditional Probability</h3>
+<p>Conditional probability describes the probability of an event occurring given that another event has already occurred.</p>
+<p>The conditional probability of event A given event B is denoted as <span class="math inline">\(P(A | B)\)</span> and calculated as:</p>
+<p><span class="math inline">\(P(A | B) = \frac{P(A \cap B)}{P(B)}\)</span>, provided <span class="math inline">\(P(B) &gt; 0\)</span>. P(A | B) = P(A ∩ B) / P(B), provided P(B) &gt; 0. <span class="math inline">\(P(A | B) = \frac{P(A \cap B)}{P(B)}\)</span>, provided <span class="math inline">\(P(B) &gt; 0\)</span>.</p>
+</section>
+<section id="law-of-total-probability" class="level3" data-number="2.2.5">
+<h3 data-number="2.2.5" class="anchored" data-anchor-id="law-of-total-probability"><span class="header-section-number">2.2.5</span> Law of Total Probability</h3>
+<p>The law of total probability allows us to calculate the probability of an event by considering all possible mutually exclusive and exhaustive ways that the event could occur. Let <span class="math inline">\(A\)</span> be an event, and let <span class="math inline">\(B_1, B_2, \dots, B_n\)</span> be a partition of the sample space (meaning they are mutually exclusive and their union is the entire sample space). Then:</p>
+<p><span class="math inline">\(P(A) = \sum_{i=1}^{n} P(A | B_i) P(B_i)\)</span> This formula breaks down the probability of <span class="math inline">\(A\)</span> into the probabilities of <span class="math inline">\(A\)</span> occurring given each of the possible scenarios (<span class="math inline">\(B_i\)</span>), weighted by the probability of each scenario occurring.</p>
+<div id="4f9946f7" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Illustrative Example for Law of Total Probability</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Suppose we have two boxes, Box1 and Box2.</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Box1 contains 3 red balls and 2 blue balls.</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Box2 contains 1 red ball and 4 blue balls.</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#We randomly choose a box and then randomly draw a ball from that box.</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Probabilities:</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>P_Box1 <span class="op">=</span> <span class="fl">0.5</span>  <span class="co">#Probability of choosing Box1</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>P_Box2 <span class="op">=</span> <span class="fl">0.5</span>  <span class="co">#Probability of choosing Box2</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>P_Red_given_Box1 <span class="op">=</span> <span class="dv">3</span><span class="op">/</span><span class="dv">5</span>  <span class="co">#Probability of drawing a red ball given Box1 was chosen</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>P_Red_given_Box2 <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">5</span>  <span class="co">#Probability of drawing a red ball given Box2 was chosen</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#Using the law of total probability to find the overall probability of drawing a red ball:</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>P_Red <span class="op">=</span> P_Red_given_Box1 <span class="op">*</span> P_Box1 <span class="op">+</span> P_Red_given_Box2 <span class="op">*</span> P_Box2</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"The overall probability of drawing a red ball is: </span><span class="sc">{</span>P_Red<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualization using a bar chart</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> <span class="st">'Red from Box1'</span>, <span class="st">'Red from Box2'</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>sizes <span class="op">=</span> [P_Red_given_Box1 <span class="op">*</span> P_Box1, P_Red_given_Box2 <span class="op">*</span> P_Box2]</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>plt.pie(sizes, labels<span class="op">=</span>labels, autopct<span class="op">=</span><span class="st">'</span><span class="sc">%1.1f%%</span><span class="st">'</span>, startangle<span class="op">=</span><span class="dv">90</span>)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Probabilities of Drawing a Red Ball'</span>)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">'equal'</span>)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The overall probability of drawing a red ball is: 0.4</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="understanding-probability_files/figure-html/cell-4-output-2.png" width="540" height="409" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This code provides a simple illustration of the Law of Total Probability. The chart visually represents the contribution of each scenario to the overall probability. More complex examples would require more sophisticated calculations and might use simulation methods.</p>
+</section>
+</section>
+<section id="conditional-probability-and-bayes-theorem-preview" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="conditional-probability-and-bayes-theorem-preview"><span class="header-section-number">2.3</span> Conditional Probability and Bayes’ Theorem (Preview)</h2>
+<section id="defining-conditional-probability" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="defining-conditional-probability"><span class="header-section-number">2.3.1</span> Defining Conditional Probability</h3>
+<p>Conditional probability quantifies the likelihood of an event occurring given that another event has already happened. We denote the conditional probability of event A occurring given that event B has occurred as <span class="math inline">\(P(A|B)\)</span>, read as “the probability of A given B”. Formally, it’s defined as:</p>
+<p><span class="math inline">\(P(A|B) = \frac{P(A \cap B)}{P(B)}\)</span>, provided <span class="math inline">\(P(B) &gt; 0\)</span></p>
+<p>This formula states that the conditional probability of A given B is the ratio of the probability of both A and B occurring to the probability of B occurring. It essentially restricts the sample space to only those outcomes where B has occurred.</p>
+</section>
+<section id="understanding-conditional-probability-with-examples" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="understanding-conditional-probability-with-examples"><span class="header-section-number">2.3.2</span> Understanding Conditional Probability with Examples</h3>
+<p><strong>Example 1: Drawing Cards</strong></p>
+<p>Consider drawing two cards from a standard deck without replacement. What is the probability that the second card is a King, given that the first card is a Queen?</p>
+<p>Let <span class="math inline">\(A\)</span> be the event that the second card is a King. Let <span class="math inline">\(B\)</span> be the event that the first card is a Queen.</p>
+<p><span class="math inline">\(P(A|B)\)</span> is not simply <span class="math inline">\(4/52\)</span> (there are 4 Kings in a 52-card deck). The fact that the first card was a Queen changes the probability. There are now only 51 cards remaining, and still 4 Kings. Therefore:</p>
+<p><span class="math inline">\(P(A|B) = 4/51\)</span></p>
+<p><strong>Example 2: Medical Testing</strong></p>
+<p>Suppose a test for a disease has a 95% sensitivity (probability of correctly identifying a person with the disease) and a 90% specificity (probability of correctly identifying a person without the disease). If 1% of the population has the disease, what is the probability that a person who tests positive actually has the disease? (This example highlights the importance of considering base rates). This problem requires Bayes’ theorem, which we will introduce shortly.</p>
+</section>
+<section id="introduction-to-bayes-theorem" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="introduction-to-bayes-theorem"><span class="header-section-number">2.3.3</span> Introduction to Bayes’ Theorem</h3>
+<p>Bayes’ theorem provides a mathematical formula for calculating conditional probabilities. It’s a powerful tool for updating beliefs in light of new evidence. It’s derived directly from the definition of conditional probability and the multiplication rule:</p>
+<p><span class="math inline">\(P(A|B) = \frac{P(B|A) P(A)}{P(B)}\)</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(P(A|B)\)</span> is the posterior probability of A given B. This is what we want to calculate.</li>
+<li><span class="math inline">\(P(B|A)\)</span> is the likelihood of B given A.</li>
+<li><span class="math inline">\(P(A)\)</span> is the prior probability of A.</li>
+<li><span class="math inline">\(P(B)\)</span> is the marginal likelihood of B (often calculated using the law of total probability).</li>
+</ul>
+</section>
+<section id="intuition-behind-bayes-theorem" class="level3" data-number="2.3.4">
+<h3 data-number="2.3.4" class="anchored" data-anchor-id="intuition-behind-bayes-theorem"><span class="header-section-number">2.3.4</span> Intuition Behind Bayes’ Theorem</h3>
+<p>Bayes’ theorem describes how to update our beliefs about an event (<span class="math inline">\(A\)</span>) when we get new evidence (<span class="math inline">\(B\)</span>).</p>
+<ul>
+<li><p><strong>Prior Probability (<span class="math inline">\(P(A)\)</span>):</strong> This is our initial belief about the probability of <span class="math inline">\(A\)</span> before we see any new evidence.</p></li>
+<li><p><strong>Likelihood (<span class="math inline">\(P(B|A)\)</span>):</strong> This is the probability of observing the evidence <span class="math inline">\(B\)</span>, given that <span class="math inline">\(A\)</span> is true.</p></li>
+<li><p><strong>Posterior Probability (<span class="math inline">\(P(A|B)\)</span>):</strong> This is our updated belief about the probability of <span class="math inline">\(A\)</span> <em>after</em> considering the new evidence <span class="math inline">\(B\)</span>. It combines the prior belief with the new evidence.</p></li>
+<li><p><strong>Marginal Likelihood (<span class="math inline">\(P(B)\)</span>):</strong> This is the probability of the evidence <span class="math inline">\(B\)</span>, regardless of whether <span class="math inline">\(A\)</span> is true or false. It acts as a normalization factor.</p></li>
+</ul>
+<p>Bayes’ theorem allows us to formally quantify this updating process, moving from prior belief to a more informed posterior belief based on data. The theorem is stated as:</p>
+<p><span class="math inline">\(P(A|B) = \frac{P(B|A) P(A)}{P(B)}\)</span></p>
+<div id="7f0de5fa" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Illustrative Example of Bayes' Theorem (Medical Testing)</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Prior Probability (Disease Prevalence)</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>prior_prob_disease <span class="op">=</span> <span class="fl">0.01</span> <span class="co"># 1%</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Likelihood (Test accuracy)</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>sensitivity <span class="op">=</span> <span class="fl">0.95</span> <span class="co">#95% sensitivity</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>specificity <span class="op">=</span> <span class="fl">0.90</span> <span class="co">#90% specificity</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Let's say a person tests positive: What is the probability they actually have the disease?</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate some probabilities (we'll use these for the visualization)</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>prob_pos_given_disease <span class="op">=</span> sensitivity</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>prob_neg_given_no_disease <span class="op">=</span> specificity</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>prob_pos_given_no_disease <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> specificity</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>prob_neg_given_disease <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> sensitivity</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculate the probability of a positive test result (using the law of total probability)</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>prob_positive_test <span class="op">=</span> (prob_pos_given_disease <span class="op">*</span> prior_prob_disease) <span class="op">+</span> (prob_pos_given_no_disease <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> prior_prob_disease))</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="co">#Bayes' Theorem:</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>posterior_prob_disease <span class="op">=</span> (prob_pos_given_disease <span class="op">*</span> prior_prob_disease) <span class="op">/</span> prob_positive_test</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Posterior probability of having the disease given a positive test result: </span><span class="sc">{</span>posterior_prob_disease<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualization:</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> <span class="st">'Disease'</span>, <span class="st">'No Disease'</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>prior_sizes <span class="op">=</span> [prior_prob_disease, <span class="dv">1</span> <span class="op">-</span> prior_prob_disease]</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>posterior_sizes <span class="op">=</span> [posterior_prob_disease, <span class="dv">1</span> <span class="op">-</span> posterior_prob_disease]</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>,<span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">5</span>))</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].pie(prior_sizes, labels<span class="op">=</span>labels, autopct<span class="op">=</span><span class="st">'</span><span class="sc">%1.1f%%</span><span class="st">'</span>, startangle<span class="op">=</span><span class="dv">90</span>)</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">'Prior Probability (Disease Prevalence)'</span>)</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].pie(posterior_sizes, labels<span class="op">=</span>labels, autopct<span class="op">=</span><span class="st">'</span><span class="sc">%1.1f%%</span><span class="st">'</span>, startangle<span class="op">=</span><span class="dv">90</span>)</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">'Posterior Probability (After Positive Test)'</span>)</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Posterior probability of having the disease given a positive test result: 0.0876</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="understanding-probability_files/figure-html/cell-5-output-2.png" width="763" height="377" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The code and chart illustrate how Bayes’ theorem updates our belief about the probability of having a disease after a positive test result. The shift from prior to posterior probability demonstrates the power of incorporating new data to refine our understanding.</p>
+</section>
+</section>
+<section id="common-probability-distributions-preview" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="common-probability-distributions-preview"><span class="header-section-number">2.4</span> Common Probability Distributions (Preview)</h2>
+<section id="discrete-vs.-continuous-distributions" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="discrete-vs.-continuous-distributions"><span class="header-section-number">2.4.1</span> Discrete vs.&nbsp;Continuous Distributions</h3>
+<p>Probability distributions describe the probability of different outcomes for a random variable. A random variable is a variable whose value is a numerical outcome of a random phenomenon. Distributions are categorized as either discrete or continuous:</p>
+<ul>
+<li><p><strong>Discrete Distributions:</strong> The random variable can only take on a finite number of values or a countably infinite number of values. Examples include the number of heads in three coin flips (0, 1, 2, or 3) or the number of cars passing a point on a highway in an hour.</p></li>
+<li><p><strong>Continuous Distributions:</strong> The random variable can take on any value within a given range or interval. Examples include height, weight, temperature, or time.</p></li>
+</ul>
+</section>
+<section id="bernoulli-distribution" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="bernoulli-distribution"><span class="header-section-number">2.4.2</span> Bernoulli Distribution</h3>
+<p>The Bernoulli distribution models the probability of success or failure in a single trial. It’s a discrete distribution with only two possible outcomes:</p>
+<ul>
+<li>Success (usually denoted as 1) with probability <span class="math inline">\(p\)</span></li>
+<li>Failure (usually denoted as 0) with probability <span class="math inline">\(1-p\)</span></li>
+</ul>
+<div id="c9eb59e8" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> bernoulli</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Parameters</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="fl">0.6</span> <span class="co">#Probability of success</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Generate random samples</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>samples <span class="op">=</span> bernoulli.rvs(p, size<span class="op">=</span><span class="dv">1000</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot the distribution</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>plt.hist(samples, bins<span class="op">=</span>[<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1.5</span>], align<span class="op">=</span><span class="st">'mid'</span>, rwidth<span class="op">=</span><span class="fl">0.8</span>, density<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>plt.xticks([<span class="dv">0</span>,<span class="dv">1</span>])   </span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Outcome (0=Failure, 1=Success)'</span>)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Probability'</span>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Bernoulli Distribution (p=0.6)'</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="understanding-probability_files/figure-html/cell-6-output-1.png" width="589" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="binomial-distribution" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3" class="anchored" data-anchor-id="binomial-distribution"><span class="header-section-number">2.4.3</span> Binomial Distribution</h3>
+<p>The binomial distribution models the probability of getting a certain number of successes in a fixed number of independent Bernoulli trials. It’s a discrete distribution.</p>
+<p>The probability of getting exactly <span class="math inline">\(k\)</span> successes in <span class="math inline">\(n\)</span> trials is given by the probability mass function:</p>
+<p><span class="math inline">\(P(X = k) = \binom{n}{k} p^k (1-p)^{(n-k)}\)</span> where:</p>
+<ul>
+<li><span class="math inline">\(n\)</span> is the number of trials</li>
+<li><span class="math inline">\(k\)</span> is the number of successes</li>
+<li><span class="math inline">\(p\)</span> is the probability of success in a single trial</li>
+<li><span class="math inline">\(\binom{n}{k}\)</span> is the binomial coefficient, calculated as <span class="math inline">\(n! / (k! * (n-k)!)\)</span></li>
+</ul>
+<div id="d787748f" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> binom</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10</span>  <span class="co"># Number of trials</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="fl">0.5</span>  <span class="co"># Probability of success</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate random samples</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>samples <span class="op">=</span> binom.rvs(n, p, size<span class="op">=</span><span class="dv">10000</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the distribution</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>plt.hist(samples, bins<span class="op">=</span><span class="bu">range</span>(n <span class="op">+</span> <span class="dv">2</span>), align<span class="op">=</span><span class="st">'left'</span>, rwidth<span class="op">=</span><span class="fl">0.8</span>, density<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of Successes'</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Probability'</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Binomial Distribution (n=10, p=0.5)'</span>)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="understanding-probability_files/figure-html/cell-7-output-1.png" width="597" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="normal-distribution" class="level3" data-number="2.4.4">
+<h3 data-number="2.4.4" class="anchored" data-anchor-id="normal-distribution"><span class="header-section-number">2.4.4</span> Normal Distribution</h3>
+<p>The normal (or Gaussian) distribution is a continuous distribution that’s bell-shaped and symmetrical. It’s characterized by its mean (<span class="math inline">\(\mu\)</span>) and standard deviation (<span class="math inline">\(\sigma\)</span>). Many natural phenomena approximately follow a normal distribution.</p>
+<div id="df51bb17" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> <span class="dv">0</span>  <span class="co"># Mean</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> <span class="dv">1</span>  <span class="co"># Standard deviation</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate random samples</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>samples <span class="op">=</span> norm.rvs(loc<span class="op">=</span>mu, scale<span class="op">=</span>sigma, size<span class="op">=</span><span class="dv">10000</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the distribution</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>plt.hist(samples, bins<span class="op">=</span><span class="dv">50</span>, density<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, color<span class="op">=</span><span class="st">'skyblue'</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(mu <span class="op">-</span> <span class="dv">3</span> <span class="op">*</span> sigma, mu <span class="op">+</span> <span class="dv">3</span> <span class="op">*</span> sigma, <span class="dv">100</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>plt.plot(x, norm.pdf(x, mu, sigma), color<span class="op">=</span><span class="st">'red'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Value'</span>)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Probability Density'</span>)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Normal Distribution (μ=0, σ=1)'</span>)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="understanding-probability_files/figure-html/cell-8-output-1.png" width="597" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="uniform-distribution" class="level3" data-number="2.4.5">
+<h3 data-number="2.4.5" class="anchored" data-anchor-id="uniform-distribution"><span class="header-section-number">2.4.5</span> Uniform Distribution</h3>
+<p>The uniform distribution assigns equal probability to all outcomes within a given range. It can be either discrete or continuous.</p>
+<ul>
+<li><strong>Continuous Uniform Distribution:</strong> The probability density function is constant within the specified interval [a, b].</li>
+</ul>
+<div id="2c221b90" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> uniform</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">0</span>  <span class="co"># Lower bound</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">10</span>  <span class="co"># Upper bound</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate random samples</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>samples <span class="op">=</span> uniform.rvs(loc<span class="op">=</span>a, scale<span class="op">=</span>b, size<span class="op">=</span><span class="dv">10000</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the distribution</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>plt.hist(samples, bins<span class="op">=</span><span class="dv">50</span>, density<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, color<span class="op">=</span><span class="st">'skyblue'</span>)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Value'</span>)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Probability Density'</span>)</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Uniform Distribution (a=0, b=10)'</span>)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="understanding-probability_files/figure-html/cell-9-output-1.png" width="597" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../parts/introduction-to-bayesian-thinking/intro.html" class="pagination-link" aria-label="Introduction to Bayesian Thinking">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Introduction to Bayesian Thinking</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../parts/introduction-to-bayesian-thinking/bayes-theorem-fundamentals.html" class="pagination-link" aria-label="Bayes' Theorem Fundamentals">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bayes’ Theorem Fundamentals</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
